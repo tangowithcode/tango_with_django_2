@@ -35,7 +35,9 @@ In this book, we will be taking an exampled-based approach to web application de
 * How to work with **cookies and sessions** with Django.
 * How to include more advanced functionality like *AJAX* into your application.
 * How to **Deploy your application** to a web server using *PythonAnywhere.*
+
 And, new to **How To Tango with Django 2.0**:
+
 * How to **include logging with a web application**
 * How to **write class based views** 
 * How to **use an external database** 

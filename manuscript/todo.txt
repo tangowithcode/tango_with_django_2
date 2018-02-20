@@ -1,0 +1,38 @@
+chapter 1
+
+- NEW additions
+	- logging
+	- postgress
+	- class based views... 
+	- simple A/B framework?
+- link to database and models chapters
+- django links and references.. trying to do relative links.. not working tho
+
+
+chapter 2
+
+- update python to python 3
+- update pip to pip3
+
+
+chapter 3
+
+- add instruction on entering virtualenv
+
+- update python to python3
+
+***NOTE: url has changed to path in URLs.py
+
+to use regex, need to import re_path
+
+- update path / regex paragraphs
+
+ Any URL string supplied by the user that matches this pattern means that the view `views.index()` will be invoked by Django. You might be thinking that matching a blank URL is pretty pointless - what use would it serve? Remember that when the URL pattern matching takes place, only a portion of the original URL string is considered. This is because Django will first process the URL patterns in the project processing the original URL string (i.e. `rango/`) and strip away the `rango/` part. Django will then pass on an empty string to the Rango app to handle via the URL patterns in `rango/urls.py`. 
+The next parameter passed to the `url()` function is the `index` view, which will handle the incoming requests, followed by the optional parameter, `name` that is set to a string `'index'`. 
+
+ creating templates. But do check out [the Official Django documentation on this topic](https://docs.djangoproject.com/en/2.0/topics/http/urls/#naming-url-patterns) for more information.
+
+
+
+
+

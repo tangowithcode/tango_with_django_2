@@ -7,7 +7,7 @@ Before we get down to coding, it's really important that we get our development 
 * Your *Integrated Development Environment (IDE)*, if you choose to use one.
 * A *Version Control System (VCS)*, *Git*.
 
-If you already have Python 2.7/3.4/3.5 and Django 1.9/1.10 installed on your computer, and are familiar with the technologies mentioned, then you can skip straight to the [Django Basics chapter](#chapter-django-basics). Otherwise, below we provide an overview of the different components and why they are important. We also provide a series of pointers on how to setup the various components.
+If you already have Python 3 and Django 2 installed on your computer, and are familiar with the technologies mentioned, then you can skip straight to the [Django Basics chapter](#chapter-django-basics). Otherwise, below we provide an overview of the different components and why they are important. We also provide a series of pointers on how to setup the various components.
 
 I> ### Your Development Environment
 I> Setting up your development environment is pretty tedious and often frustrating. It's not something that you'd do everyday. Below, we have put together the list of core technologies you need to get started and pointers on how to install them.
@@ -80,7 +80,7 @@ X> ###Exercises
 X> 
 X> To get comfortable with your environment, try out the following exercises.
 X> 
-X>  - Install Python 2.7.5+/3.4+ and Pip.
+X>  - Install Python 3.4+ and Pip3.
 X>  - Play around with your *command line interface (CLI)* and create a directory called `code`,  which we use to create our projects in.
 X>  - Setup your Virtual Environment (optional)
 X>  - Install the Django and Pillow packages
