@@ -14,7 +14,7 @@ chapter 2
 - update python to python 3
 - update pip to pip3
 
-
+#TODO(leifos): 
 chapter 3
 
 - add instruction on entering virtualenv

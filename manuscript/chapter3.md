@@ -309,6 +309,6 @@ I>
 I> - In your `views.py`, create a function called: `def about(request):`, and have the function return a HttpResponse(), insert your HTML inside this response.
 I> - The expression to use for matching is `'about/'` - so in `rango/urls.py` add in a new `path` mapping to the `about()` view.
 I> - Update your `index()` view to include a link to the `about` view. Keep it simple for now - something like `Rango says hey there partner! <br/> <a href='/rango/about/'>About</a>`. 
-I> - Also add the HTML to link back to the index page is into your response from the `about()` view `<a href="/rango/">Index</a>`.
+I> - Also add the HTML to link back to the index page is into your response from the `about()` view `<a href='/rango/'>Index</a>`.
 I>
 I> - If you haven't done so already, now's a good time to head off and complete part one of the official [Django Tutorial](https://docs.djangoproject.com/en/2.0/intro/tutorial01/).

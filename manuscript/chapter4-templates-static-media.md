@@ -1,10 +1,10 @@
 # Templates and Media Files {#chapter-templates-static}
-In this chapter, we'll be introducing the Django template engine, as well as showing how to serve both *static* files and *media* files, both of which can be integrated within your app's webpages.
+In this chapter, we'll be introducing the Django template engine, as well as showing how to serve both *static* files and *media* files. Rather than crafting each page, we can use templates to provide the skeleton structure of the page, and then in the view we can provide the template with the neccessary data to render that page. To incorporate javascript and css, along with images and other media content, we will use the machinery provided by Django to include and dispath such files to provide added functionality (in the case of javascript) or to provide styles to our pages. 
 
 ## Using Templates
 Up until this point, we have only connected a URL mapping to a view. The Django framework, however, is based around the *Model-View-Template* architecture. In this section, we will go through the mechanics of how *Templates* work with *Views*, then in the next couple of chapters we will put these together with *Models*.
 
-Why templates? The layout from page to page within a website is often the same. Whether you see a common header or footer on a website's pages, the [repetition of page layouts](http://www.techrepublic.com/blog/web-designer/effective-design-principles-for-web-designers-repetition/) aids users with navigation, promotes organisation of the website and reinforces a sense of continuity. [Django provides templates](https://docs.djangoproject.com/en/1.9/ref/templates/) to make it easier for developers to achieve this design goal, as well as separating application logic (code within your views) from presentational concerns (look and feel of your app). In this chapter, you'll create a basic template that will be used to create a HTML page. This template will then be dispatched via a Django view. In the [chapter concerning databases and models](#chapter-models), we will take this a step further by using templates in conjunction with models to dispatch dynamically generated data.
+Why templates? The layout from page to page within a website is often the same. Whether you see a common header or footer on a website's pages, the [repetition of page layouts](http://www.techrepublic.com/blog/web-designer/effective-design-principles-for-web-designers-repetition/) aids users with navigation, promotes organisation of the website and reinforces a sense of continuity. [Django provides templates](https://docs.djangoproject.com/en/1.2/ref/templates/) to make it easier for developers to achieve this design goal, as well as separating application logic (code within your views) from presentational concerns (look and feel of your app). In this chapter, you'll create a basic template that will be used to create a HTML page. This template will then be dispatched via a Django view. In the [chapter concerning databases and models](#chapter-models), we will take this a step further by using templates in conjunction with models to dispatch dynamically generated data.
 
 Q> ### Summary: What is a Template?
 Q> In the world of Django, think of a *template* as the scaffolding that is required to build a complete HTML webpage. A template contains the *static parts* of a webpage (that is, parts that never change), complete with special syntax (or *template tags*) which can be overridden and replaced with *dynamic content* that your Django app's views can replace to produce a final HTML response.
@@ -17,7 +17,7 @@ In your Django project's directory (e.g. `<workspace>/tango_with_django_project/
 T> ### Keep your Templates Organised
 T> It's good practice to separate out your templates into subdirectories for each app you have. This is why we've created a `rango` directory within our `templates` directory. If you package your app up to distribute to other developers, it'll be much easier to know which templates belong to which app!
 
-To tell the Django project where templates will be stored, open your project's `settings.py` file. Next, locate the `TEMPLATES` data structure. By default, when you create a new Django 1.9 project, it will look like the following.
+To tell the Django project where templates will be stored, open your project's `settings.py` file. Next, locate the `TEMPLATES` data structure. By default, when you create a new Django project, it will look like the following.
 
 {lang="python",linenos=off}
 	TEMPLATES = [
@@ -36,7 +36,7 @@ To tell the Django project where templates will be stored, open your project's `
 	    },
 	]
 
-What we need to do to is tell Django where our templates are stored by modifying the `DIRS` list, which is set to an empty list by default. Change the dictionary key/value pair to look like the following.
+What we need to do to is tell Django where our templates will be stored by modifying the `DIRS` list, which is set to an empty list by default. Change the dictionary key/value pair to look like the following.
 
 {lang="python",linenos=off}
 	'DIRS': ['<workspace>/tango_with_django_project/templates']
@@ -136,7 +136,7 @@ Now that you have updated the view to employ the use of your template, start the
 
 If you don't, read the error message presented to see what the problem is, and then double check all the changes that you have made. One of the most common issues people have with templates is that the path is set incorrectly in `settings.py`. Sometimes it's worth adding a `print` statement to `settings.py` to report the `BASE_DIR` and `TEMPLATE_DIR` to make sure everything is correct.
 
-This example demonstrates how to use templates within your views. However, we have only touched upon a fraction of the functionality provided by the Django templating engine. We will use templates in more sophisticated ways as you progress through this book. In the meantime, you can find out more about [templates from the official Django documentation](https://docs.djangoproject.com/en/1.9/ref/templates/).
+This example demonstrates how to use templates within your views. However, we have only touched upon a fraction of the functionality provided by the Django templating engine. We will use templates in more sophisticated ways as you progress through this book. In the meantime, you can find out more about [templates from the official Django documentation](https://docs.djangoproject.com/en/2.0/ref/templates/).
 
 {id="fig-ch4-first-template"}
 ![What you should see when your first template is working correctly. Note the bold text - `Crunchy, creamy, cookie, candy, cupcake!` - which originates from the view, but is rendered in the template.](images/ch4-first-template.png)
@@ -169,7 +169,7 @@ For this book, we're only going to be using one location to store our project's 
 T> ### Keep `settings.py` Tidy!
 T> It's in your best interests to keep your `settings.py` module tidy and in good order. Don't just put things in random places; keep it organised. Keep your `DIRS` variables at the top of the module so they are easy to find, and place `STATICFILES_DIRS` in the portion of the module responsible for static media (close to the bottom). When you come back to edit the file later, it'll be easier for you or other collaborators to find the necessary variables.
 
-Finally, check that the `STATIC_URL` variable is defined within your `settings.py` module. If it is not, then define it as shown below. Note that this variable by default in Django 1.9 appears close to the end of the module, so you may have to scroll down to find it.
+Finally, check that the `STATIC_URL` variable is defined within your `settings.py` module. If it is not, then define it as shown below. Note that this variable by default in Django appears close to the end of the module, so you may have to scroll down to find it.
 
 {lang="python",linenos=off}
 	STATIC_URL = '/static/'
@@ -186,7 +186,7 @@ W> ### Don't Forget the Slashes!
 W> When setting `STATIC_URL`, check that you end the URL you specify with a forward slash (e.g. `/static/`, not `/static`). As per the [official Django documentation](https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-STATIC_URL), not doing so can open you up to a world of pain. The extra slash at the end ensures that the root of the URL (e.g. `/static/`) is separated from the static content you want to serve (e.g. `images/rango.jpg`).
 
 I> ### Serving Static Content
-I> While using the Django development server to serve your static media files is fine for a development environment, it's highly unsuitable for a production environment. The [official Django documentation on deployment](https://docs.djangoproject.com/en/1.9/howto/static-files/deployment/) provides further information about deploying static files in a production environment. We'll look at this issue in more detail however when we [deploy Rango](#chapter-deploy).
+I> While using the Django development server to serve your static media files is fine for a development environment, it's highly unsuitable for a production environment. The [official Django documentation on deployment](https://docs.djangoproject.com/en/2.0/howto/static-files/deployment/) provides further information about deploying static files in a production environment. We'll look at this issue in more detail however when we [deploy Rango](#chapter-deploy).
 
 If you haven't managed to figure out where the image should be accessible from, point your web browser to `http://127.0.0.1:8000/static/images/rango.jpg`.
 
@@ -222,7 +222,7 @@ To demonstrate how to include static files, open up the `index.html` templates y
 	    
 	</html>
 
-The first new line added (`{% load staticfiles %}`) informs Django's template engine that we will be using static files within the template. This then enables us to access the media in the static directories via the use of the `static` [template tag](https://docs.djangoproject.com/en/1.9/ref/templates/builtins/). This indicates to Django that we wish to show the image located in the static media directory called `images/rango.jpg`. Template tags are denoted by curly brackets (e.g. `{%  %}`), and calling `static` will combine the URL specified in `STATIC_URL` with `images/rango.jpg` to yield `/static/images/rango.jpg`. The HTML generated by the Django template engine would be:
+The first new line added (`{% load staticfiles %}`) informs Django's template engine that we will be using static files within the template. This then enables us to access the media in the static directories via the use of the `static` [template tag](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/). This indicates to Django that we wish to show the image located in the static media directory called `images/rango.jpg`. Template tags are denoted by curly brackets (e.g. `{%  %}`), and calling `static` will combine the URL specified in `STATIC_URL` with `images/rango.jpg` to yield `/static/images/rango.jpg`. The HTML generated by the Django template engine would be:
 
 {lang="html",linenos=off}
 	<img src="/static/images/rango.jpg" alt="Picture of Rango" /> 
@@ -259,7 +259,7 @@ T> 	    </head>
 T> 	
 T> 	    <body>
 T> 	        <!-- Image -->
-T> 	        <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" />
+T> 	        <img src="{% static "images/rango.jpg" %}" alt="A chameleon lizard called Rango"  />
 T> 	    </body>
 T> 	
 T> 	</html>
@@ -271,7 +271,7 @@ T> 	[10/Apr/2016 15:12:48] "GET /rango/ HTTP/1.1" 200 374
 T> 	[10/Apr/2016 15:12:48] "GET /static/images/rango.jpg HTTP/1.1" 304 0
 T> 	[10/Apr/2016 15:12:52] "GET /static/images/not-here.jpg HTTP/1.1" 404 0
 T>
-T> For further information about including static media you can read through the official [Django documentation on working with static files in templates](https://docs.djangoproject.com/en/1.9/howto/static-files/#staticfiles-in-templates).
+T> For further information about including static media you can read through the official [Django documentation on working with static files in templates](https://docs.djangoproject.com/en/2.0/howto/static-files/#staticfiles-in-templates).
 
 ## Serving Media {#section-templates-upload}
 Static media files can be considered files that don't change and are essential to your application. However, often you will have to store *media files* which are dynamic in nature. These files can be uploaded by your users or administrators, and so they may change. As an example, a media file would be a user's profile picture. If you run an e-commerce website, a series of media files would be used as images for the different products that your online shop has.
@@ -291,7 +291,7 @@ At the top of your `settings.py` module, locate your existing `BASE_DIR`, `TEMPL
 
 This line instructs Django that media files will be uploaded to your Django project's root, plus '/media' - or `<workspace>/tango_with_django_project/media/`. As we previously mentioned, keeping these path variables at the top of your `settings.py` module makes it easy to change paths later on if necessary.
 
-Now find a blank spot in `settings.py`, and add two more variables. The variables `MEDIA_ROOT` and `MEDIA_URL` will be [picked up and used by Django to set up media file hosting](https://docs.djangoproject.com/en/1.9/howto/static-files/#serving-files-uploaded-by-a-user-during-development).
+Now find a blank spot in `settings.py`, and add two more variables. The variables `MEDIA_ROOT` and `MEDIA_URL` will be [picked up and used by Django to set up media file hosting](https://docs.djangoproject.com/en/2.0/howto/static-files/#serving-files-uploaded-by-a-user-during-development).
 
 {lang="python",linenos=off}
 	MEDIA_ROOT = MEDIA_DIR
@@ -303,7 +303,7 @@ W> Like the `STATIC_URL` variable, ensure that `MEDIA_URL` ends with a forward s
 
 The two variables tell Django where to look in your filesystem for media files (`MEDIA_ROOT`) that have been uploaded/stored, and what URL to serve them from (`MEDIA_URL`). With the configuration defined above, the uploaded file `cat.jpg` will for example be available on your Django development server at `http://localhost:8000/media/cat.jpg`. 
 
-When we come to working with templates [later on in this book](#chapter-mtv), it'll be handy for us to obtain a reference to the `MEDIA_URL` path when we need to reference uploaded content. Django provides a [*template context processor*](https://docs.djangoproject.com/en/1.9/ref/templates/api/#django-template-context-processors-media) that'll make it easy for us to do. While we don't strictly need this set up now, it's a good time to add it in.
+When we come to working with templates [later on in this book](#chapter-mtv), it'll be handy for us to obtain a reference to the `MEDIA_URL` path when we need to reference uploaded content. Django provides a [*template context processor*](https://docs.djangoproject.com/en/2.0/ref/templates/api/#django-template-context-processors-media) that'll make it easy for us to do. While we don't strictly need this set up now, it's a good time to add it in.
 
 To do this, find the `TEMPLATES` list in `settings.py`. Within that list, look for the nested `context_processors` list, and within that list, add a new processor, `django.template.context_processors.media`. Your `context_processors` list should then look similar to the example below.
 
@@ -338,7 +338,7 @@ With the chapter complete, you should now know how to setup and create templates
 
 Creating a template and integrating it within a Django view is a key concept for you to understand. It takes several steps, but will become second nature to you after a few attempts.
 
-1. First, create the template you wish to use and save it within the `templates` directory you specified in your project's `settings.py` module. You may wish to use Django template variables (e.g. `{{ variable_name }}`) or [template tags](https://docs.djangoproject.com/en/1.9/ref/templates/builtins/) within your template. You'll be able to replace these with whatever you like within the corresponding view.
+1. First, create the template you wish to use and save it within the `templates` directory you specified in your project's `settings.py` module. You may wish to use Django template variables (e.g. `{{ variable_name }}`) or [template tags](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/) within your template. You'll be able to replace these with whatever you like within the corresponding view.
 2. Find or create a new view within an application's `views.py` file.
 3. Add your view specific logic (if you have any) to the view. For example, this may involve extracting data from a database and storing it within a list.
 4. Within the view, construct a dictionary object which you can pass to the template engine as part of the [template's *context*](#section-templates-static-context).
@@ -369,65 +369,4 @@ X> * In your **about page**, add in the `<img>` tag to display the picture of th
 T> ### Static and Media Files
 T> Remember: static files, as the name implies, do not change. These files form the core components of your website. Media files are user defined; and as such, they may change often!
 T>
-T> An example of a static file could be a stylesheet file, which determines the appearance of your app's webpages. An example of a media file could be a user profile image, which is uploaded by the user when they create an account on your app.
-
-
-<!---
-#TODO(leifos): Note that this not the best practice when you go to deployment, and that they should see: https://docs.djangoproject.com/en/1.7/howto/static-files/deployment/ and that the following solution works when ``DEBUG=True``
-
-#TODO(leifos): the DEBUG variable in settings.py, lets you control the output when an error occurs, and is used for debugging. When the application is deployed it is not secure to leave DEBUG equal to True. When you set DEBUG to be False, then you will need to set the ALLOWED_HOSTS variable in settings.py, when running on your local machine this would be ``127.0.0.1``. You will also need to update the project urls.py file:
-
-
-.. code-block:: python
-
-
-	from django.conf import settings # New Import
-	from django.conf.urls.static import static # New Import
-
-
-	if not settings.DEBUG:
-		urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-
-#TODO(leifos): Maybe we should describe all this in the deployment chapter... probably makes the most sense
-
-
-The Static Media Server
------------------------
-Now that you can dispatch static files, let's look at uploading media. Many websites provide their users with the ability to do this - for example, to upload a profile image. This section shows you how to add a simple development media server to your Django project. The development media server can be used in conjunction with file uploading forms which we will touch upon in Chapter :ref:`login-label`.
-
-So, how do we go about setting up a development media server? The first step is to create another new directory called ``media`` within our Django project's root (e.g. ``<workspace>/tango_with_django_project/``). The new ``media`` directory should now be sitting alongside your ``templates`` and ``static`` directories. After you create the directory, you must then modify your Django project's ``urls.py`` file, located in the project configuration directory (e.g. ``<workspace>/tango_with_django_project/tango_with_django_project/``). Add the following code to the ``urls.py`` file.
-
-.. code-block:: python
-	
-	# At the top of your urls.py file, add the following line:
-	from django.conf import settings
-	
-	# UNDERNEATH your urlpatterns definition, add the following two lines:
-	if settings.DEBUG:
-	    urlpatterns += patterns(
-	        'django.views.static',
-	        (r'^media/(?P<path>.*)',
-	        'serve',
-	        {'document_root': settings.MEDIA_ROOT}), )
-
-The ``settings`` module from ``django.conf`` allows us access to the variables defined within our project's ``settings.py`` file. The conditional statement then checks if the Django project is being run in `DEBUG <https://docs.djangoproject.com/en/1.7/ref/settings/#debug>`_ mode. If the project's ``DEBUG`` setting is set to ``True``, then an additional URL matching pattern is appended to the ``urlpatterns`` tuple. The pattern states that for any file requested with a URL starting with ``media/``, the request will be passed to the ``django.views.static`` view. This view handles the dispatching of uploaded media files for you.
-
-With your ``urls.py`` file updated, we now need to modify our project's ``settings.py`` file. We now need to set the values of two variables. In your file, add ``MEDIA_URL`` and ``MEDIA_ROOT``, setting them to the values as shown below.
-
-
-
-
-.. code-block:: python
-	
-	MEDIA_URL = '/media/'
-	MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Absolute path to the media directory
-
-The first variable ``MEDIA_URL`` defines the base URL from which all media files will be accessible on your development server. Setting the ``MEDIA_URL`` for example to ``/media/`` will mean that user uploaded files will be available from the URL ``http://127.0.0.1:8000/media/``. ``MEDIA_ROOT`` is used to tell Django where uploaded files should be stored on your local disk. In the example above, we set this variable to the result of joining our ``PROJECT_PATH`` variable defined in Section :ref:`model-setup-templates-label` with ``/media/``. This gives an absolute path of ``<workspace>/tango_with_django_project/media/``.
-
-.. caution:: As previously mentioned, the development media server supplied with Django is very useful for debugging purposes. However, it should **not** be used in a production environment. The official `Django documentation on static files <https://docs.djangoproject.com/en/1.7/ref/contrib/staticfiles/#static-file-development-view>`_ warns that such an approach is *"grossly inefficient and insecure"*. If you do come to deploying your Django project, read the documentation to see an alternative solution for file uploading that can handle a high volume of requests in a much more secure manner.
-
-You can test this setup works by placing an image file in your newly created ``media`` directory. Drop the file in, start the Django development server, and request the image in your browser. For example, if you added the file ``rango.jpg`` to ``media``, the URL you should enter would look like ``http://127.0.0.1:8000/media/rango.jpg``. The image should show in your browser. If it doesn't, you'll need to go back and check your setup.
-
-#TODO(leifos): check that this still works (certainly you can access the images.. need to check the uploading)
--->
+T> An example of a static file could be a stylesheet file (css), which determines the appearance of your app's webpages. An example of a media file could be a user profile image, which is uploaded by the user when they create an account on your app.
