@@ -296,12 +296,16 @@ Now let's have a look at how we actually pass the value of the `category_name_ur
 			views.show_category, name='show_category'),
 	]
 
+
+We have added a new path which contains a parameter `<slug:category_name_slug>`. This indicates to django that we want to match a string which is a slug, and to assign it to `category_name_slug`. You will notice that this variable name is what we pass through to the view `show_category`. You can also extract out other variables like strings and integers, see the [Django documentation on URL paths](https://docs.djangoproject.com/en/2.0/ref/urls/) for more details. If you need to parse more complicated expressions you can use `re_path()` instead of `path()` which will allow you to match all sorts of regular (and iregular) expressions. Luckily for us Django provides matches for the most common patterns.
+<!-->
 We have added in a rather complex entry that will invoke `view.show_category()` when the URL pattern `r'^category/(?P<category_name_slug>[\w\-]+)/$'` is matched. 
 
 There are two things to note here. First we have added a parameter name with in the URL pattern, i.e. `<category_name_slug>`, which we will be able to access in our view later on. When you create a parameterised URL you need to ensure that the parameters that you include in the URL are declared in the corresponding view.
 The next thing to note is that the regular expression `[\w\-]+)` will look for any sequence of alphanumeric characters e.g. `a-z`, `A-Z`, or `0-9` denoted by `\w` and any hyphens (-) denoted by `\-`, and we can match as many of these as we like denoted by the `[ ]+` expression.
 
 The URL pattern will match a sequence of alphanumeric characters and hyphens which are between the `rango/category/` and the trailing `/`. This sequence will be stored in the parameter `category_name_slug` and passed to `views.show_category()`. For example, the URL `rango/category/python-books/` would result in the `category_name_slug` having the value, `python-books`. However, if the URL was `rango/category/££££-$$$$$/` then the sequence of characters between `rango/category/` and the trailing `/` would not match the regular expression, and a `404 not found` error would result because there would be no matching URL pattern.
+-->
 
 All view functions defined as part of a Django applications *must* take at least one parameter. This is typically called `request` - and provides access to information related to the given HTTP request made by the user. When parameterising URLs, you supply additional named parameters to the signature for the given view.  That is why our `show_category()` view was defined as `def show_category(request, category_name_slug)`.
 
@@ -317,7 +321,7 @@ I> ###Regex Hell
 I> "Some people, when confronted with a problem, think *'I know, I'll use regular expressions.'* Now they have two problems."
 I> [Jamie Zawinski](http://blog.codinghorror.com/regular-expressions-now-you-have-two-problems/)
 I>
-I> Regular expressions may seem horrible and confusing at first, but there are tons of resources online to help you. [This cheat sheet](http://cheatography.com/davechild/cheat-sheets/regular-expressions/) is an excellent resource for fixing problems with regular expressions.
+I> Django's `path()` method means you can generally avoid Regex Hell - but if you need to use a regular expression this [cheat sheet](http://cheatography.com/davechild/cheat-sheets/regular-expressions/) is really useful.
 
 ### Modifying the Index Template
 Our new view is set up and ready to go - but we need to do one more thing. Our index page template needs to be updated so that it links to the category pages that are listed. We can update the `index.html` template to now include a link to the category page via the slug.
@@ -331,7 +335,8 @@ Our new view is set up and ready to go - but we need to do one more thing. Our i
 	    </head>
 	    
 	    <body>
-	        <h1>Rango says...</h1>
+			hey there partner! <br />
+			<strong>{{ boldmessage }}</strong>
 	        
 	        <div>
 	            hey there partner!
@@ -376,7 +381,7 @@ X> * Update the population script to add some value to the `views` count for eac
 X> * Modify the index page to also include the top 5 most viewed pages.
 X> * Include a heading for the "Most Liked Categories" and "Most Viewed Pages".
 X> * Include a link back to the index page from the category page.
-X> * Undertake [part three of official Django tutorial](https://docs.djangoproject.com/en/1.9/intro/tutorial03/) if you have not done so already to reinforce what you've learnt here.
+X> * Undertake [part three of official Django tutorial](https://docs.djangoproject.com/en/2.0/intro/tutorial03/) if you have not done so already to reinforce what you've learnt here.
 
 {id="fig-ch6-exercises"}
 ![The index page after you complete the exercises, showing the most liked categories and most viewed pages.](images/ch6-exercises.png)

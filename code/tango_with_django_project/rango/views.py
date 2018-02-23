@@ -11,9 +11,11 @@ def index(request):
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
 
     category_list = Category.objects.order_by('-likes')[:5]
+    page_list = Page.objects.order_by('-views')[:5]
 
     context_dict = {'boldmessage': "Crunchy, creamy, cookie, candy, cupcake!",
-                    'categories': category_list
+                    'categories': category_list,
+                    'pages': page_list,
                     }
 
     # Return a rendered response to send to the client.
