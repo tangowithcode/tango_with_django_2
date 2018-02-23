@@ -3,6 +3,7 @@ GLobal
 	- check through images.
 	- Add in images / update images
 	- could change all names in paths to be rango:index, rango:about.. seems to be convention
+		- oh COOL we do this already.. this book is awesome!!
 
 
 

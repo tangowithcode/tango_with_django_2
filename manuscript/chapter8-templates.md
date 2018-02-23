@@ -1,7 +1,8 @@
 #Working with Templates {#chapter-templates-extra}
-So far, we've created several HTML templates for different pages within our Rango application. As you've created more and more templates, you may have noticed that a lot of the HTML code is actually repeated. We are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself). Furthermore, you might have noticed that the way we have been referring to different pages using *hard coded* URL paths. Taken together, maintaining the site will be nightmare, because if we want to make a change to the general site structure or change a URL path, we will have to modify every template.
+So far, we've created several HTML templates for different pages within our Rango application. As you created  each additional template, you may have noticed that a lot of the HTML code is repeated. Anytime you repeat similar code, you are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) - which states: DO NOT REPEAT YOURSELF! You might have also noticed that the way we have been referring to different pages using *hard coded* URL paths. This is bad practice - names will invariably change.
+Taken together, repetition and hard coding will result in a maintainence nightmare, because if we want to make a change to the general site structure or change a URL path, you will have to modify all the templates which has the URL or where the structure changes. This might be tractable if your site has a few pages, but always think, what if my site had hundreds or millions - how long would it take then? How likely are mistakes?
 
-In this chapter, we will use *template inheritance* to overcome the first problem, and the *URL template tag* to solve the second problem. We will start with addressing the latter problem first.
+Luckily for us Django developers have already thought about how to solve such problems and provided solutions. In this chapter, we will use *template inheritance* to overcome the first problem, and the *URL template tag* to solve the second problem. We will start with addressing the latter problem first.
 
 ## Using Relative URLs in Templates
 So far, we have been directly coding the URL of the page or view we want to
@@ -37,7 +38,7 @@ Before you run off to update all the URLs in all your templates with relative UR
 T> ### URLs and Multiple Django Apps
 T> This book focuses on the development on a single Django app, Rango. However, you may find yourself working on a Django project with multiple apps being used at once. This means that you could literally have hundreds of potential URLs with which you may need to reference. This scenario begs the question *how can we organise these URLs?* Two apps may have a view of the same name, meaning a potential conflict would exist. 
 T>
-T> [Django provides the ability to *namespace* URL configuration modules](http://django.readthedocs.io/en/1.9.x/intro/tutorial03.html#namespacing-url-names) (e.g. `urls.py`) for each individual app that you employ in your project. Simply adding an `app_name` variable to your app's `urls.py` module is enough. The example below specifies the namespace for the Rango app to be `rango`.
+T> [Django provides the ability to *namespace* URL configuration modules](https://docs.djangoproject.com/en/2.0/topics/http/urls/#url-namespaces) (e.g. `urls.py`) for each individual app that you employ in your project. Simply adding an `app_name` variable to your app's `urls.py` module is enough. The example below specifies the namespace for the Rango app to be `rango`.
 T>
 T> {lang="python",linenos=off}
 T> 	from django.conf.urls import url
@@ -45,7 +46,10 @@ T> 	from rango import views
 T> 	
 T> 	app_name = 'rango'
 T> 	urlpatterns = [
-T>	    url(r'^$', views.index, name='index'),
+T>	    path('', views.index, name='index'),
+T>    	path('about/', views.about, name='about'),
+T>    	path('category/<slug:category_name_slug>/add_page/', 
+T>			views.add_page, name='add_page'),
 T>	    ...
 T> 	]
 T>
@@ -143,7 +147,7 @@ Now that you have an understanding of blocks within Django templates, let's take
 	        <title>
 	            Rango - 
 	            {% block title_block %} 
-	                How to Tango with Django!
+	               - How to Tango with Django!
 	            {% endblock %}
 	        </title>
 	    </head>
@@ -183,7 +187,7 @@ The `extends` command takes one parameter - the template that is to be extended/
 	{% load staticfiles %}
 	
 	{% block title_block %}
-	    {{ category.name }}
+	   {{ category.name }}
 	{% endblock %}
 	
 	{% block body_block %}
@@ -217,7 +221,7 @@ I> Here we have shown how we can minimise the repetition of structure HTML in ou
 I>
 I> Templates can also be used to minimise code within your application's views. For example, if you wanted to include the same database driven content on each page of your application, you could construct a template that calls a specific view to handle the repeating portion of your app's pages. This then saves you from having to call the Django ORM functions that gather the required data for the template in every view that renders it.
 I>
-I> If you haven't already done so, now would be a good time to read through the official [Django documentation on templates](https://docs.djangoproject.com/en/1.9/topics/templates/).
+I> If you haven't already done so, now would be a good time to read through the official [Django documentation on templates](https://docs.djangoproject.com/en/2.0/topics/templates/).
 
 
 X> ### Exercises
@@ -226,7 +230,7 @@ X>
 X> - Update all other previously defined templates in the Rango app to extend from the new `base.html` template. Follow the same process as we demonstrated above. Once completed, your templates should all inherit from `base.html`. 
 X> - While you're at it, make sure you remove the links from our `index.html` template. We don't need them anymore! You can also remove the link to Rango's homepage within the `about.html` template. 
 X> - When you refactor the `index.html` keep the images that are served up from the static files and media server.
-X> - Update all references to Rango URLs by using the `url` template tag. You can also do this in your `views.py` module too - check out the [`reverse()` helper function](https://docs.djangoproject.com/en/1.9/ref/urlresolvers/#reverse).
+X> - Update all references to Rango URLs by using the `url` template tag. You can also do this in your `views.py` module too - check out the [`reverse()` helper function](https://docs.djangoproject.com/en/2.0/ref/urlresolvers/#reverse).
 
 
 T> ### Hints
@@ -244,7 +248,7 @@ T> 		<a href="{% url 'show_category' category.slug %}">{{ category.name }}</a>
 -->
 
 ## The `render()` Method and the `request` Context
-When writing views we have used a number of different methods, the preferred way is to use the Django shortcut method `render()`. The `render()` method requires that you pass through the `request` as the first argument. The `request` context houses a lot of information regarding the session, the user, etc, see the [Official Django Documentation on Request objects](https://docs.djangoproject.com/en/1.9/ref/request-response/#httprequest-objects). By passing the `request` through to the template mean that you will also have access to such information when creating templates. In the next chapter we will access information about the `user` - but for now check through all of your views and make sure that they have been implemented using the `render()` method. Otherwise, your templates won't have the information we need later on.
+When writing views we have used a number of different methods, the preferred way is to use the Django shortcut method `render()`. The `render()` method requires that you pass through the `request` as the first argument. The `request` context houses a lot of information regarding the session, the user, etc, see the [Official Django Documentation on Request objects](https://docs.djangoproject.com/en/2.0/ref/request-response/#httprequest-objects). By passing the `request` through to the template mean that you will also have access to such information when creating templates. In the next chapter we will access information about the `user` - but for now check through all of your views and make sure that they have been implemented using the `render()` method. Otherwise, your templates won't have the information we need later on.
 
 I> ### Render and Context
 I> As a quick example of the checks you must carry out, have a look at the `about()` view. Initially, this was implemented with a hard-coded string response, as shown below. Note that we only send the string - we don't make use of the request passed as the `request` parameter.
