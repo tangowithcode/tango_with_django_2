@@ -45,6 +45,7 @@ And, new to **How To Tango with Django 2.0**:
 
 
 
+
 At the end of each chapter, we have also included a number of exercises designed to push you to apply what you have learnt during the chapter. Then to push you harder, we've included a number of open development challenges, which require you to use many of the lessons from the previous chapters - but don't worry we've also included solutions and explanations too!
 
 X> ### Exercises will be clearly delineated like this!
