@@ -310,4 +310,4 @@ T> - Make sure that in your `add_page.html` template that the form posts to `/ra
 T> - Update `rango/urls.py` with a URL mapping (`/rango/category/<category_name_slug>/add_page/`) to handle the above link.
 T> - You can avoid the repetition of `max_length` parameters through the use of an additional attribute in your `Category` class. This attribute could be used to store the value for `max_length`, and then be referenced where required.
 T>
-T> If you get *really* stuck, you can always check out [our code on GitHub](https://github.com/leifos/tango_with_django_19/tree/master/code).
+T> If you get *really* stuck, you can always check out [our code on GitHub](https://github.com/leifos/tango_with_django_2).
