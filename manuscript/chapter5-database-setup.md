@@ -457,8 +457,9 @@ T>		* If you get really stuck look at our [code on github](https://github.com/le
 
 I> ### Tests
 I>
-I> We have written a few tests to check if you have completed the exercises. To check your work so far, [download the `tests.py` script](https://github.com/leifos/tango_with_django_2/blob/master/code/tango_with_django_project/rango/tests.py) from our [GitHub repository](https://github.com/leifos/tango_with_django_2/), and save it within your `rango` app directory.
+I> Like in the last chapter we have written tests to check if you have completed the chapter and the exercises. To check your work so far, [download the `tests.py` script](https://github.com/leifos/tango_with_django_2/blob/master/code/tango_with_django_project/rango/tests.py) from our [GitHub repository](https://github.com/leifos/tango_with_django_2/), and save it within your `rango` app directory.
 I>
+I> Un-comment the Chapter 5 related tests.
 I> To run the tests, issue the following command in the terminal or Command Prompt.
 I>
 I> {lang="text",linenos=off}

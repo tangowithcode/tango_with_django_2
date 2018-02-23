@@ -39,3 +39,15 @@ The next parameter passed to the `url()` function is the `index` view, which wil
 
 Chapter 4 - conversion completed.
 
+Chapter 5 - converted
+
+
+Tests for chapter 4 and 5 regarding the views need to be updated. I think that we can introduce the tests earlier on.
+	- added test notes in chapter 4
+	- update ch4 and ch5 view tests.. something is wrong with the assertIn
+	
+	
+
+
+
+
