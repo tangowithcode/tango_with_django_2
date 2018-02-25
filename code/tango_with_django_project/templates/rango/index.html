@@ -1,16 +1,18 @@
-	{% load staticfiles %} <!-- New line -->
-	<!DOCTYPE html>
-	<html>
-	
-	    <head>
-	        <title>Rango</title>
-	    </head>
-	
-	    <body>
-    <h1>Rango says...</h1>
-    
+{% extends 'rango/base.html' %}
+
+	{% load staticfiles %}
+
+	{% block title_block %}
+
+	{% endblock %}
+
+	{% block body_block %}
+
+ <h1>Rango says...</h1>
+
     <div>
-        hey there partner! <br />
+		<h1> hey there partner!</h1>
+
         <strong>{{ boldmessage }}</strong>
     </div>
 
@@ -21,7 +23,7 @@
 	            {% for category in categories %}
 	            <!-- Following line changed to add an HTML hyperlink -->
 	            <li>
-	            <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
+	           <a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a>
 	            </li>
 	            {% endfor %}
 	        </ul>
@@ -50,9 +52,6 @@
 
     <div>
 		<div>
-			<a href="/rango/add_category/">Add a New Category</a><br />
-
-       <a href="/rango/about/">About</a><br />
        <img src="{% static "images/rango.jpg" %}"
             alt="A chamelon lizard called rango" /> <!-- New line -->
 		</div>
@@ -60,6 +59,6 @@
     </div>
 
 
-	    </body>
-	
-	</html>
+	{% endblock %}
+
+

@@ -6,47 +6,21 @@
 	{% endblock %}
 
 	{% block body_block %}
-	    {% if category %}
-	        <h1>{{ category.name }}</h1>
+ 	<h1>About Rango</h1>
 
-	        {% if pages %}
-	            <ul>
-	            {% for page in pages %}
-	                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-	            {% endfor %}
-	            </ul>
-	        {% else %}
-	            <strong>No pages currently in category.</strong>
-	        {% endif %}
-	        <a href="{% url 'rango:add_page' category.slug %}">Add a Page</a>
-	    {% else %}
-	        The specified category does not exist!
-	    {% endif %}
+    <div>
+		Rango says here is the about page.
+		<br/>
+		This tutorial has been put together by Leif and David!
+
+    </div>
+
+    <div>
+	<img src="{{ MEDIA_URL}}cat.jpg"  alt="The cat from rango"/>
+
+    </div>
+
 	{% endblock %}
 
 
 
-	{% load staticfiles %} <!-- New line -->
-	<!DOCTYPE html>
-	<html>
-	
-	    <head>
-	        <title>Rango - About</title>
-	    </head>
-	
-	    <body>
-    <h1>About Rango</h1>
-    
-    <div>
-		Rango says here is the about page.  <br/> <a href='/rango/'>Index</a>
-		
-    </div>
-    
-    <div>
-	<img src="{{ MEDIA_URL}}cat.jpg"  alt="The cat from rango"/>
-
-This tutorial has been put together by Leif and David!
-    </div>
-	    </body>
-	
-	</html>
