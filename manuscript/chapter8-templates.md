@@ -277,7 +277,7 @@ It would be nice to show the different categories that users can browse through 
 - in the `base.html` template, we could add some code to display an item list of categories; and
 - within each view, we could access the `Category` object, get all the categories, and return that in the context dictionary.
 
-However, this is a pretty nasty solution because we will need to be repeatedly including the same code in all views. A [DRYer](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) solution would be to create custom template tags that are included in the template, and which can request *their own* data.
+However, this is a pretty nasty solution because we will need to include the same code in all views. A [DRYer](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) solution would be to create custom template tags that are included in the template, and which can request *their own* data. 
 
 ### Using Template Tags
 Create a directory `rango/templatetags`, and create two new modules within it. One must be called `__init__.py`, and this will be kept blank. Name the second module `rango_template_tags.py`. Add the following code to this second module.
@@ -298,7 +298,7 @@ From this code snippet, you can see a new method called `get_category_list()`. T
 	<ul>
 	{% if cats %}
 	    {% for c in cats %}
-	        <li><a href="{% url 'show_category'  c.slug %}">{{ c.name }}</a></li>
+	        <li><a href="{% url 'rango:show_category'  c.slug %}">{{ c.name }}</a></li>
 	    {% endfor %}
 	{% else %}
 	    <li><strong>There are no categories present.</strong></li>
@@ -345,12 +345,12 @@ We can also now update the `cats.html` template, too.
 	    {% if c == act_cat %}
 	        <li>
 	        <strong>
-	              <a href="{% url 'show_category' c.slug %}">{{ c.name }}</a>
+	              <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
 	        </strong>
 	        </li>
 	    {% else  %}
 	        <li>
-	            <a href="{% url 'show_category' c.slug %}">{{ c.name }}</a>
+	            <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
 	        </li>
 	    {% endif %}
 	{% endfor %}
@@ -364,4 +364,4 @@ In this chapter, we showed how we can:
 - reduced the amount of boilerplate code by using template inheritance; and
 - avoid repetitive code appearing in views by creating custom templates tags.
 
-Taken together, your template code should be much cleaner and easier to maintain. Of course, Django templates offer a lot more functionality - find out more by visiting the [Official Django Documentation on Templates](https://docs.djangoproject.com/en/1.9/ref/templates/).
+Taken together, your template code should be much cleaner and easier to maintain. Of course, Django templates offer a lot more functionality - find out more by visiting the [Django documentation on templates](https://docs.djangoproject.com/en/2.0/ref/templates/).

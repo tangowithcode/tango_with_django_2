@@ -22,6 +22,8 @@ chapter 2
 
 	- update python to python 3
 	- update pip to pip3
+	
+	https://gist.github.com/IamAdiSri/a379c36b70044725a85a1216e7ee9a46
 
 #TODO(leifos): 
 chapter 3
