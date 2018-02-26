@@ -6,6 +6,7 @@ GLobal
 		- oh COOL we do this already.. this book is awesome!!
 
 
+	- clean data example - change field to a string field.
 
 chapter 1
 
@@ -60,5 +61,6 @@ Chapter 7
  - max_length exercise not done
 
 
-
+chapter 9
+- add test to check if password hashwers has been added to the settings.py
 

@@ -6,3 +6,5 @@ chapter5-database-setup.md
 chapter6-models-templates-views.md
 chapter7-forms.md
 chapter8-templates.md
+chapter9-user-authentication.md
+chapter10-cookies.md
