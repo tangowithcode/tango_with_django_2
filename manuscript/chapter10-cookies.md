@@ -1,5 +1,5 @@
 # Cookies and Sessions
-In this chapter, we will be touching on the basics of handling *sessions* and storing *cookies*. Both go hand in hand with each other, and are of paramount importance in modern day Web applications. In the previous chapter, the Django framework used sessions and cookies to handle the login and logout functionality. However, all this was done behind the scenes. Here we will explore exactly what is going on under the hood, and how we can use cookies ourselves for other purposes.
+In this chapter, we will be touching on the basics of handling *sessions* and storing *cookies*. Both go hand in hand with each other, and provide the basis for persisting the current state of the application. In the previous chapter, the Django framework used sessions and cookies to handle the login and logout functionality. However, all this was done behind the scenes. Here we will explore exactly what is going on under the hood, and how we can use cookies ourselves for other purposes.
 
 ## Cookies, Cookies Everywhere!
 Whenever a request to a website is made, the webserver returns the content of the requested page. In addition, one or more cookies may also be sent as part of the request. Consider a cookie as a small piece of information sent from the server to the client. When a request is about to be sent, the client checks to see if any cookies that match the address of server exist on the client. If so, they are included in the request. The server can then interpret the cookies as part of the request's context and generate a response to suit.
@@ -19,7 +19,7 @@ The passing of information in the form of cookies can open up potential security
 I> ### Cookies in the EU
 I> In 2011, the European Union (EU) introduced an EU-wide *'cookie law'*, where all hosted sites within the EU should present a cookie warning message when a user visits the site for the first time. The [figure above](#fig-ch10-bbcnews) demonstrates such a warning on the BBC News website. You can read about [the law here](https://ico.org.uk/for-organisations/guide-to-pecr/cookies-and-similar-technologies/).
 I>
-I> If you are developing a site, you'll need to be aware of this law, and other laws especially regarding accessibility.
+I> If you are developing a site, you'll need to be aware of this law, and other laws especially regarding accessibility and more recently explainability.
 
 ## Sessions and the Stateless Protocol
 All correspondence between Web browsers (clients) and servers is achieved through the [HTTP protocol](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol). As previously mentioned, HTTP is a [stateless protocol](http://en.wikipedia.org/wiki/Stateless_protocol). This means that a client computer running a Web browser must establish a new network connection (a [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) connection) to the server each time a resource is requested (HTTP `GET`) or sent (HTTP `POST`) [^1].
@@ -34,17 +34,17 @@ If you're using a modern browser that's properly configured, it'll support cooki
 ![A screenshot of Google Chrome's Developer Tools with the `sessionid` cookie highlighted.](images/ch10-sessionid.png)
 
 I> ### Without Cookies
-I> An alternative way of persisting state information *without cookies* is to encode the Session ID within the URL. For example, you may have seen PHP pages with URLs like this one: `http://www.site.com/index.php?sessid=someseeminglyrandomandlongstring1234`. This means you don't need to store cookies on the client machine, but the URLs become pretty ugly. These URLs go against the principles of Django - clean, human-friendly URLs.
+I> An alternative way of persisting state information *without cookies* is to encode the Session ID within the URL. For example, you may have seen PHP pages with URLs like this one: `http://www.site.com/index.php?sessid=someseeminglyrandomandlongstring1234`. This means you don't need to store cookies on the client machine, but the URLs become pretty ugly. These URLs go against the principles of Django, which is to provide clean, simple and human-friendly URLs.
 
 ## Setting up Sessions in Django
-Although this should already be setup and working correctly, it's nevertheless good practice to learn which Django modules provide which functionality. In the case of sessions, Django provides [middleware](https://docs.djangoproject.com/en/1.9/topics/http/middleware/) that implements session functionality.
+Although this should already be setup and working correctly, it's nevertheless good practice to learn which Django modules provide which functionality. In the case of sessions, Django provides [middleware](https://docs.djangoproject.com/en/2.0/topics/http/middleware/) that implements session functionality.
 
 To check that everything is in order, open your Django project's `settings.py` file. Within the file, locate the `MIDDLEWARE` list. You should find within this list a module represented by the string `django.contrib.sessions.middleware.SessionMiddleware`. If you can't see it, add it to the list now. It is the `SessionMiddleware` middleware that enables the creation of unique `sessionid` cookies.
 
 The `SessionMiddleware` is designed to work flexibly with different ways to store session information. There are many approaches that can be taken - you could store everything in a file, in a database, or even in a in-memory cache. The most straightforward approach is to use the `django.contrib.sessions` application to store session information in a Django model/database (specifically, the model `django.contrib.sessions.models.Session`). To use this approach, you'll also need to make sure that `django.contrib.sessions` is in the `INSTALLED_APPS` tuple of your Django project's `settings.py` file. Remember, if you add the application now, you'll need to update your database with the usual migration commands.
 
 T> ### Caching Sessions
-T> If you want faster performance, you may want to consider a cached approach for storing session information. You can check out the [official Django documentation for advice on cached sessions](https://docs.djangoproject.com/en/1.9/topics/http/sessions/#using-cached-sessions).
+T> If you want faster performance, you may want to consider a cached approach for storing session information. You can check out the [Django documentation for advice on cached sessions](https://docs.djangoproject.com/en/2.0/topics/http/sessions/#using-cached-sessions).
 
 ## A Cookie Tasting Session
 While all modern Web browsers support cookies, certain cookies may get blocked depending on your browser's security level. Check that you've enabled support for cookies before continuing. It's likely however that everything is ready for you to proceed.
@@ -74,7 +74,7 @@ With these small changes saved, run the Django development server and navigate t
 If the message isn't displayed, you'll want to check your browser's security settings. The settings may be preventing the browser from accepting the cookie.
 
 ## Client Side Cookies: A Site Counter Example
-Now we know how cookies work, let's implement a very simple site visit counter. To achieve this, we're going to be creating two cookies: one to track the number of times the user has visited the Rango app, and the other to track the last time he or she accessed the site. Keeping track of the date and time of the last access will allow us to only increment the site counter once per day (for example) and thus avoid people spamming the site to increment the counter.
+Now we know how cookies work, let's implement a very simple site visit counter. To achieve this, we're going to be creating two cookies: one to track the number of times the user has visited the Rango app, and the other to track the last time they accessed the site. Keeping track of the date and time of the last access will allow us to only increment the site counter once per day (for example) and thus avoid people spamming the site to increment the counter.
 
 The sensible place to assume where a user enters the Rango site is at the index page. Open Rango's `view.py` file. Let's first make a function -- given a handle to both the `request` and `response` objects -- to handle cookies (`visitor_cookie_handler()`). We can then make use of this function in Rango's `index()` view. In `views.py`, add in the following function. Note that it is not technically a view, because it does not return a `response` object -- it is just a [*helper function*](https://web.cs.wpi.edu/~cs1101/a05/Docs/creating-helpers.html).
 
@@ -135,7 +135,7 @@ Next, update the `index()` view to call the `cookie_handler_function()` helper f
 {id="fig-ch10-cookie-visits"}
 ![A screenshot of Google Chrome with the Developer Tools open showing the cookies for Rango, using the Django development server at `127.0.0.1`. Note the `visits` cookie - the user has visited a total of three times, with each visit at least one day apart.](images/ch10-cookie-visits.png)
 
-Now if you visit the Rango homepage and open the cookie inspector provided by your browser (e.g. Google Chrome's Developer Tools), you should be able to see the cookies `visits` and `last_visit`. The [figure above](#fig-ch10-cookie-visits) demonstrates the cookies in action. Instead of using the developer tools, you could update the `index.html` and add `<p>visits: {{ visits }}</p>` to the template to show the number of visits.
+Now if you visit the Rango homepage and open the cookie inspector provided by your browser (e.g. Google Chrome's Developer Tools), you should be able to see the cookies `visits` and `last_visit`. The [figure above](#fig-ch10-cookie-visits) demonstrates the cookies in action. Instead of using the developer tools, you could update the `index.html` and add `<p>visits: {{ visits }}</p>` to the template to show the number of visits, and updating the context dictionary to include the `visits` value (i.e. `'visits': int(request.COOKIES.get('visits', '1')),`).
 
 
 
@@ -180,7 +180,7 @@ To use session-based cookies you need to perform the following steps.
 
 1.  Make sure that the `MIDDLEWARE_CLASSES` list found in the `settings.py` module contains `django.contrib.sessions.middleware.SessionMiddleware`.
 2.  Configure your session backend. Make sure that `django.contrib.sessions` is in your `INSTALLED_APPS` in `settings.py`. If not, add it, and run the database migration command, `python manage.py migrate`.
-3.  By default a database backend is assumed, but you might want to a different setup (i.e. a cache). See the [official Django Documentation on Sessions for other backend configurations](https://docs.djangoproject.com/en/1.9/topics/http/sessions/).
+3.  By default a database backend is assumed, but you might want to a different setup (i.e. a cache). See the [Django documentation on sessions for other backend configurations](https://docs.djangoproject.com/en/2.0/topics/http/sessions/).
 
 Instead of storing the cookies directly in the request (and thus on the client's machine), you can access server-side data via the method `request.session.get()` and store them with `request.session[]`. Note that a session ID cookie is still used to remember the client's machine (so technically a browser side cookie exists). However, all the user/session data is stored server side. Django's session middleware handles the client side cookie and the storing of the user/session data. 
 

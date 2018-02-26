@@ -64,3 +64,5 @@ Chapter 7
 chapter 9
 - add test to check if password hashwers has been added to the settings.py
 
+- other tests?
+
