@@ -138,41 +138,6 @@ Next, update the `index()` view to call the `cookie_handler_function()` helper f
 Now if you visit the Rango homepage and open the cookie inspector provided by your browser (e.g. Google Chrome's Developer Tools), you should be able to see the cookies `visits` and `last_visit`. The [figure above](#fig-ch10-cookie-visits) demonstrates the cookies in action. Instead of using the developer tools, you could update the `index.html` and add `<p>visits: {{ visits }}</p>` to the template to show the number of visits, and updating the context dictionary to include the `visits` value (i.e. `'visits': int(request.COOKIES.get('visits', '1')),`).
 
 
-
-<!-->
-> ###Time
->
-> You may notice that the `visits` cookie doesn't increment when you
-> refresh your web browser. Why? The sample code we provide above only
-> increments the counter *at least one whole day* after a user revisits
-> the Rango homepage. This is an unacceptable time to wait when
-> testing - so why not temporarily change the delay to a shorter time
-> period? In the updated `index` view, find the following line.
->
-> `if (datetime.now() - last_visit_time).days > 0:`
->
-> We can easily change this line to compare the number of *seconds*
-> between visits. In the example below, we check if the user visited at
-> least five seconds prior.
->
-> `if (datetime.now() - last_visit_time).seconds > 5:`
->
-> This means you need only wait five seconds to see your `visits` cookie
-> increment, rather than a whole day. When you're happy your code works,
-> you can revert the comparison back to the original per-day timespan.
->
-> Being able to find the difference between times using the `-` operator
-> is one of the many awesome features that Python provides. When times
-> are subtracted, a `timedelta` object is returned, which provides the
-> `days` and `seconds` attributes we use in the code snippets above. You
-> can check out the [official Python
-> documentation](http://docs.python.org/2/library/datetime.html#timedelta-objects)
-> for more information on this type of object, and what other attributes
-> it provides.
-
--->
-
-
 ## Session Data
 The previous example shows how we can store and manipulate client side cookies - or the data stored on the client. However, a more secure way to save session information is to store any such data on the server side. We can then use the session ID cookie that is stored on the client side (but is effectively anonymous) as the key to access the data.
 
@@ -222,7 +187,7 @@ Now that we have updated the handler function, we can now update the `index()` v
 {lang="python",linenos=off}
 	context_dict['visits'] = request.session['visits']
 
-Make sure that these lines are executed before `render()` is called, or your changes won't be executed. The `index()` view should look like the code below.
+Make sure that these lines are executed before `render()` is called, or your changes won't be executed. The `index()` view should look like the code below. Notice that the order in which the methods are called is different because we no longer need manipulate the cookies in the response.
 
 {lang="python",linenos=off}
 	def index(request):
@@ -243,7 +208,7 @@ W> ### Avoiding Cookie Confusion
 W> It's highly recommended that you delete any client-side cookies for Rango *before* you start using session-based data. You can do this in your browser's cookie inspector by deleting each cookie individually, or simply clear your browser's cache entirely -- ensuring that cookies are deleted in the process.
 
 I> ### Data Types and Cookies
-I> An added advantage of storing session data server-side is its ability to cast data from strings to the desired type. This only works however for [built-in types](http://docs.python.org/2/library/stdtypes.html), such as `int`, `float`, `long`, `complex` and `boolean`. If you wish to store a dictionary or other complex type, don't expect this to work. In this scenario, you might want to consider [pickling your objects](https://wiki.python.org/moin/UsingPickle).
+I> An added advantage of storing session data server-side is its ability to cast data from strings to the desired type. This only works however for [built-in types](http://docs.python.org/3/library/stdtypes.html), such as `int`, `float`, `long`, `complex` and `boolean`. If you wish to store a dictionary or other complex type, don't expect this to work. In this scenario, you might want to consider [pickling your objects](https://wiki.python.org/moin/UsingPickle).
 
 ## Browser-Length and Persistent Sessions
 When using cookies you can use Django's session framework to set cookies as either *browser-length sessions* or *persistent sessions*. As the names of the two types suggest:
@@ -253,12 +218,12 @@ When using cookies you can use Django's session framework to set cookies as eith
 
 By default, browser-length sessions are disabled. You can enable them by modifying your Django project's `settings.py` module. Add the variable `SESSION_EXPIRE_AT_BROWSER_CLOSE`, setting it to `True`.
 
-Alternatively, persistent sessions are enabled by default, with `SESSION_EXPIRE_AT_BROWSER_CLOSE` either set to `False`, or not being present in your project's `settings.py` file. Persistent sessions have an additional setting, `SESSION_COOKIE_AGE`, which allows you to specify the age of which a cookie can live to. This value should be an integer, representing the number of seconds the cookie can live for. For example, specifying a value of `1209600` will mean your website's cookies expire after a two week (14 day) period.
+Alternatively, persistent sessions are enabled by default, with `SESSION_EXPIRE_AT_BROWSER_CLOSE` either set to `False`, or not being present in your project's `settings.py` file. Persistent sessions have an additional setting, `SESSION_COOKIE_AGE`, which allows you to specify how long the cookie can live for. This value should be an integer, representing the number of seconds the cookie can live for. For example, specifying a value of `1209600` will mean your website's cookies expire after a two week (14 day) period.
 
-Check out the available settings you can use on the [official Django documentation on cookies](https://docs.djangoproject.com/en/1.9/ref/settings/#session-cookie-age) for more details. You can also check out [Eli Bendersky's blog](http://eli.thegreenplace.net/2011/06/24/django-sessions-part-i-cookies/) for an excellent tutorial on cookies and Django.
+Check out the available settings you can use on the [official Django documentation on cookies](https://docs.djangoproject.com/en/2.0/ref/settings/#session-cookie-age) for more details. You can also check out [Eli Bendersky's blog](http://eli.thegreenplace.net/2011/06/24/django-sessions-part-i-cookies/) for an excellent tutorial on cookies and Django.
 
 ## Clearing the Sessions Database
-Sessions accumulate easily, and the data store that contains session information does too. If you are using the database backend for Django sessions, you will have to periodically clear the database that stores the cookies. This can be done using `$ python manage.py clearsessions`. The [official Django documentation](https://docs.djangoproject.com/en/1.9/topics/http/sessions/#clearing-the-session-store) suggests running this daily as a [Cron job](https://en.wikipedia.org/wiki/Cron). If you don't, you could find your app's performance begin to degrade when it begins to experience more and more users.
+Sessions accumulate easily, and the data store that contains session information does too. If you are using the database backend for Django sessions, you will have to periodically clear the database that stores the cookies. This can be done using `$ python manage.py clearsessions`. The [Django documentation](https://docs.djangoproject.com/en/2.0/topics/http/sessions/#clearing-the-session-store) suggests running this daily as a [Cron job](https://en.wikipedia.org/wiki/Cron). If you don't, you could find your app's performance begin to degrade when it begins to experience more and more users.
 
 ## Basic Considerations and Workflow
 When using cookies within your Django application, there are a few things you should consider.
@@ -276,7 +241,7 @@ If client-side cookies are the right approach for you, then work through the fol
 If you need more secure cookies, then use session based cookies.
 
 1.  Firstly, ensure that the `MIDDLEWARE_CLASSES` list in your Django project's `settings.py` module contains `django.contrib.sessions.middleware.SessionMiddleware`. If it doesn't, add it to the list.
-2.  Configure your session backend `SESSION_ENGINE`. See the [official Django Documentation on Sessions](https://docs.djangoproject.com/en/1.9/topics/http/sessions/) for the various backend configurations.
+2.  Configure your session backend `SESSION_ENGINE`. See the [Django Documentation on Sessions](https://docs.djangoproject.com/en/2.0/topics/http/sessions/) for the various backend configurations.
 3.  Check to see if the cookie exists via `requests.sessions.get()`.
 4.  Update or set the cookie via the session dictionary, `requests.session['<cookie_name>']`.
 

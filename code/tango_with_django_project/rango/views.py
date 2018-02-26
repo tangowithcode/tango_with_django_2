@@ -20,24 +20,20 @@ def index(request):
 
     # Construct a dictionary to pass to the template engine as its context.
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-    request.session.set_test_cookie()
+    #request.session.set_test_cookie()
     category_list = Category.objects.order_by('-likes')[:5]
     page_list = Page.objects.order_by('-views')[:5]
 
     context_dict = {'boldmessage': "Crunchy, creamy, cookie, candy, cupcake!",
                     'categories': category_list,
                     'pages': page_list,
-                    'visits': int(request.COOKIES.get('visits', '1')),
                     }
 
-    # Return a rendered response to send to the client.
-    # We make use of the shortcut function to make our lives easier.
-    # Note that the first parameter is the template we wish to use.
-    # Obtain our Response object early so we can add cookie information.
-
-    response = render(request, 'rango/index.html', context_dict)
     # Call the helper function to handle the cookies
-    visitor_cookie_handler(request, response)
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    response = render(request, 'rango/index.html', context_dict)
+
 
     # Return response back to the user, updating any cookies that need changed.
     return response
@@ -45,10 +41,12 @@ def index(request):
 
 
 def about(request):
-    if request.session.test_cookie_worked():
-        print("TEST COOKIE WORKED!")
-        request.session.delete_test_cookie()
-    return render(request, 'rango/about.html', context={})
+    #if request.session.test_cookie_worked():
+    #    print("TEST COOKIE WORKED!")
+    #    request.session.delete_test_cookie()
+
+    visitor_cookie_handler(request)
+    return render(request, 'rango/about.html', context={'visits': request.session['visits']})
 
 
 def show_category(request, category_name_slug):
@@ -250,7 +248,14 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 
-def visitor_cookie_handler(request, response):
+def get_server_side_cookie(request, cookie, default_val=None):
+    val = request.session.get(cookie)
+    if not val:
+        val = default_val
+    return val
+
+
+def visitor_cookie_handler_client_side(request, response):
     # Get the number of visits to the site.
     # We use the COOKIES.get() function to obtain the visits cookie.
     # If the cookie exists, the value returned is casted to an integer.
@@ -272,4 +277,24 @@ def visitor_cookie_handler(request, response):
 
     # Update/set the visits cookie
     response.set_cookie('visits', visits)
-    return visits
+
+
+def visitor_cookie_handler(request):
+    visits = int(get_server_side_cookie(request, 'visits', '1'))
+    last_visit_cookie = get_server_side_cookie(request,
+                                               'last_visit',
+                                               str(datetime.now()))
+    last_visit_time = datetime.strptime(last_visit_cookie[:-7],
+                                        '%Y-%m-%d %H:%M:%S')
+
+    # If it's been more than a day since the last visit...
+    if (datetime.now() - last_visit_time).days > 0:
+        visits = visits + 1
+        # update the last visit cookie now that we have updated the count
+        request.session['last_visit'] = str(datetime.now())
+    else:
+        # set the last visit cookie
+        request.session['last_visit'] = last_visit_cookie
+
+    # Update/set the visits cookie
+    request.session['visits'] = visits

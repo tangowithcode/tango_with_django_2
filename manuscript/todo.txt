@@ -7,6 +7,9 @@ GLobal
 
 
 	- clean data example - change field to a string field.
+	
+	- in deployment chapter - create a cron job to clearsessions ie. https://docs.djangoproject.com/en/2.0/topics/http/sessions/#clearing-the-session-store
+	
 
 chapter 1
 
