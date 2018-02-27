@@ -8,3 +8,4 @@ chapter7-forms.md
 chapter8-templates.md
 chapter9-user-authentication.md
 chapter10-cookies.md
+chapter11-redux.md

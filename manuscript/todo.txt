@@ -10,6 +10,11 @@ GLobal
 	
 	- in deployment chapter - create a cron job to clearsessions ie. https://docs.djangoproject.com/en/2.0/topics/http/sessions/#clearing-the-session-store
 	
+	- change order of chapters: user rego then redux? Or combine the two chapters?
+	
+	- put logging chapter before bootstrap??
+	
+	
 
 chapter 1
 
@@ -69,3 +74,7 @@ chapter 9
 
 - other tests?
 
+
+chapter 11
+	- exercise change password to be done
+	- some tests....
