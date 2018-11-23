@@ -12,7 +12,7 @@ GLobal
 	
 	- change order of chapters: user rego then redux? Or combine the two chapters?
 	
-	- put logging chapter before bootstrap??
+	- put logging a/b testing chapter after template tags??
 	
 	
 
@@ -77,4 +77,4 @@ chapter 9
 
 chapter 11
 	- exercise change password to be done
-	- some tests....
+	- some tests....chapter13-template-tags.md
