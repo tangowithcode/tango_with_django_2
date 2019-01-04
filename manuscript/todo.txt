@@ -78,5 +78,8 @@ chapter 9
 chapter 11
 	- exercise change password to be done
 	
+chapter 12
+	- update the screen shots
+	
 chapter 13
 	- some tests....chapter13-template-tags.md

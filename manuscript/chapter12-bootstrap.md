@@ -10,11 +10,12 @@ To style Rango we have identified that the [dashboard style](http://getbootstrap
 
 Download and save the HTML source for the Dashboard layout to a file called, `bootstrap-base.html` and save it to your `templates/rango` directory.
 
-Before we can use the template, we need to modify the HTML so that we can use it in our application. The changes that we performed are listed below along with the updated HTML (so that you don't have to go to the trouble and a copy of the HTML is in our github repository, in `templates/bootstrap-base-stripped.html).
+Before we can use the template, we need to modify the HTML so that we can use it in our application. The changes that we performed are listed below along with the updated HTML (so that you don't have to go to the trouble and a copy of the HTML is in our [github repository] 
+(https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/templates/rango/bootstrap-base.html).
 
-- Replaced all references of `../../` to be `http://getbootstrap.com/`.
+- Replaced all references of `../../` to be `http://getbootstrap.com/docs/4.2/` as we are using version 4.2.
 - Replaced `dashboard.css` with the absolute reference:
-	- `http://getbootstrap.com/examples/dashboard/dashboard.css`
+	- `http://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css`
 - Removed the search form from the top navigation bar.
 - Stripped out all the non-essential content from the HTML and replaced it with:
 	- `{% block body_block %}{% endblock %}`
@@ -32,127 +33,110 @@ Before we can use the template, we need to modify the HTML so that we can use it
 ## Template
 
 W> ### Copying and Pasting
-W> As we said in the introductory chapter, *don't simply copy and paste the code you see here*. Type it in, think about what the HTML markup below is doing as you type. If you don't understand what a particular element does, search for it online. If you don't understand what a given Bootstrap CSS class achieves, check out the [documentation](http://getbootstrap.com/css/).
-W>
-W> **If you copy and paste over a large portion of code like the template below, you risk including the book's headers and footers, too!**
+W> In the introductory chapter, we said not the copy and paste - but this is an exception. 
+W> However, if you directly cut and paste you will end up bringing additional text you do not want. So go to our github page and get the [base template] 
+(https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/templates/rango/bootstrap-base.html) shown below.
+W> 
+W> Also, If you don't understand what the specific Bootstrap classes do, then you can check out the [ Bootstrap Documentation](http://getbootstrap.com/css/).
+
 
 {lang="html",linenos=off}
 	<!DOCTYPE html>
 	{% load staticfiles %}
 	{% load rango_template_tags %}
 	<html lang="en">
-	<head>
+	  <head>
 	    <meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, 
-	                                   initial-scale=1, shrink-to-fit=no">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	    <meta name="description" content="">
-	    <meta name="author" content="">
+	    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	    <meta name="generator" content="Jekyll v3.8.5">
 	    <link rel="icon" href="{% static 'images/favicon.ico' %}">
 	    <title>
 	      Rango - {% block title %}How to Tango with Django!{% endblock %}
 	    </title>
+
 	    <!-- Bootstrap core CSS -->
-	    <link href="http://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" 
-	        rel="stylesheet">
+		<!-- Bootstrap core CSS -->
+		<link href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	
 	    <!-- Custom styles for this template -->
-	    <link href=
-	           "http://v4-alpha.getbootstrap.com/examples/dashboard/dashboard.css" 
-	          rel="stylesheet">
-	</head>
-	<body>
-	
-	<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
-	    <button class="navbar-toggler navbar-toggler-right hidden-lg-up"
-	            type="button"
-	            data-toggle="collapse"
-	            data-target="#navbar"
-	            aria-controls="navbar"
-	            aria-expanded="false"
-	            aria-label="Toggle navigation">
+	    <link href="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css" rel="stylesheet">
+
+	  </head>
+
+	  <body>
+		  
+		  
+		  <header>
+	    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	  <a class="navbar-brand" href="{% url 'rango:index' %}">Rango</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <a class="navbar-brand" href="{% url 'index' %}">Rango</a>
+	      </button>
+  
+	<div class="collapse navbar-collapse" id="navbarCollapse">
+	  <ul class="navbar-nav mr-auto">
+	    <li class="nav-item"><a class="nav-link" href="{% url 'rango:index' %}">Home</a></li>
+	    <li class="nav-item "><a class="nav-link" href="{% url 'rango:about' %}">About</a></li>
+		{% if user.is_authenticated %}
+	    <li class="nav-item "><a class="nav-link" href="{% url 'rango:restricted' %}">Restricted</a></li>
+	    <li class="nav-item"><a class="nav-link" href="{% url 'rango:add_category' %}">Add Category</a></li>
+	    <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
+		{% else %}
+	    <li class="nav-item"><a class="nav-link" href="{% url 'registration_register' %}">Register Here</a></li>
+	    <li class="nav-item "><a class="nav-link" href="{% url 'auth_login' %}">Login</a></li>
+		{% endif %}
 	
-	    <div class="collapse navbar-collapse" id="navbar">
-	        <ul class="navbar-nav mr-auto">
-	            <li class="nav-item active">
-	                <a class="nav-link" href="{% url 'index' %}">
-	                    Home
-	                </a>
-	            </li>
-	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'about' %}">
-	                    About
-	                </a>
-	            </li>
-	            {% if user.is_authenticated %}
-	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'restricted' %}">
-	                    Restricted Page
-	                </a>
-	            </li>
-	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'rango:add_category' %}">
-	                Add a New Category
-	                </a>
-	            </li>
-	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'auth_logout' %}?next=/rango/">
-	                    Logout
-	                </a>
-	            </li>
-	            {% else %}
-	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'registration_register' %}">
-	                    Register Here
-	                </a>
-	            </li>
-	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'auth_login' %}">
-	                    Login
-	                </a>
-	            </li>
-	            {% endif %}
-	        </ul>
-	    </div>
-	</nav>
-	
-	<div class="container-fluid">
-	    <div class="row">
-	    <div class="col-sm-3 col-md-2 sidebar">
-	        {% block sidebar_block %}
-	            {% get_category_list category %}
-	        {% endblock %}
-	    </div>
-	    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 main">
-	        {% block body_block %}{% endblock %}
-	    </div>
-	    </div>
+	  </ul>
 	</div>
-	<!-- Bootstrap core JavaScript
-	    ================================================== -->
-	    <!-- Placed at the end of the document so the pages load faster -->
-	    <script 
-	      src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
-	    </script>
-	    <script 
-	      src="http://v4-alpha.getbootstrap.com/dist/js/bootstrap.min.js">
-	    </script>
-	    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	    <script 
-	      src=
-	    "http://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js">
-	    </script>
-	</body>
+	</nav>
+
+	</header>
+
+	 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">	
+	    <div class="container-fluid">
+	      <div class="row">
+			  <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			       <div class="sidebar-sticky">
+		        	{% block sidebar_block %}
+		            	{% get_category_list category %}
+		        	{% endblock %}
+					</div>
+		 	 </nav>
+		 
+			 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"> 
+        		{% block body_block %}{% endblock %}
+				</div>
+	  	 </div>
+	   </div>
+
+	  <!-- FOOTER -->
+	  <footer class="container">
+	    <p class="float-right"><a href="#">Back to top</a></p>
+	    <p>&copy; 2019 Tango With Django &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+	  </footer>
+	</main>
+
+
+	 <!-- Bootstrap core JavaScript -->
+	 <!-- Placed at the end of the document so the pages load faster -->
+	 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	       <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+	         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+        
+	         <script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script>
+		</body>
 	</html>
 	
-
-Once you have the new template, downloaded the [Rango Favicon](https://raw.githubusercontent.com/leifos/tango_with_django_19/master/code/tango_with_django_project/static/images/favicon.ico) and saved it to `static/images/`.
-
-If you take a close look at the modified Dashboard HTML source, you'll notice it has a lot of structure in it created by a series of `<div>` tags. Essentially the page is broken into two parts - the top navigation bar which is contained by `<nav>` tags, and the main content pane denoted by the `<div class="container-fluid">` tag. Within the main content pane, there are two `<div>`s, one for the sidebar and the other for the main content, where we have placed the code for the `sidebar_block` and `body_block`, respectively.	
 	
-In this new template, we have assumed that you have completed the chapters on User Authentication and used the Django Regisration Redux Package. If not you will need to update the template and remove/modify the references to those links in the navigation bar i.e. in the `<nav>` tags. 
+
+Once you have the new template setup, you can download the [Rango Favicon](https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/static/images/favicon.ico) and save it to `static/images/`.
+
+If you take a close look at the modified Dashboard HTML source, you'll notice it has a lot of structure in it created by a series of `<div>` tags. Essentially the page is broken into two parts - the top navigation bar which is contained by `<header>` tags, and the main content pane denoted by the `<main ... >` tag. Within the main content pane, there is a `<div>` which houses two other divs for the `sidebar_block` and the `body block`.
+	
+	
+The code above assumes that you have completed the chapters on User Authentication and used the Django Regisration Redux Package. If not you will need to update the template and remove/modify the references to those links in the navigation bar in the header. 
 	
 Also of note is that the HTML template makes references to external websites to request the required `css` and `js` files. So you will need to be connected to the internet for the style to be loaded when you run the application.
 
@@ -161,13 +145,13 @@ I> Rather than including external references to the `css` and `js` files, you co
 
 	
 ## Quick Style Change
-To give Rango a much needed facelift, we can replace the content of the existing `base.html` with the HTML template code in `base_bootstrap.html`. You might want to first comment out the existing code in `base.html` and then copy in the `base_bootstrap.html` code.
+To give Rango a much needed facelift, we can replace the content of the existing `base.html` with the HTML template code in `base_bootstrap.html`. You might want to first copy out the existing code in `base.html` and then copy in the `base_bootstrap.html` code.
 
-Now reload your application. Pretty nice!
+Now reload your application. Pretty nice! Well, sort of.
 
 You should notice that your application looks about a hundred times better already. Below we have some screen shots of the about page showing the before and after.
 
-Flip through the different pages. Since they all inherit from base, they will all be looking pretty good, but not perfect! In the remainder of this chapter, we will go through a number of changes to the templates and use various Bootstrap classes to improve the look and feel of Rango.
+Flip through the different pages. Since they all inherit from base, they will all be looking better, but not perfect! In the remainder of this chapter, we will go through a number of changes to the templates and use various Bootstrap classes to improve the look and feel of Rango.
 
 <!--
 ## Page Headers
@@ -200,6 +184,38 @@ This doesn't visually appear to change the look and feel, but it informs the too
 ![A screenshot of the About page without styling.](images/ch12-about-nostyling.png)
 
 ![A screenshot of the About page with Bootstrap Styling applied.](images/ch12-about-bootstrap.png)
+
+
+
+### Sidebar Categories
+For of all the sidebar categories are not displaying very nicely. If we take a look at the HTML source code for the [Dashboard page](https://getbootstrap.com/docs/4.2/examples/dashboard/), we can notice that a few classes have been added to the `<ul>` and `<li>` tags to denote that they are nav-items and nav-links respectively. So update the template as shown below.
+
+
+{lang="html",linenos=off}
+	<ul class="nav flex-column">
+	{% if cats %}
+	    {% for c in cats %}
+	    {% if c == act_cat %}
+	        <li  class="nav-item">
+	              <a  class="nav-link active" href="{% url 'rango:show_category' c.slug %}">
+					  <span data-feather="archive"></span>
+					  {{ c.name }}</a>
+	        </li>
+	    {% else  %}
+	        <li class="nav-item">
+	            <a  class="nav-link" href="{% url 'rango:show_category' c.slug %}">
+					<span data-feather="archive"></span>{{ c.name }}</a>
+	        </li>
+	    {% endif %}
+	{% endfor %}
+	{% else %}
+	    <li class="nav-item">No Categories Yet!</li>
+	{% endif %}
+	</ul>
+
+
+Also, rather than using `<strong>` to show that the category page has been selected, we have added the `active` class to the active category. We can also add in a `feather-icon` using the `<span. ... >' tag. Here we chose the `archive` icon, but you can see that there are loads of icons to choose from at Feather Icons (https://feathericons.com/)
+
 
 ### The Index Page
 For the index page it would be nice to show the top categories and top pages in two separate columns. Looking at the Bootstrap examples, we can see that in the [Narrow Jumbotron](http://v4-alpha.getbootstrap.com/examples/narrow-jumbotron/) they have an example with two columns. If you inspect the source, you can see the following HTML that is responsible for the columns.
