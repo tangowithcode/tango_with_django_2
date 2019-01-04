@@ -1,18 +1,18 @@
 # Bootstrapping Rango {#chapter-bootstrap}
-In this chapter, we will be styling Rango using the *Twitter Bootstrap 4 Alpha* toolkit. Bootstrap is the most popular HTML, CSS, JS Framework, which we can use to style our application. The toolkit lets you design and style responsive web applications, and is pretty easy to use once you get familiar with it.
+In this chapter, we will be styling Rango using the *Twitter Bootstrap 4* toolkit. Bootstrap is the most popular HTML, CSS, JS Framework, which we can use to style our application. The toolkit lets you design and style responsive web applications, and is pretty easy to use once you get familiar with it.
 
 I> ### Cascading Style Sheets
 I> If you are not familiar with CSS, have a look at the [CSS crash course](#chapter-css). We provide a quick guide on the basic of Cascading Style Sheets.
 
-Now take a look at the [Bootstrap 4.0 website](http://v4-alpha.getbootstrap.com/) - it provides you with sample code and examples of the different components and how to style them by added in the appropriate style tags, etc. On the Bootstrap website they provide a number of [example layouts](http://v4-alpha.getbootstrap.com/examples/) which we can base our design on.
+Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/) - it provides you with sample code and examples of the different components and how to style them by added in the appropriate style tags, etc. On the Bootstrap website they provide a number of [example layouts](http://getbootstrap.com/examples/) which we can base our design on.
 
-To style Rango we have identified that the [dashboard style](http://v4-alpha.getbootstrap.com/examples/dashboard/) more or less meets our needs in terms of the layout of Rango, i.e. it has a menu bar at the top, a side bar (which we will use to show categories) and a main content pane. 
+To style Rango we have identified that the [dashboard style](http://getbootstrap.com/examples/dashboard/) more or less meets our needs in terms of the layout of Rango, i.e. it has a menu bar at the top, a side bar (which we will use to show categories) and a main content pane. 
 
-Download and save the HTML source for the Dashboard layout to a file called, `base_bootstrap.html` and save it to your `templates/rango` directory.
+Download and save the HTML source for the Dashboard layout to a file called, `bootstrap-base.html` and save it to your `templates/rango` directory.
 
-Before we can use the template, we need to modify the HTML so that we can use it in our application. The changes that we performed are listed below along with the updated HTML (so that you don't have to go to the trouble).
+Before we can use the template, we need to modify the HTML so that we can use it in our application. The changes that we performed are listed below along with the updated HTML (so that you don't have to go to the trouble and a copy of the HTML is in our github repository, in `templates/bootstrap-base-stripped.html).
 
-- Replaced all references of `../../` to be `http://v4-alpha.getbootstrap.com/`.
+- Replaced all references of `../../` to be `http://getbootstrap.com/`.
 - Replaced `dashboard.css` with the absolute reference:
 	- `http://getbootstrap.com/examples/dashboard/dashboard.css`
 - Removed the search form from the top navigation bar.
@@ -25,7 +25,9 @@ Before we can use the template, we need to modify the HTML so that we can use it
 - Changed `project name` to be `Rango`.
 - Added the links to the index page, login, register, etc to the top nav bar.
 - Added in a side block, i.e., `{% block side_block %}{% endblock %}`
-- Added in `{% load staticfiles %}` after the `DOCTYPE` tag.
+- Added in `{% load staticfiles %}`  and `{% load rango_template_tags %}` after the `DOCTYPE` tag.
+
+
 
 ## Template
 
@@ -91,7 +93,7 @@ W> **If you copy and paste over a large portion of code like the template below,
 	                </a>
 	            </li>
 	            <li class="nav-item">
-	                <a class="nav-link" href="{% url 'add_cateory' %}">
+	                <a class="nav-link" href="{% url 'rango:add_category' %}">
 	                Add a New Category
 	                </a>
 	            </li>
