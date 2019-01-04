@@ -70,14 +70,14 @@ I> You will need to restart your server every time you modify the template tags.
 
 ###Parameterised Template Tags 
 
-Now lets extend this so that when we visit a category page, it highlights which category we are in. To do this we need to paramterise the templatetag. So update the method in`rango\_extras.py`to be: 
+Now lets extend this so that when we visit a category page, it highlights which category we are in. To do this we need to paramterise the templatetag. So update the method in `rango\_extras.py` to be: 
 
 {lang="python",linenos=off}
        def get_category_list(cat=None):         
 	   return {'cats': Category.objects.all(), 'act_cat': cat}  
 
 
-This lets us pass through the category we are on. We can now update the`base.html`to pass through the category, if it exists.  
+This lets us pass through the category we are on. We can now update the `base.html` to pass through the category, if it exists.  
 
 {lang="html",linenos=off}
 
@@ -100,5 +100,4 @@ Now update the`cats.html` template:
 	{% endfor %}
 
 
-Here we check to see if the category being displayed is the same as the category being passed through (i.e.`act\_cat`), if so, we assign the`active`class to it from Bootstrap (http://getbootstrap.com/components/#nav).   Restart the development web server, and now visit the pages. We have passed through the`category`variable. When you view a category page, the template has access to the`category`variable, and so provides a value to the template tag`get\_category\_list()`. This is then used in the`cats.html\`\`
-template to select which category to highlight as active.
+Here we check to see if the category being displayed is the same as the category being passed through (i.e.`act\_cat`), if so, we assign the`active`class to it from Bootstrap (http://getbootstrap.com/components/#nav).   Restart the development web server, and now visit the pages. We have passed through the `category` variable. When you view a category page, the template has access to the `category` variable, and so provides a value to the template tag `get\_category\_list()`. This is then used in the `cats.html` template to select which category to highlight as active.
