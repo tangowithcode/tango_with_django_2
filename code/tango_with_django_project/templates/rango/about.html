@@ -6,9 +6,14 @@
 	{% endblock %}
 
 	{% block body_block %}
- 	<h1>About Rango</h1>
+	<div class="jumbotron p-4">
+		<div class="container">
+	 		<h1 class="jumbotron-heading">About Rango</h1>
+		</div>
+	</div>
 
-    <div>
+<div class="container">
+	<div class="row">
 		Rango says here is the about page.
 		<br/>
 		This tutorial has been put together by Leif and David!
@@ -18,11 +23,12 @@
 
     </div>
 
-    <div>
+  <div class="container">
+  	<div class="row">
 	<img src="{{ MEDIA_URL}}cat.jpg"  alt="The cat from rango"/>
 
     </div>
-
+ </div>
 	{% endblock %}
 
 

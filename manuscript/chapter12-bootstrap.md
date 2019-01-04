@@ -66,11 +66,9 @@ W> Also, If you don't understand what the specific Bootstrap classes do, then yo
 	  </head>
 
 	  <body>
-		  
-		  
 		  <header>
-	    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-	  <a class="navbar-brand" href="{% url 'rango:index' %}">Rango</a>
+	    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">
+	  <a class="navbar-brand p-2" href="{% url 'rango:index' %}">Rango</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -94,33 +92,32 @@ W> Also, If you don't understand what the specific Bootstrap classes do, then yo
 
 	</header>
 
-	 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">	
+
 	    <div class="container-fluid">
 	      <div class="row">
 			  <nav class="col-md-2 d-none d-md-block bg-light sidebar">
 			       <div class="sidebar-sticky">
-		        	{% block sidebar_block %}
-		            	{% get_category_list category %}
-		        	{% endblock %}
-					</div>
-		 	 </nav>
+		
+		        {% block sidebar_block %}
+		            {% get_category_list category %}
+		        {% endblock %}
+			
+			 </div>
+		 </nav>
 		 
-			 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"> 
-        		{% block body_block %}{% endblock %}
-				</div>
-	  	 </div>
-	   </div>
-
+	 <main role="main" class="col-md-9  ml-sm-auto col-lg-10 px-4">		
+		 {% block body_block %}{% endblock %}
+	 
 	  <!-- FOOTER -->
-	  <footer class="container">
+	  <footer>
 	    <p class="float-right"><a href="#">Back to top</a></p>
-	    <p>&copy; 2019 Tango With Django &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+	    <p>&copy; 2019 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
 	  </footer>
 	</main>
 
 
-	 <!-- Bootstrap core JavaScript -->
-	 <!-- Placed at the end of the document so the pages load faster -->
+	    <!-- Bootstrap core JavaScript -->
+	    <!-- Placed at the end of the document so the pages load faster -->
 	 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	       <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
 	         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
@@ -128,6 +125,7 @@ W> Also, If you don't understand what the specific Bootstrap classes do, then yo
 	         <script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script>
 		</body>
 	</html>
+
 	
 	
 
@@ -218,92 +216,102 @@ Also, rather than using `<strong>` to show that the category page has been selec
 
 
 ### The Index Page
-For the index page it would be nice to show the top categories and top pages in two separate columns. Looking at the Bootstrap examples, we can see that in the [Narrow Jumbotron](http://v4-alpha.getbootstrap.com/examples/narrow-jumbotron/) they have an example with two columns. If you inspect the source, you can see the following HTML that is responsible for the columns.
+For the index page it would be nice to show the top categories and top pages in two separate columns, while the title is at the top.
 
-{lang="html",linenos=off}
-	<div class="row marketing">
-	    <div class="col-lg-6">
-	        <h4>Subheading</h4>
-	        <p>Donec id elit non mi porta gravida at eget metus. 
-	            Maecenas faucibus mollis interdum.</p>
-	        <h4>Subheading</h4>
-	    </div>
-	    <div class="col-lg-6">
-	        <h4>Subheading</h4>
-	        <p>Donec id elit non mi porta gravida at eget metus. 
-	            Maecenas faucibus mollis interdum.</p>
-	    </div>
+ Looking at the Bootstrap examples, we can see that in the [Jumbotron](https://getbootstrap.com/docs/4.2/examples/jumbotron/)  example, they have a neat header element (i.e. the jumbotron) which we can put our title message in. And so we can update the index.html as follows:
+ 
+ {lang="html",linenos=off}
+ 	<div class="jumbotron p-4">
+ 	<div class="container">
+  		<h1 class="jumbotron-heading">Rango says...</h1>
+ 		<div>
+ 			<h2 class="h2">
+ 				{% if user.is_authenticated %}
+ 		 	   		Howdy {{ user.username }}!
+ 			   {% else %}
+ 	    	   		Hey there partner!
+ 			   {% endif %}
+ 			</h2>
+         	<strong>{{ boldmessage }}</strong>
+     	</div>
+ 	</div>
+ 	</div>
+	
+	
+You might notice that after the `jumbotron` we have put `p-4`. The `p-4` controls the [spacing](https://getbootstrap.com/docs/4.2/utilities/spacing/) around the jumbotron. Try changing the padding to be `p-6` or `p-1`. You can also control the space of the top, bottom, left and right by specifically setting `pt`, `pb`, `pr` and `pl`. 
+  
+  
+ X> ###Exercise 
+ X> - Update all other templates so that the page heading is encapsulated within a jumbotron.
+ X> This will make the whole application have a consistent look and feel.
+  
+ 
+ Then to create the two columns, we draw upon the [Album](https://getbootstrap.com/docs/4.2/examples/album/) example. While it has three columns, called cards, we only need two. Most, if not all, CSS frameworks use a [grid layout](https://getbootstrap.com/docs/4.2/layout/grid/)  consisteing of 12 blocks. If you inspect the HTML souce for the Album you will see that within a row there is a `<div>` which sets the size of the cards `<div class="col-md-4">` followed by `<div class="card mb-4 shadow-sm">`. This sets each card to be 4 units in length relative to the width (and 4 by 3 is 12). Since we want two cards (one for the most popular pages and most popular categories) then we can change the 4 to a 6 (i.e. 2 by 6 is 12). And so you can update the `index.html` with the following HTML.
+ 
+ {lang="html",linenos=off}
+	 <div class="container">
+	 <div class="row">
+	 <div class="col-md-6">
+	 <div class="card mb-6">
+	 <div class="card-body">
+	 	<h2 >Most Liked Categories</h2>
+	    <p class="card-text">
+	 	{% if categories %}
+	 		<ul>
+	 	  	{% for category in categories %}
+	 	  	<li>
+	 	  	<a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a>
+	 	  	</li>
+	 	  	{% endfor %}
+	 	  	</ul>
+	 	  	{% else %}
+	 	  	<strong>There are no categories present.</strong>
+	 	  	{% endif %}
+	 	</p>
 	</div>
-
-Inside the `<div class="row marketing">`, we can see that it contains two `<div>`'s with classes `col-lg-6`. Bootstrap is based on a [grid layout](http://v4-alpha.getbootstrap.com/layout/grid/), where each container is conceptually broken up into 12 units. The `col-lg-6` class denotes a column that is of size 6, i.e. half the size of its container, `<div class="row marketing">`.
-
-Given this example, we can create columns in `index.html`  by updating the template as follows.
-
-{lang="html",linenos=off}
-	{% extends 'rango/base.html' %}
-	{% load staticfiles %}
-	{% block title_block %}
-	    Index
-	{% endblock %}
-	{% block body_block %}
-	<div class="jumbotron">
-	    <h1 class="display-3">Rango says...</h1>
-	    {% if user.is_authenticated %}		
-	        <h1>hey there {{ user.username }}!</h1>
-	    {% else %}
-	        <h1>hey there partner! </h1>
-	    {% endif %}
 	</div>
-	<div class="row marketing">
-	    <div class="col-lg-6">
-	    <h4>Most Liked Categories</h4>
-	    <p>
-	    {% if categories %}
-	    <ul>
-	        {% for category in categories %}
-	        <li><a href="{% url 'show_category' category.slug %}">
-	            {{ category.name }}</a></li>
-	        {% endfor %}
-	    </ul>
-	    {% else %}
-	        <strong>There are no categories present.</strong>
-	    {% endif %}
-	    </p>
-	    </div>
-	    <div class="col-lg-6">
-	        <h4>Most Viewed Pages</h4>
-	        <p>
-	        {% if pages %}
-	        <ul>
-	            {% for page in pages %}
-	            <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-	            {% endfor %}
-	            </ul>
-	        {% else %}
-	            <strong>There are no categories present.</strong>
-	         {% endif %}
+	</div>
+	<div class="col-md-6">
+	<div class="card mb-6">
+	<div class="card-body">
+		<h2>Most Viewed Pages</h2>
+	    <p class="card-text">
+	 	{% if pages %}
+	 	<ul>
+	 		{% for page in pages %}
+	 		<li>
+	 		<a href="{{ page.url }}">{{ page.title }}</a>
+	 		</li>
+	 		{% endfor %}
+	 		</ul>
+	 		{% else %}
+	 		<strong>There are no pages present.</strong>
+	 		{% endif %}
 	        </p>
-	    </div>
-	</div>	
-	<img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> 	
-	{% endblock %}
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+ 
+Once you have updated the template, reload the page - it should look a lot better now, but the way the list items are presented is pretty horrible. 
 
-We have also used the `jumbotron` class to make the heading in the page more evident by wrapping the title in a `<div class="jumbotron">`. Reload the page - it should look a lot better now, but the way the list items are presented is pretty horrible. 
-
-Let's use the [list group styles provided by Bootstrap](http://v4-alpha.getbootstrap.com/components/list-group/) to improve how they look. We can do this quite easily by changing the `<ul>` elements to `<ul class="list-group">` and the `<li>` elements to `<li class="list-group-item">`. Reload the page, any better?
+Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how they look. We can do this quite easily by changing the `<ul>` elements to `<ul class="list-group">` and the `<li>` elements to `<li class="list-group-item">`. Reload the page, any better?
 
 ![A screenshot of the Index page with a Jumbotron and Columns.](images/ch12-styled-index.png)
 
 ###The Login Page
-Now let's turn our attention to the login page. On the Bootstrap website you can see they have already made a [nice login form](http://v4-alpha.getbootstrap.com/examples/signin/). If you take a look at the source, you'll notice that there are a number of classes that we need to include to stylise the basic login form. Update the `body_block` in the `login.html` template as follows:
+Now let's turn our attention to the login page. On the Bootstrap website you can see they have already made a [nice login form](https://getbootstrap.com/docs/4.2/examples/signin/). If you take a look at the source, you'll notice that there are a number of classes that we need to include to stylise the basic login form. Update the `body_block` in the `login.html` template as follows:
 
 {lang="html",linenos=off}
 	{% block body_block %}
-	<link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css"
+	<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css"
 	    rel="stylesheet">
-	<div class="jumbotron">
-	    <h1 class="display-3">Login</h1>
+	<div class="jumbotron p-4">
+	    <h1 class="jumbotron-heading">Login</h1>
 	</div>
+	<div class="container">
+		
 	<form class="form-signin" role="form" method="post" action=".">
 	    {% csrf_token %}
 	    <h2 class="form-signin-heading">Please sign in</h2>
@@ -316,11 +324,13 @@ Now let's turn our attention to the login page. On the Bootstrap website you can
 	    <button class="btn btn-lg btn-primary btn-block" type="submit" 
 	            value="Submit" />Sign in</button>
 	</form>
+
+	</div>
 	{% endblock %}
 
 Besides adding in a link to the bootstrap `signin.css`, and a series of changes to the classes associated with elements, we have removed the code that automatically generates the login form, i.e. `form.as_p`. Instead, we took the elements, and importantly the `id` of the elements generated and associated them with the elements in this bootstrapped form. To find out what these `id`s were, we ran Rango, navigated to the page, and then inspected the source to see what HTML was produced by the `form.as_p` template tag. 
 
-In the button, we have set the class to `btn` and `btn-primary`. If you check out the [Bootstrap section on buttons](http://v4-alpha.getbootstrap.com/components/buttons/) you can see there are lots of different colours, sizes and styles that can be assigned to buttons.
+In the button, we have set the class to `btn` and `btn-primary`. If you check out the [Bootstrap section on buttons](https://getbootstrap.com/docs/4.2/components/buttons/) you can see there are lots of different colours, sizes and styles that can be assigned to buttons.
 
 ![A screenshot of the login page with customised Bootstrap Styling.](images/ch12-styled-login.png)
 
@@ -332,30 +342,35 @@ You can apply similar changes to `add_cagegory.html` and `add_page.html` templat
 	{% block title %}Add Page{% endblock %}
 	
 	{% block body_block %}
-	    {% if category %}
-	        <form role="form" id="page_form" method="post" 
-	              action="/rango/category/{{category.slug}}/add_page/">
-	        <h2 class="form-signin-heading"> Add a Page to 
-	            <a href="/rango/category/{{category.slug}}/"> 
-	                {{ category.name }}</a></h2>
-	        {% csrf_token %}
-	        {% for hidden in form.hidden_fields %}
-	            {{ hidden }}
-	        {% endfor %}
-	        {% for field in form.visible_fields %}
-	            {{ field.errors }}
-	            {{ field.help_text }}<br/>
-	            {{ field }}<br/>
-	        {% endfor %}
-	        <br/>
-	        <button class="btn btn-primary"
-	                type="submit" name="submit">
-	            Add Page
-	        </button>
-	        </form>
-	    {%  else %}
-	        <p>This is category does not exist.</p>
-	    {%  endif %}
+		<div class="jumbotron p-4">
+			<div class="container">
+		 		<h1 class="jumbotron-heading">Add Page to {{category.name}}</h1>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+		       <form role="form" id="page_form" method="post" 
+		             action="/rango/category/{{category.slug}}/add_page/">
+		       {% csrf_token %}
+		       {% for hidden in form.hidden_fields %}
+		           {{ hidden }}
+		       {% endfor %}
+		       {% for field in form.visible_fields %}
+		           {{ field.errors }}
+		           {{ field.help_text }}<br/>
+		           {{ field }}<br/>
+				   <div class="p-2"></div>
+		       {% endfor %}
+		       <br/>
+		       <button class="btn btn-primary"
+		               type="submit" name="submit">
+		           Add Page
+		       </button>
+			   <div class="p-5"></div>
+		       </form>
+		   </div>
+		</div>
 	{% endblock %}
 
 X> ###Exercise 
@@ -368,80 +383,66 @@ For the `registration_form.html`, we can update the form as follows:
     {% extends "rango/base.html" %}
     {% block body_block %}
 
-    <h2 class="form-signin-heading">Sign Up Here</h2>
+	<div class="jumbotron p-4">
+		<div class="container">
+	 		<h1 class="jumbotron-heading">Register Here</h1>
+		
+	</div>
+	</div>
 
-    <form role="form"  method="post" action=".">
-        {% csrf_token %}
-        <div class="form-group" >
-        <p class="required"><label class="required" for="id_username">
-            Username:</label>
-            <input class="form-control" id="id_username" maxlength="30" 
-                 name="username" type="text" />
-            <span class="helptext">
-            Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.
-            </span>
-        </p>
-        <p class="required"><label class="required" for="id_email">
-            E-mail:</label>
-            <input class="form-control" id="id_email" name="email" 
-                 type="email" />
-        </p>
-        <p class="required"><label class="required" for="id_password1">
-            Password:</label>
-            <input class="form-control" id="id_password1" name="password1"
-                type="password" />
-        </p>
-        <p class="required">
-            <label class="required" for="id_password2">
-                Password confirmation:</label>
-            <input class="form-control" id="id_password2" name="password2" 
-                 type="password" />
-            <span class="helptext">
-                 Enter the same password as before, for verification.
-            </span>
-        </p>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+	<div class="container">
+		<div class="row">
+
+			<div class="form-group" >
+		    <form role="form"  method="post" action=".">
+		        {% csrf_token %}
+		        <div class="form-group" >
+		        <p class="required"><label class="required" for="id_username">
+		            Username:</label>
+		            <input class="form-control" id="id_username" maxlength="30" 
+		                 name="username" type="text" />
+		            <span class="helptext">
+		            Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.
+		            </span>
+		        </p>
+		        <p class="required"><label class="required" for="id_email">
+		            E-mail:</label>
+		            <input class="form-control" id="id_email" name="email" 
+		                 type="email" />
+		        </p>
+		        <p class="required"><label class="required" for="id_password1">
+		            Password:</label>
+		            <input class="form-control" id="id_password1" name="password1"
+		                type="password" />
+		        </p>
+		        <p class="required">
+		            <label class="required" for="id_password2">
+		                Password confirmation:</label>
+		            <input class="form-control" id="id_password2" name="password2" 
+		                 type="password" />
+		            <span class="helptext">
+		                 Enter the same password as before, for verification.
+		            </span>
+		        </p>
+		        </div>
+		        <button type="submit" class="btn btn-primary">Submit</button>
+		    </form>
+		</div>
+		
+	</div>
+	</div>
+	
     {% endblock %}
 
 Again we have manually transformed the form created by the `{{ form.as_p }}` template tag, and added the various bootstrap classes.
 
 W> ###Bootstrap, HTML and Django Kludge
 W> This is not the best solution - we have kind of kludged it together. 
-W> It would be much nicer and cleaner if we could instruct Django when building the HTML for the form to insert the appropriate classes.
+W> It would be much nicer and cleaner if we could instruct Django when building the HTML for the form to insert the appropriate classes. But we will leave that to you to figure out :-)
 
-##Using `Django-Bootstrap-Toolkit`
-An alternative solution would be to use something like the [`django-bootstrap-toolkit`](https://github.com/dyve/django-bootstrap-toolkit). To install the `django-bootstrap-toolkit`, run:
-
-{lang="text",linenos=off}
-	pip install django-bootstrap-toolkit
-	
-Add, `bootstrap_toolkit` to the `INSTALLED_APPS` tuple in `settings.py`. 
-
-To use the toolkit within our templates, we need to first load the toolkit using the `load` template tag, `{% load bootstrap_toolkit %}`, and then call the function that updates the generated HTML, i.e.  `{{ form|as_bootstrap }}`. Updating the `category.html` template, we arrive at the following.
-
-{lang="html",linenos=off}
-	{% extends "rango/base.html" %}
-	
-	{% load bootstrap_toolkit %}
-	{% block title %}Add Category{% endblock %}
-	{% block body_block %}
-	    <form id="category_form" method="post" 
-	        action="{% url 'add_category' %}">
-	    <h2 class="form-signin-heading">Add a Category</a></h2>
-	    {% csrf_token %}
-	    {{ form|as_bootstrap }}
-	    <br/>
-	    <button class="btn btn-primary" type="submit"
-	         name="submit">Create Category</button>
-	    </form>
-	{% endblock %}
-
-This solution is much cleaner, and automated. However, it does not render as nicely as the first solution. It therefore needs some tweaking to customise it as required, but we'll let you figure out what needs to be done.
 
 ###Next Steps
-In this chapter we have described how to quickly style your Django application using the Bootstrap toolkit. Bootstrap is highly extensible and it is relatively easy to change themes - check out the [StartBootstrap Website](http://startbootstrap.com/) for a whole series of free themes. Alternatively, you might want to use a different CSS toolkit like: [Zurb](http://zurb.com), [Titon](http://titon.io/en/toolkit), [Pure](http://purecss.io), [GroundWorkd](https://groundworkcss.github.io/groundwork/) or [BaseCSS](http://www.basscss.com). Now that you have an idea of how to hack the templates and set them up to use a responsive CSS toolkit, we can now go back and focus on finishing off the extra functionality that will really pull the application together.
+In this chapter we have described how to quickly style your Django application using the Bootstrap toolkit. Bootstrap is highly extensible and it is relatively easy to change themes - check out the [StartBootstrap Website](http://startbootstrap.com/) for a whole series of free themes. Alternatively, you might want to use a different CSS toolkit like: [Zurb](http://zurb.com), [Gridism](http://cobyism.com/gridism/), [Pure](https://purecss.io) or [GroundWorkd](https://groundworkcss.github.io/groundwork/). Now that you have an idea of how to hack the templates and set them up to use a responsive CSS toolkit, we can now go back and focus on finishing off the extra functionality that will really pull the application together.
 
 ![A screenshot of the Registration page with customised Bootstrap Styling.](images/ch12-styled-register.png)
 

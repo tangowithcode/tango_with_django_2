@@ -1,14 +1,31 @@
 {% extends "rango/base.html" %}
+
+
 	{% block body_block %}
-	    <h1>Login</h1>
-	    <form method="post" action=".">
-	        {% csrf_token %}
-	        {{ form.as_p }}
-	        <input type="submit" value="Log in" />
-	        <input type="hidden" name="next" value="{{ next }}" />
-	    </form>
-	    <p>
-	        Not  a member? 
-	        <a href="{% url 'registration_register' %}">Register</a>
-	    </p>
+	<link href="https://getbootstrap.com/docs/4.2/examples/signin/signin.css"
+	    rel="stylesheet">
+	<div class="jumbotron p-4">
+	    <h1 class="jumbotron-heading">Login</h1>
+	</div>
+	<div class="container">
+		<div class="row">
+	<form class="form-signin" role="form" method="post" action=".">
+	    {% csrf_token %}
+	    <h2 class="form-signin-heading">Please sign in</h2>
+	    <label for="inputUsername" class="sr-only">Username</label>
+	    <input type="text" name="username" id="id_username" class="form-control" 
+	           placeholder="Username" required autofocus>
+	    <label for="inputPassword" class="sr-only">Password</label>
+	    <input type="password" name="password" id="id_password" class="form-control"
+	           placeholder="Password" required>
+	    <button class="btn btn-lg btn-primary btn-block" type="submit" 
+	            value="Submit" />Sign in</button>
+	</form>
+</div>
+
+<div class="row pt-5">
+</div>
+	</div>
+	
+	
 	{% endblock %}

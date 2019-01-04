@@ -6,9 +6,16 @@
 	{% endblock %}
 
 	{% block body_block %}
- 	<h1>Add a Category</h1>
+	
+	
+	<div class="jumbotron p-4">
+		<div class="container">
+	 		<h1 class="jumbotron-heading">Add a Category</h1>
+		</div>
+	</div>
+<div class="container">
+	<div class="row">
 
-    <div>
 		<form id="category_form" method="post" action="{% url 'rango:add_category' %}">
 	                {% csrf_token %}
 	                {% for hidden in form.hidden_fields %}
@@ -16,11 +23,21 @@
 	                {% endfor %}
 	                {% for field in form.visible_fields %}
 	                    {{ field.errors }}
-	                    {{ field.help_text }}
-	                    {{ field }}
+	                    {{ field.help_text }}<br/>
+	                    {{ field }}<br/>
+						<div class="p-2"></div>
 	                {% endfor %}
-	                <input type="submit" name="submit" value="Create Category" />
+	               
+					
+			        <button class="btn btn-primary"
+			                type="submit" name="submit">
+			            Create Category
+			        </button>
+			 	   <div class="p-5"></div>
 	            </form>
-	        </div>
+
+
+   </div>
+</div>
 
 	{% endblock %}
