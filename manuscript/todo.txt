@@ -83,3 +83,7 @@ chapter 12
 	
 chapter 13
 	- some tests....chapter13-template-tags.md
+
+
+chapter 14
+	- check where the location of the bing.key should be

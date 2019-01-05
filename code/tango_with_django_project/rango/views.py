@@ -13,6 +13,7 @@ from rango.models import Page
 from rango.forms import CategoryForm
 from rango.forms import PageForm
 from rango.forms import UserForm, UserProfileForm
+from rango.bing_search import run_query, read_bing_key
 
 
 def index(request):
@@ -298,3 +299,18 @@ def visitor_cookie_handler(request):
 
     # Update/set the visits cookie
     request.session['visits'] = visits
+    
+    
+def search(request):
+    result_list = []
+    bing_key = read_bing_key()
+    
+    query = None
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:
+            # Run our Bing function to get the results list!
+            result_list = run_query(query, bing_key)
+            
+    return render(request, 'rango/search.html', {'result_list': result_list, 'query':query})
+
