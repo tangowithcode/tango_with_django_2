@@ -13,4 +13,4 @@ chapter12-bootstrap.md
 chapter13-template-tags.md
 chapter14-bing.md
 chapter15-rango-exercises.md
-chapter15-rango-hints.md
+chapter16-rango-hints.md
