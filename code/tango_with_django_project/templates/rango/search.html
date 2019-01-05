@@ -17,7 +17,7 @@
 	          method="post" action="{% url 'rango:search' %}">
 	        {% csrf_token %}
 	        <div class="form-group">
-	            <input class="form-control" type="text" size="50" 
+	            <input class="form-control" type="text" size="40" 
 	                   name="query" value="{{query}}" id="query" />
 	        </div>
 	        <button class="btn btn-primary" type="submit" name="submit"

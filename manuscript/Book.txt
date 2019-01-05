@@ -9,3 +9,8 @@ chapter8-templates.md
 chapter9-user-authentication.md
 chapter10-cookies.md
 chapter11-redux.md
+chapter12-bootstrap.md
+chapter13-template-tags.md
+chapter14-bing.md
+chapter15-rango-exercises.md
+chapter15-rango-hints.md

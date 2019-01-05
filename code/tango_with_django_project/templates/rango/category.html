@@ -23,27 +23,74 @@
 			
 	            <ul class="list-group">
 	            {% for page in pages %}
+                    <!--
 	                <li class="list-group-item"><a href="{{ page.url }}">{{ page.title }}</a></li>
+            	    -->
+                    <li class="list-group-item">
+            	        <a href="{% url 'rango:goto' %}?page_id={{page.id}}">{{ page.title }}</a>
+            	        {% if page.views > 1 %}
+            	            ({{ page.views }} views)
+            	        {% elif page.views == 1 %}
+            	            ({{ page.views }} view)
+            	        {% endif %}
+            	    </li>
+                    
 	            {% endfor %}
 	            </ul>
 	        {% else %}
 	            <strong>No pages currently in category.</strong>
 	        {% endif %}
+            
+            
 		
 	 	</div>
 	 	</div>
-		<div class="container">
+		
+
+	<div class="container p-4">
+		<div class="row">
+	    {% if user.is_authenticated %}
+	    <form class="form-inline" id="user_form" 
+	          method="post" action="{% url 'rango:show_category'  category.slug %}">
+	        {% csrf_token %}
+	        <div class="form-group">
+	            <input class="form-control" type="text" size="40" 
+	                   name="query" value="{{query}}" id="query" />
+	        </div>
+	        <button class="btn btn-primary" type="submit" name="submit"
+	                value="Search">Search</button>
+	    </form>
+	    
+	    <div>
+	        {% if result_list %}
+	        <!-- Display search results in an ordered list -->
+	        <div class="list-group">
+	        {% for result in result_list %}
+	            <div class="list-group-item">
+	                <h4 class="list-group-item-heading">
+	                    <a href="{{ result.link }}">{{ result.title|safe|escape}}</a>
+	                    </h4>
+	                    <p class="list-group-item-text">{{ result.summary|safe|escape }}</p>
+	            </div>
+	        {% endfor %}
+	        </div>
+	        {% endif %}
+	    </div>
+        {% endif %}
+        
+	</div>
+	</div>	        
+        
+		<div class="container p-2">
 			<div class="row">
-		
-			<div>
 			{% if user.is_authenticated %}
-	        <a href="{% url 'rango:add_page' category.slug %}">Add a Page</a>
+	            <a href="{% url 'rango:add_page' category.slug %}">Add a Page</a>
 			{% endif %}
-			</div>
-	    {% else %}
-	        The specified category does not exist!
-	    {% endif %}
+		    {% else %}
+	            The specified category does not exist!
+	        {% endif %}
+	 	    </div>
 	 	</div>
-	 	</div>
+        
  
 	{% endblock %}

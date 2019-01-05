@@ -31,12 +31,12 @@ def read_bing_key():
 	return bing_api_key
 
 
-def run_query(search_terms, bing_key):
+def run_query(search_terms):
 	"""
 	See the Microsoft's documentation on other parameters that you can set.
 	https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference
 	"""
-	
+	bing_key = read_bing_key()
 	search_url = 'https://api.cognitive.microsoft.com/bing/v7.0/search'
 	headers = {"Ocp-Apim-Subscription-Key" : bing_key}
 	params  = {"q": search_terms, "textDecorations":True, "textFormat":"HTML"}
@@ -55,12 +55,10 @@ def run_query(search_terms, bing_key):
 
 def main():
 
-	bing_api_key = read_bing_key()
-
 	print("Enter a query ")
 	query = input()
 
-	results = run_query(query, bing_api_key)	
+	results = run_query(query)	
 	for result in results:
 		print(result['title'])
 		print('-'*len(result['title']))

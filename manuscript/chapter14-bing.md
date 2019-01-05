@@ -68,12 +68,12 @@ Below we have provided the code that we can use to issue queries to the Bing sea
 	
 		return bing_api_key
 
-	def run_query(search_terms, bing_key):
+	def run_query(search_terms):
 		"""
 		See the Microsoft's documentation on other parameters that you can set.
 		https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference
 		"""
-		
+		bing_key = read_bing_key()
 		search_url = 'https://api.cognitive.microsoft.com/bing/v7.0/search'
 		headers = {"Ocp-Apim-Subscription-Key" : bing_key}
 		params  = {"q": search_terms, "textDecorations":True, "textFormat":"HTML"}
@@ -101,7 +101,7 @@ T> Keep them secret, keep them safe!
 
 
 ### `run_query()` - Executing the Query
-The `run_query()` function takes a query as a string and your API key, and returns the top ten results from Bing in a list that contains a dictionary of the result items (including the `title`, a `link`, and a `summary`). 
+The `run_query()` function takes a query as a string, and returns the top ten results from Bing in a list that contains a dictionary of the result items (including the `title`, a `link`, and a `summary`). 
 
 To summarise though, the logic of the `run_query()` function can be broadly split into six main tasks.
 
@@ -181,9 +181,9 @@ Let's first create a template called, `rango/search.html`. Add the following HTM
 	        {% for result in result_list %}
 	            <div class="list-group-item">
 	                <h4 class="list-group-item-heading">
-	                    <a href="{{ result.link }}">{{ result.title }}</a>
+	                    <a href="{{ result.link }}">{{ result.title|safe|escape}}</a>
 	                    </h4>
-	                    <p class="list-group-item-text">{{ result.summary }}</p>
+	                    <p class="list-group-item-text">{{ result.summary|safe|escape }}</p>
 	            </div>
 	        {% endfor %}
 	        </div>
@@ -199,7 +199,9 @@ The template code above performs two key tasks.
 	
 To style the HTML, we have made use of Bootstrap [jumbotron](https://getbootstrap.com/docs/4.2/components/jumbotron/), [list groups](https://getbootstrap.com/docs/4.2/components/list-group/), and [forms](https://getbootstrap.com/docs/4.2/components/forms/).
 
-In the view code, in the next subsection, we will only pass through the results to the template, when the user issues a query. Initially, there will be not results to show.
+To render the title and summary correctly, we have used the `safe` and `escape` tags to inform the template that the `result.title` and `result.summary` should be rendered as is (i.e. as HTML).
+
+In the view code, in the next subsection, we will only pass through the results to the template, when the user issues a query. Initially, there will be no results to show.
 
 ### Adding the View
 With our search template added, we can then add the view that prompts the rendering of our template. Add the following `search()` view to Rango's `views.py` module.
