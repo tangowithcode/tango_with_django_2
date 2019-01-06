@@ -65,6 +65,8 @@ Tests for chapter 4 and 5 regarding the views need to be updated. I think that w
 	
 
 
+We could add a link/reference to #section-hints-class-based-views. after the add_category view is implement to say that people can opt to implement class based views.
+
 Chapter 7
  - max_length exercise not done
 

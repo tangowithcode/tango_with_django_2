@@ -36,7 +36,16 @@
     <li class="nav-item "><a class="nav-link" href="{% url 'rango:about' %}">About</a></li>
 
 	{% if user.is_authenticated %}
+    <!-->
     <li class="nav-item "><a class="nav-link" href="{% url 'rango:restricted' %}">Restricted</a></li>
+    -->
+    <li class="nav-item ">
+    <a class="nav-link" href="{% url 'rango:list_profiles' %}">List Profiles</a>
+    </li>
+
+<li class="nav-item ">
+<a class="nav-link" href="{% url 'rango:profile' user.username %}">Profile</a></li>
+
     <li class="nav-item"><a class="nav-link" href="{% url 'rango:add_category' %}">Add Category</a></li>
     <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
 	{% else %}
