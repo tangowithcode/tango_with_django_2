@@ -478,3 +478,47 @@ def like_category(request):
             cat.likes =  likes
             cat.save()
     return HttpResponse(likes)
+    
+    
+def get_category_list(max_results=0, starts_with=''):
+    cat_list = []
+    if len(starts_with.strip())>0:
+        cat_list = Category.objects.filter(name__istartswith=starts_with)
+    
+    if max_results > 0:
+        if len(cat_list) > max_results:
+            cat_list = cat_list[:max_results]
+    return cat_list
+    
+    
+def suggest_category(request):
+    cat_list = []
+    starts_with = ''
+    
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
+        
+    cat_list = get_category_list(8, starts_with)
+    if len(cat_list) == 0:
+        cat_list = Category.objects.order_by('-likes')
+    
+    return render(request, 'rango/cats.html', {'cats': cat_list })
+    
+    
+def auto_add_page(request):
+    cat_id = None
+    url = None
+    title = None
+    context_dict = {}
+    if request.method == 'GET':
+        cat_id = request.GET['category_id']
+        url = request.GET['url']
+        title = request.GET['title']
+        if cat_id:
+            category = Category.objects.get(id=int(cat_id))
+            p = Page.objects.get_or_create(category=category, 
+                title=title, url=url)
+            pages = Page.objects.filter(category=category).order_by('-views')
+            # Adds our results list to the template context under name pages.
+            context_dict['pages'] = pages
+    return render(request, 'rango/page_list.html', context_dict)

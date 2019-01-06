@@ -1,4 +1,4 @@
-#JQuery and Django
+#JQuery and Django {#chapter-jquery}
 JQuery rocks! [JQuery](https://jquery.com/) is a library written in JavaScript that lets you access the power of JavaScript without too much pain. This is because a few lines of JQuery often encapsulates hundreds of lines of JavaScript. Also, JQuery provides a suite of functionality that is mainly focused on manipulating HTML elements. In this chapter, we will describe:
 
 - how to incorporate JQuery within your Django app;
@@ -9,15 +9,15 @@ JQuery rocks! [JQuery](https://jquery.com/) is a library written in JavaScript t
 In your *base* template include a reference to JQuery (we will be using version 3.3.1). You can do these either by including a reference directly to the JQuery site:
 
 {lang="html",linenos=off}
- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	
 or if you have downloaded and saved a copy to your static directory, then you can reference it as follows:
 
 {lang="html",linenos=off}
-	<script src="{% static "js/rjquery-3.3.1.slim.min.js" %}"></script>
+	<script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
 	<script src="{% static "js/rango-jquery.js" %}"></script>
 
-Note, that if you already done the [Bootstrap Chapter](#chapter-bootstrap), the JQuery library has already been imported, right at the bottom of the template.	
+Note, that if you already done the [Bootstrap Chapter](#chapter-bootstrap), the the SLIM version of the JQuery library has already been imported, right at the bottom of the template.	You will need to change it, otherwise you wont have access to the functions needed to perform AJAX calls in the next chapter!
 
 Make sure you have your static files set up (see [Chapter Templates and Static Media](#chapter-templates-static)) and that you have `	{% load staticfiles %}` at the top of `base.html`.
 

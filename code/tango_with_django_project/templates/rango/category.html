@@ -77,8 +77,14 @@
 	        <div class="list-group">
 	        {% for result in result_list %}
 	            <div class="list-group-item">
+                	{% if user.is_authenticated %}
+                	    <button data-catid="{{category.id}}" data-title="{{ result.title }}"
+                	        data-url="{{ result.link }}" 
+                	            class="rango-add btn btn-info btn-sm" type="button"><span data-feather="plus"></span>Add</button>
+                	{% endif %}
+                    
 	                <h4 class="list-group-item-heading">
-	                    <a href="{{ result.link }}">{{ result.title|safe|escape}}</a>
+                        <a href="{{ result.link }}">{{ result.title|safe|escape}}</a>
 	                    </h4>
 	                    <p class="list-group-item-text">{{ result.summary|safe|escape }}</p>
 	            </div>

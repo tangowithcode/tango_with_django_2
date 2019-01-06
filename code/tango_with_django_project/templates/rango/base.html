@@ -63,11 +63,15 @@
     <div class="container-fluid">
       <div class="row">
 		  <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-		       <div class="sidebar-sticky">
-		
+		       <div  class="sidebar-sticky">
+                   
+                   <input type="search" class="form-control ds-input" id="suggestion" placeholder="Search..." >
+                   
+		<div id="cats">
 	        {% block sidebar_block %}
 	            {% get_category_list category %}
 	        {% endblock %}
+        </div>
 			
 		 </div>
 	 </nav>
@@ -87,7 +91,7 @@
 
     <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js"  crossorigin="anonymous"></script>
        <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
        
          <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>

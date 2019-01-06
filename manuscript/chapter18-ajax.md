@@ -120,8 +120,8 @@ With the URL mapping, view, and template in place, you will need to update the `
 In the `base.html` template modify the sidebar block so that a div with an id="cats" encapsulates the categories being presented. The JQuery/AJAX will update this element. Before this `<div>` add an input box for a user to enter the letters of a category, i.e.:
 
 {lang="html",linenos=off}
-	<input  class="input-medium search-query" type="text" 
-	     name="suggestion" value="" id="suggestion" />
+	<input type="search" class="form-control ds-input" 
+        id="search-input" placeholder="Search..." >
 
 With these elements added into the templates, you can add in some JQuery to update the categories list as the user types.
 
@@ -154,15 +154,16 @@ In this helper function, we use a filter to find all the categories that start w
 Using the `get_category_list()` function, we can now create a view that returns the top eight matching results as follows:
 
 {lang="python",linenos=off}
-	def suggest_category(request):
-	    cat_list = []
-	    starts_with = ''
-	    
-	    if request.method == 'GET':
-	        starts_with = request.GET['suggestion']
-	    cat_list = get_category_list(8, starts_with)
-	    
-	    return render(request, 'rango/cats.html', {'cats': cat_list })
+    def suggest_category(request):
+        cat_list = []
+        starts_with = ''
+    
+        if request.method == 'GET':
+            starts_with = request.GET['suggestion']
+        
+        cat_list = get_category_list(8, starts_with)
+        if len(cat_list) == 0:
+            cat_list = Category.objects.order_by('-likes')
 
 Note here we are reusing the `rango/cats.html` template.
 
@@ -170,32 +171,22 @@ Note here we are reusing the `rango/cats.html` template.
 Add the following code to `urlpatterns` in `rango/urls.py`:
 
 {lang="python",linenos=off}
-	url(r'^suggest/$', views.suggest_category, name='suggest_category'),
+	path('suggest/', views.suggest_category, name='suggest_category'),
 
 ### Updating the Base Template
-In the base template, in the sidebar `<div>`, add in the following HTML markup:
+In the base template, in the sidebar `<nav>`, update the HTML template so that you have:
 
 {lang="html",linenos=off}
-	<ul class="nav nav-list flex-column">
-	    <li class="nav-item">Type to find a category</li>
-	    <form>
-	    <li class="nav-item"><input class="search-query form-control" type="text"
-	        name="suggestion" value="" id="suggestion" />
-	    </li>
-	    </form>
-	</ul>
-	<hr>
-	<div id="cats">
-	</div>
+    <div  class="sidebar-sticky">
+        <input type="search" class="form-control ds-input" id="suggestion" placeholder="Search..." >
+        <div id="cats">
+        {% block sidebar_block %}
+            {% get_category_list category %}
+        {% endblock %}
+        </div>
+     </div>
 
 Here, we have added in an input box with `id="suggestion"` and div with `id="cats"` in which we will display the response. We don't need to add a button as we will be adding an event handler on keyup to the input box that will send the suggestion request.
-
-Next remove the following lines from the template:
-
-{lang="html",linenos=off}
-	{% block sidebar_block %}
-	    {% get_category_list category %}
-	{% endblock %}
 
 ### Add AJAX to Request Suggestions
 Add the following JQuery code to the `js/rango-ajax.js`:
@@ -278,14 +269,21 @@ The HTML template markup for the new template `page_list.html`:
 	{% if pages %}
 	<ul>
 	    {% for page in pages %}
-	    <li><a href="{% url 'goto' %}?page_id={{page.id}}"\>{{ page.title }}</a></li>
-	    {% endfor %}
+        <li class="list-group-item">
+	        <a href="{% url 'rango:goto' %}?page_id={{page.id}}">{{ page.title }}</a>
+	        {% if page.views > 1 %}
+	            ({{ page.views }} views)
+	        {% elif page.views == 1 %}
+	            ({{ page.views }} view)
+	        {% endif %}
+	    </li>
+        {% endfor %}
 	</ul>
 	{% else %}
 	    <strong>No pages currently in category.</strong>
 	{% endif %}
 
-Finally, don't forget to add in the URL mapping:  `url(r'^add/$', views.auto_add_page, name='auto_add_page'),`.
+Finally, don't forget to add in the URL mapping:  `path('add/', views.auto_add_page, name='auto_add_page'),`.
 
 If all has gone well, hopefully, your Rango application will be looking something like screenshots below. But don't stop now, get on with the next chapters and deploy your project!
 
