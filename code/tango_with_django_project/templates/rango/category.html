@@ -13,6 +13,16 @@
  	<div class="jumbotron p-4">
  	<div class="container">
   		<h1 class="jumbotron-heading">{{ category.name }}</h1>
+        
+    	<div class="p-1">
+    	<strong id="like_count">{{ category.likes }}</strong> people like this category
+    	{% if user.is_authenticated %}
+    	    <button id="likes" data-catid="{{category.id}}" 
+    	        class="btn btn-primary btn-sm" type="button"> <span data-feather="thumbs-up"></span>
+    	        Like
+    	    </button>
+    	{% endif %}
+    	</div>
  	</div>
  	</div>
 	<div class="container">
