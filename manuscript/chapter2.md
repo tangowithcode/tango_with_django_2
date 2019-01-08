@@ -15,7 +15,7 @@ I> Setting up your development environment can be a tedious and frustrating proc
 I>
 I> From experience, we can also say with confidence that as you set your environment up it's a good idea to note down the steps that you took. You will probably need that workflow again one day -- maybe you will purchase a new computer, or be asked to help a friend set their environment up, too. *Don't think short-term, think long-term!*
 
-## Python 3
+## Python 3 {#chapter-getting-ready-python3}
 To work with Tango with Django, we require you to have installed on your computer a copy of the *Python 3* programming language. A Python version of 3.4 or greater should work fine with Django 2.1 -- although the official Django website recommends that you have the most recent version of Python installed. As such, we recommend you install *Python 3.7*. At the time of writing, the most recent release is *Python 3.7.2.* If you're not sure how to install Python and would like some assistance, have a look at [our quick guide on how to install Python](#section-system-setup-python).
 
 W> ## Running macOS, Linux or UNIX?
