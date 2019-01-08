@@ -22,8 +22,20 @@ However, [package managers make life easier](https://softwareengineering.stackex
 A prerequisite for using MacPorts is that you have Apple's *Xcode* environment installed. This download is several gigabytes in size. The easiest way to acquire this is through the App Store on your macOS installation. You'll need your Apple account to download that software. Once XCode has been installed, follow the following steps to setup MacPorts.
 
 1. Verify that XCode is installed by launching it. You should see a welcome screen. If you see this, quit the app.
-2. Open a Terminal window. Install the XCode command line tools by entering the command `$ xcode-select --install`. This will download additional software tools that will be required by XCode and additional development software that you later install.
-3. Agree to the XCode license, if you have not already. You can do this by entering the command `$ xcode-build license`. Read the terms to the bottom of the page, and type `Y` to complete -- but only if you agree to the terms!
+2. Open a Terminal window. Install the XCode command line tools by entering the command 
+   
+   {lang="bash",linenos=off}
+   	$ xcode-select --install
+   
+   This will download additional software tools that will be required by XCode and additional development software that you later install.
+   
+3. Agree to the XCode license, if you have not already. You can do this by entering the command 
+   
+   {lang="bash",linenos=off}
+   	$ xcode-build license
+   
+   Read the terms to the bottom of the page, and type `Y` to complete -- but only if you agree to the terms!
+   
 4. From [the MacPorts installation page](https://www.macports.org/install.php), download the MacPorts installer for your correct macOS version.
 5. On your Mac's Finder, open the directory where you downloaded the installer to, and double-click the file to launch the installation process.
 6. Follow the steps, and provide your password to install the software.
