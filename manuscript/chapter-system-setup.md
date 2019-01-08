@@ -3,7 +3,7 @@ This supplementary chapter provides additional setup guides that complement the 
 
 I> ### Common Guides
 I>
-I> This chapter provides instructions on how to set up the various technologies that you'll be using throughout Tango with Django that we believe will work on the largest number of systems. However, every computer setup is different -- different versions of software, different operating systems, etc. These differences make providing universal setup guides very difficult to do.
+I> This chapter provides instructions on how to set up the various technologies that you'll be using throughout Tango with Django that we believe will work on the largest number of systems. However, every computer setup is different, with different versions of software installed. These differences make providing universal setup guides very difficult to do.
 I> 
 I> If you are using this book as part of a course, you may be provided with setup instructions unique to your lab computers. Follow these instructions instead -- a majority of the setup work will likely be taken care of for you already.
 I>
@@ -32,8 +32,18 @@ A prerequisite for using MacPorts is that you have Apple's *Xcode* environment i
 Once the MacPorts installation has been completed, installing Python is straightforward.
 
 1. Open a new Terminal window. It is important that you launch a new window after MacPorts installation!
-2. Enter the command `$ sudo port install python37`. After entering your password, this will take a few minutes. Several dependencies will be required -- agree to these being installed by responding with `Y`.
-3. Once installation completes, activate your new Python installation. Enter the command `$ sudo port select --set python python37`.
+2. Enter the command
+   
+   {lang="bash",linenos=off}
+   	$ sudo port install python37
+   
+   After entering your password, this will take a few minutes. Several dependencies will be required -- agree to these being installed by responding with `Y`.
+   
+3. Once installation completes, activate your new Python installation. Enter the command
+   
+   {lang="bash",linenos=off}
+   	$ sudo port select --set python python37
+   
 4. Test that the command succeeds by issuing the command `$ python`. You should then see the interpreter for Python 3.7.2 (or whatever version you just installed).
 
 Once this has been completed, Python has been successfully installed and is ready to use. However, we still need to setup virtual environments to work with your installation.
@@ -41,29 +51,30 @@ Once this has been completed, Python has been successfully installed and is read
 1. Enter the following commands to install `virtualenv` and helper functions provided in the user-friendly wrapper.
    
    {lang="bash",linenos=off}
-    $ sudo port install py37-virtualenv
-	$ sudo port install py37-virtualenvwrapper
+   	$ sudo port install py37-virtualenv
+   	$ sudo port install py37-virtualenvwrapper
    
 2. Activate `py37-virtualenv` with the following command.
    
    {lang="bash",linenos=off}
-    $ sudo port select --set virtualenv virtualenv37
+   	$ sudo port select --set virtualenv virtualenv37
 
 3. Edit your `~/.profile` file. Add the following four lines at the end of the file.
    
    {lang="bash",linenos=off}
-    export VIRTUALENVWRAPPER_PYTHON='/opt/local/bin/python3.7'
-	export VIRTUALENVWRAPPER_VIRTUALENV='/opt/local/bin/virtualenv-3.7'
-	export VIRTUALENVWRAPPER_VIRTUALENV_CLONE='/opt/local/bin/virtualenv-clone-3.7'
-	source /opt/local/bin/virtualenvwrapper.sh-3.7
+   	export VIRTUALENVWRAPPER_PYTHON='/opt/local/bin/python3.7'
+   	export VIRTUALENVWRAPPER_VIRTUALENV='/opt/local/bin/virtualenv-3.7'
+   	export VIRTUALENVWRAPPER_VIRTUALENV_CLONE='/opt/local/bin/virtualenv-clone-3.7'
+   	source /opt/local/bin/virtualenvwrapper.sh-3.7
 
 4. Save the file and close all open Terminals. Open a new Terminal. Everything should now be working and ready for you to use.
 
-N> ### Installating Additional Software with MacPorts
-N>
-N> MacPorts provides an extensive, preconfigured library of open-source software suited specifically for development environments. When you need something new, it's a cinch to install. **For example,** you want to install the *LaTeX* typesetting system, search [the MacPorts ports list](https://www.macports.org/ports.php) -- the resultant package name being `texlive-latex`. This could then be installed with the command `$ sudo port install texlive-latex`. All software that LaTeX is dependent upon is also installed. This saves you significant amounts of time trying to find all the right bits of software to make things work.
-N>
-N> To view the packages MacPorts has already installed on your system, issue the command `$ port list installed`. You will see `python37` listed!
+
+I> ### Installating Additional Software with MacPorts
+I>
+I> MacPorts provides an extensive, preconfigured library of open-source software suited specifically for development environments. When you need something new, it's a cinch to install. **For example,** you want to install the *LaTeX* typesetting system, search [the MacPorts ports list](https://www.macports.org/ports.php) -- the resultant package name being `texlive-latex`. This could then be installed with the command `$ sudo port install texlive-latex`. All software that LaTeX is dependent upon is also installed. This saves you significant amounts of time trying to find all the right bits of software to make things work.
+I>
+I> To view the packages MacPorts has already installed on your system, issue the command `$ port list installed`. You will see `python37` listed!
 
 ### Linux Distributions
 There are many different ways in which you can download, install and run an updated version of Python on your Linux distribution. Methodologies unfortunately vary from distribution to distribution. To compound this, almost all distributions of Linux don't have a precompiled version of Python 3.7 ready for you to download and start using (at the time of writing), although the latest release of Ubuntu use Python 3.6 (which is sufficient).
@@ -77,68 +88,68 @@ W> In order to complete these steps, we assume you know the basics for Bash inte
 1. Install the required packages for Python to be built successfully. These are listed below, line by line. These can be entered into an Ubuntu Terminal as-is; slight modifications will be required for other Linux distributions.
    
    {lang="bash",linenos=off}
-    $ apt install wget
+   	$ apt install wget
    	$ apt install build-essential
-	$ apt install libssl-dev
-	$ apt install libffi-dev
-	$ apt install python-dev
-	$ apt install zlib1g-dev
-	$ apt install libbz2-dev
-	$ apt install libreadline-dev
-	$ apt install libsqlite3-dev
+   	$ apt install libssl-dev
+   	$ apt install libffi-dev
+   	$ apt install python-dev
+   	$ apt install zlib1g-dev
+   	$ apt install libbz2-dev
+   	$ apt install libreadline-dev
+   	$ apt install libsqlite3-dev
 
 2. Once the above packages are installed, download the source for Python 3.7.2. We create a `pytemp` directory to download the file to. We'll delete this once everything has completed.
    
    {lang="bash",linenos=off}
-    $ mkdir ~/pytemp
-	$ cd ~/pytemp
-    $ wget https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tgz
+   	$ mkdir ~/pytemp
+   	$ cd ~/pytemp
+   	$ wget https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tgz
 
 3. Extract the `.tgz` file.
    
    {lang="bash",linenos=off}
-    $ tar zxf Python-3.7.2.tgz
-	$ cd Python-3.7.2
+   	$ tar zxf Python-3.7.2.tgz
+   	$ cd Python-3.7.2
 
 4. Configure the Python source code for your computer, and build it. `altinstall` tells the installer to install the new version of Python to a different directory from the prexisting version of Python on your computer. You'll need to enter your password for the system to make the necessary changes. This process will take a few minutes, and you'll see a lot of output. Don't panic. This is normal. If the build fails, you haven't installed all of the necessary prerequisites. Check you have installed everything correctly from step 1, and try again.
    
    {lang="bash",linenos=off}
-    $ sudo ./configure --enable-optimizations
-	$ sudo make altinstall
+   	$ sudo ./configure --enable-optimizations
+   	$ sudo make altinstall
 
 5. Once complete, delete the source files. You don't need them anymore.
    
    {lang="bash",linenos=off}
-    $ cd ~
-	$ rm -rf ~/pytemp
+   	$ cd ~
+   	$ rm -rf ~/pytemp
 
 6. Attempt to run the new installation of Python. You should see the interpreter prompt for version 3.7.2, as expected.
    
    {lang="bash",linenos=off}
-    $ python3.7
-	Python 3.7.2 (default, Jan. 8 2019, 20:05:08)
-	[GCC 7.3.0] on linux
-	Type "help", "copyright", "credits" or "license" for more information
-	>>> quit()
-	$
+   	$ python3.7
+   	Python 3.7.2 (default, Jan. 8 2019, 20:05:08)
+   	[GCC 7.3.0] on linux
+   	Type "help", "copyright", "credits" or "license" for more information
+   	>>> quit()
+   	$
 
 7. By default, Python executables install to `/usr/local/bin`. Check this is correct for you. If not, run the `which` command to find out where it is installed. You'll need this path later.
    
    {lang="bash",linenos=off}
-    $ which python3.7
-	/usr/local/bin/python3.7
+   	$ which python3.7
+   	/usr/local/bin/python3.7
 
 8. Install `virtualenv` and `virtualenvwrapper` for your new Python installation.
    
    {lang="bash",linenos=off}
-    $ pip3.7 install virtualenv
-	$ pip3.7 install virtualenvwrapper
+   	$ pip3.7 install virtualenv
+   	$ pip3.7 install virtualenvwrapper
 
 9. Modify your `~/.bashrc` file, and include the following lines at the very bottom of the file. Note that if you are not using Ubuntu, you might need to edit `~/.profile` instead. Check the documentation of your distribution for more information. A simple text editor will allow you to do this, like `nano`.
    
    {lang="bash",linenos=off}
-    EXPORT VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
-	source /usr/local/bin/virtualenvwrapper.sh
+   	EXPORT VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
+   	source /usr/local/bin/virtualenvwrapper.sh
 
 10. Restart your Terminal. Python 3.7.2 will now be setup and ready for you to use, along with the `pip` and `virtualenv` tools.
 
@@ -158,16 +169,13 @@ Once the installer is complete, you should have a working version of Python 3.7 
 Once you are sure that Python is installed correctly, you need to install virtual environment support. Issue the following two commands, and then restart all open Command Prompt windows.
 
 {lang="bash",linenos=off}
-$ pip install virtualenv
-$ pip install virtualenvwrapper-win
+	$ pip install virtualenv
+	$ pip install virtualenvwrapper-win
 
 Once completed, everything should be set up and ready for you to use.
 
 {id="fig-ch4setup-pywin-3"}
 ![Configuring Python 3.7.2 on Windows 10 x64 -- allowing the installation to be run by all users.](images/chsetup-pywin-3.png)
-
-{id="fig-ch4setup-pywin-4"}
-![Python on Windows 10 x64. Note the correct version of the Python interpreter, 3.7.2, is launched.](images/chsetup-pywin-4.png)
 
 ## Virtual Environments {#section-system-setup-virtualenv}
 By default, when you install software for Python, it is installed *system-wide*. All Python applications can see the new software and make use of it. However, issues can occur with this setup. [Earlier in the book](#chapter-getting-ready-venv), we discussed a scenario of two pieces of software requiring two different versions of the *same dependency*. This presents a headache; you cannot typically install two differing versions of the same software into your Python environment!
@@ -182,7 +190,7 @@ The four basic commands one would use to manipulate virtual environments are lis
 * `rmvirtualenv <name>` deletes a virtual environment of name `<name>`.
 * `lsvirtualenv` lists all user-created virtual environments.
 
-Following the examples above, we can then create an environment for each, installing the required software in the relevant environment. For `ProjectA`, the environment is called `projAENV` -- `projBENV` is used for `ProjectB`. Note that to install software to the respective environments, we use `pip`. The commands used for `pip` [are discussed below.](#section-system-setup-pip)
+Following the examples above, we can then create an environment for each, installing the required software in the relevant environment. For `ProjectA`, the environment is called `projAENV`, with `projBENV` used for `ProjectB`. Note that to install software to the respective environments, we use `pip`. The commands used for `pip` [are discussed below.](#section-system-setup-pip)
 
 {lang="bash",linenos=off}
 	$ mkvirtualenv projAENV
