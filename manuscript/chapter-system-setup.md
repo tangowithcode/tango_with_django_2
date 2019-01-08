@@ -173,8 +173,33 @@ Once completed, everything should be set up and ready for you to use.
 
 
 ## Using `pip`
-The Python package manager is very straightforward to use, and allows you to keep track of the various Python packages (software) that you have installed. We highly recommend that you use `pip` alongside a virtual environment, 
+The Python package manager is very straightforward to use, and allows you to keep track of the various Python packages (software) that you have installed. We highly recommend that you use `pip` alongside a virtual environment, as packages installed using `pip` appear only within the said virtual environment.
 
+When you find a package that you want to install, the command required is `$ pip install <packagename>==<version>`. Note that the version component is optional; omitting the version of a particular package will meant that the latest available version is installed.
+
+You can find the name of a package by examining the [*PyPi package index*](https://pypi.org/), from which `pip` downloads software. Simply search or browse the index to find what you are looking for. Once you know the package's name, you can issue the installation command in your Terminal or Command Prompt.
+
+`pip` is also super useful for listing packages that are installed in your environment. This can be achieved through the `pip freeze` command. Sample output is issued below.
+
+{lang="bash",linenos=off}
+	(rangoenv) $ pip freeze
+	Django==2.1.5
+	Pillow==5.0.0
+	pytz==2018.9
+
+This shows that three packages are installed in a given environment: `Django`, `Pillow` and `pytz`. The output from this command is typically saved to a file called `requirements.txt`, stored in the root directory of a Python project. If somebody wants to use your software, they can then download your software -- complete with the `requirements.txt` file. Using this file, they can then create a new virtual environment set up with the required packages to make the software work.
+
+If you find yourself in a situation like this, you run `pip` with the `-r` switch. Given a `requirements.txt` in a directory `downloaded_project` with only `pytz==2018.9` listed, an example CLI session would therefore involve something like the following.
+
+{lang="bash",linenos=off}
+	$ cd downloaded_project
+	$ mkvirtualenv someenv
+	(someenv) $ pip install -r requirements.txt
+	...
+	(someenv) $ pip freeze
+	pytz==2018.9
+
+`pip install` installs packages from `requirements.txt`, and `pip freeze`, once everything has been installed, demonstrates that the packages have been installed correctly.
 
 ## Version Control System
 When developing code, it's highly recommended that you house your codebase within a version controlled respository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We have provided a [chapter on how to use Git](#chapter-git) if you haven't used Git and GitHub before. We highly recommend that you set up a Git repository for your own projects. Doing so could save you from disaster.
