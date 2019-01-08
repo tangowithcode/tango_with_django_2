@@ -1,16 +1,53 @@
-# Getting Ready to Tango
-Before we start coding, it's really important that we set your development environment up correctly so that you can *Tango with Django* easily. You'll need to make sure that you have all of the necessary components installed on your computer, and that they are configured correctly. This chapter outlines the five key components you'll need to be aware of, setup and use. These are:
+# Getting Ready to Tango {#chapter-getting-ready}
+Before we start coding, it's really important that we set your development environment up correctly so that you can *Tango with Django* easily. You'll need to make sure that you have all of the necessary components installed on your computer, and that they are configured correctly. This chapter outlines the six key components you'll need to be aware of, setup and use. These are:
 
 * the [terminal](https://en.wikipedia.org/wiki/Terminal_emulator) (on macOS or UNIX/Linux systems), or the [Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) (on Windows);
-* *Python*, including how to code and run Python scripts;
+* *Python 3*, including how to code and run Python scripts;
 * the Python Package Manager *pip*;
 * *Virtual Environments*;
 * your *Integrated Development Environment (IDE)*, if you choose to use one; and
 * a *Version Control System (VCS)* called *Git*.
 
+If you already have Python 3 and Django 2 installed on your computer and are familar with the technologies listed above, you can skip straight ahead to the [Django Basics chapter](#chapter-django-basics). If you are not familiar with some or all of the technologies listed, we provide an overview of each below. These go hand in hand with later [supplementary chapter](#chapter-system-setup) that provide a series of pointers on how to set the different components up, if you need help doing so.
+
+I> ### You Development Environment is Important!
+I> Setting up your development environment can be a tedious and frustrating process. It's not something that you would do everyday. The pointers we provide in this chapter (and the [additional supplementary chapter](#chapter-system-setup)) should help you in getting everything to a working state. The effort you expend now in making sure everything works will ensure that development can proceed unhindered.
+I>
+I> From experience, we can also say with confidence that as you set your environment up it's a good idea to note down the steps that you took. You will probably need that workflow again one day -- maybe you will purchase a new computer, or be asked to help a friend set their environment up, too. *Don't think short-term, think long-term!*
+
+## Python 3
+To work with Tango with Django, we require you to have installed on your computer a copy of the *Python 3* programming language. A Python version of 3.4 or greater should work fine with Django 2.1 -- although the official Django website recommends that you have the most recent version of Python installed. As such, we recommend you install *Python 3.7*. At the time of writing, the most recent release is *Python 3.7.2.* If you're not sure how to install Python and would like some assistance, have a look at [our quick guide on how to install Python](#section-system-setup-python).
+
+W> ## Running macOS, Linux or UNIX?
+W>
+W> On installations of macOS, Linux or UNIX, you will find that Python is already installed on your computer -- albeit a much older version, typically 2.x. This version is required by your operating system to perform essential tasks such as downloading and installing updates. While you can use this version, it most likely won't be compatiable with Django 2, and you'll need to install a newer version of Python to run *side-by-side* with the old installation. *Do not uninstall Python 2.x* if it is already present on your system; you may break your operating system!
+
+I> ## Python Skills Rusty?
+I>
+I> If you haven't used Python before -- or you simply want to brush up on you skills -- then we highly recommend that you check out and work through one or more of the following guides:
+I>
+I> * [**The Official Python Tutorial**](http://docs.python.org/3/tutorial/);
+I> * [**Think Python: How to Think like a Computer Scientist**](http://www.greenteapress.com/thinkpython/) by Allen B. Downey; or
+I> * [**Learn Python in 10 Minutes**](http://www.korokithakis.net/tutorials/python/) by Stavros;
+I> * [**Learn to Program**](https://www.coursera.org/course/programming1) by Jennifer Campbell and Paul Gries.
+I>
+I> These guides will help you familiarise yourself with the basics of Python so you can start developing with Django. Note you don't need to be an expert in Python to work with Django -- Python is straightforward to use, and you can pick it up as you go, especially if you already know another programming language.
+
+## The Python Package Manager
+
+## Virtual Environments
+
+## Integrated Development Environment
+
+## Version Control System
 
 
-## OLD
+
+
+
+
+
+<!-- ## OLD
 
 
 Before we get down to coding, it's really important that we get our development environment setup so that you can *Tango with Django!* You'll need to ensure that you have all the necessary components installed on your computer. This chapter outlines the five key components that you need to be aware of, setup and use. These are listed below.
@@ -33,7 +70,7 @@ To work with Tango with Django, we require you to have installed on your compute
 
 I> ### Not sure how to use Python?
 I> If you haven't used Python before - or you simply wish to brush up on your skills - then we highly recommend that you check out and work through one or more of the following guides:
-I> 
+I>
 I> * [**Learn Python in 10 Minutes**](http://www.korokithakis.net/tutorials/python/) by Stavros;
 I> * [**The Official Python Tutorial**](http://docs.python.org/2/tutorial/);
 I> * [**Think Python: How to Think like a Computer Scientist**](http://www.greenteapress.com/thinkpython/) by Allen B. Downey; or
@@ -57,7 +94,7 @@ Try and run pip with the command `$ pip`. If the command is not found, you'll ne
 I> ### Problems Installing `pillow`?
 I> When installing Pillow, you may receive an error stating that the installation failed due to a lack of JPEG support.
 I> This error is shown as the following:
-I> 
+I>
 I> {lang="text",linenos=off}
 I> 	ValueError: jpeg is required unless explicitly disabled using
 I> 	            --disable-jpeg, aborting
@@ -91,20 +128,20 @@ We use PyCharm as it supports virtual environments and Django integration - thou
 We should also point out that when you develop code, you should always house your code within a version-controlled repository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We won't be explaining this right now, so that we can get stuck into developing an application in Django. We have however written a [chapter providing a crash course on Git](#chapter-git) for your reference that you can refer to later on. **We highly recommend that you set up a Git repository for your own projects.**
 
 X> ###Exercises
-X> 
+X>
 X> To get comfortable with your environment, try out the following exercises.
-X> 
+X>
 X>  - Install Python 3.4+ and Pip3.
 X>  - Play around with your *command line interface (CLI)* and create a directory called `code`,  which we use to create our projects in.
 X>  - Setup your Virtual Environment (optional)
 X>  - Install the Django and Pillow packages
 X>  - Setup an account on a Git Repository site like: GitHub, BitBucket, etc if you haven't already done so.
 X>  - Download and setup an Integrated Development Environment like [PyCharm](https://www.jetbrains.com/pycharm/)
-X> 
+X>
 X>  As previously stated, we've made the code for the book and application available on our [GitHub repository](https://github.com/leifos/tango_with_django_19/).
-X> 
+X>
 X>  - If you spot any errors or problem, please let us know by making a change request on GitHub.
 X>  - If you have any problems with the exercises, you can check out the repository to see how we completed them.
 
 D> ### What is a Directory?
-D> In the text above, we refer to creating a *directory*. But what exactly is a *directory*? If you have used a Windows computer up until now, you'll know a directory as a *folder*. The concept of a folder is analogous to a directory - it is a cataloguing structure that contains references to other files and directories.
+D> In the text above, we refer to creating a *directory*. But what exactly is a *directory*? If you have used a Windows computer up until now, you'll know a directory as a *folder*. The concept of a folder is analogous to a directory - it is a cataloguing structure that contains references to other files and directories. -->

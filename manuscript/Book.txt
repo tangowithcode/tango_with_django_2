@@ -16,4 +16,4 @@ chapter15-rango-exercises.md
 chapter16-rango-hints.md
 chapter17-jquery.md
 chapter18-ajax.md
-
+chapter-system-setup.md
