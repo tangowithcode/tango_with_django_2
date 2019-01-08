@@ -33,7 +33,7 @@ I> * [**Learn to Program**](https://www.coursera.org/course/programming1) by Jen
 I>
 I> These guides will help you familiarise yourself with the basics of Python so you can start developing with Django. Note you don't need to be an expert in Python to work with Django -- Python is straightforward to use, and you can pick it up as you go, especially if you already know another programming language.
 
-## Virtual Environments
+## Virtual Environments {#chapter-getting-ready-venv}
 With a working installation of Python 3 (and the basic programming skills to go with it), we can now setup our environment for the Django project (called Rango) we'll be creating in this tutorial. One super useful tool we *strongly* encourage you to use is a virtual environment. Although not strictly necessary, it provides a useful separation between your computer's Python installation and the environment you'll be using to develop Rango with.
 
 A virtual environment allows for multiple installations of Python packages to exist in harmony, within unique *Python environments*. Why is this useful? Say you have a project, `projectA` that you want to run in Django 1.11, and a further project, `projectB` written for Django 2.1. This presents a problem as you would normally only be able to install one version of the required software at a time. By creating virtual environments for each project, you can then install the respective versions of Django (and any other required Python software) within each unique environment. This ensures that the software installed in one environment does not tamper with the software installed on another.

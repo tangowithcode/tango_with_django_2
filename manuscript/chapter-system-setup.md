@@ -170,9 +170,81 @@ Once completed, everything should be set up and ready for you to use.
 ![Python on Windows 10 x64. Note the correct version of the Python interpreter, 3.7.2, is launched.](images/chsetup-pywin-4.png)
 
 ## Virtual Environments {#section-system-setup-virtualenv}
+By default, when you install software for Python, it is installed *system-wide*. All Python applications can see the new software and make use of it. However, issues can occur with this setup. [Earlier in the book](#chapter-getting-ready-venv), we discussed a scenario of two pieces of software requiring two different versions of the *same dependency*. This presents a headache; you cannot typically install two differing versions of the same software into your Python environment!
 
+The solution to this is to use a *virtual environment*. Using a virtual environment, each different piece of software that you wish to run can be given its own environment, and by definition, its own set of installed dependencies. If you have `ProjectA` requiring Django 1.11 and `ProjectB` requiring Django 2.1, you could create a virtual environment for each with their own packages installed.
 
-## Using `pip`
+The four basic commands one would use to manipulate virtual environments are listed below.
+
+* `mkvirtualenv <name>` creates and activates a new virtual environment of name `<name>`.
+* `workon <name>` switches on a virtual environment of name `<name>`.
+* `deactivate` switches off a virtual environment you are currently using.
+* `rmvirtualenv <name>` deletes a virtual environment of name `<name>`.
+* `lsvirtualenv` lists all user-created virtual environments.
+
+Following the examples above, we can then create an environment for each, installing the required software in the relevant environment. For `ProjectA`, the environment is called `projAENV` -- `projBENV` is used for `ProjectB`. Note that to install software to the respective environments, we use `pip`. The commands used for `pip` [are discussed below.](#section-system-setup-pip)
+
+{lang="bash",linenos=off}
+	$ mkvirtualenv projAENV
+	(projAENV) $ pip install Django==1.11
+	(projAENV) $ pip freeze
+	Django==1.11
+	
+	(projAENV) $ deactive
+	$ pip
+	<Command not found>
+	
+	$ workon projAENV
+	$ pip freeze
+	Django=1.11
+	
+	(projAENV) $ cd ProjectA/
+	(projAENV) $ python manage.py runserver
+	...
+
+The code blocks above create the new virtual environment, `projAENV`. We then install Django 1.11 to that virtual environment, before issuing `pip freeze` to list the installed packages -- confirming that Django was installed. We then deactivate the virtual environment. `pip` then cannot be found as we are no longer in the virtual environment! By switching the virtual environment back on with `workon`, our Django package can once again be found. The final two commands launch the Django development server for `ProjectA`.
+
+We can then create a secondary virtual environment, `projBENV`.
+
+{lang="bash",linenos=off}
+	$ mkvirtualenv projBENV
+	(projBENV) $ pip install Django==2.1
+	(projBENV) $ pip freeze
+	Django==2.1
+	
+	(projBENV) $ cd ProjectA/
+	(projBENV) $ python manage.py runserver
+	<INCORRECT PYTHON VERSION!>
+	
+	(projBENV) $ workon projAENV
+	(projAENV) $ python manage.py runserver
+	
+	(projAENV) $ workon projBENV
+	(projBENV) $ cd ProjectB/
+	$ python manage.py runserver
+	...
+
+We create our new environment with the `mkvirtualenv` command. This creates and activates `projBENV`. However, when trying to launch the code for `ProjectA`, we get an error! We are using the wrong virtual environment. By switching to `projAENV` with `workon projAENV`, we can then launch the software correctly. This demonstrates the power of virtual environments, and the advantages that they can bring. [Further tutorials can be found online.](https://realpython.com/python-virtual-environments-a-primer/)
+
+T> ## `workon` and `deactivate`
+T>
+T> Start your session by switching on your virtual environment with the `workon` command. Finish your session by closing it with `deactivate`.
+T>
+T> You can tell if a virtual environment is active by the brackets before your prompt, like `(envname) $`. This means that virtual environment `envname` is currently switched on, with its settings loaded. Turn it off with `deactivate` and the brackets will disappear.
+
+T> ## Multiple Python Versions
+T>
+T> If you have multiple versions of Python installed, you can choose what version of Python to use when you create a virtual environment. If you have installations for `python` (which launches 2.7.15) and `python3` (which launches 3.7.2), you can issue the following command to create a Python 3 virtual environment.
+T>
+T> {lang="bash",linenos=off}
+T> 	$ mkvirtualenv -p python3 someenv
+T> 	$ python
+T> 	$ Python 3.7.2
+T> 	>>>
+T>
+T> Note that when you enable your virtual environment, the command you enter to start Python is simply `python`. The same is applied for `pip` -- if you launch `pip3` outside a virtual environment, `pip` will be the command you use inside the virtual environment.
+
+## Using `pip` {#section-system-setup-pip}
 The Python package manager is very straightforward to use, and allows you to keep track of the various Python packages (software) that you have installed. We highly recommend that you use `pip` alongside a virtual environment, as packages installed using `pip` appear only within the said virtual environment.
 
 When you find a package that you want to install, the command required is `$ pip install <packagename>==<version>`. Note that the version component is optional; omitting the version of a particular package will meant that the latest available version is installed.
