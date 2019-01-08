@@ -9,7 +9,7 @@ I> If you are using this book as part of a course, you may be provided with setu
 I>
 I> However, if you are working solo and you follow the instructions provided in this chapter without success, we recommend heading to your favourite search engine and entering the problem you're having. Typically, this will involve copying and pasting the error message you see at whatever step you're struggling at. By pasting in the message verbatim, chances are you'll find someone who suffered the same issue as you -- and from that point, you'll hopefully find a solution to resolve your problem.
 
-## Installing Python 3 {#section-system-setup-python}
+## Installing Python 3 and `pip` {#section-system-setup-python}
 How do you go about installing Python 3.7 on your computer? This section answers that question. As we [discussed previously](#chapter-getting-ready-python3), you may find that you already have Python installed on your computer. If you are using a Linux distribution or macOS, you will definitely have it installed. Some of your operating system's functionality [is implemented in Python](http://en.wikipedia.org/wiki/Yellowdog_Updater,_Modified), hence the need for an interpreter! Unfortunately, most modern operating systems that come preloaded with Python use a version that is much older than what we require. Exceptions include Ubuntu, coming with version 3.6.5 which should be sufficient for your needs. If you do need to install 3.7, we must install this version of Python side-by-side with the old one.
 
 There's many different ways in which you can install Python. We demonstrate here the most common approaches that you can use on Apple's macOS, various Linux distributions and Windows 10. Pick the section associated with your operating system to proceed. Note that we favour the use of [package managers](https://en.wikipedia.org/wiki/Package_manager) where appropriate to ensure that you have the means of maintaining and updating the software easily (when required).
@@ -169,16 +169,26 @@ Once completed, everything should be set up and ready for you to use.
 {id="fig-ch4setup-pywin-4"}
 ![Python on Windows 10 x64. Note the correct version of the Python interpreter, 3.7.2, is launched.](images/chsetup-pywin-4.png)
 
-## The Python Package Manager {#section-system-setup-pip}
-
 ## Virtual Environments {#section-system-setup-virtualenv}
 
 
-on Windows
+## Using `pip`
+The Python package manager is very straightforward to use, and allows you to keep track of the various Python packages (software) that you have installed. We highly recommend that you use `pip` alongside a virtual environment, 
 
-pip install virtualenv
-pip install virtualenvwrapper-win
 
-then the commands should work fine.
+## Version Control System
+When developing code, it's highly recommended that you house your codebase within a version controlled respository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We have provided a [chapter on how to use Git](#chapter-git) if you haven't used Git and GitHub before. We highly recommend that you set up a Git repository for your own projects. Doing so could save you from disaster.
 
-## Git Version Control System
+To use Git, we recommend that you use the command-line tool to interact with your repositories. This is done through the `git` command. On Windows, you'll need to [download Git from the Git website](https://git-scm.com/download/win). If using macOS or Linux, the [Git website also has downloadable installers for you to use](https://git-scm.com/downloads). However, why not get into the habit of using a package manager to install the software? This is generally the recommended way for downloading and using software developed on the UNIX design principles (including macOS).
+
+For example, installing Git is as simple as typing `$ sudo apt install git`. Let the software download, and the `apt` package manager takes care of the rest. If you installed MacPorts on your macOS installation as described above, Git will already be present for you as it is part of the Apple XCode Command Line Developer Tools.
+
+Once installed, typing `git` will show the commands you can use, as shown in the example below.
+
+{lang="bash",linenos=off}
+	$ git
+	usage: git [--version] [--help] [-C <path>] [-c name=value]
+	       [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+	       [-p | --paginate | --no-pager] [--no-replace-objects] [--bare]
+	       [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+	       <command> [<args>]
