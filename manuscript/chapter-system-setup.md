@@ -1,7 +1,7 @@
 #Setting up your System {#chapter-system-setup}
 This supplementary chapter provides additional setup guides that complement the [initial setup chapter](#chapter-getting-ready). We provide setup guides for installing and configuring the various technologies that you will be using within Tango with Django. Refer to the section that is relevant to you; you do not need to work through all of this chapter if things are already working for you.
 
-I> ## Common Guides
+I> ### Common Guides
 I>
 I> This chapter provides instructions on how to set up the various technologies that you'll be using throughout Tango with Django that we believe will work on the largest number of systems. However, every computer setup is different -- different versions of software, different operating systems, etc. These differences make providing universal setup guides very difficult to do.
 I> 
@@ -38,7 +38,7 @@ Once the MacPorts installation has been completed, installing Python is straight
 
 Once this has been completed, Python has been successfully installed and is ready to use. You'll want to check later sections of this chapter referring to virtual environments and pip to ensure these are installed and setup correctly.
 
-N> ## Installating Additional Software with MacPorts
+N> ### Installating Additional Software with MacPorts
 N>
 N> MacPorts provides an extensive, preconfigured library of open-source software suited specifically for development environments. When you need something new, it's a cinch to install. **For example,** you want to install the *LaTeX* typesetting system, search [the MacPorts ports list](https://www.macports.org/ports.php) -- the resultant package name being `texlive-latex`. This could then be installed with the command `$ sudo port install texlive-latex`. All software that LaTeX is dependent upon is also installed. This saves you significant amounts of time trying to find all the right bits of software to make things work.
 N>
@@ -47,11 +47,43 @@ N> To view the packages MacPorts has already installed on your system, issue the
 ### Linux Distributions
 There are many different ways in which you can download, install and run an updated version of Python on your Linux distribution. Methodologies unfortunately vary from distribution to distribution. This makes providing a sequence of instructions working across all distributions difficult. However, tools such as `pyenv` make installing different versions of Python across distributions much more straightforward.
 
-We've worked out a series of steps that you can follow to download and install Python 3.7 on your Linux computer. These have been tested in Ubuntu; other distributions should also work.
+We've worked out a series of steps that you can follow to download and install Python 3.7 on your Linux computer. These have been tested in Ubuntu; other distributions should also work with minor tweaks for the packages. A cursory search on your favorite search engine should reveal the correct command to enter. For example, on a *Red Hat Enterprise Linux* installation, the system package manager is `yum` instead of `apt`.
+
+1. While `pyenv` makes it easy to install multiple versions of Python, you do need prerequisites to be present on your system for the Python installation to succeed. Issue the following command.
+   
+   {lang="bash",linenos=off}
+   	apt install curl git build-essential libssl-dev libffi-dev python-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
+
+2. So do the next step.
+
+<!-- 1. INSTALL PREREQS
 
 1. If you're using a graphical environment, open a new Terminal window.
 2. Issue `$ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash` to download the `pyenv` installer, and start it.
-3. 
+3.
+ -->
+
+prereqs
+	curl
+	git
+	apt install build-essential libssl-dev libffi-dev python-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
+	
+	bz2
+	readline libreadline-dev
+	sqlite3 libsqlite3-dev
+
+append to end of .bashrc file
+	export PATH="~/.pyenv/bin:$PATH"
+	eval "$(pyenv init -)"
+	eval "$(pyenv virtualenv-init -)"
+
+restart terminal
+
+pyenv update
+
+pyenv install 3.7.2
+
+
  
 ### Windows {#section-system-setup-python-windows}
 By default, Microsoft Windows comes with no installation of Python. This means that you do not have to worry about leaving existing installations alone; installing from scratch should work just fine. You can download a 64-bit of 32-bit version of Python from [the official Python website](http://www.python.org/download/). If you aren't sure what one to download, you can determine if your computer is 32-bit or 64-bit by looking at the instructions provided [on the Microsoft website](https://support.microsoft.com/en-gb/help/13443/windows-which-operating-system).

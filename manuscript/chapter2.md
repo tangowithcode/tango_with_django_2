@@ -18,7 +18,7 @@ I> From experience, we can also say with confidence that as you set your environ
 ## Python 3 {#chapter-getting-ready-python3}
 To work with Tango with Django, we require you to have installed on your computer a copy of the *Python 3* programming language. A Python version of 3.4 or greater should work fine with Django 2.1 -- although the official Django website recommends that you have the most recent version of Python installed. As such, we recommend you install *Python 3.7*. At the time of writing, the most recent release is *Python 3.7.2.* If you're not sure how to install Python and would like some assistance, have a look at [our quick guide on how to install Python](#section-system-setup-python).
 
-W> ## Running macOS, Linux or UNIX?
+W> ### Running macOS, Linux or UNIX?
 W>
 W> On installations of macOS, Linux or UNIX, you will find that Python is already installed on your computer -- albeit a much older version, typically 2.x. This version is required by your operating system to perform essential tasks such as downloading and installing updates. While you can use this version, it most likely won't be compatiable with Django 2, and you'll need to install a newer version of Python to run *side-by-side* with the old installation. *Do not uninstall Python 2.x* if it is already present on your system; you may break your operating system!
 
@@ -59,7 +59,7 @@ Going hand in hand with virtual environments, we'll also be making use of the Py
 
 A package manager, whether for Python, your [operating system](https://en.wikipedia.org/wiki/Advanced_Packaging_Tool) or [some other environment](https://docs.npmjs.com/cli/install), is a software tool that automates the process of installing, upgrading, configuring and removing *packages* -- that is, a package of software which you can use on your computer. This is opposed to downloading, installing and maintaining software manually. Maintaining Python packages is pretty painful. Most packages often have *dependencies* -- additional packages that are required for your package to work! This can get very complex very quickly. A package manager handles all of this for you, along with issues such as conflicts regarding different versions of a package. Luckily, *pip* handles all this for you -- so you can sit back and relax.
 
-Try and run the command `$ pip3` for the Python 3 version of the package manager. If that doesn't work on your computer, simply try `$ pip`. If that doesn't work either, you have a setup issue -- refer to our [pip setup guide](#section-system-setup-pip) for help.
+Try and run the command `$ pip3` for the Python 3 version of the package manager. If that doesn't work, you have a setup issue -- refer to our [pip setup guide](#section-system-setup-pip) for help.
 
 With your virtual environment switched on, execute the following two commands to install Django and Pillow.
 
@@ -86,6 +86,10 @@ I> 	                   --global-option="--disable-jpeg"
 I>
 I> While you obviously will have a lack of support for handling JPEG images, Pillow should then install without problem. Getting Pillow installed is enough for you to get started with this tutorial. For further information, check out the [Pillow documentation](https://pillow.readthedocs.io/en/stable/installation.html).
 
+T> ### Working within in a Virtual Environment
+T>
+T> Substitute `pip3` with `pip` when working within your virtual environment. The command `pip` is aliased to the correct one for your virtual environment.
+
 ## Integrated Development Environment
 While not absolutely necessary, a good Python-based IDE can be very helpful to you during the development process. Several exist, with perhaps [*PyCharm*](http://www.jetbrains.com/pycharm/) by JetBrains and *PyDev* (a plugin of the [Eclipse IDE](http://www.eclipse.org/downloads/)) standing out as popular choices. The [Python Wiki](http://wiki.python.org/moin/IntegratedDevelopmentEnvironments) provides an up-to-date list of Python IDEs.
 
@@ -96,12 +100,12 @@ We use PyCharm as it supports virtual environments and Django integration -- tho
 ## Version Control System
 We should also point out that when you develop code, you should always house your code within a version-controlled repository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We won't be explaining this right now, so that we can get stuck into developing an application in Django. We have however written a [chapter providing a crash course on Git](#chapter-git) for your reference that you can refer to later on. **We highly recommend that you set up a Git repository for your own projects.**
 
-X> ###Exercises
+X> ### Exercises
 X>
 X> To get comfortable with your environment, try out the following exercises.
 X>
 X>  - Get up to speed with Python if you're new to the language. Try out one or more of the tutorials we list earlier.
-X>  - Install Python 3.7. Make sure `pip3` (or `pip`) is also installed and works on your computer.
+X>  - Install Python 3.7. Make sure `pip3` (or `pip` with your virtual environment) is also installed and works on your computer.
 X>  - Play around with your *command line interface (CLI)*, whether it be the Command Prompt (Windows) or a Terminal (macOS, Linux, UNIX, etc.) and create a directory called `code`,  which we use to create our projects in.
 X>  - Create a new virtual environment using Python 3.7. This is optional; but we *strongly encourage you to use virtual environments.*
 X>  - Within your environment, install Django 2.1.5 and Pillow 5.0.0.
