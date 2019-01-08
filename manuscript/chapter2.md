@@ -1,4 +1,18 @@
 # Getting Ready to Tango
+Before we start coding, it's really important that we set your development environment up correctly so that you can *Tango with Django* easily. You'll need to make sure that you have all of the necessary components installed on your computer, and that they are configured correctly. This chapter outlines the five key components you'll need to be aware of, setup and use. These are:
+
+* the [terminal](https://en.wikipedia.org/wiki/Terminal_emulator) (on macOS or UNIX/Linux systems), or the [Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe) (on Windows);
+* *Python*, including how to code and run Python scripts;
+* the Python Package Manager *pip*;
+* *Virtual Environments*;
+* your *Integrated Development Environment (IDE)*, if you choose to use one; and
+* a *Version Control System (VCS)* called *Git*.
+
+
+
+## OLD
+
+
 Before we get down to coding, it's really important that we get our development environment setup so that you can *Tango with Django!* You'll need to ensure that you have all the necessary components installed on your computer. This chapter outlines the five key components that you need to be aware of, setup and use. These are listed below.
 
 * Working with the [terminal](https://en.wikipedia.org/wiki/Terminal_emulator) or [Command Prompt](https://en.wikipedia.org/wiki/Cmd.exe).
