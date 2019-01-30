@@ -1,0 +1,12 @@
+chapter1.md
+chapter2.md
+chapter3.md
+chapter4-templates-static-media.md
+chapter5-database-setup.md
+chapter6-models-templates-views.md
+chapter7-forms.md
+chapter-summary.md
+chapter-system-setup.md
+chapter-unix.md
+chapter-virtual-env.md
+chapter-git.md

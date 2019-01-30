@@ -34,16 +34,8 @@ In this book, we will be taking an exampled-based approach to web application de
 * How to **apply CSS** to give your application a professional look and feel.
 * How to work with **cookies and sessions** with Django.
 * How to include more advanced functionality like *AJAX* into your application.
-* How to **Deploy your application** to a web server using *PythonAnywhere.*
-
-And, new to **How To Tango with Django 2.0**:
-
-* How to **include logging with a web application**
 * How to **write class based views** 
-* How to **use an external database** 
-
-
-
+* How to **Deploy your application** to a web server using *PythonAnywhere.*
 
 
 At the end of each chapter, we have also included a number of exercises designed to push you to apply what you have learnt during the chapter. Then to push you harder, we've included a number of open development challenges, which require you to use many of the lessons from the previous chapters - but don't worry we've also included solutions and explanations too!
@@ -71,7 +63,7 @@ Through the course of this book, we will used various technologies and external 
 * the [JavaScript](https://www.javascript.com/) programming language;
 * the [JQuery](http://jquery.com) library;
 * the [Twitter Bootstrap](http://getbootstrap.com/) framework;
-* the [Webhose API](https://webhose.io/) (referred to as the *search API*); and
+* the [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference); and
 * the [PythonAnywhere](https://www.pythonanywhere.com) hosting service;
 
 We've selected these technologies and services as they are either fundamental to web development, and/or enable us to provide examples on how to integrate your web application with CSS toolkits like *Twitter Bootstrap*, external services like those provided by the *Webhose API* and deploy your application quickly and easily with *PythonAnywhere*. Ok, let's get started!
