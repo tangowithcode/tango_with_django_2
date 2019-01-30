@@ -44,7 +44,7 @@ Django](https://docs.djangoproject.com/en/1.9/topics/install/).
 I> ### Prompts
 I> In this book, there's two things you should look out for when we include code snippets.
 I>
-I> Snippets beginning with a dollar sign (`$`) indicates that the remainder of the following line is a terminal or Command Prompt command.
+I> Snippets beginning with a dollar sign (`$`) indicates that the remainder of the following line is a terminal or Command Prompt command. We mentioned this in the first chapter, but it's worth repeating so you are sure what this notation represents.
 I>
 I> Whenever you see `>>>`, the following is a command that should be entered into the interactive Python interpreter. This is launched by issuing `$ python`. See what we did there? You can also exit the Python interpreter by entering `quit()` or `exit()`.
 
