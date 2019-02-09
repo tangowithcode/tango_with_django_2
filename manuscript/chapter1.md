@@ -128,7 +128,7 @@ Wireframes are great way to provide clients with some idea of what the applicati
 ![The index page with a categories search bar on the left, also showing the top five pages and top five categories.](images/ch1-rango-index.png)
 
 {id="fig-cat-page"}
-![The category page showing the pages in the category (along with the number of views). Below, a search for *Python* has been conducted, with the results shown underneath.](images/ch1-rango-cat-page.png)
+![The category page showing the pages in the category (along with the number of views for the category and each page).](images/ch1-rango-cat-page.png)
 
 ### Pages and URL Mappings
 From the specification, we have already identified two pages that our application will present to the user at different points in time. To access each page we will need to describe URL mappings. Think of a URL mapping as the text a user would have to enter into a browser's address bar to reach the given page. The basic URL mappings for Rango are shown below.
