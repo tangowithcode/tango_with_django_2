@@ -1,7 +1,7 @@
 # Automated Testing {#chapter-testing}
 It is good practice to get into the habit of writing and developing tests. A lot of software engineering is about writing and developing tests and test suites in order to ensure the software is robust. Of course, most of the time, we are too busy trying to build things to bother about making sure that they work. Or too arrogant to believe it would fail.
 
-According to the [Django Tutorial](https://docs.djangoproject.com/en/1.9/intro/tutorial05/), there are numerous reasons why you should include tests.
+According to the [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial05/), there are numerous reasons why you should include tests.
 
 - Test will save you time: a change in a complex system can cause failures in unpredictable places.
 - Tests don't just identify problems, they prevent them: tests show where the code is not meeting expectations.
@@ -19,7 +19,7 @@ According to the [Python Guide](http://docs.python-guide.org/en/latest/writing/t
 -   Use long and descriptive names for tests.
 
 I> ###Testing in Django
-I> Currently this chapter provides the very basics of testing and follows a similar format to the [Django Tutorial](https://docs.djangoproject.com/en/1.9/intro/tutorial05/), with some additional notes. We hope to expand this further in the future.
+I> Currently this chapter provides the very basics of testing and follows a similar format to the [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial05/), with some additional notes. We hope to expand this further in the future.
 
 ## Running Tests
 With Django is a suite of functionality to test apps built. You can test your Rango app by issuing the following command:
