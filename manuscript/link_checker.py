@@ -30,7 +30,8 @@ def main(chapters_list_filename, hide_success=True):
 			for match in re.findall(pattern, line):
 				title = match[0]
 				url = match[1]
-				
+				if (url.find("()")>0) and (url.find(")")==-1):
+					url = url +")"
 				if '127.0.0.1' in url or 'localhost' in url:  # Don't check localhost URLs
 					continue
 				

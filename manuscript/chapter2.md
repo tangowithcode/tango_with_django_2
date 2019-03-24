@@ -26,9 +26,9 @@ I> ## Python Skills Rusty?
 I>
 I> If you haven't used Python before -- or you simply want to brush up on you skills -- then we highly recommend that you check out and work through one or more of the following guides:
 I>
-I> * [**The Official Python Tutorial**](http://docs.python.org/3/tutorial/);
-I> * [**Think Python: How to Think like a Computer Scientist**](http://www.greenteapress.com/thinkpython/) by Allen B. Downey; or
-I> * [**Learn Python in 10 Minutes**](http://www.korokithakis.net/tutorials/python/) by Stavros;
+I> * [**The Official Python Tutorial**](https://docs.python.org/3/tutorial/);
+I> * [**Think Python: How to Think like a Computer Scientist**](https://greenteapress.com/wp/think-python-2e/) by Allen B. Downey; or
+I> * [**Learn Python in 10 Minutes**](https://www.stavros.io/tutorials/python/) by Stavros;
 I> * [**Learn to Program**](https://www.coursera.org/course/programming1) by Jennifer Campbell and Paul Gries.
 I>
 I> These guides will help you familiarise yourself with the basics of Python so you can start developing with Django. Note you don't need to be an expert in Python to work with Django -- Python is straightforward to use, and you can pick it up as you go, especially if you already know another programming language.
