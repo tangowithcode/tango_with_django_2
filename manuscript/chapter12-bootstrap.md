@@ -301,7 +301,7 @@ Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com
 ![A screenshot of the Index page with a Jumbotron and Columns.](images/ch12-styled-index.png)
 
 ###The Login Page
-Now let's turn our attention to the login page. On the Bootstrap website you can see they have already made a [nice login form](https://getbootstrap.com/docs/4.2/examples/signin/). If you take a look at the source, you'll notice that there are a number of classes that we need to include to stylise the basic login form. Update the `body_block` in the `login.html` template as follows:
+Now let's turn our attention to the login page. On the Bootstrap website you can see they have already made a [nice login form](https://getbootstrap.com/docs/4.2/examples/sign-in/). If you take a look at the source, you'll notice that there are a number of classes that we need to include to stylise the basic login form. Update the `body_block` in the `login.html` template as follows:
 
 {lang="html",linenos=off}
 	{% block body_block %}

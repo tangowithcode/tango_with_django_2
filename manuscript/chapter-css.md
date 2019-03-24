@@ -464,7 +464,7 @@ Each element that you create on a webpage can be considered as a box. The [CSS b
 
 For each element within a webpage, you can create a margin, apply some padding or a border with the respective properties `margin`, `padding` and `border`. Margins clear a transparent area around the border of your element; meaning margins are incredibly useful for creating a gap between elements. In contrast, padding creates a gap between the content of an element and its border. This therefore gives the impression that the element appears wider. If you supply a background colour for an element, the background colour is extended with the element's padding. Finally, borders are what you might expect them to be - they provide a border around your element's content and padding.
 
-For more information on the CSS box model, check out [addedbytes excellent explanation of the model](http://www.addedbytes.com/articles/for-beginners/the-box-model-for-beginners/). [Why not even order a t-shirt with the box model on it](http://cssboxmodel.com/)?
+For more information on the CSS box model, check out [Mozilla's excellent explanation of the model](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Box_model). [Why not even order a t-shirt with the box model on it](http://cssboxmodel.com/)?
 
 W> ### Watch out for the `width`!
 W>

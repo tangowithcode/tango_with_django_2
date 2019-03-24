@@ -61,7 +61,7 @@ Nitin Tulswani,
 Oleg Belausov,
 **[pawonfire](https://github.com/pawonfire),**
 [pdehaye](https://github.com/pdehaye),
-**[Peter Mash](https://github.com/PeterMash),**
+Peter Mash,
 [Pierre-Yves Mathieu](https://github.com/pywebdesign),
 **Praestgias,**
 [pzkpfwVI](https://github.com/pzkpfwVI),
