@@ -57,19 +57,19 @@ W> The road to hell is paved with hard coded paths. [Hard-coding paths](http://e
 ### Dynamic Paths
 A better solution is to make use of built-in Python functions to work out the path of your `templates` directory automatically. This way, an absolute path can be obtained regardless of where you place your Django project's code. This in turn means that your project becomes more *portable.* 
 
-At the top of your `settings.py` file, there is a variable called `BASE_DIR`. This variable stores the path to the directory in which your project's `settings.py` module is contained. This is obtained by using the special Python `__file__` attribute, which is [set to the absolute path of your settings module](http://stackoverflow.com/a/9271479). The call to `os.path.dirname()` then provides the reference to the absolute path of the directory containing the `settings.py` module. Calling `os.path.dirname()` again removes another layer, so that `BASE_DIR` contains `<workspace>/tango_with_django_project/`. You can see this process in action, if you are curious, by adding the following lines to your `settings.py` file.
+At the top of your `settings.py` file, there is a variable called `BASE_DIR`. This variable stores the path to the directory in which your project's `settings.py` module is contained. This is obtained by using the special Python `__file__` attribute, which is [set to the path of your settings module](http://stackoverflow.com/a/9271479). Using this as a parameter to `os.path.abspath()` guarantees the *absolute path* to the `settings.py` module. The call to `os.path.dirname()` then provides the reference to the absolute path of the *directory containing* the `settings.py` module. Calling `os.path.dirname()` again removes another directory layer, so that `BASE_DIR` then points to `<workspace>/tango_with_django_project/`. If you are curious, you can see how this works by adding the following lines to your `settings.py` file.
 
 {lang="python",linenos=off}
 	print(__file__)
 	print(os.path.dirname(__file__))
-	print(os.path.dirname(os.path.dirname(__file__)))
+	print(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-Having access to the value of `BASE_DIR` makes it easy for you to reference other aspects of your Django project. As such, we can now create a new variable called `TEMPLATE_DIR` that will reference your new `templates` directory. We can make use of the `os.path.join()` function to join up multiple paths, leading to a variable definition like the example below.
+Having access to the value of `BASE_DIR` makes it easy for you to reference other aspects of your Django project. Using the `BASE_DIR` variable, we can now create a new variable called `TEMPLATE_DIR` that will reference your new `templates` directory. We can make use of the `os.path.join()` function to join up multiple paths, leading to a variable definition like the example below. Make sure you put this underneath the definition of `BASE_DIR`!
 
 {lang="python",linenos=off}
 	TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
-Here we make use of `os.path.join()` to mash together the `BASE_DIR` variable and `'templates'`, which would yield `<workspace>/tango_with_django_project/templates/`. This means we can then use our new `TEMPLATE_DIR` variable to replace the hard coded path we defined earlier in `TEMPLATES`. Update the `DIRS` key/value pairing to look like the following.
+Here we make use of `os.path.join()` to join (concatenate) together the `BASE_DIR` variable and `'templates'`, which would yield `<workspace>/tango_with_django_project/templates/`. This means we can then use our new `TEMPLATE_DIR` variable to replace the hard coded path we defined earlier in `TEMPLATES`. Update the `DIRS` key/value pairing to look like the following.
 
 {lang="python",linenos=off}
 	'DIRS': [TEMPLATE_DIR, ]
@@ -119,7 +119,7 @@ You can then update the `index()` view function as follows. Check out the inline
 	def index(request):
 	    # Construct a dictionary to pass to the template engine as its context.
 	    # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-	    context_dict = {'boldmessage': "Crunchy, creamy, cookie, candy, cupcake!"}
+	    context_dict = {'boldmessage': 'Crunchy, creamy, cookie, candy, cupcake!'}
 	    
 	    # Return a rendered response to send to the client.
 	    # We make use of the shortcut function to make our lives easier.
@@ -237,7 +237,7 @@ With these minor changes in place, start the Django development server once more
 {id="fig-ch4-rango-site-with-pic"}
 ![Our first Rango template, complete with a picture of Rango the chameleon.](images/ch4-rango-site-with-pic.png)
 
-T> ### Templates and `<!DOCTYPE>`
+T> ### Always put `<!DOCTYPE>` First!
 T> When creating the HTML templates, always ensure that the [`DOCTYPE` declaration](http://www.w3schools.com/tags/tag_doctype.asp) appears on the **first line**. If you put the `{% load staticfiles %}` template command first, then whitespace will be added to the rendered template before the `DOCTYPE` declaration. This whitespace will lead to your HTML markup [failing validation](https://validator.w3.org/).
 
 T> ### Loading other Static Files
@@ -259,7 +259,7 @@ T> 	    </head>
 T> 	
 T> 	    <body>
 T> 	        <!-- Image -->
-T> 	        <img src="{% static "images/rango.jpg" %}" alt="A chameleon lizard called Rango"  />
+T> 	        <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango"  />
 T> 	    </body>
 T> 	
 T> 	</html>
@@ -267,9 +267,9 @@ T>
 T> Static files you reference will obviously need to be present within your `static` directory. If a requested file is not present or you have referenced it incorrectly, the console output provided by Django's development server will show a [`HTTP 404` error](https://en.wikipedia.org/wiki/HTTP_404). Try referencing a non-existent file and see what happens. Looking at the output snippet below, notice how the last entry's HTTP status code is `404`.
 T>
 T> {lang="text",linenos=off}
-T> 	[10/Apr/2016 15:12:48] "GET /rango/ HTTP/1.1" 200 374
-T> 	[10/Apr/2016 15:12:48] "GET /static/images/rango.jpg HTTP/1.1" 304 0
-T> 	[10/Apr/2016 15:12:52] "GET /static/images/not-here.jpg HTTP/1.1" 404 0
+T> 	[24/Mar/2019 17:05:54] "GET /rango/ HTTP/1.1" 200 366
+T> 	[24/Mar/2019 17:05:55] "GET /static/images/rango.jpg HTTP/1.1" 200 0
+T> 	[24/Mar/2019 17:05:55] "GET /static/images/not-here.jpg HTTP/1.1" 404 0
 T>
 T> For further information about including static media you can read through the official [Django documentation on working with static files in templates](https://docs.djangoproject.com/en/2.0/howto/static-files/#staticfiles-in-templates).
 
@@ -360,16 +360,16 @@ X> ### Exercises
 X>
 X> Give the following exercises a go to reinforce what you've learnt from this chapter.
 X> 
-X> * Convert the about page to use a template as well, using a template called `about.html`.
-X> * Within the new `about.html` template, add a picture stored within your project's static files.
-X> * On the about page, include a line that says, `This tutorial has been put together by <your-name>`.
-X> * In your Django project directory, create a new directory called `media`, download a picture of a cat and save it to the `media` directory as `cat.jpg`. 
-X> * In your **about page**, add in the `<img>` tag to display the picture of the cat, to ensure that your media is being served correctly. Keep the static image of Rango in your index page so that your app has working examples of both static and media files.
+X> * Convert the about page to use a template as well, using a template called `about.html`. In the new template's header, keep `Rango says...`, and on the line underneath, have the text `here is the about page.`.
+X> * Within the new `about.html` template, add a picture stored within your project's static files. You can just reuse the `rango.jpg` image you used in the index view!
+X> * On the about page, include a line that says `This tutorial has been put together by <your-name>`.
+X> * In your Django project directory, create a new directory called `media`, download a JPEG image of a cat and save it to the `media` directory as `cat.jpg`. 
+X> * In your **about page**, add in the `<img>` tag to display the picture of the cat, to ensure that your media is being served correctly. *Keep the static image of Rango in your index page* so that your about page has working examples of both static and media files.
 
 T> ### Static and Media Files
 T> Remember: static files, as the name implies, do not change. These files form the core components of your website. Media files are user defined; and as such, they may change often!
 T>
-T> An example of a static file could be a stylesheet file (css), which determines the appearance of your app's webpages. An example of a media file could be a user profile image, which is uploaded by the user when they create an account on your app.
+T> An example of a static file could be a stylesheet file (CSS), which determines the appearance of your app's webpages. An example of a media file could be a user profile image, which is uploaded by the user when they create an account on your app.
 
 
 I> ### Tests
