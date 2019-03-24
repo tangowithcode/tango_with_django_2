@@ -5,9 +5,7 @@ Let's get started with Django! In this chapter, we'll be giving you an overview 
 
 Let's start by checking that your Python and Django installations are correct for this tutorial. To do this, open a new terminal window, and enter your virtual environment.
 
-
-
-Then issue the following command, which tells you what Python version you have.
+Then issue the following command. The output will tell what Python version you have.
 
 {lang="text",linenos=off}
 	$ python --version
@@ -38,7 +36,7 @@ At the prompt, enter the following commands:
 All going well you should see the correct version of Django, and then can use `exit()` to leave the Python interpreter. If `import django` fails to import, then check that you are in your virtual environment, and check what packages are installed with `pip list` at the terminal window. 
 
 If you have problems with installing the packages or have a different version installed, go to [System Setup](#chapter-system-setup) chapter or consult the [Django Documentation on Installing
-Django](https://docs.djangoproject.com/en/1.9/topics/install/).
+Django](https://docs.djangoproject.com/en/2.0/topics/install/).
 
 
 I> ### Prompts
@@ -84,7 +82,7 @@ For the purposes of this tutorial, we call this nested directory called `tango_w
 In the project directory, you will see there is a file called `manage.py`. We will be calling this script time and time again as we develop our project. It provides you with a series of commands you can run to maintain your Django project. For example, `manage.py` allows you to run the built-in Django development server, test your application and run various database commands. We will be using the script for virtually every Django command we want to run.
 
 I> ### The Django Admin and Manage Scripts
-I> For Further Information on Django admin script, see the Django documentation for more details about the  [Admin and Manage scripts](https://docs.djangoproject.com/en/1.9/ref/django-admin/#django-admin-py-and-manage-py).
+I> For Further Information on Django admin script, see the Django documentation for more details about the  [Admin and Manage scripts](https://docs.djangoproject.com/en/2.0/ref/django-admin/#django-admin-py-and-manage-py).
 I>
 I> Note that if you run `python manage.py help` you can see the list of commands available.
 
@@ -194,9 +192,9 @@ You can now add in the following code.
 
 Breaking down the three lines of code, we observe the following points about creating this simple view.
 
--   We first import the [`HttpResponse`](https://docs.djangoproject.com/en/1.9/ref/request-response/#django.http.HttpResponse) object from the `django.http` module.
+-   We first import the [`HttpResponse`](https://docs.djangoproject.com/en/2.0/ref/request-response/#django.http.HttpResponse) object from the `django.http` module.
 -   Each view exists within the `views.py` file as a series of individual functions. In this instance, we only created one view - called `index`.
--   Each view takes in at least one argument - a [`HttpRequest`](https://docs.djangoproject.com/en/1.9/ref/request-response/#django.http.HttpRequest) object, which also lives in the `django.http` module. Convention dictates that this is named `request`, but you can rename this to whatever you want if you so desire.
+-   Each view takes in at least one argument - a [`HttpRequest`](https://docs.djangoproject.com/en/2.0/ref/request-response/#django.http.HttpRequest) object, which also lives in the `django.http` module. Convention dictates that this is named `request`, but you can rename this to whatever you want if you so desire.
 -   Each view must return a `HttpResponse` object. A simple `HttpResponse` object takes a string parameter representing the content of the page we wish to send to the client requesting the view.
 
 With the view created, you're only part of the way to allowing a user to access it. For a user to see your view, you must map a [Uniform Resource Locator (URL)](http://en.wikipedia.org/wiki/Uniform_resource_locator) to the view.
@@ -254,7 +252,7 @@ This code imports the relevant Django machinery for URL mappings and the `views`
 When we talk about URL strings, we assume that the host portion of a given URL has *already been stripped away*. The host portion of a URL denotes the host address or domain name that maps to the webserver, such as `http://127.0.0.1:8000` or `http://www.tangowithdjango.com`. Stripping the host portion away means that the Django machinery needs to only handle the remainder of the URL string. For example, given the URL `http://127.0.0.1:8000/rango/about/`, Django will handle the `/rango/about/` part of the URL string.
 
 The URL mapping we have created above calls Django's `path()` function, where the first parameter is the string to match. In this case, as we have used an empty string `''`, then Django will only find a match if there is nothing after  `http://127.0.0.1:8000/`.
-The second parameter tells Django what view to call if the pattern `''` is matched. In this case, `views.index()` will be called. The third, and optional, parameter is called `name`. It provides a convienent way to reference the view, and by naming our URL mappings we can employ *reverse URL matching*. That is we can reference the URL mapping by name rather than by the URL. Later we will explain and show why this is incredibly useful - saving you time and hassle as your application become more complex.
+The second parameter tells Django what view to call if the pattern `''` is matched. In this case, `views.index()` will be called. The third, and optional, parameter is called `name`. It provides a convenient way to reference the view, and by naming our URL mappings we can employ *reverse URL matching*. That is we can reference the URL mapping by name rather than by the URL. Later we will explain and show why this is incredibly useful - saving you time and hassle as your application become more complex.
 
 
 Now, restart the Django development server and visit `http://127.0.0.1:8000/rango/`. If all went well, you should see the text `Rango says hey there partner!`. It should look just like the screenshot shown below.
