@@ -1,7 +1,7 @@
-[11]: [official Django Tutorials](https://docs.djangoproject.com/en/2.0/intro/tutorial01/) 
+[11]: [official Django Tutorials](https://docs.djangoproject.com/en/2.1/intro/tutorial01/) 
 
-[django2]: https://docs.djangoproject.com/en/2.0/ 
-[tutorial01]: https://docs.djangoproject.com/en/2.0/intro/tutorial01/
+[django2]: https://docs.djangoproject.com/en/2.1/ 
+[tutorial01]: https://docs.djangoproject.com/en/2.1/intro/tutorial01/
 
 
 
@@ -53,16 +53,16 @@ X> Don't worry if you get stuck, though, as you can always check out our solutio
 ## Technologies and Services
 Through the course of this book, we will used various technologies and external services including:
 
-* the [Python](http://www.python.org) programming language;
-* the [Pip package manager](http://www.pip-installer.org);
+* the [Python](https://www.python.org) programming language;
+* the [Pip package manager](https://pip.pypa.io/en/stable/);
 * [Django](https://www.djangoproject.com);
-* the [Git](http://git-scm.com) version control system;
+* the [Git](https://git-scm.com) version control system;
 * [GitHub](https://github.com);
-* [HTML](http://www.w3.org/html/);
-* [CSS](http://www.w3.org/Style/CSS/);
+* [HTML](https://www.w3.org/html/);
+* [CSS](https://www.w3.org/Style/CSS/);
 * the [JavaScript](https://www.javascript.com/) programming language;
-* the [JQuery](http://jquery.com) library;
-* the [Twitter Bootstrap](http://getbootstrap.com/) framework;
+* the [JQuery](https://jquery.com) library;
+* the [Twitter Bootstrap](https://getbootstrap.com/) framework;
 * the [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference); and
 * the [PythonAnywhere](https://www.pythonanywhere.com) hosting service;
 
