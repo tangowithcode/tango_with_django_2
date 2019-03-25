@@ -86,15 +86,15 @@ With the view updated, we can complete the fourth step and update the template `
 	</body>
 	</html>
 
-Here, we make use of Django's template language to present the data using `if` and `for` control statements. Within the `<body>` of the page, we test to see if `categories` - the name of the context variable containing our list - actually contains any categories (`{% if categories %}`).
+Here, we make use of Django's template language to present the data using `if` and `for` control statements. Within the `<body>` of the page, we test to see if `categories` - the name of the context variable containing our list of (a maximum of ) five categories - actually contains any categories (`{% if categories %}`).
 
 If so, we proceed to construct an unordered HTML list (within the `<ul>` tags). The `for` loop (`{% for category in categories %}`) then iterates through the list of results, and outputs each category's name (`{{ category.name }})` within a pair of `<li>` tags to indicate a list element.
 
 If no categories exist, a message is displayed instead indicating that no categories are present.
 
-As the example shows in Django's template language, all commands are enclosed within the tags `{%` and `%}`, while variables are referenced within `{{` and `}}` brackets.
+As the example shows in Django's template language, all commands are enclosed within the tags `{%` and `%}`, while variables whose values are to be placed in the page are referenced within `{{` and `}}` brackets.
 
-If you now visit Rango's homepage at `<http://127.0.0.1:8000/rango/>`, you should see a list of categories underneath the page title just like in the [figure below](#figch6-rango-categories-index).
+If you now save the template and refresh Rango's homepage at `http://127.0.0.1:8000/rango/`, you should see a list of categories underneath the page title and your bold message, just like in the [figure below](#figch6-rango-categories-index).
 
 {id="fig-ch6-rango-categories-index"}
 ![The Rango homepage - now dynamically generated - showing a list of categories.](images/ch6-rango-categories-index.png)
@@ -105,23 +105,23 @@ According to the [specifications for Rango](#overview-design-brief-label), we al
 ### URL Design and Mapping
 Let's start by considering the URL problem. One way we could handle this problem is to use the unique ID for each category within the URL. For example, we could create URLs like `/rango/category/1/` or `/rango/category/2/`, where the numbers correspond to the categories with unique IDs 1 and 2 respectively. However, it is not possible to infer what the category is about just from the ID.
 
-Instead, we could use the category name as part of the URL. For example, we can imagine that the URL `/rango/category/python/` would lead us to a list of pages related to Python. This is a simple, readable and meaningful URL. If we go with this approach, we'll also have to handle categories that have multiple words, like 'Other Frameworks', etc.
+Instead, we could use the category name as part of the URL. For example, we can imagine that the URL `/rango/category/python/` would lead us to a list of pages related to Python. This is a simple, readable and meaningful URL. If we go with this approach, we'll also have to handle categories that have multiple words, like 'Other Frameworks', etc. Putting spaces in URLs is generally regarded as bad practice (as we describe below). Spaces need to be [*percent encoded*](https://www.w3schools.com/tags/ref_urlencode.asp). For example, the percent encoded string for `Other Frameworks` would read `Other%20Frameworks`. Messy!
 
 T> ### Clean your URLs
 T> Designing clean and readable URLs is an important aspect of web design. See [Wikipedia's article on Clean URLs](http://en.wikipedia.org/wiki/Clean_URL) for more details.
 
-To handle this problem we are going to make use of the `slugify` function provided by Django. 
+To solve this problem, we will make use of the so-called `slugify()` function provided by Django.
 
 <!-->
 <http://stackoverflow.com/questions/837828/how-do-i-create-a-slug-in-django>
 -->
 ### Update Category Table with a Slug Field
-To make readable URLs, we need to include a slug field in the `Category` model. First we need to import the function `slugify` from Django that will replace whitespace with hyphens - for example, `"how do i create a slug in django"` turns into `"how-do-i-create-a-slug-in-django"`.
+To make readable URLs, we need to include a slug field in the `Category` model. First, we need to import the function `slugify` from Django that will replace whitespace with hyphens, circumnavigating the percent encoded problem. For example, `"how do i create a slug in django"` turns into `"how-do-i-create-a-slug-in-django"`.
 
 W> ### Unsafe URLs
 W> While you can use spaces in URLs, it is considered to be unsafe to use them. Check out the [Internet Engineering Task Force Memo on URLs](http://www.ietf.org/rfc/rfc1738.txt) to read more.
 
-Next we need to override the `save()` method of the `Category` model, which we will call the `slugify` method and update the `slug` field with it. Note that every time the category name changes, the slug will also change. Update your model, as shown below, and add in the import.
+Next, we need to override the `save()` method of the `Category` model. This overridden function will call the `slugify()` function and update the new `slug` field with it. Note that every time the category name changes, the slug will also change -- the `save()` method is always called when creating or updating an instance of a Django model. Update your `Category` model as shown below -- and don't forget to add in the import at the top.
 
 {lang="python",linenos=off}
 	from django.template.defaultfilters import slugify
@@ -142,17 +142,37 @@ Next we need to override the `save()` method of the `Category` model, which we w
 	    def __str__(self):
 	        return self.name
 
-Now that the model has been updated, the changes must now be propagated to the database. However, since data already exists within the database, we need to consider the implications of the change. Essentially, for all the existing category names, we want to turn them into slugs (which is performed when the record is initially saved). When we update the models via the migration tool, it will add the `slug` field and provide the option of populating the field with a default value. Of course, we want a specific value for each entry - so we will first need to perform the migration, and then re-run the population script. This is because the population script will explicitly call the `save()` method on each entry, triggering the 'save()' as implemented above, and thus update the slug accordingly for each entry.
+The overriden `save()` method is relatively straightforward to understand. When called, the `slug` field is set by using the output of the `slugify()` function as the new field's value. Once set, the overriden `save()` method then calls the parent (or `super`) `save()` method defined in the base `django.db.models.Model` class. It is this call that performs the necessary logic to save the updated instance to the correct database table.
+
+Now that the model has been updated, the changes must now be propagated to the database. However, since data already exists within the database from previous chapters, we need to consider the implications of the change. Essentially, for all the existing category names, we want to turn them into slugs (which is performed when the record is initially saved). When we update the models via the migration tool, it will add the `slug` field and provide the option of populating the field with a default value. Of course, we want a specific value for each entry - so we will first need to perform the migration, and then re-run the population script. This is because the population script will explicitly call the `save()` method on each entry, triggering the `save()` as implemented above, and thus update the slug accordingly for each entry.
 
 To perform the migration, issue the following commands (as detailed in the [Models and Databases Workflow](#section-models-databases-workflow)).
 
 {lang="text",linenos=off}
 	$ python manage.py makemigrations rango
-	$ python manage.py migrate
 
-Since we did not provide a default value for the slug and we already have existing data in the model, the `migrate` command will give you two options. Select the option to provide a default, and enter an empty string -- denoted by two quote marks (i.e. `''`).  Run the population script again, which will then update the slug fields.
+Since we did not provide a default value for the slug and we already have existing data in the model, the `makemigrations` command will give you two options. Select the option to provide a default (option `1`), and enter an empty string -- denoted by two quote marks (i.e. `''`).
+
+You should then see output that confirms that the migrations have been created.
 
 {lang="text",linenos=off}
+	You are trying to add a non-nullable field 'slug' to category without a default; we can't do that (the database needs something to populate existing rows).
+	Please select a fix:
+	 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+	 2) Quit, and let me add a default in models.py
+	Select an option: 1
+	Please enter the default value now, as valid Python
+	The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+	Type 'exit' to exit this prompt
+	>>> ''
+	Migrations for 'rango':
+	  rango/migrations/0003_category_slug.py
+	    - Add field slug to category
+
+From there, you can then migrate the changes, and run the population script again to update the new slug fields.
+
+{lang="text",linenos=off}
+	$ python manage.py migrate
 	$ python populate_rango.py
 
 Now run the development server with the command `$ python manage.py runserver`, and inspect the data in the models with the admin interface at `http://127.0.0.1:8000/admin/`.
