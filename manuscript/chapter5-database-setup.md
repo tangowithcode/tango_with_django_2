@@ -1,5 +1,5 @@
 # Models and Databases {#chapter-models-databases}
-Typically web applications require a back end to store the dynamic content that appears on the website. For Rango, we need to store the pages and the categories, along with other details. The most convention way is to do so by employing the services of a relational database - that uses *Structured Query Language (SQL)*. Django, however, provides a convienent way in which to access data stored in databases by using an [*Object Relational Mapper (ORM)*](https://en.wikipedia.org/wiki/Object-relational_mapping). In essence, data stored within a database table is  encapsulated via Django *models*. A model is a Python object that describes the database table's data. Instead of directly working on the database via SQL, Django provides methods that let you manipulate the data via the corresponding Python model object.
+Typically web applications require a back end to store the dynamic content that appears on the website. For Rango, we need to store the pages and the categories, along with other details. The most convention way is to do so by employing the services of a relational database - that uses *Structured Query Language (SQL)*. Django, however, provides a convenient way in which to access data stored in databases by using an [*Object Relational Mapper (ORM)*](https://en.wikipedia.org/wiki/Object-relational_mapping). In essence, data stored within a database table is  encapsulated via Django *models*. A model is a Python object that describes the database table's data. Instead of directly working on the database via SQL, Django provides methods that let you manipulate the data via the corresponding Python model object.
 
 This chapter walks you through the basics of data management with Django and its ORM. You'll find it's incredibly easy to add, modify and delete data within your app's underlying database, and how straightforward it is to get data from the database to the Web browsers of your users.
 
@@ -15,7 +15,7 @@ Before we get started, let's go over the data requirements for the Rango app tha
 ![The Entity Relationship Diagram of Rango's two main entities.](images/rango-erd.png)
 
 ## Telling Django about Your Database {#section-models-database-telling}
-Before we can create any models, we need to set up our database with Django. In Django, a `DATABASES` variable is automatically created in your `settings.py` module when you set up a new project. It'll look similar to the following example.
+Before we can create any models, we need to set up our database with Django. In Django, a `DATABASES` variable is automatically created in your `settings.py` module when you set up a new project. Unless you changed it, it should look like the following example.
 
 {lang="python",linenos=off}
 	DATABASES = {
@@ -28,7 +28,7 @@ Before we can create any models, we need to set up our database with Django. In 
 We can pretty much leave this as is for our Rango app. You can see a `default` database that is powered by a lightweight database engine, [SQLite](https://www.sqlite.org/) (see the `ENGINE` option). The `NAME` entry for this database is the path to the database file, which is by default `db.sqlite3` in the root of your Django project.
 
 
-T> ### Git Top Tip
+T> ### Don't `git push` your Database!
 T> If you are using Git, you might be tempted to add and commit the database file. This is not a good idea because if you are working on your app with other people, they are likely to change the database and this will cause endless conflicts.
 T>
 T> Instead, add `db.sqlite3` to your `.gitignore` file so that it won't be added when you `git commit` and `git push`. You can also do this for other files like `*.pyc` and machine specific files.
@@ -66,14 +66,6 @@ For the models themselves, we will create two classes - one class representing e
 T> ### Check `import` Statements
 T> At the top of the `models.py` module, you should see `from django.db import models`. If you don't see it, add it in.
 
-I> ### `__str__()` or `__unicode__()`?
-I> The `__str__()` and `__unicode__()` methods in Python generate a string representation of the class (similar to the  `toString()` method in Java).
-I> In Python 2.x, strings are represented in ASCII format in the `__str__()` method. If you want [Unicode support](https://docs.python.org/2/howto/unicode.html), then you need to also implement the
-`__unicode__()` method.
-I>
-I> In Python 3.x, strings are Unicode by default - so you only need to implement the `__str__()` method.
-
-
 When you define a model, you need to specify the list of fields and their associated types, along with any required or optional parameters. By default, all models have an auto-increment integer field called `id` which is automatically assigned and acts a primary key.
 
 Django provides a [comprehensive series of built-in field types](https://docs.djangoproject.com/es/2.0/ref/models/fields/#model-field-types). Some of the most commonly used are detailed below.
@@ -96,9 +88,12 @@ Django provides three types of fields for forging relationships between models i
 * `OneToOneField`, a field type that allows us to define a strict [one-to-one relationship](https://en.wikipedia.org/wiki/One-to-one_(data_model)); and
 * `ManyToManyField`, a field type which allows us to define a [many-to-many relationship](https://en.wikipedia.org/wiki/Many-to-many_(data_model)).
 
-From our model examples above, the field `category` in model `Page` is of type `ForeignKey`. This allows us to create a one-to-many relationship with model/table `Category`, which is specified as an argument to the field's constructor. When specifying the foreign key, we also need to include instructions to Django on how to handle the situation when the category that the page belongs to is deleted. `ONCASCADE` instructs Django to delete the pages associated with the category, if the category is deleted. However, there are other settings which will provide Django with other instructions on how to handle this situation. See the [Django documentation on Foreign Keys]( https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) for more details.
+From our model examples above, the field `category` in model `Page` is of type `ForeignKey`. This allows us to create a one-to-many relationship with model/table `Category`, which is specified as an argument to the field's constructor. When specifying the foreign key, we also need to include instructions to Django on how to handle the situation when the category that the page belongs to is deleted. `CASCADE` instructs Django to delete the pages associated with the category when the category is deleted. However, there are other settings which will provide Django with other instructions on how to handle this situation. See the [Django documentation on Foreign Keys]( https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ForeignKey) for more details.
 
-Finally, it is good practice to implement the `__str__()` method. Without this method implemented when you go to `print` the object, it will show as `<Category: Category object>`. This isn't very useful when debugging or accessing the object - instead the code above will print, for example, `<Category: Python>` for the Python category. It is also helpful when we go to use the Admin Interface because Django will display the string representation of the object.
+Finally, it is good practice to implement the `__str__()` method. Without this method implemented when you go to `print` the object, it will show as `<Category: Category object>`. This isn't very useful when debugging or accessing the object. How do you know what category is being shown? When including `__str__()` as defined above, you will see `<Category: Python>`, as an example, for the Python category. It is also helpful when we go to use the admin interface because Django will display the string representation of the object.
+
+T> ### Always Implement `__str__()` in your Classes
+T> Implementing the `__str()__` method in your classes will make debugging so much easier -- and also permit you to take advantage of other built-in features of Django (such as the admin interface). If you've used a programming language like Java, `__str__()` is the Python equivalent of the `toString()` method!
 
 ## Creating and Migrating the Database
 With our models defined in `models.py`, we can now let Django work its magic and create the tables in the underlying database. Django provides what is called a [*migration tool*](https://en.wikipedia.org/wiki/Data_migration) to help us set up and update the database to reflect any changes to your models. For example, if you were to add a new field then you can use the migration tools to update the database.
@@ -110,7 +105,7 @@ First of all, the database must be *initialised*. This means creating the databa
 	$ python manage.py migrate
 	
 	Operations to perform:
-  		Apply all migrations: admin, auth, contenttypes, sessions
+		Apply all migrations: admin, auth, contenttypes, sessions
 	Running migrations:
 		Applying contenttypes.0001_initial... OK
 		Applying auth.0001_initial... OK
@@ -178,7 +173,7 @@ To access the shell, we need to call ``manage.py`` from within your Django proje
 
 ``$ python manage.py shell``
 
-This will start an instance of the Python interpreter and load in your project's settings for you. You can then interact with the models, with the following terminal session demonstrating this functionality. Check out the inline commentary that we added to see what each command achieves. Note there are slight differences between what Django 1.9 and Django 1.10 return -- these are both demonstrated below, complete with commentary.
+This will start an instance of the Python interpreter and load in your project's settings for you. You can then interact with the models, with the following terminal session demonstrating this functionality. Check out the inline commentary that we added to see what each command achieves.
 
 {lang="python",linenos=off}
 	# Import the Category model from the Rango application
@@ -190,7 +185,7 @@ This will start an instance of the Python interpreter and load in your project's
 	<QuerySet []>  
 	
 	# Create a new category object, and save it to the database.
-	>>> c = Category(name="Test")
+	>>> c = Category(name='Test')
 	>>> c.save()
 	
 	# Now list all the category objects stored once more.
@@ -242,12 +237,12 @@ With these changes saved, either reload the admin web pages, or restart the Djan
 Try clicking the `Categorys` link within the `Rango` section. From here, you should see the `Test` category that we created earlier via the Django shell.
 
 X> ### Experiment with the Admin Interface
-X> You'll be using the admin interface quite a bit to verify data is stored correctly as you develop the Rango app. Experiment with it, and see how it all works. The interface is self-explanatory and straightforward to understand.
+X> As you move forward with Rango's development, you'll be using the admin interface extensively to verify data is stored correctly. Experiment with it, and see how it all works. The interface is self-explanatory and straightforward to understand.
 X>
-X> Delete the `Test` category that was previously created. We'll be populating the database shortly with example data.
+X> Delete the `Test` category that was previously created. We'll be populating the database shortly with example data. You can delete the `Test` category from the admin interface by clicking the check box beside it, and selecting `Delete selected categorys` from the dropdown menu at the top of the page. Confirm your intentions by clicking the big red button that appears!
 
 I> ### User Management
-I> The Django admin interface is your port of call for user management, through the Authentication and Authorisation section. Here, you can create, modify and delete user accounts, and varying privilege levels.
+I> The Django admin interface is also your port of call for user management through the Authentication and Authorisation section. Here, you can create, modify and delete user accounts, and vary privilege levels. [More on this later.](#chapter-user)
 
 T> ### Plural vs. Singular Spellings
 T>  Note the typo within the admin interface (`Categorys`, not `Categories`). This typo can be fixed by adding a nested `Meta` class into your model definitions with the `verbose_name_plural` attribute. Check out a modified version of the `Category` model below for an example, and [Django's official documentation on models](https://docs.djangoproject.com/en/2.0/topics/db/models/#meta-options) for more information about what can be stored within the `Meta` class.
@@ -263,10 +258,10 @@ T> 	    def __str__(self):
 T> 	        return self.name
 
 I> ### Expanding `admin.py`
-I> It should be noted that the example ``admin.py`` module for your Rango app is the most simple, functional example available. However you can customise the Admin interface in a number of ways. Check out the [official Django documentation on the admin interface](https://docs.djangoproject.com/en/1.9/ref/contrib/admin/) for more information if you're interested.
+I> It should be noted that the example ``admin.py`` module for your Rango app is the most simple, functional example available. However you can customise the Admin interface in a number of ways. Check out the [official Django documentation on the admin interface](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/) for more information if you're interested.
 
 ## Creating a Population Script {#section-models-population}
-Entering test data into your database tends to be a hassle. Many developers will add in some bogus test data by randomly hitting keys, like `wTFzmN00bz7`. Rather than do this, it is better to write a script to automatically populate the database with realistic and credible data. This is because when you go to demo or test your app, you'll see some good examples in the database. Also, if you are deploying the app or sharing it with collaborators, then you/they won't have to go through the process of putting in sample data. It's therefore good practice to create what we call a *population script*. 
+Entering test data into your database tends to be a hassle. Many developers will add in some bogus test data by randomly hitting keys, like `wTFzmN00bz7`. Rather than do this, it is better to write a script to automatically populate the database with realistic and credible data. This is because when you go to demo or test your app, you'll need to be able to see some credible examples in the database. If you're working in a team, an automated script will mean each collaborator can simply run that script to initialise the database on their computer with the same sample data as you. It's therefore good practice to create what we call a *population script*. 
 
 To create a population script for Rango, start by creating a new Python module within your Django project's root directory (e.g. ``<workspace>/tango_with_django_project/``). Create the ``populate_rango.py`` file and add the following code.
 
@@ -287,49 +282,45 @@ To create a population script for Rango, start by creating a new Python module w
 	    # through each data structure, and add the data to our models.
 	    
 	    python_pages = [
-	        {"title": "Official Python Tutorial",
-	         "url":"http://docs.python.org/2/tutorial/"},
-	        {"title":"How to Think like a Computer Scientist",
-	         "url":"http://www.greenteapress.com/thinkpython/"},
-	        {"title":"Learn Python in 10 Minutes",
-	         "url":"http://www.korokithakis.net/tutorials/python/"} ]
+	        {'title': 'Official Python Tutorial',
+	         'url':'http://docs.python.org/3/tutorial/'},
+	        {'title':'How to Think like a Computer Scientist',
+	         'url':'http://www.greenteapress.com/thinkpython/'},
+	        {'title':'Learn Python in 10 Minutes',
+	         'url':'http://www.korokithakis.net/tutorials/python/'} ]
 	    
 	    django_pages = [
-	        {"title":"Official Django Tutorial",
-	         "url":"https://docs.djangoproject.com/en/1.9/intro/tutorial01/"},
-	        {"title":"Django Rocks",
-	         "url":"http://www.djangorocks.com/"},
-	        {"title":"How to Tango with Django",
-	         "url":"http://www.tangowithdjango.com/"} ]
+	        {'title':'Official Django Tutorial',
+	         'url':'https://docs.djangoproject.com/en/2.0/intro/tutorial01/'},
+	        {'title':'Django Rocks',
+	         'url':'http://www.djangorocks.com/'},
+	        {'title':'How to Tango with Django',
+	         'url':'http://www.tangowithdjango.com/'} ]
 	    
 	    other_pages = [
-	        {"title":"Bottle",
-	         "url":"http://bottlepy.org/docs/dev/"},
-	        {"title":"Flask",
-	         "url":"http://flask.pocoo.org"} ]
+	        {'title':'Bottle',
+	         'url':'http://bottlepy.org/docs/dev/'},
+	        {'title':'Flask',
+	         'url':'http://flask.pocoo.org'} ]
 	    
-	    cats = {"Python": {"pages": python_pages},
-	            "Django": {"pages": django_pages},
-	            "Other Frameworks": {"pages": other_pages} }
+	    cats = {'Python': {'pages': python_pages},
+	            'Django': {'pages': django_pages},
+	            'Other Frameworks': {'pages': other_pages} }
 	    
 	    # If you want to add more catergories or pages,
 	    # add them to the dictionaries above.
 	    
 	    # The code below goes through the cats dictionary, then adds each category,
 	    # and then adds all the associated pages for that category.
-	    # if you are using Python 2.x then use cats.iteritems() see
-	    # http://docs.quantifiedcode.com/python-anti-patterns/readability/
-	    # for more information about how to iterate over a dictionary properly.
-	    
 	    for cat, cat_data in cats.items():
 	        c = add_cat(cat)
-	        for p in cat_data["pages"]:
-	            add_page(c, p["title"], p["url"])
+	        for p in cat_data['pages']:
+	            add_page(c, p['title'], p['url'])
 	    
 	    # Print out the categories we have added.
 	    for c in Category.objects.all():
 	        for p in Page.objects.filter(category=c):
-	            print("- {0} - {1}".format(str(c), str(p)))
+	            print('- {0} - {1}'.format(str(c), str(p)))
 	
 	def add_page(cat, title, url, views=0):
 	    p = Page.objects.get_or_create(category=cat, title=title)[0]
@@ -345,7 +336,7 @@ To create a population script for Rango, start by creating a new Python module w
 	
 	# Start execution here!
 	if __name__ == '__main__':
-	    print("Starting Rango population script...")
+	    print('Starting Rango population script...')
 	    populate()
 
 T> ### Understand this Code!
@@ -355,7 +346,7 @@ T> We've provided explanations below to help you learn from our code!
 T>
 T> You should also note that when you see line numbers along side the code, it indicates that we have listed the entire file, rather than code fragments. It also makes things more difficult for you to copy and paste!
 
-While this looks like a lot of code, what is going on is essentially a series of function calls to two small functions, `add_page()` and `add_cat()` defined towards the end of the module. Reading through the code, we find that execution starts at the *bottom* of the module - look at lines 75 and 76. This is because above this point, we define functions; these are not executed unless we call them. When the interpreter hits [`if __name__ == '__main__'`](http://stackoverflow.com/a/419185), we call the `populate()` function.
+While this looks like a lot of code, what is going on is essentially a series of function calls to two small functions, `add_page()` and `add_cat()` defined towards the end of the module. Reading through the code, we find that execution starts at the *bottom* of the module - look at lines 75 and 76. This is because above this point, we define functions; these are not executed *unless* we call them. When the interpreter hits [`if __name__ == '__main__'`](http://stackoverflow.com/a/419185), we call and begin execution of the `populate()` function.
 
 T> ### What does `__name__ == '__main__'` Represent?
 T> The `__name__ == '__main__'` trick is a useful one that allows a Python module to act as either a reusable module or a standalone Python script. Consider a reusable module as one that can be imported into other modules (e.g. through an `import` statement), while a standalone Python script would be executed from a terminal/Command Prompt by entering `python module.py`.
@@ -366,7 +357,7 @@ T> Code within a conditional `if __name__ == '__main__'` statement will therefor
 E> ### Importing Models
 E> When importing Django models, make sure you have imported your project's settings by importing `django` and setting the environment variable `DJANGO_SETTINGS_MODULE` to be your project's setting file, as demonstrated in lines 1 to 6 above. You then call ``django.setup()`` to import your Django project's settings.
 E>
-E> If you don't perform this crucial step, you'll **get an exception when attempting to import your models. This is because the necessary Django infrastructure has not yet been initialised.** This is why we import `Category` and `Page` *after* the settings have been loaded on line 8.
+E> If you don't perform this crucial step, you'll **get an exception when attempting to import your models. This is because the necessary Django infrastructure has not yet been initialised.** This is why we import `Category` and `Page` *after* the settings have been loaded on line 7.
 
 The `for` loop occupying lines 51-54 is responsible for the calling the `add_cat()` and `add_page()` functions repeatedly. These functions are in turn responsible for the creation of new categories and pages. `populate()` keeps tabs on categories that are created. As an example, a reference to a new category is stored in local variable `c` - check line 52 above. This is stored because a `Page` requires a `Category` reference. After `add_cat()` and `add_page()` are called in `populate()`, the function concludes by looping through all new `Category` and associated `Page` objects, displaying their names on the terminal.
 
@@ -401,7 +392,7 @@ Next, verify that the population script actually populated the database. Restart
 {id="fig-admin-populated"}
 ![The Django admin interface, showing the `Page` model populated with the new population script. Success!](images/ch5-admin-populated.png)
 
-While creating a population script may take time, you will save yourself time in the long run. When deploying your app elsewhere, running the population script after setting everything up means you can start demonstrating your app straight away. You'll also find it very handy when it comes to [unit testing your code](#chapter-testing).
+While creating a population script may take time, you will save yourself heaps of time in the long run. When deploying your app elsewhere, running the population script after setting everything up means you can start demonstrating your app straight away. You'll also find it very handy when it comes to [unit testing your code](#chapter-testing).
 
 ## Workflow: Model Setup {#section-models-databases-workflow}
 Now that we've covered the core principles of dealing with Django's ORM, now is a good time to summarise the processes involved in setting everything up. We've split the core tasks into separate sections for you. Check this section out when you need to quickly refresh your mind of the different steps.
@@ -431,11 +422,11 @@ X> ### Exercises
 X> Now that you've completed this chapter, try out these exercises to reinforce and practice what you have learnt. **Once again, note that the following chapters will have expected you to have completed these exercises! If you're stuck, there are some hints to help you complete the exercises below.**
 X>
 X> * Update the `Category` model to include the additional attributes `views` and `likes` where the `default` values for each are both zero (`0`).
-X> * Make the migrations for your app, and then migrate your database to commit the changes.
+X> * As you have changed your models, make the migrations for your Rango app. After making migrations, commit the changes to the database.
 X> * Next update your population script so that the `Python` category has `128` views and `64` likes, the `Django` category has `64` views and `32` likes, and the `Other Frameworks` category has `32` views and `16` likes.
 X> * Delete and recreate your database, populating it with your updated population script.
-X> * Complete parts [two](https://docs.djangoproject.com/en/2.0/intro/tutorial02/) and [seven](https://docs.djangoproject.com/en/2.0/intro/tutorial07/) of the official Django tutorial. These sections will reinforce what you've learnt on handling databases in Django, and show you additional techniques to customising the Django admin interface.
-X> * Customise the admin interface. Change it in such a way so that when you view the `Page` model, the table displays the `category`, the `name` of the page and the `url` - just [like in the screenshot shown below](#fig-admin-completed). You will need to complete the previous exercises or at least go through the official Django Tutorial to complete this exercise.
+X> * Complete parts [two](https://docs.djangoproject.com/en/2.0/intro/tutorial02/) and [seven](https://docs.djangoproject.com/en/2.0/intro/tutorial07/) of the official Django tutorial. These sections will reinforce what you've learnt on handling databases in Django, and show you additional techniques to customising the Django admin interface. This knowledge will help you complete the final exercise below.
+X> * Customise the admin interface. Change it in such a way so that when you view the `Page` model, the table displays the `category`, the `name` of the page and the `url` - just [like in the screenshot shown below](#fig-admin-completed). Complete the official Django tutorial or look at the tip below to complete this particular exercise.
 
 
 {id="fig-admin-completed"}
@@ -453,7 +444,6 @@ T>      * The final step involves you modifying how you call the `add_cat()` fun
 T> * After your population script has been updated, you can move on to customising the admin interface. You will need to edit `rango/admin.py` and create a `PageAdmin` class that inherits from `admin.ModelAdmin`. 
 T>      * Within your new `PageAdmin` class, add `list_display = ('title', 'category', 'url')`.
 T>      * Finally, register the `PageAdmin` class with Django's admin interface. You should modify the line `admin.site.register(Page)`. Change it to `admin.site.register(Page, PageAdmin)` in Rango's `admin.py` file.
-T>		* If you get really stuck look at our [code on github](https://github.com/leifos/tango_with_django_2/)!
 
 I> ### Tests
 I>
