@@ -13,7 +13,7 @@ To do this there are five main steps that you must undertake to create a data dr
 These steps highlight how we need to work within Django's framework to bind models, views and templates together.
 
 ## Showing Categories on Rango's Homepage
-One of the requirements regarding the main page was to show the top five rango'ed categories. To fulfil this requirement, we will go through each of the above steps.
+One of the requirements regarding the main page was to show the top five categories present within your app's database. To fulfil this requirement, we will go through each of the above steps.
 
 ### Importing Required Models
 First, we need to complete step one. Open `rango/views.py` and at the top of the file, after the other imports, import the `Category` model from Rango's `models.py` file.
@@ -23,34 +23,36 @@ First, we need to complete step one. Open `rango/views.py` and at the top of the
 	from rango.models import Category
 
 ### Modifying the Index View
-Here we will complete step two and step three, where we need to modify the view `index()` function. Remember that the `index()` function is responsible for the main page view.  Modify `index()` as follows:
+Here we will complete steps two and step three, where we need to modify the view `index()` function. Remember that the `index()` function is responsible for the main page view.  Modify `index()` as follows:
 
 {lang="python",linenos=off}
 	def index(request):
 	    # Query the database for a list of ALL categories currently stored.
-	    # Order the categories by no. likes in descending order.
+	    # Order the categories by the number of likes in descending order.
 	    # Retrieve the top 5 only - or all if less than 5.
-	    # Place the list in our context_dict dictionary
+	    # Place the list in our context_dict dictionary (with our boldmessage!)
 	    # that will be passed to the template engine.
-	    
 	    category_list = Category.objects.order_by('-likes')[:5]
-	    context_dict = {'categories': category_list}
+	    
+	    context_dict = {}
+	    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
+	    context_dict['categories'] = category_list
 	    
 	    # Render the response and send it back!
 	    return render(request, 'rango/index.html', context_dict)
 
 Here, the expression `Category.objects.order_by('-likes')[:5]`  queries the `Category` model to retrieve the top five categories. You can see that it uses the `order_by()` method to sort by the number of `likes` in descending order. The `-` in `-likes` denotes that we would like them in descending order (if we removed the `-` then the results would be returned in ascending order). Since a list of `Category` objects will be returned, we used Python's list operators to take the first five objects from the list (`[:5]`) to return a subset of `Category` objects.
 
-With the query complete, we passed a reference to the list (stored as variable `category_list`) to the dictionary, `context_dict`. This dictionary is then passed as part of the context for the template engine in the `render()` call.
+With the query complete, we passed a reference to the list (stored as variable `category_list`) to the dictionary, `context_dict`. This dictionary is then passed as part of the context for the template engine in the `render()` call. Note that above, we still include our `boldmessage` in the `context_dict` -- this is still required in order for the existing template to work! This means our context dictionary now contains two key/value pairs: `boldmessage`, representing our `Crunchy, creamy, cookie, candy, cupcake!` message, and `categories`, representing our top five categories that have been pulled out from the database.
 
 W> ###Warning
 W> For this to work, you will have had to complete the exercises in the previous chapter where you need to add the field `likes` to the `Category` model.
 
 
 ### Modifying the Index Template
-With the view updated, we can complete the fourth step and update the template `rango/index.html`, located within your project's `templates` directory. Change the HTML so that it looks like the example shown below.
+With the view updated, we can complete the fourth step and update the template `rango/index.html`, located within your project's `templates` directory. Change the HTML so that it looks like the example shown below. Note that the major changes start at line xx.
 
-{lang="html",linenos=off}
+{lang="html",linenos=on}
 	<!DOCTYPE html>
 	{% load staticfiles %}
 	<html>
@@ -61,17 +63,17 @@ With the view updated, we can complete the fourth step and update the template `
 	<body>
 	    <h1>Rango says...</h1>
 	    <div>
-			hey there partner! <br/>
-			<strong>{{ boldmessage }}</strong>
-		</div>
+	        hey there partner! <br/>
+	        <strong>{{ boldmessage }}</strong>
+	    </div>
 	
 	    <div>
 	    {% if categories %}
-	    <ul>
+	        <ul>
 	        {% for category in categories %}
 	            <li>{{ category.name }}</li>
 	        {% endfor %}
-	    </ul>
+	        </ul>
 	    {% else %}
 	        <strong>There are no categories present.</strong>
 	    {% endif %}	
