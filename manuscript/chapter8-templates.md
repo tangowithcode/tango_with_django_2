@@ -2,7 +2,7 @@
 So far, we've created several HTML templates for different pages within our Rango application. As you created  each additional template, you may have noticed that a lot of the HTML code is repeated. Anytime you repeat similar code, you are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) - which states: DO NOT REPEAT YOURSELF! You might have also noticed that the way we have been referring to different pages using *hard coded* URL paths. This is bad practice - names will invariably change.
 Taken together, repetition and hard coding will result in a maintainence nightmare, because if we want to make a change to the general site structure or change a URL path, you will have to modify all the templates which has the URL or where the structure changes. This might be tractable if your site has a few pages, but always think, what if my site had hundreds or millions - how long would it take then? How likely are mistakes?
 
-Luckily for us Django developers have already thought about how to solve such problems and provided solutions. In this chapter, we will use *template inheritance* to overcome the first problem, and the *URL template tag* to solve the second problem. We will start with addressing the latter problem first.
+Luckily for us, Django developers have already thought about how to solve such problems and provided solutions. In this chapter, we will use *template inheritance* to overcome the first problem, and the *URL template tag* to solve the second problem. We will start with addressing the latter problem first.
 
 ## Using Relative URLs in Templates
 So far, we have been directly coding the URL of the page or view we want to

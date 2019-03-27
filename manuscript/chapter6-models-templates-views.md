@@ -411,7 +411,7 @@ X> * Include a link back to the index page from the category page.
 X> * Undertake [part three of official Django tutorial](https://docs.djangoproject.com/en/2.0/intro/tutorial03/) if you have not done so already to reinforce what you've learnt here.
 
 {id="fig-ch6-exercises"}
-![The index page after you complete the exercises, showing the most liked categories and most viewed pages.](images/ch6-exercises.png)
+![The index page after you complete the exercises, showing the most liked categories and most viewed pages. Note that the ordering of the most viewed pages will vary, as you have freedom to choose whatever counts you like!](images/ch6-exercises.png)
 
 T> ### Hints
 T> * When updating the population script, you'll essentially follow the same process as you went through in the [previous chapter's](#chapter-models-databases) exercises. You will need to update the data structures for each page, and also update the code that makes use of them.
