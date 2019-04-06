@@ -45,89 +45,85 @@ W> Also, If you don't understand what the specific Bootstrap classes do, then yo
 	{% load staticfiles %}
 	{% load rango_template_tags %}
 	<html lang="en">
-	  <head>
-	    <meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	    <meta name="description" content="">
-	    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-	    <meta name="generator" content="Jekyll v3.8.5">
-	    <link rel="icon" href="{% static 'images/favicon.ico' %}">
-	    <title>
-	      Rango - {% block title %}How to Tango with Django!{% endblock %}
-	    </title>
-
-	    <!-- Bootstrap core CSS -->
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+		<meta name="generator" content="Jekyll v3.8.5">
+		<link rel="icon" href="{% static 'images/favicon.ico' %}">
+		<title>
+			Rango - {% block title %}How to Tango with Django!{% endblock %}
+		</title>
 		<!-- Bootstrap core CSS -->
-		<link href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-	
-	    <!-- Custom styles for this template -->
-	    <link href="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css" rel="stylesheet">
-
-	  </head>
-
-	  <body>
-		  <header>
-	    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">
-	  <a class="navbar-brand p-2" href="{% url 'rango:index' %}">Rango</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="navbar-toggler-icon"></span>
-	      </button>
-  
-	<div class="collapse navbar-collapse" id="navbarCollapse">
-	  <ul class="navbar-nav mr-auto">
-	    <li class="nav-item"><a class="nav-link" href="{% url 'rango:index' %}">Home</a></li>
-	    <li class="nav-item "><a class="nav-link" href="{% url 'rango:about' %}">About</a></li>
+		<link href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" rel="stylesheet" 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+			crossorigin="anonymous">
+		<!-- Custom styles for this template -->
+		<link href="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css" 
+			rel="stylesheet">
+	</head>
+	<body>
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark p-0">
+		<a class="navbar-brand p-2" href="{% url 'rango:index' %}">Rango</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" 
+			data-target="#navbarCollapse" aria-controls="navbarCollapse" 
+			aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+		<ul class="navbar-nav mr-auto">
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'rango:index' %}">Home</a></li>
+		<li class="nav-item ">
+			<a class="nav-link" href="{% url 'rango:about' %}">About</a></li>
 		{% if user.is_authenticated %}
-	    <li class="nav-item "><a class="nav-link" href="{% url 'rango:restricted' %}">Restricted</a></li>
-	    <li class="nav-item"><a class="nav-link" href="{% url 'rango:add_category' %}">Add Category</a></li>
-	    <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
+		<li class="nav-item ">
+			<a class="nav-link" href="{% url 'rango:restricted' %}">Restricted</a></li>
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'rango:add_category' %}">Add Category</a></li>
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
 		{% else %}
-	    <li class="nav-item"><a class="nav-link" href="{% url 'registration_register' %}">Register Here</a></li>
-	    <li class="nav-item "><a class="nav-link" href="{% url 'auth_login' %}">Login</a></li>
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'registration_register' %}">Register Here</a></li>
+		<li class="nav-item ">
+			<a class="nav-link" href="{% url 'auth_login' %}">Login</a></li>
 		{% endif %}
-	
-	  </ul>
-	</div>
-	</nav>
-
+		</ul>
+		</div>
+		</nav>
 	</header>
-
-
-	    <div class="container-fluid">
-	      <div class="row">
-			  <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-			       <div class="sidebar-sticky">
-		
-		        {% block sidebar_block %}
-		            {% get_category_list category %}
-		        {% endblock %}
-			
-			 </div>
-		 </nav>
-		 
-	 <main role="main" class="col-md-9  ml-sm-auto col-lg-10 px-4">		
-		 {% block body_block %}{% endblock %}
-	 
-	  <!-- FOOTER -->
-	  <footer>
-	    <p class="float-right"><a href="#">Back to top</a></p>
-	    <p>&copy; 2019 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-	  </footer>
-	</main>
-
-
-	    <!-- Bootstrap core JavaScript -->
-	    <!-- Placed at the end of the document so the pages load faster -->
-	 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	       <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
-	         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-        
-	         <script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script>
+	<div class="container-fluid">
+		<div class="row">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+		<div class="sidebar-sticky">
+		{% block sidebar_block %}
+			{% get_category_list category %}
+		{% endblock %}
+		</div>
+		</nav> 
+		<main role="main" class="col-md-9  ml-sm-auto col-lg-10 px-4">		
+			{% block body_block %}
+			{% endblock %}
+			<footer>
+			<p class="float-right"><a href="#">Back to top</a></p>
+			<p>&copy; 2019 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; 
+				<a href="#">Terms</a></p>
+			</footer>
+		</main>
+		<!-- Bootstrap core JavaScript -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+			crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+		<script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" 
+			crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+		<script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script>
 		</body>
 	</html>
 
-	
-	
 
 Once you have the new template setup, you can download the [Rango Favicon](https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/static/images/favicon.ico) and save it to `static/images/`.
 
@@ -192,22 +188,22 @@ For of all the sidebar categories are not displaying very nicely. If we take a l
 {lang="html",linenos=off}
 	<ul class="nav flex-column">
 	{% if cats %}
-	    {% for c in cats %}
-	    {% if c == act_cat %}
-	        <li  class="nav-item">
-	              <a  class="nav-link active" href="{% url 'rango:show_category' c.slug %}">
-					  <span data-feather="archive"></span>
-					  {{ c.name }}</a>
-	        </li>
-	    {% else  %}
-	        <li class="nav-item">
-	            <a  class="nav-link" href="{% url 'rango:show_category' c.slug %}">
-					<span data-feather="archive"></span>{{ c.name }}</a>
-	        </li>
-	    {% endif %}
+		{% for c in cats %}
+		{% if c == act_cat %}
+			<li  class="nav-item">
+			<a  class="nav-link active" href="{% url 'rango:show_category' c.slug %}">
+			<span data-feather="archive"></span>
+			{ c.name }}</a>
+			</li>
+		{% else  %}
+			<li class="nav-item">
+			<a  class="nav-link" href="{% url 'rango:show_category' c.slug %}">
+			<span data-feather="archive"></span>{{ c.name }}</a>
+			</li>
+		{% endif %}
 	{% endfor %}
 	{% else %}
-	    <li class="nav-item">No Categories Yet!</li>
+		<li class="nav-item">No Categories Yet!</li>
 	{% endif %}
 	</ul>
 
@@ -220,22 +216,22 @@ For the index page it would be nice to show the top categories and top pages in 
 
  Looking at the Bootstrap examples, we can see that in the [Jumbotron](https://getbootstrap.com/docs/4.2/examples/jumbotron/)  example, they have a neat header element (i.e. the jumbotron) which we can put our title message in. And so we can update the index.html as follows:
  
- {lang="html",linenos=off}
- 	<div class="jumbotron p-4">
- 	<div class="container">
-  		<h1 class="jumbotron-heading">Rango says...</h1>
- 		<div>
- 			<h2 class="h2">
- 				{% if user.is_authenticated %}
- 		 	   		Howdy {{ user.username }}!
- 			   {% else %}
- 	    	   		Hey there partner!
- 			   {% endif %}
- 			</h2>
-         	<strong>{{ boldmessage }}</strong>
-     	</div>
- 	</div>
- 	</div>
+{lang="html",linenos=off}
+	<div class="jumbotron p-4">
+	<div class="container">
+		<h1 class="jumbotron-heading">Rango says...</h1>
+		<div>
+		<h2 class="h2">
+		{% if user.is_authenticated %}
+			Howdy {{ user.username }}!
+		{% else %}
+			Hey there partner!
+		{% endif %}
+		</h2>
+		<strong>{{ boldmessage }}</strong>
+		</div>
+	</div>
+	</div>
 	
 	
 You might notice that after the `jumbotron` we have put `p-4`. The `p-4` controls the [spacing](https://getbootstrap.com/docs/4.2/utilities/spacing/) around the jumbotron. Try changing the padding to be `p-6` or `p-1`. You can also control the space of the top, bottom, left and right by specifically setting `pt`, `pb`, `pr` and `pl`. 
@@ -248,26 +244,27 @@ You might notice that after the `jumbotron` we have put `p-4`. The `p-4` control
  
  Then to create the two columns, we draw upon the [Album](https://getbootstrap.com/docs/4.2/examples/album/) example. While it has three columns, called cards, we only need two. Most, if not all, CSS frameworks use a [grid layout](https://getbootstrap.com/docs/4.2/layout/grid/)  consisteing of 12 blocks. If you inspect the HTML souce for the Album you will see that within a row there is a `<div>` which sets the size of the cards `<div class="col-md-4">` followed by `<div class="card mb-4 shadow-sm">`. This sets each card to be 4 units in length relative to the width (and 4 by 3 is 12). Since we want two cards (one for the most popular pages and most popular categories) then we can change the 4 to a 6 (i.e. 2 by 6 is 12). And so you can update the `index.html` with the following HTML.
  
- {lang="html",linenos=off}
-	 <div class="container">
-	 <div class="row">
-	 <div class="col-md-6">
-	 <div class="card mb-6">
-	 <div class="card-body">
-	 	<h2 >Most Liked Categories</h2>
-	    <p class="card-text">
-	 	{% if categories %}
-	 		<ul>
-	 	  	{% for category in categories %}
-	 	  	<li>
-	 	  	<a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a>
-	 	  	</li>
-	 	  	{% endfor %}
-	 	  	</ul>
-	 	  	{% else %}
-	 	  	<strong>There are no categories present.</strong>
-	 	  	{% endif %}
-	 	</p>
+{lang="html",linenos=off}
+	<div class="container">
+	<div class="row">
+	<div class="col-md-6">
+	<div class="card mb-6">
+	<div class="card-body">
+		<h2 >Most Liked Categories</h2>
+		<p class="card-text">
+		{% if categories %}
+		<ul>
+			{% for category in categories %}
+				<li>
+				<a href="{% url 'rango:show_category' category.slug %}">
+					{{ category.name }}</a>
+				</li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<strong>There are no categories present.</strong>
+		{% endif %}
+		</p>
 	</div>
 	</div>
 	</div>
@@ -275,19 +272,19 @@ You might notice that after the `jumbotron` we have put `p-4`. The `p-4` control
 	<div class="card mb-6">
 	<div class="card-body">
 		<h2>Most Viewed Pages</h2>
-	    <p class="card-text">
-	 	{% if pages %}
-	 	<ul>
-	 		{% for page in pages %}
-	 		<li>
-	 		<a href="{{ page.url }}">{{ page.title }}</a>
-	 		</li>
-	 		{% endfor %}
-	 		</ul>
-	 		{% else %}
-	 		<strong>There are no pages present.</strong>
-	 		{% endif %}
-	        </p>
+		<p class="card-text">
+		{% if pages %}
+			<ul>
+			{% for page in pages %}
+				<li>
+				<a href="{{ page.url }}">{{ page.title }}</a>
+				</li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<strong>There are no pages present.</strong>
+		{% endif %}
+		</p>
 	</div>
 	</div>
 	</div>
@@ -306,25 +303,23 @@ Now let's turn our attention to the login page. On the Bootstrap website you can
 {lang="html",linenos=off}
 	{% block body_block %}
 	<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css"
-	    rel="stylesheet">
+		rel="stylesheet">
 	<div class="jumbotron p-4">
-	    <h1 class="jumbotron-heading">Login</h1>
+		<h1 class="jumbotron-heading">Login</h1>
 	</div>
 	<div class="container">
-		
 	<form class="form-signin" role="form" method="post" action=".">
-	    {% csrf_token %}
-	    <h2 class="form-signin-heading">Please sign in</h2>
-	    <label for="inputUsername" class="sr-only">Username</label>
-	    <input type="text" name="username" id="id_username" class="form-control" 
-	           placeholder="Username" required autofocus>
-	    <label for="inputPassword" class="sr-only">Password</label>
-	    <input type="password" name="password" id="id_password" class="form-control"
-	           placeholder="Password" required>
-	    <button class="btn btn-lg btn-primary btn-block" type="submit" 
-	            value="Submit" />Sign in</button>
+		{% csrf_token %}
+		<h2 class="form-signin-heading">Please sign in</h2>
+		<label for="inputUsername" class="sr-only">Username</label>
+		<input type="text" name="username" id="id_username" class="form-control" 
+			placeholder="Username" required autofocus>
+		<label for="inputPassword" class="sr-only">Password</label>
+		<input type="password" name="password" id="id_password" class="form-control"
+			placeholder="Password" required>
+		<button class="btn btn-lg btn-primary btn-block" type="submit" 
+			value="Submit" />Sign in</button>
 	</form>
-
 	</div>
 	{% endblock %}
 
@@ -340,36 +335,34 @@ You can apply similar changes to `add_cagegory.html` and `add_page.html` templat
 {lang="html",linenos=off}
 	{% extends "rango/base.html" %}
 	{% block title %}Add Page{% endblock %}
-	
 	{% block body_block %}
 		<div class="jumbotron p-4">
 			<div class="container">
-		 		<h1 class="jumbotron-heading">Add Page to {{category.name}}</h1>
+			<h1 class="jumbotron-heading">Add Page to {{category.name}}</h1>
 			</div>
 		</div>
-
 		<div class="container">
 			<div class="row">
-		       <form role="form" id="page_form" method="post" 
-		             action="/rango/category/{{category.slug}}/add_page/">
-		       {% csrf_token %}
-		       {% for hidden in form.hidden_fields %}
-		           {{ hidden }}
-		       {% endfor %}
-		       {% for field in form.visible_fields %}
-		           {{ field.errors }}
-		           {{ field.help_text }}<br/>
-		           {{ field }}<br/>
-				   <div class="p-2"></div>
-		       {% endfor %}
-		       <br/>
-		       <button class="btn btn-primary"
-		               type="submit" name="submit">
-		           Add Page
-		       </button>
-			   <div class="p-5"></div>
-		       </form>
-		   </div>
+			<form role="form" id="page_form" method="post" 
+				action="/rango/category/{{category.slug}}/add_page/">
+			{% csrf_token %}
+			{% for hidden in form.hidden_fields %}
+				{{ hidden }}
+			{% endfor %}
+			{% for field in form.visible_fields %}
+				{{ field.errors }}
+				{{ field.help_text }}<br/>
+				{{ field }}<br/>
+				<div class="p-2"></div>
+			{% endfor %}
+			<br/>
+			<button class="btn btn-primary"
+				type="submit" name="submit">
+					Add Page
+			</button>
+			<div class="p-5"></div>
+			</form>
+			</div>
 		</div>
 	{% endblock %}
 
@@ -380,59 +373,53 @@ X> - Create a similar template for the Add Category page called `add_category.ht
 For the `registration_form.html`, we can update the form as follows:
 
 {lang="python",linenos=off}
-    {% extends "rango/base.html" %}
-    {% block body_block %}
-
+	{% extends "rango/base.html" %}
+	{% block body_block %}
 	<div class="jumbotron p-4">
 		<div class="container">
-	 		<h1 class="jumbotron-heading">Register Here</h1>
-		
+		<h1 class="jumbotron-heading">Register Here</h1>	
+		</div>
 	</div>
-	</div>
-
 	<div class="container">
 		<div class="row">
-
+		<div class="form-group" >
+		<form role="form"  method="post" action=".">
+			{% csrf_token %}
 			<div class="form-group" >
-		    <form role="form"  method="post" action=".">
-		        {% csrf_token %}
-		        <div class="form-group" >
-		        <p class="required"><label class="required" for="id_username">
-		            Username:</label>
-		            <input class="form-control" id="id_username" maxlength="30" 
-		                 name="username" type="text" />
-		            <span class="helptext">
-		            Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.
-		            </span>
-		        </p>
-		        <p class="required"><label class="required" for="id_email">
-		            E-mail:</label>
-		            <input class="form-control" id="id_email" name="email" 
-		                 type="email" />
-		        </p>
-		        <p class="required"><label class="required" for="id_password1">
-		            Password:</label>
-		            <input class="form-control" id="id_password1" name="password1"
-		                type="password" />
-		        </p>
-		        <p class="required">
-		            <label class="required" for="id_password2">
-		                Password confirmation:</label>
-		            <input class="form-control" id="id_password2" name="password2" 
-		                 type="password" />
-		            <span class="helptext">
-		                 Enter the same password as before, for verification.
-		            </span>
-		        </p>
-		        </div>
-		        <button type="submit" class="btn btn-primary">Submit</button>
-		    </form>
+			<p class="required"><label class="required" for="id_username">
+				Username:</label>
+			<input class="form-control" id="id_username" maxlength="30" 
+				name="username" type="text" />
+			<span class="helptext">
+				Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.
+			</span>
+			</p>
+			<p class="required"><label class="required" for="id_email">
+				E-mail:</label>
+			<input class="form-control" id="id_email" name="email" 
+				type="email" />
+			</p>
+			<p class="required"><label class="required" for="id_password1">
+				Password:</label>
+			<input class="form-control" id="id_password1" name="password1"
+				type="password" />
+			</p>
+			<p class="required">
+			<label class="required" for="id_password2">
+				Password confirmation:</label>
+			<input class="form-control" id="id_password2" name="password2" 
+				type="password" />
+			<span class="helptext">
+				Enter the same password as before, for verification.
+			</span>
+			</p>
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
 		</div>
-		
 	</div>
 	</div>
-	
-    {% endblock %}
+	{% endblock %}
 
 Again we have manually transformed the form created by the `{{ form.as_p }}` template tag, and added the various bootstrap classes.
 
