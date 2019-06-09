@@ -191,7 +191,8 @@ Now we need to map the `add_category()` view to a URL. In the template we have u
 	urlpatterns = [
 	    path('', views.index, name='index'),
 	    path('about/', views.about, name='about'),
-	    path('category/<slug:category_name_slug>/', views.show_category, name='show_category'),
+	    path('category/<slug:category_name_slug>/', views.show_category,
+	         name='show_category'),
 	    path('add_category/', views.add_category, name='add_category'),
 	]
 
@@ -213,8 +214,8 @@ Now let's try it out! Start or restart your Django development server, and then 
 {id="fig-ch7-add-cat"}
 >![Adding a new category to Rango with our new form.](images/ch7-add-cat.png)
 
-I> ### Missing Categories
-I> If you add a number of categories, they will not always appear on the index page. This is because we are only showing the top five categories on the index page. If you log into the Admin interface, you should be able to view all the categories that you have entered. 
+I> ### Missing Categories?
+I> If you play around with this new functionality and add a number of different categories, remember that they will not always appear on the index page. This is because we coded up our index view to only show the *top five categories* in terms of the number of likes they have received. If you log into the Admin interface, you should be able to view all the categories that you have entered. 
 I> 
 I> Another way to get some confirmation that the category is being added is to update the `add_category()` method in `rango/views.py` and change the line  `form.save(commit=True)` to be `cat = form.save(commit=True)`. This will give you a reference to an instance of the category object created by the form. You can then print the category to console (e.g. `print(cat, cat.slug)` ).
 
@@ -250,6 +251,9 @@ Within the `clean()` method, a simple pattern is observed which you can replicat
 
 This trivial example shows how we can clean the data being passed through the form before being stored. This is pretty handy, especially when particular fields need to have default values - or data within the form is missing, and we need to handle such data entry problems.
 
+X> ### What about `https`?
+X> The overridden `clean()` method we provide above only considers `http://` as a valid protocol/schema. As using secure HTTP is now commonplace in today's world, you should also really consider URLs starting with `https://`, too. The above however only serves as a simple example of how you can check and clean a form's fields before saving its data.
+
 I> ### Clean Overrides
 I> Overriding methods implemented as part of the Django framework can provide you with an elegant way to add that extra bit of functionality for your application. There are many methods which you can safely override for your benefit, just like the `clean()` method in `ModelForm` as shown above. Check out [the Official Django Documentation on Models](https://docs.djangoproject.com/en/2.0/topics/db/models/#overriding-predefined-model-methods) for more examples on how you can override default functionality to slot your own in.
 
@@ -261,7 +265,7 @@ X> - What happens when you try to add a category that already exists?
 X> - What happens when you visit a category that does not exist? A hint for a potential solution to solving this problem can be found below.
 X> - In the [section above where we implemented our `ModelForm` classes](#section-forms-pagecategory-modelform), we repeated the `max_length` values for fields that we had previously defined in [the models chapter](#chapter-models-databases). This is bad practice as we are *repeating ourselves!* How can you refactor your code so that you are *not* repeating the `max_length` values?
 X> - If you have not done so already undertake [part four of the official Django Tutorial](https://docs.djangoproject.com/en/2.0/intro/tutorial04/) to reinforce what you have learnt here.
-X> - Now let users add pages to each category, see below for some example code and hints.
+X> - Now let users add pages to each category. See below for some example code and hints.
 
 ### Creating an *Add Pages* View, Template and URL Mapping {#section-forms-addpage}
 A next logical step would be to allow users to add pages to a given category. To do this, repeat the same workflow above but for adding pages.
@@ -291,6 +295,7 @@ To get you started, here is the code for the `add_page()` view function.
 	                page.category = category
 	                page.views = 0
 	                page.save()
+	                
 	                return show_category(request, category_name_slug)
 	        else:
 	            print(form.errors)
@@ -303,10 +308,10 @@ T> ### Hints
 T> To help you with the exercises above, the following hints may be of some use to you.
 T>
 T> - In the `add_page.html` template you can access the slug with ``{{ category.slug }}`` because the view passes the `category` object through to the template via the context dictionary.
-T> - Ensure that the link only appears when *the requested category exists* - with or without pages. i.e. in the template check with `{% if cat %} .... {% else %} A category by this name does not exist {% endif %}`.
-T> - Update Rango's `category.html` template with a new hyperlink with a line break immediately following it: `<a href="/rango/category/{{category.slug}}/add_page/">Add Page</a> <br/>`
+T> - Ensure that the link only appears when *the requested category exists* - with or without pages. i.e. in the template check with `{% if category %} .... {% else %} The specified category does not exist. {% endif %}`.
+T> - Update Rango's `category.html` template with a new hyperlink with a line break immediately following it: `<a href="/rango/category/{{category.slug}}/add_page/">Add Page</a> <br/>`.
 T> - Make sure that in your `add_page.html` template that the form posts to `/rango/category/{{ category.slug }}/add_page/`.
-T> - Update `rango/urls.py` with a URL mapping (`/rango/category/<category_name_slug>/add_page/`) to handle the above link.
-T> - You can avoid the repetition of `max_length` parameters through the use of an additional attribute in your `Category` class. This attribute could be used to store the value for `max_length`, and then be referenced where required.
+T> - Update `rango/urls.py` with a URL mapping (`/rango/category/<category_name_slug>/add_page/`) to handle the above link. Provide a name of `add_page` to the new mapping.
+T> - You can avoid the repetition of `max_length` parameters through the use of an additional attribute in your `Category` model. This attribute could be used to store the value for `max_length`, and then be referenced where required.
 T>
 T> If you get *really* stuck, you can always check out [our code on GitHub](https://github.com/leifos/tango_with_django_2).
