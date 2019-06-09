@@ -189,11 +189,10 @@ Now we need to map the `add_category()` view to a URL. In the template we have u
 
 {lang="python",linenos=off}
 	urlpatterns = [
-    	path('', views.index, name='index'),
-     	path('about/', views.about, name='about'),
-     	path('category/<slug:category_name_slug>/', views.show_category, name='show_category'),
+	    path('', views.index, name='index'),
+	    path('about/', views.about, name='about'),
+	    path('category/<slug:category_name_slug>/', views.show_category, name='show_category'),
 	    path('add_category/', views.add_category, name='add_category'),
-	   
 	]
 
 Ordering doesn't necessarily matter in this instance. However, take a look at the [official Django documentation on how Django processes a request](https://docs.djangoproject.com/en/2.0/topics/http/urls/#how-django-processes-a-request) for more information. The URL for adding a category is `/rango/add_category/`.
@@ -209,7 +208,7 @@ As a final step let's put a link on the index page so that we can easily add cat
 	
 	
 ### Demo
-Now let's try it out! Start or restart your Django development server, and then point your web browser to Rango at `http://127.0.0.1:8000/rango/`. Use your new link to jump to the Add Category page, and try adding a category. The [figure below](#fig-ch7-add-cat) shows screenshots of the Add Category and Index Pages.
+Now let's try it out! Start or restart your Django development server, and then point your web browser to Rango at `http://127.0.0.1:8000/rango/`. Use your new link to jump to the Add Category page, and try adding a category. The [figure below](#fig-ch7-add-cat) shows screenshots of the Add Category and Index Pages. In the screenshots, we add the category *Assembly*.
 
 {id="fig-ch7-add-cat"}
 >![Adding a new category to Rango with our new form.](images/ch7-add-cat.png)
