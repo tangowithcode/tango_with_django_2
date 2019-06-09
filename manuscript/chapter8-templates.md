@@ -1,8 +1,11 @@
 #Working with Templates {#chapter-templates-extra}
-So far, we've created several HTML templates for different pages within our Rango application. As you created  each additional template, you may have noticed that a lot of the HTML code is repeated. Anytime you repeat similar code, you are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) - which states: DO NOT REPEAT YOURSELF! You might have also noticed that the way we have been referring to different pages using *hard coded* URL paths. This is bad practice - names will invariably change.
-Taken together, repetition and hard coding will result in a maintainence nightmare, because if we want to make a change to the general site structure or change a URL path, you will have to modify all the templates which has the URL or where the structure changes. This might be tractable if your site has a few pages, but always think, what if my site had hundreds or millions - how long would it take then? How likely are mistakes?
+So far, we've created several HTML templates for different pages within our Rango application. As you created each additional template, you may have noticed that a lot of the HTML code is repeated. Does that feel a bit strange?
 
-Luckily for us, Django developers have already thought about how to solve such problems and provided solutions. In this chapter, we will use *template inheritance* to overcome the first problem, and the *URL template tag* to solve the second problem. We will start with addressing the latter problem first.
+It should! Anytime you repeat similar code, you are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) - which states: DO NOT REPEAT YOURSELF! You might have also noticed that the way we have been referring to different pages using *hard coded* URL paths. This is bad practice -- names will invariably change.
+
+Taken together, repetition and hard coding will result in a maintenance nightmare. If we want to make a change to the general site structure or change a URL path, you will have to modify *all* the templates which contain either the structure we want to change, or the URL. This might be tractable if your site has a few pages. However, what if your site had hundreds of pages? How long would it take to update everything? How likely would it be that you will make a mistake somewhere?
+
+Luckily for us, the Django developers have already thought about how to solve such problems and provided solutions. In this chapter, we will use *template inheritance* to overcome the first problem, and the *URL template tag* to solve the second problem. We will start with addressing the latter problem first.
 
 ## Using Relative URLs in Templates
 So far, we have been directly coding the URL of the page or view we want to
@@ -11,9 +14,9 @@ show within the template, i.e. `<a href="/rango/about/">About</a>`. This kind of
 It's pretty simple to include relative URLs in your templates. To refer to the *About* page, we would insert the following line into our templates:
 
 {lang="html",linenos=off}
-	<a href="{% url 'about' %}">About</a>
+	<a href="{% url 'rango:about' %}">About</a>
 
-The Django template engine will look up any `urls.py` module for a URL pattern with the attribute `name` set to `about` (`name='about'`), and then reverse match the actual URL. This means if we change the URL mappings in `urls.py`, we don't have to go through all our templates and update them. 
+The Django template engine will look up any `urls.py` module for a URL pattern with the attribute `name` set to `about` (`name='about'`) for the app with `app_name` set to `rango`, and then perform a reverse lookup on the URL. This means if we change the URL mappings in `urls.py`, we then don't need to go through each template that refers to them.
 
 One can also reference a URL pattern without a specified name, by referencing the view directly as shown below.
 
@@ -46,11 +49,11 @@ T> 	from rango import views
 T> 	
 T> 	app_name = 'rango'
 T> 	urlpatterns = [
-T>	    path('', views.index, name='index'),
-T>    	path('about/', views.about, name='about'),
-T>    	path('category/<slug:category_name_slug>/add_page/', 
-T>			views.add_page, name='add_page'),
-T>	    ...
+T> 	    path('', views.index, name='index'),
+T> 	    path('about/', views.about, name='about'),
+T> 	    path('category/<slug:category_name_slug>/add_page/', 
+T> 	         views.add_page, name='add_page'),
+T> 	    ...
 T> 	]
 T>
 T> Adding an `app_name` variable would then mean that any URL you reference from the `rango` app could be done so like:
