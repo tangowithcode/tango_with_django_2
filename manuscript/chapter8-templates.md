@@ -167,9 +167,9 @@ Now that you have an understanding of blocks within Django templates, let's take
 	        <hr />
 	        <div>
 	            <ul>
-	                <li><a href="{% url 'rango:add_category' %}">Add New Category</a></li>
-	                <li><a href="{% url 'rango:about' %}">About</a></li>
-	                <li><a href="{% url 'rango:index' %}">Index</a></li>
+	              <li><a href="{% url 'rango:add_category' %}">Add New Category</a></li>
+	              <li><a href="{% url 'rango:about' %}">About</a></li>
+	              <li><a href="{% url 'rango:index' %}">Index</a></li>
 	            </ul>
 	        </div>
 	    </body>
