@@ -30,21 +30,17 @@ While you are in the `settings.py` module, you can also add the following variab
 	# If True, users can register.
 	REGISTRATION_OPEN = True
 	
-	# Specifies the number of days a user can activate their account post registration.
-    # Here, it is set to one week.
-	ACCOUNT_ACTIVATION_DAYS = 7
-	
 	# If True, the user will be automatically logged in after registering.
-	REGISTRATION_AUTO_LOGIN = True  
+	REGISTRATION_AUTO_LOGIN = True
 	
 	# The URL that Django redirects users to after logging in.
-	LOGIN_REDIRECT_URL = '/rango/' 
+	LOGIN_REDIRECT_URL = 'rango:index' 
 	
 	# The page users are directed to if they are not logged in.
     # This was set in a previous chapter. The registration package uses this, too.
-	LOGIN_URL = '/accounts/login/' 
+	LOGIN_URL = 'auth_login' 
 
-Remember, we can specify URL mapping names instead of absolute URLs to make our configuration more versatile. Have a look at the section below to see where the value for `LOGIN_URL` comes from.
+Remember, we can specify URL mapping names instead of absolute URLs to make our configuration more versatile. Have a look at the section below to see where the value for `LOGIN_URL` comes from. The value for `LOGIN_REDIRECT_URL` simply points to the Rango homepage; we redirect users here after successfully logging in.
 
 In your *project's* `urls.py` module (i.e. `<Workspace>/tango_with_django_project/urls.py`), you can now update the `urlpatterns` list so that it includes a reference to the `registration` package:
 
@@ -56,14 +52,14 @@ The `django-registration-redux` package provides a number of different registrat
 ## Functionality and URL mapping
 The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backends.simple.urls`, it provides key mappings, as shown in the table below.
 
-| **Activity**           | **URL**                       | **Name**                |
-|------------------------|-------------------------------|-------------------------|
-| Registration           | `/accounts/register`          | `registration_register` |
-| Completed registration | `/accounts/register/complete` | `registration_complete` |
-| Login                  | `/accounts/login/`            | `accounts_login`        |
-| Logout                 | `/accounts/logout/`           | `accounts_logout`       |
-| Password Change        | `/password/change/`           | `password_change`       |
-| Password Reset         | `/password/reset/`            | `password_reset`        |
+| **Activity**        | **URL**                      | **Name**                  |
+|---------------------|------------------------------|---------------------------|
+| Registration        | `/accounts/register/`        | `registration_register`   |
+| Registration Closed | `/accounts/register/closed/` | `registration_disallowed` |
+| Login               | `/accounts/login/`           | `auth_login`              |
+| Logout              | `/accounts/logout/`          | `auth_logout`             |
+| Password Change     | `/accounts/password/change/` | `auth_password_change`    |
+| Password Reset      | `/accounts/password/reset/'  | `auth_password_reset`     |
 
 All too good to be true! While the functionality is provided for you, the `django-registration-redux` package unfortunately does not provide templates for each of the required pages. This makes sense, as templates tend to be application-specific. As such, we'll need to create templates for each view.
 
