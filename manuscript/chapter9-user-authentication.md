@@ -486,12 +486,12 @@ This line can then be replaced with the following code.
 As you can see, we have used Django's template language to check if the user is authenticated with `{% if user.is_authenticated %}`. If a user is logged in, then Django gives us access to the `user` object. We can tell from this object if the user is logged in (authenticated). If he or she is logged in, we can also obtain details about him or her. In the example about, the user's username will be presented to them if logged in - otherwise the generic `hey there partner!` message will be shown.
 
 ### Demo
-Start the Django development server and attempt to login to the application. The [figure below](#fig-ch9-user-login) shows the screenshots of the login and index page.
+Start the Django development server and attempt to login to the application. The [figure below](#fig-ch9-user-login) shows a screenshot of the login page as it should look.
 
 {id="fig-ch9-user-login"}
-![Screenshots illustrating the header on the index page users receive when not logged in (top), and logged in with username `david` (bottom).](images/ch9-rango-login-message.png)
+![Screenshot of the login page, complete with username and password fields.](images/ch9-rango-login.png)
 
-With this completed, user logins should now be working. To test everything out, try starting Django's development server and attempt to register a new account. After successful registration, you should then be able to login with the details you just provided.
+With this completed, user logins should now be working. To test everything out, try starting Django's development server and attempt to register a new account. After successful registration, you should then be able to login with the details you just provided. Check the `index()` view -- when you log in, do you see it greeting you with your username?
 
 ## Restricting Access
 Now that users can login to Rango, we can now go about restricting access to particular parts of the application as per the specification. This means that only registered users will be able to create categories and and add new pages to existing categories. With Django, there are several ways in which we can achieve this goal.
