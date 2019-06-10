@@ -1,16 +1,15 @@
 # User Authentication with `Django-Registration-Redux` {#chapter-redux}
-In a [previous chapter](#chapter-user), we added in login and registration functionality by manually coding up the URLs, views and templates. However, such functionality is common to many web application so developers have created numerous add-on applications that can be included in your Django project to reduce the amount of code required to provide: login, registration, one-step and two-step authentication, change password, password recovery, etc. In this chapter, we will change our login and register so that it uses a packaged called, `django-registration-redux` to provide these facilities and more. 
+In a [previous chapter](#chapter-user), we added in login and registration functionality by manually coding up the URLs, views and templates. However, such functionality is common to many web applications. Because of this, developers have created numerous add-on apps that can be included in your Django project to reduce the amount of code required to provide user-related functionality, such as logging in, registration, one-step and two-step authentication, password changing, password recovery, and so forth. In this chapter, we will change Rango's login and register functionality so that it uses a packaged called `django-registration-redux`.
 
-This will mean we will need to re-factor our code to remove the login and registration functionality we previously created, and then setup and configure our project to include the `django-registration-redux` application. This chapter also will provide you with some experience of using external applications and show you how easily they can be plugged into your Django project.
+This will mean we will need to re-factor our code to remove the login and registration functionality we previously created. From there, we will then work through setting up and configuring Rango and our wider `tango_with_django_project` codebase to make use of the `django-registration-redux` application. This chapter also will provide you with some experience of using external Django apps, and will show you how easy it is to plug them into your project.
 
 ## Setting up Django Registration Redux
-To start we need to first install `django-registration-redux` version 2.2 into your environment using `pip`.
+First, we need to install `django-registration-redux` version `2.2` into your development environment using `pip`. Issue the following command at your terminal/Command Prompt.
 
 {lang="text",linenos=off}
-	pip install -U django-registration-redux==2.2
+	$ pip install -U django-registration-redux==2.2
 
-
-Now that it is installed, we need to tell Django that we will be using this application. Open up the `settings.py` file, and update the `INSTALLED_APPS` list:
+With the package installed, we need to tell Django that we will be using the `registration` app that comes within the `django-registration-redux` Python package. Open up your project's `settings.py` file, and update the `INSTALLED_APPS` list to include the `registration` package. An example `INSTALLED_APPS` list is shown below.
 
 {lang="python",linenos=off}
 	INSTALLED_APPS = [
@@ -25,48 +24,48 @@ Now that it is installed, we need to tell Django that we will be using this appl
 	    ]
 	
 
-While you are in the `settings.py` file you can also add the following variables that are part of the registrations package's configuration (these settings should be pretty self explanatory):
+While you are in the `settings.py` module, you can also add the following variables that are part of the `registration` package's configuration. We provide shorthand comments to explain what each configuration variable does.
 
 {lang="python",linenos=off}
-	# If True, users can register
+	# If True, users can register.
 	REGISTRATION_OPEN = True
-	# One-week activation window; you may, of course, use a different value.
+	
+	# Specifies the number of days a user can activate their account post registration.
+    # Here, it is set to one week.
 	ACCOUNT_ACTIVATION_DAYS = 7
-	# If True, the user will be automatically logged in.
+	
+	# If True, the user will be automatically logged in after registering.
 	REGISTRATION_AUTO_LOGIN = True  
-	# The page you want users to arrive at after they successfully log in
+	
+	# The URL that Django redirects users to after logging in.
 	LOGIN_REDIRECT_URL = '/rango/' 
-	# The page users are directed to if they are not logged in,
-	# and are trying to access pages requiring authentication 
+	
+	# The page users are directed to if they are not logged in.
+    # This was set in a previous chapter. The registration package uses this, too.
 	LOGIN_URL = '/accounts/login/' 
 
-In `tango_with_django_project/urls.py`, you can now update the `urlpatterns` so that it includes a reference to the registration package:
+Remember, we can specify URL mapping names instead of absolute URLs to make our configuration more versatile. Have a look at the section below to see where the value for `LOGIN_URL` comes from.
+
+In your *project's* `urls.py` module (i.e. `<Workspace>/tango_with_django_project/urls.py`), you can now update the `urlpatterns` list so that it includes a reference to the `registration` package:
 
 {lang="python",linenos=off}
 	path('accounts/', include('registration.backends.simple.urls')),
 
-The `django-registration-redux` package provides a number of different registration backends, depending on your needs. For example you may want a two-step process, where user is sent a confirmation email, and a verification link. Here we will be using the simple one-step registration process, where a user sets up their account by entering in a username, email, and password, and is automatically logged in.
+The `django-registration-redux` package provides a number of different registration backends that you can use, depending on your needs. For example, you may want a two-step process where user is sent a confirmation email and a verification link. Here we will just be using the simple one-step registration process where a user sets up their account by entering in a username, email, and password -- and from there is automatically logged in.
 
 ## Functionality and URL mapping
-The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backend.simple.urls`, it provides the following mappings:
+The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backends.simple.urls`, it provides key mappings, as shown in the table below.
 
-- registration -\> `/accounts/register/`
-- registration complete -\> `/accounts/register/complete/`
-- login -\> `/accounts/login/`
-- logout -\> `/accounts/logout/`
-- password change -\> `/password/change/`
-- password reset -\> `/password/reset/`
+| **Activity**           | **URL**                       | **Name**                |
+|------------------------|-------------------------------|-------------------------|
+| Registration           | `/accounts/register`          | `registration_register` |
+| Completed registration | `/accounts/register/complete` | `registration_complete` |
+| Login                  | `/accounts/login/`            | `accounts_login`        |
+| Logout                 | `/accounts/logout/`           | `accounts_logout`       |
+| Password Change        | `/password/change/`           | `password_change`       |
+| Password Reset         | `/password/reset/`            | `password_reset`        |
 
-while in the `registration.backends.default.urls` it also provides the functions for activating the account in a two stage process:
-
-- activation complete (used in the two-step registration) -\> `activate/complete/`
-- activate (used if the account action fails) -\> `activate/<activation_key>/`
-- activation email (notifies the user an activation email has been sent out)
-
-    > - activation email body (a text file, that contains the activation email text)
-    > - activation email subject (a text file, that contains the subject line of the activation email)
-
-Now the catch. While Django Registration Redux provides all this functionality, it does not provide the templates because these tend to be application specific. So we need to create the templates associated with each view.
+All too good to be true! While the functionality is provided for you, the `django-registration-redux` package unfortunately does not provide templates for each of the required pages. This makes sense, as templates tend to be application-specific. As such, we'll need to create templates for each view.
 
 ## Setting up the Templates
 In the [Django Registration Redux Quick Start Guide](https://django-registration-redux.readthedocs.org/en/latest/quickstart.html),
