@@ -8,10 +8,10 @@ Before we start coding, it's really important that we set your development envir
 * your *Integrated Development Environment (IDE)*, if you choose to use one; and
 * a *Version Control System (VCS)* called *Git*.
 
-If you already have Python 3 and Django 2 installed on your computer and are familar with the technologies listed above, you can skip straight ahead to the [Django Basics chapter](#chapter-django-basics). If you are not familiar with some or all of the technologies listed, we provide an overview of each below. These go hand in hand with later [supplementary chapter](#chapter-system-setup) that provide a series of pointers on how to set the different components up, if you need help doing so.
+If you already have Python 3 and Django 2 installed on your computer and are familiar with the technologies listed above, you can skip straight ahead to the [Django Basics chapter](#chapter-django-basics). If you are not familiar with some or all of the technologies listed, we provide an overview of each below. These go hand in hand with later [supplementary chapter](#chapter-system-setup) that provide a series of pointers on how to set the different components up, if you need help doing so.
 
 I> ### You Development Environment is Important!
-I> Setting up your development environment can be a tedious and frustrating process. It's not something that you would do everyday. The pointers we provide in this chapter (and the [additional supplementary chapter](#chapter-system-setup)) should help you in getting everything to a working state. The effort you expend now in making sure everything works will ensure that development can proceed unhindered.
+I> Setting up your development environment can be a tedious and frustrating process. It's not something that you would do every day. The pointers we provide in this chapter (and the [additional supplementary chapter](#chapter-system-setup)) should help you in getting everything to a working state. The effort you expend now in making sure everything works will ensure that development can proceed unhindered.
 I>
 I> From experience, we can also say with confidence that as you set your environment up it's a good idea to note down the steps that you took. You will probably need that workflow again one day -- maybe you will purchase a new computer, or be asked to help a friend set their environment up, too. *Don't think short-term, think long-term!*
 
@@ -20,11 +20,11 @@ To work with Tango with Django, we require you to have installed on your compute
 
 W> ### Running macOS, Linux or UNIX?
 W>
-W> On installations of macOS, Linux or UNIX, you will find that Python is already installed on your computer -- albeit a much older version, typically 2.x. This version is required by your operating system to perform essential tasks such as downloading and installing updates. While you can use this version, it most likely won't be compatiable with Django 2, and you'll need to install a newer version of Python to run *side-by-side* with the old installation. *Do not uninstall Python 2.x* if it is already present on your system; you may break your operating system!
+W> On installations of macOS, Linux or UNIX, you will find that Python is already installed on your computer -- albeit a much older version, typically 2.x. This version is required by your operating system to perform essential tasks such as downloading and installing updates. While you can use this version, it most likely won't be compatible with Django 2, and you'll need to install a newer version of Python to run *side-by-side* with the old installation. *Do not uninstall Python 2.x* if it is already present on your system; you may break your operating system!
 
 I> ## Python Skills Rusty?
 I>
-I> If you haven't used Python before -- or you simply want to brush up on you skills -- then we highly recommend that you check out and work through one or more of the following guides:
+I> If you haven't used Python before -- or you simply want to brush up on your skills -- then we highly recommend that you check out and work through one or more of the following guides:
 I>
 I> * [**The Official Python Tutorial**](https://docs.python.org/3/tutorial/);
 I> * [**Think Python: How to Think like a Computer Scientist**](https://greenteapress.com/wp/think-python-2e/) by Allen B. Downey; or
@@ -105,7 +105,7 @@ X>
 X> To get comfortable with your environment, try out the following exercises.
 X>
 X>  - Get up to speed with Python if you're new to the language. Try out one or more of the tutorials we list earlier.
-X>  - Install Python 3.7. Make sure `pip3` (or `pip` with your virtual environment) is also installed and works on your computer.
+X>  - Install Python 3.7. Make sure `pip3` (or `pip` within your virtual environment) is also installed and works on your computer.
 X>  - Play around with your *command line interface (CLI)*, whether it be the Command Prompt (Windows) or a Terminal (macOS, Linux, UNIX, etc.) and create a directory called `code`,  which we use to create our projects in.
 X>  - Create a new virtual environment using Python 3.7. This is optional; but we *strongly encourage you to use virtual environments.*
 X>  - Within your environment, install Django 2.1.5 and Pillow 5.0.0.
