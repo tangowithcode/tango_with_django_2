@@ -190,12 +190,10 @@ Finally, you need to decommission existing user authentication code that you wro
 
 X> ### Exercise
 X> - Using the `django-registration-redux` package, provide users of your Rango app with the ability to change their password.
+X> - Add a link to Rango's `base.html` template that directs users to the new password changing functionality. Make sure only those who are logged in can view the link.
 
 T> ### Hints
 T> To help you with the exercises above, the following hints may be of some use to you.
 T>
-T> - Have a look at [Anders Hofstee's Templates](https://github.com/macdhuibh/django-registration-templates/tree/master/registration) to get yourself started.
+T> - Have a look at [Anders Hofstee's Templates](https://github.com/macdhuibh/django-registration-templates/tree/master/registration) to get yourself started. In particular, looking at this repository will be very helpful in figuring out what to call the two new templates you require for this exercise.
 T> - Refer to the [table we provided earlier in this chapter](#section-redux-urls) to figure out what URLs and name mappings are required for this exercise.
-
-X> - Hint: see [Anders Hofstee's Templates](https://github.com/macdhuibh/django-registration-templates/tree/master/registration) to get started.
-X> - Hint: the URL to change passwords is `accounts/password/change/` and the URL to denote the password has been changed is: `accounts/password/change/done/`
