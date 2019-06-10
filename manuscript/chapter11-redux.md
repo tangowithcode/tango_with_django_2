@@ -37,7 +37,7 @@ While you are in the `settings.py` module, you can also add the following variab
 	LOGIN_REDIRECT_URL = 'rango:index' 
 	
 	# The page users are directed to if they are not logged in.
-    # This was set in a previous chapter. The registration package uses this, too.
+	# This was set in a previous chapter. The registration package uses this, too.
 	LOGIN_URL = 'auth_login' 
 
 Remember, we can specify URL mapping names instead of absolute URLs to make our configuration more versatile. Have a look at the section below to see where the value for `LOGIN_URL` comes from. The value for `LOGIN_REDIRECT_URL` simply points to the Rango homepage; we redirect users here after successfully logging in.
@@ -52,84 +52,122 @@ The `django-registration-redux` package provides a number of different registrat
 ## Functionality and URL mapping
 The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backends.simple.urls`, it provides key mappings, as shown in the table below.
 
-| **Activity**        | **URL**                      | **Name**                  |
+| **Activity**        | **URL**                      | **Mapping Name**          |
 |---------------------|------------------------------|---------------------------|
-| Registration        | `/accounts/register/`        | `registration_register`   |
-| Registration Closed | `/accounts/register/closed/` | `registration_disallowed` |
 | Login               | `/accounts/login/`           | `auth_login`              |
 | Logout              | `/accounts/logout/`          | `auth_logout`             |
+| Registration        | `/accounts/register/`        | `registration_register`   |
+| Registration Closed | `/accounts/register/closed/` | `registration_disallowed` |
 | Password Change     | `/accounts/password/change/` | `auth_password_change`    |
-| Password Reset      | `/accounts/password/reset/'  | `auth_password_reset`     |
+| Password Reset      | `/accounts/password/reset/`  | `auth_password_reset`     |
 
 All too good to be true! While the functionality is provided for you, the `django-registration-redux` package unfortunately does not provide templates for each of the required pages. This makes sense, as templates tend to be application-specific. As such, we'll need to create templates for each view.
 
 ## Setting up the Templates
-In the [Django Registration Redux Quick Start Guide](https://django-registration-redux.readthedocs.org/en/latest/quickstart.html),
-it provides an overview of what templates are required, but it is not immediately clear what goes within each template. Rather than try and work it out from the code, we can take a look at a set of [templates written by Anders Hofstee](https://github.com/macdhuibh/django-registration-templates) to quickly get the gist of what we need to code up. 
+In the [Django Registration Redux Quick Start Guide](https://django-registration-redux.readthedocs.org/en/latest/quickstart.html), an overview of what templates are required is provided. However, it is not immediately clear what goes within each template. Rather than try and work it out from the code, we can take a look at a set of [templates written by Anders Hofstee](https://github.com/macdhuibh/django-registration-templates) to quickly get the gist of what we need to code up.
 
-First, create a new directory in the `templates` directory, called `registration`. This is where we will house all the pages associated with the Django Registration Redux application, as it will look in this directory for the templates it requires.
+As we'll be working on templates that the `registration` app uses, we will need to create a new directory to keep these new templates separate from our `rango` templates. In the `templates` directory, create a new directory called `registration`. We will be working on creating the basic templates from within there, as the `registration` package will look in that directory for its templates.
+
+I> ### Inheriting Templates across Apps
+I> You can inherit from base templates that belong to other apps. We'll be doing this in the code snippets below. Although we create templates in the `registration` directory for the `registration` app, we extend these templates from the `base.html` template for Rango. This will allow us to ensure a consistent look is provided across each rendered page, key to a professional website's design.
+
+I> ### Form `action="."`
+I> In the templates we add below, you will notice that those with a `<form>` element have an `action` set to `.`. What does the period mean? When referencing directories and files, the period (`.`) denotes the *current file or directory.* Translated to a form submission, this means *submit the contents of the form using a POST request to the same URL as we are currently on.*
+I>
+I> This behaviour is the same as forms we created in prior chapters, where corresponding views had a conditional switch for processing data from a `POST` request, or rendering a blank form for a `GET` request.
 
 ### Login Template {#section-redux-templates-login}
-In `templates/registration` create the file, `login.html` with the following code:
+In the `templates/registration` directory, create the file `login.html`. This will house the template used by the `registration` `auth_login` view. Add the following code to the template.
 
 {lang="html",linenos=off}
-	{% extends "rango/base.html" %}
+	{% extends 'rango/base.html %}
+	
+	{% block title_block %}
+	    Login
+	{% endblock %}
+	
 	{% block body_block %}
 	    <h1>Login</h1>
+	
 	    <form method="post" action=".">
 	        {% csrf_token %}
+	    
 	        {{ form.as_p }}
+	    
 	        <input type="submit" value="Log in" />
 	        <input type="hidden" name="next" value="{{ next }}" />
 	    </form>
+	
 	    <p>
-	        Not  a member? 
-	        <a href="{% url 'registration_register' %}">Register</a>
+	        Not registered? <a href="{% url 'registration_register %}">Register here!</a>
 	    </p>
 	{% endblock %}
 
-Notice that whenever a URL is referenced, the `url` template tag is used to reference it. If you visit, `http://127.0.0.1:8000/accounts/` then you will see the list of URL mappings, and the names associated with each URL (assuming that `DEBUG=True` in `settings.py`).
+Notice that whenever a URL is referenced, the `url` template tag is once again used to reference it. If you visit `http://127.0.0.1:8000/accounts/`, you will see the list of URL mappings and the names associated with each URL (assuming that `DEBUG=True` in `settings.py`). Alternatively, refer to the shorthand table we provided above.
 
-### Registration Template
-In `templates/registration` create the file, `registration_form.html` with the following code:
+### Logout Template
+In the `templates/registration` directory, create the file `logout.html`. This template will be rendered whenever a user logs out from Rango. Add the following code to the new template.
 
 {lang="html",linenos=off}
-	{% extends "rango/base.html" %}
+	{% extends 'rango/base.html' %}
+	
+	{% block title_block %}
+	    Logged Out
+	{% endblock %}
+	
+	{% block body_block %}
+	    <h1>Logged Out</h1>
+	    
+	    <p>
+	        You have been successfully logged out. Thanks for spending time on Rango!
+	    </p>
+	{% endblock %}
+
+### Registration Template
+In `templates/registration` directory, create the file `registration_form.html`. This will house the template used to render a registration form. Add the following code to the new template.
+
+{lang="html",linenos=off}
+	{% extends 'rango/base.html %}
+	
+	{% block title_block %}
+	    Register
+	{% endblock %}
+	
 	{% block body_block %}
 	    <h1>Register Here</h1>
+	
 	    <form method="post" action=".">
 	        {% csrf_token %}
+	        
 	        {{ form.as_p }}
-	        <input type="submit" value="Submit" />
+	        
+	        <input type="submit" value="Log in" />
 	    </form>
 	{% endblock %}
 
-### Registration Complete Template
-In `templates/registration` create the file, `registration_complete.html` with the following code:
+### Registration Closed Template
+In `templates/registration` directory, create the file `registration_closed.html`. This template will be rendered if a potential user attempts to register when registration is closed. Add the following code to the new file.
 
 {lang="html",linenos=off}
-	{% extends "rango/base.html" %}
+	{% extends 'rango/base.html %}
+	
+	{% block title_block %}
+	    Registration Closed
+	{% endblock %}
+	
 	{% block body_block %}
-	    <h1>Registration Complete</h1>
-	    <p>You are now registered</p>
+	    <h1>Registration Closed</h1>
+	    
+	    <p>Unfortunately, registration is currently closed. Please try again later!</p>
 	{% endblock %}
 
-### Logout Template
-In `templates/registration` create the file, `logout.html` with the following code:
-
-{lang="html",linenos=off}
-	{% extends "rango/base.html" %}
-	{% block body_block %}
-	    <h1>Logged Out</h1>
-	    <p>You are now logged out.</p>
-	{% endblock %}
-		
 ### Try out the Registration Process
-First, run `python manage.py migrate` to apply the database updates for the `Django Registration Redux` package. Then, run the server and visit: <http://127.0.0.1:8000/accounts/register/>. 
+With the basic forms created, we can now attempt to register using the `django-registration-redux` package. First, we will need to migrate our database using the `$ python manage.py migrate` command, followed by `$ python manage.py makemigrations`. After these steps, visit the registration page at <http://127.0.0.1:8000/accounts/register/>.
 
-Note how the registration form contains two fields for password - so that it can be checked. Try registering, but enter different passwords.
+{id="fig-ch11-redux-registration"}
+![A screenshot of the BBC News website (hosted in the United Kingdom) with the cookie warning message presented at the top of the page.](images/ch11-redux-registration.png)
 
-While this works, not everything is hooked up.
+As seen in the [figure above](#fig-ch11-redux-registration), note how the registration form contains two fields for the new user's password. This is standard in pretty much every website nowadays, and provides a means for validating the password entered by the user. Try registering, but enter different passwords. Notice how the `registration` app is handling all of the logic for you!
 
 ### Refactoring your project
 Now you will need to update the `base.html` so that the new registration URLs and views are used.
