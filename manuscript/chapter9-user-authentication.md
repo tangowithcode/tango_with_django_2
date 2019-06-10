@@ -628,5 +628,4 @@ X> ### Exercises
 X> For now, work on the following two exercises to reinforce what you've learnt in this chapter.
 X>
 X> - Customise the application so that only registered users can add categories and pages, while unregistered can only view or use the categories and pages. Remember, you'll need to update your template code around the links in `base.html` -- as well as the `Add Page` link in `category.html`!
-X> - Provide informative error messages when users incorrectly enter their username or password.
-X> - Keep your templating know-how up to date by converting the restricted page view to use a template. Call the template `restricted.html`, and ensure that it too extends from Rango's `base.html` template.
+X> - Keep your templating knowledge fresh by converting the restricted page view to use a template. Call the template `restricted.html`, and ensure that it too extends from Rango's `base.html` template.
