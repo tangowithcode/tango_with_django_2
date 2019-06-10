@@ -204,7 +204,7 @@ Ordering doesn't necessarily matter in this instance. However, take a look at th
 As a final step let's put a link on the index page so that we can easily add categories. Edit the template `rango/index.html` and add the following HTML hyperlink in the `<div>` element with the about link.
 
 {lang="html",linenos=off}
-	<a href="/rango/add_category/">Add a New Category</a><br />
+	<a href="/rango/add_category/">Add New Category</a><br />
 	
 	
 	

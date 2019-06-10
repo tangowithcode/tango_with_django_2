@@ -205,7 +205,7 @@ However, this is less than desirable. A blank slug would probably not make any s
 	admin.site.register(Category, CategoryAdmin)
 	...
 
-Note that with the above `admin.site.register()` call, you should replace the existing `admin.site.register(Category)` line with the one provided above. Once completed, try out the admin interface and add in a new category. Note that the `slug` field automatically populates as you type into the `name` field. Try adding a space!
+Note that with the above `admin.site.register()` call, you should ensure that you replace the existing call to `admin.site.register(Category)` with the one provided above. Once completed, try out the admin interface and add in a new category. Note that the `slug` field automatically populates as you type into the `name` field. Try adding a space!
 
 Now that we have addressed the first problem, we can ensure that the slug field is also unique by adding the constraint to the slug field. Update your `models.py` module to reflect this change, with the inclusion of a `unique=True` attribute name and value.
 
