@@ -50,16 +50,17 @@ In your *project's* `urls.py` module (i.e. `<Workspace>/tango_with_django_projec
 The `django-registration-redux` package provides a number of different registration backends that you can use, depending on your needs. For example, you may want a two-step process where user is sent a confirmation email and a verification link. Here we will just be using the simple one-step registration process where a user sets up their account by entering in a username, email, and password -- and from there is automatically logged in.
 
 ## Functionality and URL mapping {#section-redux-urls}
-The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backends.simple.urls`, it provides key mappings, as shown in the table below.
+The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backends.simple.urls`, it provides key mappings, as shown in the table below. For each URL, prepend `/accounts/`. For example, for the Login URL, your resultant URL will be `/accounts/login/`.
 
 | **Activity**             | **URL**                           | **Mapping Name**            |
 |--------------------------|-----------------------------------|-----------------------------|
-| Login                    | `/accounts/login/`                | `auth_login`                |
-| Logout                   | `/accounts/logout/`               | `auth_logout`               |
-| Registration             | `/accounts/register/`             | `registration_register`     |
-| Registration Closed      | `/accounts/register/closed/`      | `registration_disallowed`   |
-| Password Change          | `/accounts/password/change/`      | `auth_password_change`      |
-| Change Complete          | `/accounts/password/change/done/` | `auth_password_change_done` |
+|                          | `/accounts...`                    |                             |
+| Login                    | `.../login/`                      | `auth_login`                |
+| Logout                   | `.../logout/`                     | `auth_logout`               |
+| Registration             | `.../register/`                   | `registration_register`     |
+| Registration Closed      | `.../register/closed/`            | `registration_disallowed`   |
+| Password Change          | `.../password/change/`            | `auth_password_change`      |
+| Change Complete          | `.../password/change/done/`       | `auth_password_change_done` |
 
 All too good to be true! While the functionality is provided for you, the `django-registration-redux` package unfortunately does not provide templates for each of the required pages. This makes sense, as templates tend to be application-specific. As such, we'll need to create templates for each view.
 
