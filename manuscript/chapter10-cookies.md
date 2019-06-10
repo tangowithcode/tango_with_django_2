@@ -28,13 +28,13 @@ Without a persistent connection between the client and server, the software on b
 
 The most commonly used way of holding state is through the use of a *session ID* stored as a cookie on a client's computer. A session ID can be considered as a token (a sequence of characters, or a *string*) to identify a unique session within a particular Web application. Instead of storing all kinds of information as cookies on the client (such as usernames, names, or passwords), only the session ID is stored, which can then be mapped to a data structure on the Web server. Within that data structure, you can store all of the information you require. This approach is a **much more secure** way to store information about users. This way, the information cannot be compromised by a insecure client or a connection which is being snooped.
 
-If you're using a modern browser that's properly configured, it'll support cookies. Pretty much every website that you visit will create a new *session* for you when you visit. You can see this for yourself now -- check out the [screenshot below](#fig-ch10-sessionid). For Google Chrome, you can view cookies for the currently open website by accessing Chrome's Developer Tools, by accessing *Chrome Settings > More Tools > Developer Tools*. When the Developer Tools pane opens, click the *Application* tab, and look for *Cookies* down the left hand side, within the *Storage* menu. If you're running this with a Rango page open, you should then hopefully see a cookie called `sessionid`. The `sessionid` cookie contains a series of letters and numbers that Django uses to uniquely identify your computer with a given session. With this session ID, all your session details can be accessed -- but they are only stored on the *server side*.
+If you're using a modern browser that's properly configured, it'll support cookies. Pretty much every website that you visit will create a new *session* for you when you visit. You can see this for yourself now -- check out the [screenshot below](#fig-ch10-sessionid). For Google Chrome, you can view cookies for the currently open website by accessing Chrome's Developer Tools, by accessing *Chrome Settings > More Tools > Developer Tools*. When the Developer Tools pane opens, click the *Application* tab, and look for *Cookies* down the left hand side, within the *Storage* subcategory. If you're running this with a Rango page open [on your computer](http://127.0.0.1:8000/rango/), you will then see a cookie called `sessionid`. The `sessionid` cookie contains a series of letters and numbers that Django uses to uniquely identify your computer with a given session. With this session ID, all your session details can be accessed -- but they are only stored on the *server side*.
 
 {id="fig-ch10-sessionid"}
 ![A screenshot of Google Chrome's Developer Tools with the `sessionid` cookie highlighted.](images/ch10-sessionid.png)
 
 I> ### Without Cookies
-I> An alternative way of persisting state information *without cookies* is to encode the Session ID within the URL. For example, you may have seen PHP pages with URLs like this one: `http://www.site.com/index.php?sessid=someseeminglyrandomandlongstring1234`. This means you don't need to store cookies on the client machine, but the URLs become pretty ugly. These URLs go against the principles of Django, which is to provide clean, simple and human-friendly URLs.
+I> An alternative way of persisting state information *without cookies* is to encode the Session ID within the URL. For example, you may have seen PHP pages with URLs like this one: `http://www.site.com/index.php?sessid=someseeminglyrandomandlongstring`. This means you don't need to store cookies on the client machine, but the URLs become pretty ugly. These URLs go against the principles of Django, which is to provide clean, simple and human-friendly URLs.
 
 ## Setting up Sessions in Django
 Although this should already be setup and working correctly, it's nevertheless good practice to learn which Django modules provide which functionality. In the case of sessions, Django provides [middleware](https://docs.djangoproject.com/en/2.0/topics/http/middleware/) that implements session functionality.
@@ -54,12 +54,12 @@ To test out cookies, you can make use of some convenience methods provided by Dj
 
 We'll use two pre-existing views for this simple exercise, `index()` and `about()`. Instead of displaying anything on the pages themselves, we'll be making use of the terminal output from the Django development server to verify whether cookies are working correctly.
 
-In Rango's `views.py` file, locate your `index()` view. Add the following line to the view. To ensure the line is executed, make sure you put it as the first line of the view.
+In Rango's `views.py` file, locate your `index()` view. Add the following line to the view. To ensure the line is executed, make sure you put it in before the `return` line.
 
 {lang="python",linenos=off}
 	request.session.set_test_cookie()
 
-In the `about()` view, add the following three lines to the top of the function.
+In the `about()` view, add the following three lines. Again, make sure these go *before* the `return` statement to ensure they are executed. A `return` statement curtails execution at that point.
 
 {lang="python",linenos=off}
 	if request.session.test_cookie_worked():
@@ -69,14 +69,14 @@ In the `about()` view, add the following three lines to the top of the function.
 With these small changes saved, run the Django development server and navigate to Rango's homepage, `http://127.0.0.1:8000/rango/`. Now navigate to the about page, you should see `TEST COOKIE WORKED!` appear in your Django development server's console, like in the [figure below](#fig-ch10-test-cookie).
 
 {id="fig-ch10-test-cookie"}
-![A screenshot of the Django development server's console output with the `TEST COOKIE WORKED!` message.](images/ch10-test-cookie.png)
+![A screenshot of the Django development server's console output with the `TEST COOKIE WORKED!` message when the about view is requested.](images/ch10-test-cookie.png)
 
 If the message isn't displayed, you'll want to check your browser's security settings. The settings may be preventing the browser from accepting the cookie.
 
 ## Client Side Cookies: A Site Counter Example
 Now we know how cookies work, let's implement a very simple site visit counter. To achieve this, we're going to be creating two cookies: one to track the number of times the user has visited the Rango app, and the other to track the last time they accessed the site. Keeping track of the date and time of the last access will allow us to only increment the site counter once per day (for example) and thus avoid people spamming the site to increment the counter.
 
-The sensible place to assume where a user enters the Rango site is at the index page. Open Rango's `view.py` file. Let's first make a function -- given a handle to both the `request` and `response` objects -- to handle cookies (`visitor_cookie_handler()`). We can then make use of this function in Rango's `index()` view. In `views.py`, add in the following function. Note that it is not technically a view, because it does not return a `response` object -- it is just a [*helper function*](https://web.cs.wpi.edu/~cs1101/a05/Docs/creating-helpers.html).
+The sensible place to assume where a user enters the Rango site is at the index page. Open Rango's `views.py` file. Let's first make a function -- given a handle to both the `request` and `response` objects -- to handle cookies (`visitor_cookie_handler()`). We can then make use of this function in Rango's `index()` view. In `views.py`, add in the following function. Note that it is not technically a view, because it does not return a `response` object -- it is just a [*helper function*](https://web.cs.wpi.edu/~cs1101/a05/Docs/creating-helpers.html).
 
 {lang="python",linenos=off}
 	def visitor_cookie_handler(request, response):
@@ -115,13 +115,17 @@ Since we are using the `datetime` we need to `import` this into `views.py` at th
 {lang="python",linenos=off}
 	from datetime import datetime
 
-Next, update the `index()` view to call the `cookie_handler_function()` helper function. To do this, we need to extract the `response` first.
+Next, update the `index()` view to call the `cookie_handler_function()` helper function. To do this, we need to extract the `response` first. Note that we also remove the `set_test_cookie()` method call. You should also remove the test cookie code in the `about()` view at this point, too.
 
 {lang="python",linenos=off}
 	def index(request):
 	    category_list = Category.objects.order_by('-likes')[:5]
 	    page_list = Page.objects.order_by('-views')[:5]
-	    context_dict = {'categories': category_list, 'pages': page_list}
+	    
+	    context_dict = {}
+	    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
+	    context_dict['categories] = category_list
+	    context_dict['pages'] = page_list
 	    
 	    # Obtain our Response object early so we can add cookie information.
 	    response = render(request, 'rango/index.html', context_dict)
@@ -133,9 +137,9 @@ Next, update the `index()` view to call the `cookie_handler_function()` helper f
 	    return response
 
 {id="fig-ch10-cookie-visits"}
-![A screenshot of Google Chrome with the Developer Tools open showing the cookies for Rango, using the Django development server at `127.0.0.1`. Note the `visits` cookie - the user has visited a total of three times, with each visit at least one day apart.](images/ch10-cookie-visits.png)
+![A screenshot of Google Chrome with the Developer Tools open showing the cookies for Rango, using the Django development server at `127.0.0.1`. Note the `visits` cookie -- the user here has visited a total of three times, with each visit at least one day apart. Note also the the `last_visit` cookie, containing a string representation of the date and time this user accessed the index page.](images/ch10-cookie-visits.png)
 
-Now if you visit the Rango homepage and open the cookie inspector provided by your browser (e.g. Google Chrome's Developer Tools), you should be able to see the cookies `visits` and `last_visit`. The [figure above](#fig-ch10-cookie-visits) demonstrates the cookies in action. Instead of using the developer tools, you could update the `index.html` and add `<p>visits: {{ visits }}</p>` to the template to show the number of visits, and updating the context dictionary to include the `visits` value (i.e. `'visits': int(request.COOKIES.get('visits', '1')),`).
+Now if you visit the Rango homepage and open the cookie inspector provided by your browser (e.g. Google Chrome's Developer Tools), you should be able to see the cookies `visits` and `last_visit`. The [figure above](#fig-ch10-cookie-visits) demonstrates the cookies in action. Instead of using the developer tools, update the `index.html` template and add `<p>Visits: {{ visits }}</p>` to show the number of visits. For this to work, you will also need to update the context dictionary to include the `visits` value (by setting the `visits` value in the `context_dict` for the `index()` view to `int(request.COOKIES.get('visits', '1'))`).
 
 
 ## Session Data
@@ -144,7 +148,7 @@ The previous example shows how we can store and manipulate client side cookies -
 To use session-based cookies you need to perform the following steps.
 
 1.  Make sure that the `MIDDLEWARE_CLASSES` list found in the `settings.py` module contains `django.contrib.sessions.middleware.SessionMiddleware`.
-2.  Configure your session backend. Make sure that `django.contrib.sessions` is in your `INSTALLED_APPS` in `settings.py`. If not, add it, and run the database migration command, `python manage.py migrate`.
+2.  Configure your session backend. Make sure that `django.contrib.sessions` is in your `INSTALLED_APPS` in `settings.py`. If not, add it, and run the database migration command `python manage.py migrate`.
 3.  By default a database backend is assumed, but you might want to a different setup (i.e. a cache). See the [Django documentation on sessions for other backend configurations](https://docs.djangoproject.com/en/2.0/topics/http/sessions/).
 
 Instead of storing the cookies directly in the request (and thus on the client's machine), you can access server-side data via the method `request.session.get()` and store them with `request.session[]`. Note that a session ID cookie is still used to remember the client's machine (so technically a browser side cookie exists). However, all the user/session data is stored server side. Django's session middleware handles the client side cookie and the storing of the user/session data. 
@@ -173,36 +177,37 @@ Since all the cookies are stored server side, we won't be changing the response 
 	    # If it's been more than a day since the last visit...
 	    if (datetime.now() - last_visit_time).days > 0:
 	        visits = visits + 1
-	        #update the last visit cookie now that we have updated the count
+	        # Update the last visit cookie now that we have updated the count
 	        request.session['last_visit'] = str(datetime.now())
 	    else:
-	        # set the last visit cookie 
+	        # Set the last visit cookie 
 	        request.session['last_visit'] = last_visit_cookie
 	
 	    # Update/set the visits cookie
 	    request.session['visits'] = visits
 
-Now that we have updated the handler function, we can now update the `index()` view. First change `visitor_cookie_handler(request, response)` to `visitor_cookie_handler(request)`. Then add in the following line to pass the number of visits to the context dictionary.
+Now that we have updated the handler function, we can now update the `index()` view. First change `visitor_cookie_handler(request, response)` to `visitor_cookie_handler(request)`. You should then update your `context_dict` assignment for `visits` to `request.session['visits']`, ensuring that this is executed *after* the call to the `visitor_cookie_handler()` function.
 
-{lang="python",linenos=off}
-	context_dict['visits'] = request.session['visits']
-
-Make sure that these lines are executed before `render()` is called, or your changes won't be executed. The `index()` view should look like the code below. Notice that the order in which the methods are called is different because we no longer need manipulate the cookies in the response.
+You should also ensure that all of these lines are executed *before* `render()` is called, or your changes won't be executed. The `index()` view should look like the code below. Notice that the order in which the methods are called is different because we no longer need manipulate the cookies in the response.
 
 {lang="python",linenos=off}
 	def index(request):
-	    request.session.set_test_cookie()
 	    category_list = Category.objects.order_by('-likes')[:5]
 	    page_list = Page.objects.order_by('-views')[:5]
-	    context_dict = {'categories': category_list, 'pages': page_list}
-	        
+	    
+	    context_dict = {}
+	    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
+	    context_dict['categories'] = category_list
+	    context_dict['pages'] = page_list
+	    
 	    visitor_cookie_handler(request)
 	    context_dict['visits'] = request.session['visits']
 	    
-	    response = render(request, 'rango/index.html', context=context_dict)
+	    response = render(request, 'rango/index.html', context_dict)
+	    
 	    return response
 
-Before you restart the Django development server, delete the existing client side cookies to start afresh. See the warning below for more information.
+Before you restart the Django development server, delete the existing client side cookies to start afresh. **Mixing up cookies from a previous implementation can result in strange, frustrating behaviours.**
 
 W> ### Avoiding Cookie Confusion
 W> It's highly recommended that you delete any client-side cookies for Rango *before* you start using session-based data. You can do this in your browser's cookie inspector by deleting each cookie individually, or simply clear your browser's cache entirely -- ensuring that cookies are deleted in the process.
@@ -213,8 +218,8 @@ I> An added advantage of storing session data server-side is its ability to cast
 ## Browser-Length and Persistent Sessions
 When using cookies you can use Django's session framework to set cookies as either *browser-length sessions* or *persistent sessions*. As the names of the two types suggest:
 
--   browser-length sessions expire when the user closes his or her browser; and
--   persistent sessions can last over several browser instances - expiring at a time of your choice. This could be half an hour, or even as far as a month in the future.
+-   **browser-length** sessions expire when the user closes his or her browser; and
+-   **persistent sessions** can last over several browser instances - expiring at a time of your choice. This could be half an hour, or even as far as a month in the future.
 
 By default, browser-length sessions are disabled. You can enable them by modifying your Django project's `settings.py` module. Add the variable `SESSION_EXPIRE_AT_BROWSER_CLOSE`, setting it to `True`.
 
@@ -250,6 +255,7 @@ X>
 X> Now you've read through this chapter and tried out the code, give these exercises a go.
 X> 
 X> - Check that your cookies are server side. Clear the browser's cache and cookies, then check to make sure you can't see the `last_visit` and `visits` variables in the browser. Note you will still see the `sessionid` cookie. Django uses this cookie to look up the session in the database where it stores all the server side cookies about that session.
-X> - Update the *About* page view and template telling the visitors how many times they have visited the site. Remember to call the `visitor_cookie_handler()` before you attempt to get the `visits` cookie from the `request.session` dictionary, otherwise if the cookie is not set it will raise an error. 
+X> - Update the *About* page view and template telling the visitors how many times they have visited the site. Remember to call the `visitor_cookie_handler()` before you attempt to get the `visits` cookie from the `request.session` dictionary, otherwise if the cookie is not set it will raise an error. Ensure that you have `Visits: ` preceding the count.
+X> - Remove the visitor presentation logic from the `index()` view. You do however want to keep the call to the `visitor_cookie_handler()` function to increment the counter if required!
 
 [^1]: The latest version of the HTTP standard HTTP 1.1 actually supports the ability for multiple requests to be sent in one TCP network connection. This provides huge improvements in performance, especially over high-latency network connections (such as via a traditional dial-up modem and satellite). This is referred to as *HTTP pipelining*, and you can read more about this technique on [Wikipedia](http://en.wikipedia.org/wiki/HTTP_pipelining).
