@@ -20,7 +20,7 @@ With the package installed, we need to tell Django that we will be using the `re
 	    'django.contrib.messages',
 	    'django.contrib.staticfiles',
 	    'rango',
-	    'registration'  # add in the registration package
+	    'registration'  # Add in the registration package
 	    ]
 	
 
@@ -59,7 +59,7 @@ The Django Registration Redux package provides the machinery for numerous functi
 | Registration             | `/accounts/register/`             | `registration_register`     |
 | Registration Closed      | `/accounts/register/closed/`      | `registration_disallowed`   |
 | Password Change          | `/accounts/password/change/`      | `auth_password_change`      |
-| Password Change Complete | `/accounts/password/change/done/` | `auth_password_change_done` |
+| Change Complete          | `/accounts/password/change/done/` | `auth_password_change_done` |
 
 All too good to be true! While the functionality is provided for you, the `django-registration-redux` package unfortunately does not provide templates for each of the required pages. This makes sense, as templates tend to be application-specific. As such, we'll need to create templates for each view.
 
