@@ -143,16 +143,14 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 Once you have prepared the new `bootstrap_base.html` template, download the [Rango Favicon](https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/static/images/favicon.ico). This is the small icon that appears next to the URL in your browser! Save this file to `<Workspace>/tango_with_django_project/static/images/`.
 
 If you take a close look at the modified Bootstrap dashboard HTML source, you'll notice it has a lot of structure in it created by a series of `<div>` tags. Essentially the page is broken into two parts -- the top navigation bar which is contained by `<header>` tags, and the main content pane denoted by the `<main ... >` tag. Within the main content pane, there is a `<div>` which houses two other `<div>`s for the `sidebar_block` and the `body_block`.
-	
-	
+
 The code above assumes that you have completed the chapters on user authentication and used `django-registration-redux`, as outlined in the previous chapter. If you haven't done both of these activities, you will need to update the template and remove/modify the references to those links in the navigation bar in the header. 
 	
-Also of note is that the HTML template makes references to external websites to request the required `css` and `js` files. So you will need to be connected to the internet for the style to be loaded when you run the application.
+Also of note is that the HTML template makes references to external websites to request the required `css` and `js` files. In order for everything to work, you will need to be connected to the Internet for the styles and JavaScript files to be loaded when you run Rango.
 
 I> ### Working Offline?
-I> Rather than including external references to the `css` and `js` files, you could download all the associated files and store them in your static directory. If you do this, simply update the base template to reference the static files stored locally. 
+I> Rather than including external references to the `css` and `js` files, you could download all the associated files and store them in your project's `static` directory. We recommend storing CSS files in `static/css/`, with JavaScript files in `static/js/`. If you do this, you will need to update the `bootstrap_base.html` to point to the correct files locally using the `{% static '...' %}` template function.
 
-	
 ## Quick Style Change
 To give Rango a much needed facelift, we need to update our base template to make use of the new `base_bootstrap.html` template. It's now ready to go! There are many ways to do this, with one option being to rename `base.html` to `base_bootstrap.html` in all your other templates. However, a quicker solution would be to do the following.
 
@@ -203,33 +201,32 @@ This doesn't visually appear to change the look and feel, but it informs the too
 -->
 
 ### Sidebar Categories
-For of all the sidebar categories are not displaying very nicely. If we take a look at the HTML source code for the [Dashboard page](https://getbootstrap.com/docs/4.2/examples/dashboard/), we can notice that a few classes have been added to the `<ul>` and `<li>` tags to denote that they are nav-items and nav-links respectively. So update the template as shown below.
+One thing that we could improve are the way that the categories on the sidebar to the left appear. They look pretty basic at the moment, so let's make them look nicer! If we first take a look at the HTML source code for the example [Bootstrap dashboard page](https://getbootstrap.com/docs/4.2/examples/dashboard/), we notice that a few [*classes*](https://www.w3schools.com/cssref/sel_class.asp) have been added to the `<ul>` *(unordered list)* and `<li>` *(list item)* tags to denote that they are navigation items (`nav-item`) and navigation links (`nav-link`) respectively. Let's apply these classes to our `rango/categories.html` template. Refactor the file to look like the example below. Note that the logic and basic structure stays the same -- we just add classes and some supplementary tags to make things look nicer.
 
-
-{lang="html",linenos=off}
+{lang="html",linenos=on}
 	<ul class="nav flex-column">
-	{% if cats %}
-		{% for c in cats %}
-		{% if c == act_cat %}
-			<li  class="nav-item">
-			<a  class="nav-link active" href="{% url 'rango:show_category' c.slug %}">
-			<span data-feather="archive"></span>
-			{ c.name }}</a>
-			</li>
-		{% else  %}
-			<li class="nav-item">
-			<a  class="nav-link" href="{% url 'rango:show_category' c.slug %}">
-			<span data-feather="archive"></span>{{ c.name }}</a>
-			</li>
-		{% endif %}
-	{% endfor %}
+	{% if categories %}
+	    {% for c in categories %}
+	    {% if c == current_category %}
+	        <li class="nav-item">
+	        <a class="nav-link active" href="{% url 'rango:show_category' c.slug %}">
+	            <span data-feather="archive"></span>{{ c.name }}
+	        </a>
+	        </li>
+	    {% else  %}
+	        <li class="nav-item">
+	        <a class="nav-link" href="{% url 'rango:show_category' c.slug %}">
+	        <span data-feather="archive"></span>{{ c.name }}
+	        </a>
+	        </li>
+	    {% endif %}
+	    {% endfor %}
 	{% else %}
-		<li class="nav-item">No Categories Yet!</li>
+	    <li class="nav-item">There are no categories present.</li>
 	{% endif %}
 	</ul>
 
-
-Also, rather than using `<strong>` to show that the category page has been selected, we have added the `active` class to the active category. We can also add in a `feather-icon` using the `<span. ... >' tag. Here we chose the `archive` icon, but you can see that there are loads of icons to choose from at Feather Icons (https://feathericons.com/)
+Rather than using `<strong>` to show what category page has been selected, we have added the `active` class to the currently shown category. We can also add in a `feather-icon` using the `<span data-feather="archive">` tag. Here, we chose the `archive` icon, but there are loads of icons you can choose from instead. Have a look at the [Feather Icons website](https://feathericons.com/) for a list.
 
 
 ### The Index Page
