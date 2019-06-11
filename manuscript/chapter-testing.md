@@ -204,7 +204,7 @@ X>  - Update the add page functionality, and the goto functionality.
 X>  - Add in a test to ensure the last visit or first visit is not in the future.
 X>  - Add in a test to ensure that the last visit equal to or after the first visit.
 X> 
-X>  If you want to see more tests for Rango, you can see the ones we have created in on [GitHub](https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/rango/tests.py)
+X>  If you want to see more tests for Rango, you can see the ones we have created on [GitHub](https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/rango/tests.py)
 
 
 I> ### Other Test Resources
