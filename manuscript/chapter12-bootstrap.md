@@ -228,93 +228,93 @@ One thing that we could improve are the way that the categories on the sidebar t
 
 Rather than using `<strong>` to show what category page has been selected, we have added the `active` class to the currently shown category. We can also add in a `feather-icon` using the `<span data-feather="archive">` tag. Here, we chose the `archive` icon, but there are loads of icons you can choose from instead. Have a look at the [Feather Icons website](https://feathericons.com/) for a list.
 
-
 ### The Index Page
-For the index page it would be nice to show the top categories and top pages in two separate columns, while the title is at the top.
+For the index page, it would be nice to show the top categories and top pages in two separate columns, with the title kept at the top. This would be a much better use of screen real estate!
 
- Looking at the Bootstrap examples, we can see that in the [Jumbotron](https://getbootstrap.com/docs/4.2/examples/jumbotron/)  example, they have a neat header element (i.e. the jumbotron) which we can put our title message in. And so we can update the index.html as follows:
+If we go back to the Bootstrap examples, we can see that [Jumbotron](https://getbootstrap.com/docs/4.2/examples/jumbotron/) example provides a neat header element that we can put our title message in. To use that, we update our `index.html` template to incorporate the following, replacing the existing header message markup (including the existing `<h1>` tag and corresponding `<div>` immediately underneath).
  
 {lang="html",linenos=off}
 	<div class="jumbotron p-4">
-	<div class="container">
-		<h1 class="jumbotron-heading">Rango says...</h1>
-		<div>
-		<h2 class="h2">
-		{% if user.is_authenticated %}
-			Howdy {{ user.username }}!
-		{% else %}
-			Hey there partner!
-		{% endif %}
-		</h2>
-		<strong>{{ boldmessage }}</strong>
-		</div>
+	    <div class="container">
+	        <h1 class="jumbotron-heading">Rango says...</h1>
+	        <div>
+	        <h2 class="h2">
+	            {% if user.is_authenticated %}
+	                howdy {{ user.username }}!
+	            {% else %}
+	                hey there partner!
+	            {% endif %}
+	        </h2>
+	        <strong>{{ boldmessage }}</strong>
+	        </div>
+	    </div>
 	</div>
-	</div>
-	
-	
-You might notice that after the `jumbotron` we have put `p-4`. The `p-4` controls the [spacing](https://getbootstrap.com/docs/4.2/utilities/spacing/) around the jumbotron. Try changing the padding to be `p-6` or `p-1`. You can also control the space of the top, bottom, left and right by specifically setting `pt`, `pb`, `pr` and `pl`. 
-  
-  
- X> ### Site Styling Exercise
- X> Update all other templates so that the page heading is encapsulated within a jumbotron. This will make the whole application have a consistent look and feel.
-  
- 
- Then to create the two columns, we draw upon the [Album](https://getbootstrap.com/docs/4.2/examples/album/) example. While it has three columns, called cards, we only need two. Most, if not all, CSS frameworks use a [grid layout](https://getbootstrap.com/docs/4.2/layout/grid/)  consisteing of 12 blocks. If you inspect the HTML souce for the Album you will see that within a row there is a `<div>` which sets the size of the cards `<div class="col-md-4">` followed by `<div class="card mb-4 shadow-sm">`. This sets each card to be 4 units in length relative to the width (and 4 by 3 is 12). Since we want two cards (one for the most popular pages and most popular categories) then we can change the 4 to a 6 (i.e. 2 by 6 is 12). And so you can update the `index.html` with the following HTML.
+
+For the `<div>` container, we applied classes `jumbotron` and `p-4`. The class `p-4` controls the [spacing](https://getbootstrap.com/docs/4.2/utilities/spacing/) around the jumbotron. Try changing the padding to be `p-6` or `p-1` to see what happens! You can also control the space of the top, bottom, left and right by specifically setting `pt`, `pb`, `pr` and `pl` instead of just `p`. 
+
+X> ### Site Styling Exercise
+X> Update all other templates so that the page heading is encapsulated within a jumbotron. This will make the whole application have a consistent look, something that is crucial for a professionally-designed website.
+X>
+X> Don't forget to update the templates used for the `registration` package!
+
+After you have successfully added the jumbotron, we can move on to the two-column layout. Here, we draw upon the [album](https://getbootstrap.com/docs/4.2/examples/album/) layout. While it has three columns, called cards, we only need two. Most -- if not all -- CSS frameworks use a [grid layout](https://getbootstrap.com/docs/4.2/layout/grid/) consisting of a total of 12 columns. If you inspect the HTML source for the album layout, you will see that within a row there is a `<div>` which sets the size of the cards. The `<div>` is `<div class="col-md-4">`, followed by `<div class="card mb-4 shadow-sm">`. This sets each card to be 4 units in length (out of 12) relative to the width (and 4 by 3 is 12). Since we want two cards (one for the most popular pages and most popular categories) then we can change the 4 to a 6 (i.e. 50%, with 2 by 6 is 12). To implement this, update the `index.html` template once again. This time, we are replacing the existing `<div>` elements that housed the most liked categories and most viewed pages.
  
 {lang="html",linenos=off}
 	<div class="container">
-	<div class="row">
-	<div class="col-md-6">
-	<div class="card mb-6">
-	<div class="card-body">
-		<h2 >Most Liked Categories</h2>
-		<p class="card-text">
-		{% if categories %}
-		<ul>
-			{% for category in categories %}
-				<li>
-				<a href="{% url 'rango:show_category' category.slug %}">
-					{{ category.name }}</a>
-				</li>
-			{% endfor %}
-			</ul>
-		{% else %}
-			<strong>There are no categories present.</strong>
-		{% endif %}
-		</p>
-	</div>
-	</div>
-	</div>
-	<div class="col-md-6">
-	<div class="card mb-6">
-	<div class="card-body">
-		<h2>Most Viewed Pages</h2>
-		<p class="card-text">
-		{% if pages %}
-			<ul>
-			{% for page in pages %}
-				<li>
-				<a href="{{ page.url }}">{{ page.title }}</a>
-				</li>
-			{% endfor %}
-			</ul>
-		{% else %}
-			<strong>There are no pages present.</strong>
-		{% endif %}
-		</p>
-	</div>
-	</div>
-	</div>
-	</div>
+	    <div class="row">
+	        <div class="col-md-6">
+	            <div class="card mb-6">
+	                <div class="card-body">
+	                    <h2>Most Liked Categories</h2>
+	                    <p class="card-text">
+	                    {% if categories %}
+	                    <ul>
+	                        {% for category in categories %}
+	                        <li>
+	                        <a href="{% url 'rango:show_category' category.slug %}">
+	                        {{ category.name }}</a>
+	                        </li>
+	                        {% endfor %}
+	                    </ul>
+	                    {% else %}
+	                    <strong>There are no categories present.</strong>
+	                    {% endif %}
+	                    </p>
+	                </div>
+	            </div>
+	        </div>
+	        
+	        <div class="col-md-6">
+	            <div class="card mb-6">
+	                <div class="card-body">
+	                    <h2>Most Viewed Pages</h2>
+	                    <p class="card-text">
+	                    {% if pages %}
+	                    <ul>
+	                        {% for page in pages %}
+	                        <li>
+	                        <a href="{{ page.url }}">{{ page.title }}</a>
+	                        </li>
+	                        {% endfor %}
+	                    </ul>
+	                    {% else %}
+	                    <strong>There are no pages present.</strong>
+	                    {% endif %}
+	                    </p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
  
-Once you have updated the template, reload the page - it should look a lot better now, but the way the list items are presented is pretty horrible. 
+Once you have updated the template, reload the page -- it should look a lot better now, but the way the list items are presented is not the best. Once again, it looks pretty basic. Surely we can make it look even better!
 
-Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how they look. We can do this quite easily by changing the `<ul>` elements to `<ul class="list-group">` and the `<li>` elements to `<li class="list-group-item">`. Reload the page, any better?
+Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how the links look. We can do this quite easily by changing the two `<ul>` elements to `<ul class="list-group">` and each of the `<li>` elements that we just added to `<li class="list-group-item">`. Once you have completed these steps, reload the index page. How does it look now? It should similar to [the figure below][#fig-bootstrap-styled-index].
 
-![A screenshot of the Index page with a Jumbotron and Columns.](images/ch12-styled-index.png)
+{id="fig-bootstrap-styled-index"}
+![The updated Rango index page, after applying both the jumbotron and two-column layout. How much better does it look now?](images/ch12-bootstrap-styled-index.png)
 
-###The Login Page
+### The Login Page
 Now let's turn our attention to the login page. On the Bootstrap website you can see they have already made a [nice login form](https://getbootstrap.com/docs/4.2/examples/sign-in/). If you take a look at the source, you'll notice that there are a number of classes that we need to include to stylise the basic login form. Update the `body_block` in the `login.html` template as follows:
 
 {lang="html",linenos=off}
