@@ -1,5 +1,8 @@
 #JQuery and Django {#chapter-jquery}
-JQuery rocks! [JQuery](https://jquery.com/) is a library written in JavaScript that lets you access the power of JavaScript without too much pain. This is because a few lines of JQuery often encapsulates hundreds of lines of JavaScript. Also, JQuery provides a suite of functionality that is mainly focused on manipulating HTML elements. In this chapter, we will describe:
+ [JQuery](https://jquery.com/) is a library written in JavaScript that lets you access the power of JavaScript without too much pain. 
+ This is because a few lines of JQuery often encapsulates hundreds of lines of JavaScript. 
+ Also, JQuery provides a suite of functionality that is mainly focused on manipulating HTML elements. 
+ In this chapter, we will describe:
 
 - how to incorporate JQuery within your Django app;
 - explain how to interpret JQuery code; and
@@ -42,9 +45,9 @@ I> JQuery requires you to think in a more *functional* programming style, as opp
 In this example, we want to show you the difference between doing the same functionality in standard JavaScript versus JQuery. In your `about.html` template, add the following piece of code:
 
 {lang="html",linenos=off}
-        <button  class="btn btn-primary" 
-    onClick="alert('You clicked the button using inline JavaScript.');"> 
-    Click Me - I run JavaScript 
+    <button  class="btn btn-primary" 
+        onClick="alert('You clicked the button using inline JavaScript.');"> 
+        Click Me - I run JavaScript 
     </button>
 
 As you can see, we are assigning the function `alert()` to the `onClick` handler of the button. Load up the `about` page, and try it out. Now lets do it using JQuery, by first adding another button:

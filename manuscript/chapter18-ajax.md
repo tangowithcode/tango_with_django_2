@@ -52,7 +52,7 @@ To prepare the template, we will need to add in the "like" button with `id="like
 	{% endif %}
 	</div>
     
-Notice that we used the thumnbs up icon from [Feather](https://feathericons.com/), e.g. `<span data-feather="thumbs-up"></span>`.
+Notice that we used the thumbs up icon from [Feather](https://feathericons.com/), e.g. `<span data-feather="thumbs-up"></span>`.
 
 ### Create a Like Category View
 Create a new view called, `like_category` in `rango/views.py` which will examine the request and pick out the `category_id` and then increment the number of likes for that category.
@@ -132,8 +132,8 @@ With these elements added into the templates, you can add in some JQuery to upda
 - If the call is successful, replace the content of the `<div>` with id="cats" with the data received.
 - Here you can use the JQuery `.html()` function i.e. `$('#cats').html( data )`
 
-X> ###Exercise
-X> - Update the population script by adding in the following categories: `Pascal`, `Perl`, `PHP`, `Prolog`, `PostScript` and `Programming`. 
+X> ### Populate Exercise
+X> Update the population script by adding in the following categories: `Pascal`, `Perl`, `PHP`, `Prolog`, `PostScript` and `Programming`. 
 X> These additional categories will make the demo of the inline category suggestion functionality more impressive.
 
 ### Parameterising `get_category_list()`
@@ -207,15 +207,15 @@ Here, we attached an event handler to the HTML input element with `id="suggestio
 	
 
 
-X> ###Exercises
+X> ### AJAX Add Button Exercise
 X> To let registered users quickly and easily add a Page to the Category put an "Add" button next to each search result.
-X> - Update the `category.html` template:
+X>  - Update the `category.html` template:
 X> 		- Add a small button next to each search result (if the user is authenticated), garnish the button with the title and URL data, so that the JQuery can pick it out.
 X>		- Put a `<div>` with `id="page"` around the pages in the category so that it can be updated when pages are added.
-X> - Remove that link to `add` button, if you like.
-X> - Create a view `auto_add_page` that accepts a parameterised `GET` request ``(title, url, catid)`` and adds it to the category.
-X> - Map an URL to the view `url(r'^add/$', views.auto_add_page, name='auto_add_page'),`
-X> - Add an event handler to the add buttons using JQuery - when added hide the button. The response could also update the pages listed on the category page, too.
+X>  - Remove that link to `add` button, if you like.
+X>  - Create a view `auto_add_page` that accepts a parameterised `GET` request ``(title, url, catid)`` and adds it to the category.
+X>  - Map an URL to the view `url(r'^add/$', views.auto_add_page, name='auto_add_page'),`
+X>   - Add an event handler to the add buttons using JQuery - when added hide the button. The response could also update the pages listed on the category page, too.
 
 We have included the following code fragments to help you complete the exercises above. The HTML template code for `category.html` that inserts a button, and crucially keeps a record of the category that the button is associated with.
 
@@ -265,7 +265,7 @@ The view code that handles the adding of a link to a category:
 
 The HTML template markup for the new template `page_list.html`:
 
-{lang="html",lineos=off}
+{lang="html",linenos=off}
 	{% if pages %}
 	<ul>
 	    {% for page in pages %}
