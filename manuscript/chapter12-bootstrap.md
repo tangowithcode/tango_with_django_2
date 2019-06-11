@@ -1,41 +1,46 @@
 # Bootstrapping Rango {#chapter-bootstrap}
-In this chapter, we will be styling Rango using the *Twitter Bootstrap 4* toolkit. Bootstrap is the most popular HTML, CSS, JS Framework, which we can use to style our application. The toolkit lets you design and style responsive web applications, and is pretty easy to use once you get familiar with it.
+In this chapter, we will be styling Rango using the *Twitter Bootstrap 4* toolkit. Bootstrap is one of the most popular toolkits for styling HTML pages, utilising both CSS and JavaScript (JavaScript is used to provide functionality for user interface components such as menus). The toolkit lets you design and style [*responsive* web applications](https://en.wikipedia.org/wiki/Responsive_web_design), and is pretty easy to use once you familiarise yourself with it.
 
 I> ### Cascading Style Sheets
-I> If you are not familiar with CSS, have a look at the [CSS crash course](#chapter-css). We provide a quick guide on the basic of Cascading Style Sheets.
+I> If you are not familiar with CSS, have a look at the [CSS crash course](#chapter-css). We provide a quick guide on the basics of using Cascading Style Sheets.
 
-Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/) - it provides you with sample code and examples of the different components and how to style them by added in the appropriate style tags, etc. On the Bootstrap website they provide a number of [example layouts](http://getbootstrap.com/examples/) which we can base our design on.
+Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/). The website provides you with sample code and examples of the different components that the toolkit provides, and provides you with examples and documentation on how to style them by adding in the appropriate markup and/or code. In addition, the website also provides a number of [complete example layouts](http://getbootstrap.com/examples/) from which we can base our design for Rango on.
 
-To style Rango we have identified that the [dashboard style](http://getbootstrap.com/examples/dashboard/) more or less meets our needs in terms of the layout of Rango, i.e. it has a menu bar at the top, a side bar (which we will use to show categories) and a main content pane. 
+To style Rango we have identified that the [dashboard layout](https://getbootstrap.com/docs/4.2/examples/dashboard/) more or less meets our needs. The layout provides us with a menu bar at the top, a sidebar (which we will use to show categories), and a main content pane in which we can display page-specific information.
 
-Download and save the HTML source for the Dashboard layout to a file called, `bootstrap-base.html` and save it to your `templates/rango` directory.
+{id="fig-admin-completed"}
+![Version 4 of the Bootstrap dashboard layout, as taken from the Twitter Bootstrap examples website. This is the layout we will be working with in this chapter.](images/ch12-bootstrap-dashboard.png)
 
-Before we can use the template, we need to modify the HTML so that we can use it in our application. The changes that we performed are listed below along with the updated HTML (so that you don't have to go to the trouble and a copy of the HTML is in our [github repository] 
-(https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/templates/rango/bootstrap-base.html).
+To tailor the dashboard HTML source to our Rango app, we need to make a number of modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd-bootstrap-base), but for completeness is also shown below.
 
-- Replaced all references of `../../` to be `http://getbootstrap.com/docs/4.2/` as we are using version 4.2.
-- Replaced `dashboard.css` with the absolute reference:
-	- `http://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css`
-- Removed the search form from the top navigation bar.
-- Stripped out all the non-essential content from the HTML and replaced it with:
-	- `{% block body_block %}{% endblock %}`
-- Set the title element to be:
-	- `<title>
-           Rango - {% block title %}How to Tango with Django!{% endblock %}
-       </title>`
+Download and save the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `templates/rango/` directory.
+
+Below is a list of all the different modifications we made to the original dashboard HTML source.
+
+- First, we replaced all references of `../../` (which symbolises to go look two directories back from where we are currently) to be `http://getbootstrap.com/docs/4.2/`. This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
+- We replaced the reference to `dashboard.css` to `http://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css`. This provides an absolute reference to the file, once again removing doubt as to what version we are referring to.
+- We took out the search form from the *navigation bar* at the top of the page.
+- We stripped out all the non-essential content from the original HTML page, and replaced it with the Rango `body_block` code, namely:
+  {lang="html",linenos=off}
+  	$ {% block body_block %}{% endblock %}
+
+- We set the `<title>` element of the page to fit with Rango:
+  {lang="html",linenos=off}
+  	$ <title>{% block title_block %}How to Tango with Django!{% endblock %}</title>
+
 - Changed `project name` to be `Rango`.
 - Added the links to the index page, login, register, etc to the top nav bar.
 - Added in a side block, i.e., `{% block side_block %}{% endblock %}`
 - Added in `{% load staticfiles %}`  and `{% load rango_template_tags %}` after the `DOCTYPE` tag.
 
+We appreciate that this all seems rather hacky -- and to some extent it is -- but the main point of this exercise is to provide a consistent style to the application and learn by experimenting with the CSS. Taking an off-the-shelf example gets us up and running quickly so we can focus on adapting it for use with Rango.
 
 
 ## Template
 
 W> ### Copying and Pasting
 W> In the introductory chapter, we said not the copy and paste - but this is an exception. 
-W> However, if you directly cut and paste you will end up bringing additional text you do not want. So go to our github page and get the [base template] 
-(https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/templates/rango/bootstrap-base.html) shown below.
+W> However, if you directly cut and paste you will end up bringing additional text you do not want. So go to our GitHub page and get the [base template](http://bit.ly/twd-bootstrap-base) shown below.
 W> 
 W> Also, If you don't understand what the specific Bootstrap classes do, then you can check out the [ Bootstrap Documentation](http://getbootstrap.com/css/).
 
@@ -47,20 +52,27 @@ W> Also, If you don't understand what the specific Bootstrap classes do, then yo
 	<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" 
+			content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="">
-		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-		<meta name="generator" content="Jekyll v3.8.5">
+		<meta name="author" 
+			content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+		<meta name="generator" 
+			content="Jekyll v3.8.5">
 		<link rel="icon" href="{% static 'images/favicon.ico' %}">
 		<title>
 			Rango - {% block title %}How to Tango with Django!{% endblock %}
 		</title>
 		<!-- Bootstrap core CSS -->
-		<link href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" rel="stylesheet" 	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
-			crossorigin="anonymous">
+		<link 
+		href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" 
+		rel="stylesheet" 	
+		integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+		crossorigin="anonymous">
 		<!-- Custom styles for this template -->
-		<link href="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css" 
-			rel="stylesheet">
+		<link 
+		href="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css" 
+		rel="stylesheet">
 	</head>
 	<body>
 	<header>
@@ -79,16 +91,21 @@ W> Also, If you don't understand what the specific Bootstrap classes do, then yo
 			<a class="nav-link" href="{% url 'rango:about' %}">About</a></li>
 		{% if user.is_authenticated %}
 		<li class="nav-item ">
-			<a class="nav-link" href="{% url 'rango:restricted' %}">Restricted</a></li>
+			<a class="nav-link" 
+			href="{% url 'rango:restricted' %}">Restricted</a></li>
 		<li class="nav-item">
-			<a class="nav-link" href="{% url 'rango:add_category' %}">Add Category</a></li>
+			<a class="nav-link" 
+			href="{% url 'rango:add_category' %}">Add Category</a></li>
 		<li class="nav-item">
-			<a class="nav-link" href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
+			<a class="nav-link" 
+			href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
 		{% else %}
 		<li class="nav-item">
-			<a class="nav-link" href="{% url 'registration_register' %}">Register Here</a></li>
+			<a class="nav-link" 
+			href="{% url 'registration_register' %}">Register Here</a></li>
 		<li class="nav-item ">
-			<a class="nav-link" href="{% url 'auth_login' %}">Login</a></li>
+			<a class="nav-link" 
+			href="{% url 'auth_login' %}">Login</a></li>
 		{% endif %}
 		</ul>
 		</div>
@@ -114,13 +131,17 @@ W> Also, If you don't understand what the specific Bootstrap classes do, then yo
 		</main>
 		<!-- Bootstrap core JavaScript -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
-			crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 	
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+		crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')
+		</script>
 		<script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" 
 			crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-		<script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js">
+		</script>
+		<script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js">
+		</script>
 		</body>
 	</html>
 
@@ -237,9 +258,8 @@ For the index page it would be nice to show the top categories and top pages in 
 You might notice that after the `jumbotron` we have put `p-4`. The `p-4` controls the [spacing](https://getbootstrap.com/docs/4.2/utilities/spacing/) around the jumbotron. Try changing the padding to be `p-6` or `p-1`. You can also control the space of the top, bottom, left and right by specifically setting `pt`, `pb`, `pr` and `pl`. 
   
   
- X> ###Exercise 
- X> - Update all other templates so that the page heading is encapsulated within a jumbotron.
- X> This will make the whole application have a consistent look and feel.
+ X> ### Site Styling Exercise
+ X> Update all other templates so that the page heading is encapsulated within a jumbotron. This will make the whole application have a consistent look and feel.
   
  
  Then to create the two columns, we draw upon the [Album](https://getbootstrap.com/docs/4.2/examples/album/) example. While it has three columns, called cards, we only need two. Most, if not all, CSS frameworks use a [grid layout](https://getbootstrap.com/docs/4.2/layout/grid/)  consisteing of 12 blocks. If you inspect the HTML souce for the Album you will see that within a row there is a `<div>` which sets the size of the cards `<div class="col-md-4">` followed by `<div class="card mb-4 shadow-sm">`. This sets each card to be 4 units in length relative to the width (and 4 by 3 is 12). Since we want two cards (one for the most popular pages and most popular categories) then we can change the 4 to a 6 (i.e. 2 by 6 is 12). And so you can update the `index.html` with the following HTML.
@@ -366,8 +386,8 @@ You can apply similar changes to `add_cagegory.html` and `add_page.html` templat
 		</div>
 	{% endblock %}
 
-X> ###Exercise 
-X> - Create a similar template for the Add Category page called `add_category.html`.
+X> ### Category Form Style Exercise
+X> Create a similar template for the Add Category page called `add_category.html`.
 
 ###The Registration Template
 For the `registration_form.html`, we can update the form as follows:
@@ -391,7 +411,8 @@ For the `registration_form.html`, we can update the form as follows:
 			<input class="form-control" id="id_username" maxlength="30" 
 				name="username" type="text" />
 			<span class="helptext">
-				Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.
+				Required. 30 characters or fewer.
+				Letters, digits and @/./+/-/_ only.
 			</span>
 			</p>
 			<p class="required"><label class="required" for="id_email">
@@ -423,7 +444,7 @@ For the `registration_form.html`, we can update the form as follows:
 
 Again we have manually transformed the form created by the `{{ form.as_p }}` template tag, and added the various bootstrap classes.
 
-W> ###Bootstrap, HTML and Django Kludge
+W> ### Bootstrap, HTML and Django Kludge
 W> This is not the best solution - we have kind of kludged it together. 
 W> It would be much nicer and cleaner if we could instruct Django when building the HTML for the form to insert the appropriate classes. But we will leave that to you to figure out :-)
 
