@@ -52,7 +52,7 @@ Below we have provided the code that we can use to issue queries to the Bing sea
 	
 		See Python Anti-Patterns - it is an awesome resource to improve your python code
 		Here we using "with" when opening documents
-		http://docs.quantifiedcode.com/python-anti-patterns/maintainability/not_using_with_to_open_files.html
+		http://bit.ly/twd-antipattern-open-files
 		"""
 	
 		bing_api_key = None
@@ -71,7 +71,7 @@ Below we have provided the code that we can use to issue queries to the Bing sea
 	def run_query(search_terms):
 		"""
 		See the Microsoft's documentation on other parameters that you can set.
-		https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference
+		http://bit.ly/twd-bing-api
 		"""
 		bing_key = read_bing_key()
 		search_url = 'https://api.cognitive.microsoft.com/bing/v7.0/search'
@@ -87,6 +87,14 @@ Below we have provided the code that we can use to issue queries to the Bing sea
 				'link': result['url'],
 				'summary': result['snippet']})
 		return results
+
+
+I> ### Python Anti-Patterns
+I> In the wrapper we avoided problems with opening files (and not remembering to close them) by using the `with` command.
+I> Opening the file directly is a common anti-pattern that should be avoided.
+I> To find out more about anti-patterns in Python, then check out the [Little Book of Python Anti-Patterns](http://bit.ly/twd-python-anti-patterns).
+I> It is an awesome resource that will help you to improve your python code.
+
 
 In the module(s) above, we have implemented two functions: one to retrieve your Bing API key from a local file, and another to issue a query to the Bing search engine. Below, we discuss how both of the functions work.
 
@@ -146,7 +154,7 @@ T> When you run the module explicitly via `python bing_search.py`, the `bing_sea
 ## Putting Search into Rango
 Now that we have successfully implemented the search functionality module, we need to integrate it into our Rango app. There are two main steps that we need to complete for this to work.
 
--  We must first create a `search.html` template that extends from our `base.html` template. The `search.html` template will include a HTML `<form>` to capture the user's query as well as template code to present any results.
+- We must first create a `search.html` template that extends from our `base.html` template. The `search.html` template will include a HTML `<form>` to capture the user's query as well as template code to present any results.
 - We then create a view to handle the rendering of the `search.html` template for us, as well as calling the `run_query()` function we defined above.
 
 ### Adding a Search Template
@@ -155,9 +163,7 @@ Let's first create a template called, `rango/search.html`. Add the following HTM
 {lang="html",linenos=on}
 	{% extends 'rango/base.html' %}
 	{% load staticfiles %}
-	
 	{% block title %} Search {% endblock %}
-	
 	{% block body_block %}
 	<div>
 	    <h1>Search with Rango</h1>
@@ -172,7 +178,6 @@ Let's first create a template called, `rango/search.html`. Add the following HTM
 	        <button class="btn btn-primary" type="submit" name="submit"
 	                value="Search">Search</button>
 	    </form>
-	    
 	    <div>
 	        {% if result_list %}
 	        <h3>Results</h3>
@@ -180,10 +185,10 @@ Let's first create a template called, `rango/search.html`. Add the following HTM
 	        <div class="list-group">
 	        {% for result in result_list %}
 	            <div class="list-group-item">
-	                <h4 class="list-group-item-heading">
-	                    <a href="{{ result.link }}">{{ result.title|safe|escape}}</a>
-	                    </h4>
-	                    <p class="list-group-item-text">{{ result.summary|safe|escape }}</p>
+	            <h4 class="list-group-item-heading">
+	            <a href="{{ result.link }}">{{ result.title|safe|escape}}</a>
+	            </h4>
+	            <p class="list-group-item-text">{{ result.summary|safe|escape }}</p>
 	            </div>
 	        {% endfor %}
 	        </div>
@@ -218,7 +223,10 @@ With our search template added, we can then add the view that prompts the render
 	    
 	    return render(request, 'rango/search.html', {'result_list': result_list})
 	
-By now, the code should be pretty self explanatory to you. The only major addition is the calling of the `run_query()` function we defined earlier in this chapter. To call it, we are required to also import the `bing_search.py` module, too. Ensure that before you run the script that you add the following `import` statement at the top of the `views.py` module.
+The code should be pretty self explanatory. 
+The only major addition is that we have called the `run_query()` function we defined earlier in this chapter. 
+To call it though, we need to import the `bing_search.py` module. 
+So check that before you run the script that you add the following `import` statement at the top of the `views.py` module.
 
 {lang="python",linenos=off}
 	from rango.bing_search import run_query, read_bing_key
@@ -234,7 +242,7 @@ Once you have put in the URL mapping and added a link to the search page, you sh
 {id="fig-bing-python-search"}
 ![Searching for "Python for Noobs".](images/ch14-bing-python-search.png)
 
-X> ### Additional Exercise
+X> ### Search Box Exercise
 X>
 X> You may notice that when you issue a query, the query disappears when the results are shown. This is not very user friendly. Update the view and template so that the user's query is displayed within the search box.
 X>
