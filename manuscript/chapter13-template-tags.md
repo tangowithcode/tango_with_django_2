@@ -15,7 +15,7 @@ could do the following:
 
 However, this is a pretty nasty solution. It requires a lot of cutting
 and pasting of code. Also, we will run into problems, when we want to
-show the categories on pages serviced by the django-registration-redux
+show the categories on pages serviced by the `django-registration-redux`
 package. So we need a different approach, by using `templatetags` that
 are included in the template that request the data required.
 
@@ -36,9 +36,9 @@ called `__init__.py`, which will be empty, and another called,
     	return {'cats': Category.objects.all()}
 
 As you can see we have made a method called, `get_category_list()` which
-returns the list of categories, and that is assocaited with a template
+returns the list of categories, and that is associated with a template
 called `rango/cats.html`. Now create a template called
-''rango/cats.html`in the templates directory with the following code:  
+`rango/cats.html` in the templates directory with the following code:  
 
 {lang="html",linenos=off}
 	<ul class="nav nav-sidebar">
@@ -51,20 +51,18 @@ called `rango/cats.html`. Now create a template called
 	{% endif %}  
 	</ul> 
 	
-Now in your`base.html`you can access the template tag by first loading it up with`{%
-load rango\_extras %}`and then slotting it into the page with`{%
-get\_category\_list
-%}`, i.e.:  
+Now in your `base.html` you can access the template tag by first loading it up with `{%
+load rango\_extras %}` and then slotting it into the page with `{% get\_category\_list %}`, i.e.:  
 
 {lang="html",linenos=off}      
 	<div class="col-sm-3 col-md-2 sidebar">          
-		{% block side_block %}         
-		{% get_category_list %}         
+	    {% block side_block %}         
+	    {% get_category_list %}         
 		{% endblock %}      
 	</div>   
 	
 
-I> Restart Server to Register Tags
+I> ### Restart Server to Register Tags
 I>
 I> You will need to restart your server every time you modify the template tags. Otherwise they will not be registered, and you will be really confused why your code is not working.
 
@@ -82,12 +80,12 @@ This lets us pass through the category we are on. We can now update the `base.ht
 {lang="html",linenos=off}
 
 	<div class="col-sm-3 col-md-2 sidebar">          
-	{% block side_block %}         
-	{% get_category_list category %}         
-	{% endblock %}      
+	    {% block side_block %}         
+	    {% get_category_list category %}         
+	    {% endblock %}      
 	</div>   
 	
-Now update the`cats.html` template:   
+Now update the `cats.html` template:   
 
 {lang="html",linenos=off}
 	{% for c in cats %}
@@ -100,4 +98,6 @@ Now update the`cats.html` template:
 	{% endfor %}
 
 
-Here we check to see if the category being displayed is the same as the category being passed through (i.e.`act\_cat`), if so, we assign the`active`class to it from Bootstrap (http://getbootstrap.com/components/#nav).   Restart the development web server, and now visit the pages. We have passed through the `category` variable. When you view a category page, the template has access to the `category` variable, and so provides a value to the template tag `get\_category\_list()`. This is then used in the `cats.html` template to select which category to highlight as active.
+Here we check to see if the category being displayed is the same as the category being passed through (i.e. `act\_cat`), if so, we assign the `active` class to it from [Bootstrap Components](http://getbootstrap.com/components/#nav).   
+Restart the development web server, and now visit the pages. We have passed through the `category` variable. When you view a category page, the template has access to the `category` variable, and so provides a value to the template tag `get\_category\_list()`. 
+This is then used in the `cats.html` template to select which category to highlight as active.
