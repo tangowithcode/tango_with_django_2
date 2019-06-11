@@ -56,7 +56,8 @@ Let's create a test. In the `Category` model, we want to ensure that views are e
 	        cat.save()
 	        self.assertEqual((cat.views >= 0), True)
 
-The first thing you should notice, if you have not written tests before, is that we have to inherit from `TestCase`. The naming over the method in the class also follows a convention, all tests start with `test_` and they also contain some type of assertion, which is the test. Here we are checking if the values are equal, with the `assertEqual` method, but other types of assertions are also possible. See the [Python 2 Documentation on unit tests](<https://docs.python.org/2/library/unittest.html>) or the [Python 3 Documentation on unit tests](https://docs.python.org/3/library/unittest.html) for other commands (i.e. `assertItemsEqual`, `assertListEqual`, `assertDictEqual`, etc). Django's testing machinery is derived from Python's but also provides a number of other asserts and specific test cases.
+The first thing you should notice, if you have not written tests before, is that we have to inherit from `TestCase`. The naming over the method in the class also follows a convention, all tests start with `test_` and they also contain some type of assertion, which is the test. Here we are checking if the values are equal, with the `assertEqual` method, but other types of assertions are also possible. 
+See the [Python 3 Documentation on unit tests](https://docs.python.org/3/library/unittest.html) for other commands (i.e. `assertItemsEqual`, `assertListEqual`, `assertDictEqual`, etc). Django's testing machinery is derived from Python's but also provides a number of other asserts and specific test cases.
 
 Now let's run the test:
 
@@ -193,14 +194,20 @@ This will run through all the tests and collect the coverage data for the Rango 
 
 We can see from the above report that critical parts of the code have not been tested, i.e. `rango/views`. The `coverage` package [has many more features](http://nedbatchelder.com/code/coverage/) that you can explore to make your tests even more comprehensive!
 
-X> ###Exercises
+X> ### Testing Exercises
 X>
 X> Lets say that we want to extend the `Page` to include two additional fields, `last_visit` and 
 X> `first_visit` that will be of type `timedate`.
 X>
-X> - Update the model to include these two fields.
-X> - Update the add page functionality, and the goto functionality.
-X> - Add in a test to ensure the last visit or first visit is not in the future.
-X> - Add in a test to ensure that the last visit equal to or after the first visit.
-X> - Run through [Part Five of the official Django Tutorial](https://docs.djangoproject.com/en/1.9/intro/tutorial05/) to learn more about testing.
-X> - Check out the [tutorial on test driven development by Harry Percival](http://www.tdd-django-tutorial.com).
+X>  - Update the model to include these two fields.
+X>  - Update the add page functionality, and the goto functionality.
+X>  - Add in a test to ensure the last visit or first visit is not in the future.
+X>  - Add in a test to ensure that the last visit equal to or after the first visit.
+X> 
+X>  If you want to see more tests for Rango, you can see the ones we have created in on [GitHub](https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/rango/tests.py)
+
+
+I> ### Other Test Resources
+I>
+I>  - Run through [Part Five of the official Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial05/) to learn more about testing.
+I>  - Check out the [tutorial on test driven development by Harry Percival](http://www.tdd-django-tutorial.com).
