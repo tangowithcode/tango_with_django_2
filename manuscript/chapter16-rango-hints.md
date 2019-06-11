@@ -322,7 +322,8 @@ To get you started here is how we can convert the About view function to a class
         def get(self, request):
             # view logic
             visitor_cookie_handler(request)
-            return render(request, 'rango/about.html', context={'visits': request.session['visits']})
+            return render(request, 'rango/about.html',
+                context={'visits': request.session['visits']})
         
 Next, in `rango\urls.py`, update the path, and import the `AboutView` from your views.
 
@@ -367,7 +368,7 @@ Notice that to ensure that users can only add categories if they are logged in, 
 Next, in `rango\urls.py` we can import the class e.g. `from rango.views import AboutView, AddCategoryView` and update the path e.g. `path('add_category/', AddCategoryView.as_view(), name='add_category'),`. Without having to deal with the condition to test if the request is a post or not, we can more elegant code up how the view should respond in the different circumstances.
 
 
-X> ### Additional Exercise
+X> ### Class Based View Exercises
 X> - Go through the Django Documentation and study how to create Class-Based Views.
 X> - Update the Rango application to use Class-Based Views.
 X> - Tweet how awesome you are and let us know @tangowithdjango.
@@ -388,19 +389,14 @@ First, let's create a simple template for displaying a user's profile. The follo
 
 {lang="html",linenos=off}
 	{% extends 'rango/base.html' %}
-	
 	{% load staticfiles %}
-	
 	{% block title %}{{ selecteduser.username }} Profile{% endblock %}
-	
 	{% block body_block %}
-	
 	<div class="jumbotron p-4">
 		<div class="container">
 	 		<h1 class="jumbotron-heading">{{selecteduser.username}} Profile</h1>
         </div>
     </div>
-    
     <div class="container">
     	<div class="row">
 	<img src="{{ MEDIA_URL }}{{userprofile.picture }}"
@@ -423,7 +419,6 @@ First, let's create a simple template for displaying a user's profile. The follo
 	<div id="edit_profile"></div>
     </div>
     </div>
-    
     {% endblock %}
 
 Note that there are a few variables (`selecteduser`, `userprofile` and `form`) that we need to define in the template's context - we'll be doing so in the next section.
@@ -448,7 +443,8 @@ Based upon the template created above, we can then implement a simple view to ha
                 return redirect('index')
             
             userprofile = UserProfile.objects.get_or_create(user=user)[0]
-            form = UserProfileForm({'website': userprofile.website, 'picture': userprofile.picture})
+            form = UserProfileForm({'website': userprofile.website,
+                'picture': userprofile.picture})
             return (user, userprofile, form)
     
         @method_decorator(login_required)
@@ -508,18 +504,14 @@ In Rango's templates directory, create a template called `list_profiles.html`, w
 
 {lang="html",linenos=off}
 	{% extends 'rango/base.html' %}
-	
 	{% load staticfiles %}
-	
 	{% block title %}User Profiles{% endblock %}
-	
 	{% block body_block %}
 	<div class="jumbotron p-4">
 		<div class="container">
-	 		<h1 class="jumbotron-heading">User Profiles</h1>
+	 	<h1 class="jumbotron-heading">User Profiles</h1>
         </div>
     </div>
-    
     <div class="container">
     	<div class="row">
 	    {% if userprofile_list %}
@@ -527,14 +519,14 @@ In Rango's templates directory, create a template called `list_profiles.html`, w
 	        <!-- Display search results in an ordered list -->
 	        <div class="panel-body">
 	            <div class="list-group">
-	                {% for listuser in userprofile_list %}
+	            {% for listuser in userprofile_list %}
 	                <div class="list-group-item">
-	                    <h4 class="list-group-item-heading">
-	                        <a href="{% url 'rango:profile' listuser.user.username %}">
-	                            {{ listuser.user.username }}</a>
-	                    </h4>
+	                <h4 class="list-group-item-heading">
+	                <a href="{% url 'rango:profile' listuser.user.username %}">
+	                {{ listuser.user.username }}</a>
+	                </h4>
 	                </div>
-	                {% endfor %}
+	            {% endfor %}
 	            </div>
 	        </div>
 	    </div>
@@ -553,8 +545,7 @@ With our template created, we can now create the corresponding view that selects
 {lang="python",linenos=off}
 	@login_required
 	def list_profiles(request):
-	    userprofile_list = UserProfile.objects.all()
-	    
+	    userprofile_list = UserProfile.objects.all()  
 	    return render(request, 'rango/list_profiles.html',
 	        {'userprofile_list' : userprofile_list})
 
@@ -578,7 +569,6 @@ X> ### Profile Page Exercise
 X>
 X> - Update the profile list to include a thumbnail of the user's profile picture.
 X> - If a user does not have a profile picture, then insert a substitute picture by using the [service provide by LoremPixel](ttp://lorempixel.com/) that lets you automatically generate images.
-X>
 X> Hint: you can use
 X> [`<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>`](http://lorempixel.com/64/64/people/) 
 X>  from LoremPixel to get a picture of `people` that is 64x64 in size. Note that it might take a few seconds for the picture to download.
