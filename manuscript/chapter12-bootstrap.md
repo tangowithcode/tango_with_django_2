@@ -126,13 +126,11 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 	    </div>
 	    <!-- Bootstrap core JavaScript -->
 	    <!-- Placed at the end of the document so the pages load faster -->
-	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
-	    crossorigin="anonymous"></script>
-	    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')
+	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	    <script>
+	        window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')
 	    </script>
-	    <script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" 
-	        crossorigin="anonymous"></script>
+	    <script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js"></script>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js">
 	    </script>
 	    <script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js">
@@ -167,7 +165,7 @@ Now reload Rango in your browser. You should see a screen that looks similar to 
 {id="fig-bootstrap-initial"}
 ![Rango, after switching `base_bootstrap.html` to be the template from which other templates inherit. Looks nice! Note that here, we are logged in with a username of `david`.](images/ch12-bootstrap-initial.png)
 
-Have a look through the different pages of your app. Since they all inherit from `base.html`, they will all now employ the Bootstrap dashboard layout. However, they aren't perfect yet! In the remainder of this chapter, we will go through a number of changes to the templates, and use various Bootstrap components to improve the look and feel of Rango further. But to remind yourself of what Rango looked like before, compare and contrast to the figure below!
+Have a look through the different pages of your app. Since they all inherit from `base.html`, they will all now employ the Bootstrap dashboard layout. However, they aren't perfect yet! In the remainder of this chapter, we will go through a number of changes to the templates, and use various Bootstrap components to improve the look and feel of Rango further. But to remind yourself of what Rango looked like before, compare and contrast to [the figure below](#fig-bootstrap-initial)!
 
 {id="fig-bootstrap-initial"}
 ![The Rango app, before Bootstrap styling was applied. How much better does you app now look in comparison to this?](images/ch12-bootstrap-nostyling.png)
@@ -309,7 +307,7 @@ After you have successfully added the jumbotron, we can move on to the two-colum
  
 Once you have updated the template, reload the page -- it should look a lot better now, but the way the list items are presented is not the best. Once again, it looks pretty basic. Surely we can make it look even better!
 
-Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how the links look. We can do this quite easily by changing the two `<ul>` elements to `<ul class="list-group">` and each of the `<li>` elements that we just added to `<li class="list-group-item">`. Once you have completed these steps, reload the index page. How does it look now? It should similar to [the figure below][#fig-bootstrap-styled-index].
+Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how the links look. We can do this quite easily by changing the two `<ul>` elements to `<ul class="list-group">` and each of the `<li>` elements that we just added to `<li class="list-group-item">`. Once you have completed these steps, reload the index page. How does it look now? It should similar to [the figure below](#fig-bootstrap-styled-index).
 
 {id="fig-bootstrap-styled-index"}
 ![The updated Rango index page, after applying both the jumbotron and two-column layout. How much better does it look now?](images/ch12-bootstrap-styled-index.png)
@@ -401,43 +399,43 @@ Finally, let's tweak the registration template. Open the `templates/registration
 
 {lang="python",linenos=off}
 	<div class="container">
-		<div class="row">
-		<div class="form-group" >
-		<form role="form"  method="post" action=".">
-			{% csrf_token %}
-			<div class="form-group" >
-			<p class="required"><label class="required" for="id_username">
-				Username:</label>
-			<input class="form-control" id="id_username" maxlength="30"
-				name="username" type="text" />
-			<span class="helptext">
-				Required. 30 characters or fewer.
-				Letters, digits and @/./+/-/_ only.
-			</span>
-			</p>
-			<p class="required"><label class="required" for="id_email">
-				E-mail:</label>
-			<input class="form-control" id="id_email" name="email" 
-				type="email" />
-			</p>
-			<p class="required"><label class="required" for="id_password1">
-				Password:</label>
-			<input class="form-control" id="id_password1" name="password1"
-				type="password" />
-			</p>
-			<p class="required">
-			<label class="required" for="id_password2">
-				Password confirmation:</label>
-			<input class="form-control" id="id_password2" name="password2" 
-				type="password" />
-			<span class="helptext">
-				Enter the same password as before, for verification.
-			</span>
-			</p>
-			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
-		</form>
-		</div>
+	    <div class="row">
+	    <div class="form-group" >
+	    <form role="form"  method="post" action=".">
+	        {% csrf_token %}
+	        <div class="form-group" >
+	        <p class="required"><label class="required" for="id_username">
+	            Username:</label>
+	        <input class="form-control" id="id_username" maxlength="30"
+	            name="username" type="text" />
+	        <span class="helptext">
+	            Required. 30 characters or fewer.
+	            Letters, digits and @/./+/-/_ only.
+	        </span>
+	        </p>
+	        <p class="required"><label class="required" for="id_email">
+	            E-mail:</label>
+	        <input class="form-control" id="id_email" name="email" 
+	            type="email" />
+	        </p>
+	        <p class="required"><label class="required" for="id_password1">
+	            Password:</label>
+	        <input class="form-control" id="id_password1" name="password1"
+	            type="password" />
+	        </p>
+	        <p class="required">
+	        <label class="required" for="id_password2">
+	            Password confirmation:</label>
+	        <input class="form-control" id="id_password2" name="password2" 
+	            type="password" />
+	        <span class="helptext">
+	            Enter the same password as before, for verification.
+	        </span>
+	        </p>
+	        </div>
+	        <button type="submit" class="btn btn-primary">Submit</button>
+	    </form>
+	    </div>
 	</div>
 	</div>
 
