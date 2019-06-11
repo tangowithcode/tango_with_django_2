@@ -6,14 +6,14 @@ I> If you are not familiar with CSS, have a look at the [CSS crash course](#chap
 
 Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/). The website provides you with sample code and examples of the different components that the toolkit provides, and provides you with examples and documentation on how to style them by adding in the appropriate markup and/or code. In addition, the website also provides a number of [complete example layouts](http://getbootstrap.com/examples/) from which we can base our design for Rango on.
 
-To style Rango we have identified that the [dashboard layout](https://getbootstrap.com/docs/4.2/examples/dashboard/) more or less meets our needs. The layout provides us with a menu bar at the top, a sidebar (which we will use to show categories), and a main content pane in which we can display page-specific information.
+To style Rango we have identified that the [dashboard layout](https://getbootstrap.com/docs/4.2/examples/dashboard/) more or less meets our needs. The layout provides us with a menu bar at the top, a sidebar (which we will use to show categories), and a main content pane in which we can display page-specific information. You can see the example layout in [the figure below](#fig-bootstrap-dashboard).
 
-{id="fig-admin-completed"}
+{id="fig-bootstrap-dashboard"}
 ![Version 4 of the Bootstrap dashboard layout, as taken from the Twitter Bootstrap examples website. This is the layout we will be working with in this chapter.](images/ch12-bootstrap-dashboard.png)
 
 To tailor the dashboard HTML source to our Rango app, we need to make a number of modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd-bootstrap-base), but for completeness is also shown below.
 
-Download and save the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `templates/rango/` directory.
+Download and save the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `<Workspace>/tango_with_django_project/templates/rango/` directory.
 
 Below is a list of all the different modifications we made to the original dashboard HTML source.
 
@@ -59,13 +59,11 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 	        Rango - {% block title_block %}How to Tango with Django!{% endblock %}
 	    </title>
 	    <!-- Bootstrap core CSS -->
-	    <link
-	        href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" 
-	        rel="stylesheet">
+	    <link href="https://getbootstrap.com/docs/4.2/dist/css/bootstrap.min.css" 
+	          rel="stylesheet">
 	    <!-- Custom styles for this template -->
-	    <link 
-	        href="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css" 
-	        rel="stylesheet">
+	    <link href="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css" 
+	          rel="stylesheet">
 	</head>
 	<body>
 	<header>
@@ -105,11 +103,12 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 	    </div>
 	    </nav>
 	</header>
+	
 	<div class="container-fluid">
 	    <div class="row">
 	    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
 	    <div class="sidebar-sticky">
-	    {% block side_block %}
+	    {% block sidebar_block %}
 	        {% get_category_list category %}
 	    {% endblock %}
 	    </div>
@@ -123,9 +122,11 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 	            <a href="#">Terms</a></p>
 	    </footer>
 	    </main>
+	    </div>
+	    </div>
 	    <!-- Bootstrap core JavaScript -->
 	    <!-- Placed at the end of the document so the pages load faster -->
-	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 	
+	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 	    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
 	    crossorigin="anonymous"></script>
 	    <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')
@@ -139,28 +140,39 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 	    </body>
 	</html>
 
+Once you have prepared the new `bootstrap_base.html` template, download the [Rango Favicon](https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/static/images/favicon.ico). This is the small icon that appears next to the URL in your browser! Save this file to `<Workspace>/tango_with_django_project/static/images/`.
 
-Once you have the new template setup, you can download the [Rango Favicon](https://raw.githubusercontent.com/leifos/tango_with_django_2/master/code/tango_with_django_project/static/images/favicon.ico) and save it to `static/images/`.
-
-If you take a close look at the modified Dashboard HTML source, you'll notice it has a lot of structure in it created by a series of `<div>` tags. Essentially the page is broken into two parts - the top navigation bar which is contained by `<header>` tags, and the main content pane denoted by the `<main ... >` tag. Within the main content pane, there is a `<div>` which houses two other divs for the `sidebar_block` and the `body block`.
+If you take a close look at the modified Bootstrap dashboard HTML source, you'll notice it has a lot of structure in it created by a series of `<div>` tags. Essentially the page is broken into two parts -- the top navigation bar which is contained by `<header>` tags, and the main content pane denoted by the `<main ... >` tag. Within the main content pane, there is a `<div>` which houses two other `<div>`s for the `sidebar_block` and the `body_block`.
 	
 	
-The code above assumes that you have completed the chapters on User Authentication and used the Django Regisration Redux Package. If not you will need to update the template and remove/modify the references to those links in the navigation bar in the header. 
+The code above assumes that you have completed the chapters on user authentication and used `django-registration-redux`, as outlined in the previous chapter. If you haven't done both of these activities, you will need to update the template and remove/modify the references to those links in the navigation bar in the header. 
 	
 Also of note is that the HTML template makes references to external websites to request the required `css` and `js` files. So you will need to be connected to the internet for the style to be loaded when you run the application.
 
-I> ###Working Offline?
+I> ### Working Offline?
 I> Rather than including external references to the `css` and `js` files, you could download all the associated files and store them in your static directory. If you do this, simply update the base template to reference the static files stored locally. 
 
 	
 ## Quick Style Change
-To give Rango a much needed facelift, we can replace the content of the existing `base.html` with the HTML template code in `base_bootstrap.html`. You might want to first copy out the existing code in `base.html` and then copy in the `base_bootstrap.html` code.
+To give Rango a much needed facelift, we need to update our base template to make use of the new `base_bootstrap.html` template. It's now ready to go! There are many ways to do this, with one option being to rename `base.html` to `base_bootstrap.html` in all your other templates. However, a quicker solution would be to do the following.
 
-Now reload your application. Pretty nice! Well, sort of.
+1. Rename the `base.html` template in `templates/rango/` to `base-old.html`.
+2. Rename the `base_bootstrap.html` template in `templates/rango/` to `base.html`.
 
-You should notice that your application looks about a hundred times better already. Below we have some screen shots of the about page showing the before and after.
+This ensures you keep a copy of your old `base.html` template, and switch the active template that all other Rango templates inherit from to the Bootstrapped version.
 
-Flip through the different pages. Since they all inherit from base, they will all be looking better, but not perfect! In the remainder of this chapter, we will go through a number of changes to the templates and use various Bootstrap classes to improve the look and feel of Rango.
+T> ### Using `git`?
+T> If you are using Git, it would be prudent to use the `git mv` commands in your terminal or Command Prompt to ensure that Git can keep track of these filename changes. If you are using a GUI to manage your Git repository, use that to perform the renaming instead.
+
+Now reload Rango in your browser. You should see a screen that looks similar to the one below.
+
+{id="fig-bootstrap-initial"}
+![Rango, after switching `base_bootstrap.html` to be the template from which other templates inherit. Looks nice! Note that here, we are logged in with a username of `david`.](images/ch12-bootstrap-initial.png)
+
+Have a look through the different pages of your app. Since they all inherit from `base.html`, they will all now employ the Bootstrap dashboard layout. However, they aren't perfect yet! In the remainder of this chapter, we will go through a number of changes to the templates, and use various Bootstrap components to improve the look and feel of Rango further. But to remind yourself of what Rango looked like before, compare and contrast to the figure below!
+
+{id="fig-bootstrap-initial"}
+![The Rango app, before Bootstrap styling was applied. How much better does you app now look in comparison to this?](images/ch12-bootstrap-nostyling.png)
 
 <!--
 ## Page Headers
@@ -189,12 +201,6 @@ Let's start by updating all our templates by adding in the class `page-header` t
 This doesn't visually appear to change the look and feel, but it informs the toolkit what is the title text, and if we change the theme then it will be styled appropriately.
 
 -->
-
-![A screenshot of the About page without styling.](images/ch12-about-nostyling.png)
-
-![A screenshot of the About page with Bootstrap Styling applied.](images/ch12-about-bootstrap.png)
-
-
 
 ### Sidebar Categories
 For of all the sidebar categories are not displaying very nicely. If we take a look at the HTML source code for the [Dashboard page](https://getbootstrap.com/docs/4.2/examples/dashboard/), we can notice that a few classes have been added to the `<ul>` and `<li>` tags to denote that they are nav-items and nav-links respectively. So update the template as shown below.
