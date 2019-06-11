@@ -315,7 +315,7 @@ Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com
 ![The updated Rango index page, after applying both the jumbotron and two-column layout. How much better does it look now?](images/ch12-bootstrap-styled-index.png)
 
 ### The Login Page
-Now let's turn our attention to the login page. On the Bootstrap website you can see they have already made a [nice login form](https://getbootstrap.com/docs/4.2/examples/sign-in/). If you take a look at the source, you'll notice that there are a number of classes that we need to include to stylise the basic login form. Update the `body_block` in the `login.html` template as follows:
+Now that the index page has been styled, let's turn our attention to Rango's login page. On the Bootstrap website, there is a demonstration [login form](https://getbootstrap.com/docs/4.2/examples/sign-in/). If you take a look at the source, you'll notice that there are a number of classes that we need to include to get a basic login form to work using Bootstrap. To do this, we can start by replacing the `body_block` in the `registration/login.html` template with the following code.
 
 {lang="html",linenos=off}
 	{% block body_block %}
@@ -327,7 +327,6 @@ Now let's turn our attention to the login page. On the Bootstrap website you can
 	<div class="container">
 	<form class="form-signin" role="form" method="post" action=".">
 		{% csrf_token %}
-		<h2 class="form-signin-heading">Please sign in</h2>
 		<label for="inputUsername" class="sr-only">Username</label>
 		<input type="text" name="username" id="id_username" class="form-control" 
 			placeholder="Username" required autofocus>
@@ -335,15 +334,16 @@ Now let's turn our attention to the login page. On the Bootstrap website you can
 		<input type="password" name="password" id="id_password" class="form-control"
 			placeholder="Password" required>
 		<button class="btn btn-lg btn-primary btn-block" type="submit" 
-			value="Submit" />Sign in</button>
+			value="Submit">Sign in</button>
 	</form>
 	</div>
 	{% endblock %}
 
-Besides adding in a link to the bootstrap `signin.css`, and a series of changes to the classes associated with elements, we have removed the code that automatically generates the login form, i.e. `form.as_p`. Instead, we took the elements, and importantly the `id` of the elements generated and associated them with the elements in this bootstrapped form. To find out what these `id`s were, we ran Rango, navigated to the page, and then inspected the source to see what HTML was produced by the `form.as_p` template tag. 
+Besides adding in a link to the bootstrap `signin.css` and a series of changes to the classes associated with elements, we have removed the code that automatically generates the login form (`{{ form.as_p }}`). Instead, we took the elements from the generated `<form>`, and importantly the `name` of the form elements. We then associated the names with the new elements we added above. To find out what the `name`s were, we ran Rango, navigated to the login page, and then inspected the source to see what HTML was produced by the `{{ form.as_p }}` call. 
 
-In the button, we have set the class to `btn` and `btn-primary`. If you check out the [Bootstrap section on buttons](https://getbootstrap.com/docs/4.2/components/buttons/) you can see there are lots of different colours, sizes and styles that can be assigned to buttons.
+In the button, we have set the classes to `btn` and `btn-primary`. If you check out the [Bootstrap section on buttons](https://getbootstrap.com/docs/4.2/components/buttons/), you can see there are lots of different colours, sizes and styles that can be assigned to buttons. The resultant output can be see in [the figure below](#fig-bootstrap-style-login).
 
+{id="fig-bootstrap-style-login"}
 ![A screenshot of the login page with customised Bootstrap Styling.](images/ch12-styled-login.png)
 
 ### Other Form-based Templates
