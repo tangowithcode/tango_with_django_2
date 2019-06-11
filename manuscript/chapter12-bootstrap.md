@@ -353,50 +353,53 @@ You can apply similar changes to `add_cagegory.html` and `add_page.html` templat
 	{% extends "rango/base.html" %}
 	{% block title %}Add Page{% endblock %}
 	{% block body_block %}
-		<div class="jumbotron p-4">
-			<div class="container">
-			<h1 class="jumbotron-heading">Add Page to {{category.name}}</h1>
-			</div>
-		</div>
-		<div class="container">
-			<div class="row">
-			<form role="form" id="page_form" method="post" 
-				action="/rango/category/{{category.slug}}/add_page/">
-			{% csrf_token %}
-			{% for hidden in form.hidden_fields %}
-				{{ hidden }}
-			{% endfor %}
-			{% for field in form.visible_fields %}
-				{{ field.errors }}
-				{{ field.help_text }}<br/>
-				{{ field }}<br/>
-				<div class="p-2"></div>
-			{% endfor %}
-			<br/>
-			<button class="btn btn-primary"
-				type="submit" name="submit">
-					Add Page
-			</button>
-			<div class="p-5"></div>
-			</form>
-			</div>
-		</div>
+	    {% if category %}
+	    <div class="jumbotron p-4">
+	        <div class="container">
+	        <h1 class="jumbotron-heading">Add Page to {{category.name}}</h1>
+	        </div>
+	    </div>
+	    <div class="container">
+	        <div class="row">
+	        <form role="form" id="page_form" method="post" 
+	              action="{% url 'rango:add_page' category.slug %}">
+	        {% csrf_token %}
+	        {% for hidden in form.hidden_fields %}
+	            {{ hidden }}
+	        {% endfor %}
+	        {% for field in form.visible_fields %}
+	            {{ field.errors }}
+	            {{ field.help_text }}<br/>
+	            {{ field }}<br/>
+	            <div class="p-2"></div>
+	        {% endfor %}
+	        <br/>
+	        <button class="btn btn-primary" type="submit" name="submit">
+	            Add Page
+	        </button>
+	        <div class="p-5"></div>
+	        </form>
+	        </div>
+	    </div>
+	    {% else %}
+	    <div class="jumbotron p-4">
+	        <div class="container">
+	            <h1 class="jumotron-heading">Add a Page</h1>
+	        </div>
+	    </div>
+	    <div>
+	        The specified category does not exist.
+	    </div>
+	    {% endif %}
 	{% endblock %}
 
 X> ### Category Form Style Exercise
-X> Create a similar template for the Add Category page called `add_category.html`.
+X> Create a similar template for the *Add Category* template, located at `rango/add_category.html`.
 
 ###The Registration Template
-For the `registration_form.html`, we can update the form as follows:
+Finally, let's tweak the registration template. Open the `templates/registration/registration_form.html` template. Once you have the file open, we can update the markup inside the `body_block` as follows. Make sure you keep the existing jumbotron you added earlier as part of an exercise!
 
 {lang="python",linenos=off}
-	{% extends "rango/base.html" %}
-	{% block body_block %}
-	<div class="jumbotron p-4">
-		<div class="container">
-		<h1 class="jumbotron-heading">Register Here</h1>	
-		</div>
-	</div>
 	<div class="container">
 		<div class="row">
 		<div class="form-group" >
@@ -405,7 +408,7 @@ For the `registration_form.html`, we can update the form as follows:
 			<div class="form-group" >
 			<p class="required"><label class="required" for="id_username">
 				Username:</label>
-			<input class="form-control" id="id_username" maxlength="30" 
+			<input class="form-control" id="id_username" maxlength="30"
 				name="username" type="text" />
 			<span class="helptext">
 				Required. 30 characters or fewer.
@@ -437,19 +440,18 @@ For the `registration_form.html`, we can update the form as follows:
 		</div>
 	</div>
 	</div>
-	{% endblock %}
 
-Again we have manually transformed the form created by the `{{ form.as_p }}` template tag, and added the various bootstrap classes.
+Once again, we have manually transformed the form created by the `{{ form.as_p }}` method call, and added the various bootstrap classes to the manual form.
 
 W> ### Bootstrap, HTML and Django Kludge
-W> This is not the best solution - we have kind of kludged it together. 
-W> It would be much nicer and cleaner if we could instruct Django when building the HTML for the form to insert the appropriate classes. But we will leave that to you to figure out :-)
+W> This is not the best solution -- we have kind of mushed things together.
+W> It would be much nicer and cleaner if we could instruct Django when building the HTML for the form to insert the appropriate classes. But we will leave that to you to figure out! Toolkits do exist, so perhaps there is a solution that automatically handles everything for you!
+W> Nevertheless, by manually bringing everything together, you can obtain a better appreciation and understanding of how the different components fit together.
 
+### Next Steps
+This chapter has described how to quickly style your Django application using the Bootstrap toolkit. Bootstrap is highly extensible and it is relatively easy to change themes - check out the [StartBootstrap Website](http://startbootstrap.com/) for a whole series of free themes. Alternatively, you might want to use a different CSS toolkit like: [Zurb](http://zurb.com), [Pure](https://purecss.io) or [GroundWorkd](https://groundworkcss.github.io/groundwork/). Now that you have an idea of how to hack the templates and set them up to use a responsive CSS toolkit, we can now go back and focus on finishing off the extra functionality that will really pull the application together.
 
-###Next Steps
-In this chapter we have described how to quickly style your Django application using the Bootstrap toolkit. Bootstrap is highly extensible and it is relatively easy to change themes - check out the [StartBootstrap Website](http://startbootstrap.com/) for a whole series of free themes. Alternatively, you might want to use a different CSS toolkit like: [Zurb](http://zurb.com), [Gridism](http://cobyism.com/gridism/), [Pure](https://purecss.io) or [GroundWorkd](https://groundworkcss.github.io/groundwork/). Now that you have an idea of how to hack the templates and set them up to use a responsive CSS toolkit, we can now go back and focus on finishing off the extra functionality that will really pull the application together.
-
-![A screenshot of the Registration page with customised Bootstrap Styling.](images/ch12-styled-register.png)
+![A screenshot of the registration form page with customised Bootstrap styling.](images/ch12-styled-register.png)
 
 X> ### Another Style Exercise
-X> While this tutorial uses Bootstrap, an additional, and optional exercise, would be to style Rango using one of the other responsive CSS toolkits.  If you do create your own style, let us know and we can link to it to show others how you have improved Rango's styling!
+X> While this tutorial uses Bootstrap, an additional, and optional exercise, would be to style Rango using one of the other responsive CSS toolkits. If you do create your own style, let us know and we can link to it to show others how you have improved Rango's styling!
