@@ -1,40 +1,41 @@
-# Search {#chapter-bing}
-Now that our Rango application is looking good and most of the core functionality has been implemented, we can move onto some of the more advanced functionality. In this chapter, we will connect Rango up to a search API so that users can also search for pages, rather than just browse categories. The main point of this chapter is to show you how you can connect and use other web services - and how to integrate them within your own application. 
+# Adding Search to Rango {#chapter-bing}
+Now that most of the core functionality of Rango has been implemented (and it looks good, too!), we can move to addressing some more advanced functionality. In this chapter, we will connect Rango up to a *search API* so that users can also *search* for pages, rather than simply *browse* categories. Therefore, the main point of this chapter is to show you how you can connect and use other web services -- and how to integrate them within your own Django app.
 
-The search API that we will be using will be Microsoft's Bing Search API, but you could as easily  use the APIs provided by [Webhose](https://webhose.io/) or [Yandex](https://yandex.com/support/search/robots/search-api.html), instead. 
+The search API that we will be using will be *Microsoft's Bing Search API*. However, you could just as readily use any available search API, such as those provided by [Webhose](https://webhose.io/) or [Yandex](https://yandex.com/support/search/robots/search-api.html).
 
-To use the Bing Search API we will need to write a [wrapper](https://en.wikipedia.org/wiki/Adapter_pattern), which enables us to send a query and obtain the results from their API - and bring them back in a more convienent format. But, before we can do so, we first need to set up an Azure account to use Bing's Search API.
+To use the Bing Search API, we will need to write a [wrapper](https://en.wikipedia.org/wiki/Adapter_pattern), which enables us to send a query and obtain the results from Bing's API -- all the while returning results to us in a convenient format that we can readily use in our code. However, before we can do so, we first need to set up a Microsoft Azure account to use the Bing Search API.
 
 ## The Bing Search API
-The [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference) provides you with the ability to embed search results from the Bing search engine within your own applications. Through a straightforward interface, you can request results from Bing's servers to be returned in either XML or JSON. The data returned can then be interpreted by a XML or JSON parser, with the results then rendered as part of a template within your application.
+The [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference) provides you with the ability to embed search results from the Bing search engine within your own applications. Through a straightforward interface, you can request results from Bing's servers to be returned in either XML or JSON. The data returned can then be interpreted by a XML or JSON parser, with the results then, for example, rendered as part of a template within your application.
 
-Although the Bing API can handle requests for different kinds of content, we'll be focusing on web search only for this tutorial - as well as handling JSON responses. To use the Bing Search API, you will need to sign up for an *API key*. The key currently provides subscribers with access to 3000 queries per month, which should be more than enough for our purposes.
+Although the Bing API can handle requests for different kinds of content, we'll be focusing on web search only for this tutorial, with JSON-formatted responses. To use the Bing Search API, you will need to sign up for an *API key*. The key currently provides subscribers with access to 3000 queries per month, which should be more than enough for our experimental purposes.
 
 I> ### Application Programming Interface (API)
-I> An [Application Programming Interface](http://en.wikipedia.org/wiki/Application_programming_interface) specifies how software components should interact with one another. In the context of web applications, an API is considered as a set of HTTP requests along with a definition of the structures of response messages that each request can return. Any meaningful service that can be offered over the Internet can have its own API - we aren't limited to web search. For more information on web APIs, [Luis Rei provides an excellent tutorial on APIs](http://blog.luisrei.com/articles/rest.html).
+I> An [Application Programming Interface](http://en.wikipedia.org/wiki/Application_programming_interface) specifies how software components should interact with one another. In the context of web applications, an API is considered as a set of HTTP requests along with a definition of the structures of response messages that each request can return. Any meaningful service that can be offered over the Internet can have its own API. We aren't limited to web search! For more information on web APIs, [Luis Rei provides an excellent tutorial on APIs](http://blog.luisrei.com/articles/rest.html).
 
 
 ### Registering for a Bing API Key
 To obtain a Bing API key, you must first register for a Microsoft Azure account. The account provides you with access to a wide range of Microsoft services. If you already have a Microsoft account, you dont need to register you can log in. Otherwise, you can go online and create a free account with Microsoft at [`https://account.windowsazure.com`](https://account.windowsazure.com).
 
-When your account has been created, log in and go to the portal.
+When your account has been created, log in and go to the portal. The link is at the top right of the page.
 
-On the left hand side of the page you should see a list, and at the top of the list it should say  `+ Create a resource`. Click on create a resource, and then select `AI + Machine Learning`. Scroll through the options, and select the `Bing Search v7` option, follow the instructions and register for the service. Make sure you select the `F0 Free` pricing tier, which enables you to make 3000 calls per month - which is more than enough for our purposes.
+Once the portal has loaded, you should see a list of options down the left-hand side of the viewport. Find the top option called `Create a resource` and click it. The right-hand side of the page will then be populated with more lists. From there, find the `AI + Machine Learning` option and select that. Scroll through the options on the subsequent menu that appears, and select the `Bing Search v7` option.
 
+W> ### Entering Personal Information
+W> At this stage, you may be redirected to a page where you have to supply details such as your address and payment card. Microsoft says that this information is required to ensure that spammers and bots do not infiltrate their services -- and rest assured, if you need to provide payment details, no money will be taken from your bank account unless you specifically authorise it. We will be using the free Bing Search API allowance, so no money will need to be transferred.
+W> If you do need to provide this information, you'll need to head back to the portal and look for the `Bing Search v7` option once more.
 
-{id="fig-bing-search"}
-![The Bing Search API services - sign up for the 3,000 transactions/month for free.
-](images/ch14-bing-search-api.png)
+You'll then be greeted with a page similar to [the one below](#fig-azure-create). Here, you need to provide a name for your Bing Search service -- something like `rango_bing_search` will do the job nicely. Ensure that you select `Free Trial` for the subscription, and pricing tier `T0` (allowing 3000 free requests per month). Selecting these options will ensure that you will not be charged for access to the API. You'll also need to make a new group -- we made one called `rango`. The resource location doesn't really matter as we won't be worrying about things like response times and the like. Once you are happy, click `Create` at the bottom of the page.
 
+{id="fig-azure-create"}
+![Creating a free Bing Search API resource in the Microsoft Azure web application.](images/ch14-azure-create.png)
 
-Once you've signed up, and added the Bing Search v7 API, select the service, and click on the `Keys` tab. Here you will be able to access two keys - which you should not share with anyone.
+You'll then need to wait for the resource to be created -- this will take a few minutes. After it has been created, you should see a screen confirming that your new resource has been created. On that screen, click the `Go to resource` button.
 
+A new page will then load. Here, you should look for the `Keys` option under the `Resource Management` header. You should see the screen like the one below. The keys in this figure are deliberately obscured. Take a note of each of the three items on this page -- `name`, `key 1` and `key 2`. Copy the values of each field into a text file and save it somewhere, but not in your Git repository! The keys you save here will be required when we attempt to access the Bing Search API later on.
 
-{id="fig-bing-explore"}
-![The Account Information Page. In this screenshot, the *Primary Account Key* is deliberately obscured. You should make sure you keep your keys secret!
-](images/ch14-bing-account.png)
-
-Assuming this all works take a copy of your API key. We will need this when we make requests as part of the authentication process. 
+{id="fig-azure-keys"}
+![The keys screen for the Bing Search API resource. Make sure you take a note of the `name`, `key 1` and `key 2` values! You will need them later on.](images/ch14-azure-keys.png)
 
 ## Adding Search Functionality
 Below we have provided the code that we can use to issue queries to the Bing search service. Create a file called `rango/bing_search.py` and import the following code. You will note that we need to import a package called `requests` so that we can make web requests. However, to use the `requests` package you will need to run, `pip install requests` to install it with your virtual environment, first.
