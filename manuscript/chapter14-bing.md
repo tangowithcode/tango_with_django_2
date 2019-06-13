@@ -182,8 +182,8 @@ Let's first create a template called `rango/search.html`. Add the following HTML
 	    <div>
 	        <form class="form-inline"
 	              id="user-form"
-	                  method="post"
-	                  action="{% url 'rango:search' %}">
+	              method="post"
+	              action="{% url 'rango:search' %}">
 	            {% csrf_token %}
 	            
 	            <div class="form-group">
