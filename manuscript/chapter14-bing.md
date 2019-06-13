@@ -53,7 +53,7 @@ I> For this code to work, you'll need to add the `requests` package to Rango's e
 	    """
 	    reads the BING API key from a file called 'bing.key'
 	    returns: a string which is either None, i.e. no key found, or with a key
-	    remember to put bing.key in your .gitignore file to avoid committing it to the repo.
+	    remember to put bing.key in your .gitignore file to avoid committing it.
 	
 	    See Python Anti-Patterns - it is an awesome resource to improve your python code
 	    Here we using "with" when opening documents
