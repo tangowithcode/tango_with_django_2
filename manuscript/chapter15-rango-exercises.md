@@ -23,7 +23,7 @@ Before we start to add this additional functionality, we will make a *todo* list
 
 We've included hints, tips and code snippets to help you along. Of course, if you get really stuck, you can always check out [our implementation for the exercises on GitHub](https://github.com/maxwelld90/tango_with_django_2_code). Let's get started with tracking page clicks!
 
-## Tracking Page Clicks
+## Tracking Page Clickthroughs {#chapter-ex-clickthroughs}
 Currently, Rango provides direct links to external pages. While simple, this approach does not allow us to record how many clicks each page receives -- a click takes you away from Rango without any ability to record information on what has just happened. In order to address this, we can implement a simple view to record a click -- and *then* redirect the user to the request page.
 
 This is what happens in many contemporary social media platforms, as an example -- if someone sends you a link in Facebook Messenger, for instance, Facebook inserts a simple redirect device in order to be able to track that you clicked the link.
@@ -31,19 +31,22 @@ This is what happens in many contemporary social media platforms, as an example 
 In order to implement functionality to track page links, have a go at the following steps.
 
 1. First, create a new view called `goto_url()`. This should be mapped to the URL `/rango/goto/`, with a URL mapping name of `goto`.
-2. The `goto_url()` view will examine the HTTP `GET` request parameters, and pull out the `page_id` that is passed along with the request. The HTTP `GET` request will take the form of something along the lines of `/rango/goto/?page_id=1`. This means that we want to redirect the user to a `Page` model instance with an `id` of `1`.
+    - The `goto_url()` view will examine the HTTP `GET` request parameters, and pull out the `page_id` that is passed along with the request. The HTTP `GET` request will take the form of something along the lines of `/rango/goto/?page_id=1`. This means that we want to redirect the user to a `Page` model instance with an `id` of `1`.
     - In the view, `get()` the `Page` with an `id` of `page_id` (from the `GET` request).
     - For that particular `Page` instance, increment the `views` field count by one, and then `save()` the changes you have made.
     - After incrementing the `views` field, redirect the user to the page instance's `url` value using the handy `redirect()` function, available at `django.shortcuts`.
     - If the `page_id` parameter is not supplied in the `GET` request, or an unknown `page_id` is supplied, then you should simply redirect the user to Rango's homepage. Again, you'll need to make use of the `redirect()` helper function, and the `reverse()` function to lookup the URL for the Rango homepage. Error handling should mean that you structure your code with `try`/`except` blocks.
-	- See [Django shortcut functions](https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/) for more on `redirect` and    
+    - See [Django shortcut functions](https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/) for more on `redirect` and    
     [Django reverse function](ttps://docs.djangoproject.com/en/2.1/ref/urlresolvers/#django.urls.reverse) for more on `reverse`.
-- Update Rango's `category.html` template so that instead of providing a direct link to each page, you link to the new `goto_url()` view.
-	- Remember to use the `url` template tag instead of hard-coding the URL `/rango/goto/?page_id=x`, as shown in the example below.
-	
-	{lang="python",linenos=off}
-		<a href="{% url 'rango:goto' %}?page_id={{page.id}}"\>
-
+2. Update Rango's `urls.py` URL mappings to incorporate the new view to use the URL `/rango/goto/`. The mapping should also be given the name `goto`.
+3. Then you can update Rango's `category.html` template so that instead of providing a direct link to each page, you link to the new `goto_url()` view.
+    - Remember to use the `url` template tag instead of hard-coding the URL `/rango/goto/?page_id=x`, as shown in the example below.
+    
+    {lang="python",linenos=off}
+    	<a href="{% url 'rango:goto' %}?page_id={{page.id}}">
+    
+    - Update the `category.html` template to also report the number of views that individual pages receive. Remember, watch out for grammar -- use the singular for one view, and plural for more than one!
+4. Our final step involves updating the `show_category()` view. As we are now incrementing the `views` counter for each page when the corresponding link is clicked, how can you update the ORM query to return a list of pages, ordered by the number of clicks they have received? This should be in *descending* order, with the page boasting the largest number of clicks being ranked first.
 
 I> ### `GET` Parameters Hint
 I>

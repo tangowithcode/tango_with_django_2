@@ -1,57 +1,56 @@
-# Making Rango Tango! Hints {#chapter-hints}
-Hopefully, you will have been able to complete the exercises given the workflows we provided. If not, or if you need a little help, have a look at the potential solutions we have provided below, and use them within your version of Rango.
+# Making Rango Tango Hints {#chapter-hints}
+Hopefully, you will have been able to complete the exercises in the previous chapter using only the workflows we provided. If not, or if you need a little push in the right direction, this chapter is for you. We provide model solutions to each of the exercises we set, and you can incorporate them within your version of Rango if needs be.
 
 I> ### Got a better solution?
-I> The solutions provided in this chapter are only one way to solve each problem.
-I> They are based on what we have learnt so far. However, if you implement them differently, 
-I> feel free to share your solutions with us - and tweet links to @tangowithdjango for others to see.
+I> The solutions provided in this chapter are only one way to solve each problem. There are many ways you could approach each problem, and use solutions that exclusively use techniques that we have learnt so far.
+I> However, if you successfully implement them in a different way, please feel free to share your solution(s) with us -- and tweet links to [@tangowithdjango](https://www.twitter.com/tangowithdjango) for others to see!
 
 ## Track Page Clickthroughs
-Currently, Rango provides a direct link to external pages. This is not very good if you want to track the number of times each page is clicked and viewed. To count the number of times a page is viewed via Rango, you'll need to perform the following steps.
+As we said when we introduced [this problem earlier](#chapter-ex-clickthroughs), Rango provides only a direct link to the pages of external pages saved to each category. This approach limits our ability to track (or simply count) the number of times a particular link is clicked. In order to be able to track clicks, we'll need to work on the following steps. The subsections we provide here correspond to the four main steps we [outlined earlier](#chapter-ex-clickthroughs) in our workflow.
 
 ### Creating a URL Tracking View
-Create a new view called `goto_url()` in `/rango/views.py` which takes a parameterised HTTP `GET` request (i.e. `rango/goto/?page_id=1`) and updates the number of views for the page. The view should then redirect to the actual URL.
+First, create a new view called `goto_url()` in Rango's `views.py` module. The view which takes a parameterised HTTP `GET` request (i.e. `rango/goto/?page_id=1`) and updates the number of views for the page. The view should then redirect to the actual URL.
 
 {lang="python",linenos=off}
-	from django.shortcuts import redirect
-	
 	def goto_url(request):
-	    page_id = None
-	    url = '/rango/'
 	    if request.method == 'GET':
-	        if 'page_id' in request.GET:
-	            page_id = request.GET['page_id']
-	            
-	            try:
-	                page = Page.objects.get(id=page_id)
-	                page.views = page.views + 1
-	                page.save()
-	                url = page.url
-	            except:
-	                pass
-	                
-	    return redirect(url)
+	        page_id = request.GET.get('page_id')
+	        
+	        try:
+	            selected_page = Page.objects.get(id=page_id)
+	        except Page.DoesNotExist:
+	            return redirect(reverse('rango:index'))
+	        
+	        selected_page.views = selected_page.views + 1
+	        selected_page.save()
+	        
+	        return redirect(selected_page.url)
+	    
+	    return redirect(reverse('rango:index'))
 
-
-Be sure that you import the `redirect()` function to `views.py` if it isn't included already!
+Be sure that you import the `redirect()` function to `views.py` if it isn't included already! As the function defined above also makes use of `reverse()` to perform URL lookups, you'll want to make sure that is included, too -- it should be present from prior efforts, however.
 
 {lang="python",linenos=off}
 	from django.shortcuts import redirect
+	from django.urls import reverse
 
-### Mapping URL
-In `/rango/urls.py` add the following code to the `urlpatterns` tuple.
+### Mapping the View to a URL
+The second major step involves mapping the new `goto_url()` view to the URL `/rango/goto/`. To do this, update Rango's `urls.py` module. Add the following code to the `urlpatterns` list.
 
 {lang="python",linenos=off}
 	path('goto/', views.goto_url, name='goto'),
 
+Note that we are complying with specification in the previous chapter and using a mapping `name` of `goto`.
 
-### Updating the Category Template
-Update the `category.html` template so that it uses `rango/goto/?page_id=XXX` instead of providing the direct URL for users to click.
+### Updating the `category.html` Template
+The third step involves updating the `category.html` template. We were tasked to implement two changes, the first of which changed page links to use the new `goto_view()` view, rather than providing a direct URL link. Secondly, we were tasked to report back to users how many clicks each page had received.
+
+Find the block of code that handles looping through the `pages` context variable. Update it accordingly.
 
 {lang="python",linenos=off}
 	{% for page in pages %}
-	     <li class="list-group-item">
-	        <a href="{% url 'rango:goto' %}?page_id={{page.id}}">{{ page.title }}</a>
+	     <li>
+	        <a href="{% url 'rango:goto' %}?page_id={{ page.id }}">{{ page.title }}</a>
 	        {% if page.views > 1 %}
 	            ({{ page.views }} views)
 	        {% elif page.views == 1 %}
@@ -60,15 +59,17 @@ Update the `category.html` template so that it uses `rango/goto/?page_id=XXX` in
 	    </li>
 	{% endfor %}
 
-Here you can see that in the template we have added some control statements to display `view`, `views` or nothing depending on the value of `page.views`.
+Notice the change to the URL's `href` attribute, and the inclusion of some new template code to control what is displayed immediately after the hyperlink -- a count on the number of views for the given page. As we also check how many clicks each page has received (one or more clicks?), we can also control our grammar, too!
 
 ### Updating Category View
-Since we are tracking the number of clickthroughs you can now update the `category()` view, and have it order the pages by the number of views:
+The fourth and final step for this particular exercise was to update the `show_category()` view to reflect the change in the way we present our list of pages for each category. The specification now requires us to order the pages for each category by the number of clicks each page has received. This has to be descending, meaning the page with the largest number of clicks will appear first.
+
+This involves the simple addition of chaining on an `order_by()` call to our ORM request. Find the line dealing with the `Page` model in `show_category()` and update it to look like the line shown below.
 
 {lang="python",linenos=off}
 	pages = Page.objects.filter(category=category).order_by('-views')
 
-Now, confirm it all works, by clicking on links, and then going back to the category page. Don't forget to refresh or click to another category to see the updated page.
+Now that this is all done, confirm it all works by clicking on categories and then pages. Go back to the category and refresh the page to see if the number of clicks has increased. Remember to refresh; the updated count may not show up straight away!
 
 ## Searching Within a Category Page
 Rango aims to provide users with a helpful directory of page links. At the moment, the search functionality is essentially independent of the categories. It would be nicer however to have search integrated into category browsing. Let's assume that a user will first browse their category of interest first. If they can't find the page that they want, they can then search for it. If they find a page that is suitable, then they can add it to the category that they are in. Let's tackle the first part of this description here.
