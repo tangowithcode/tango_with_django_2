@@ -72,103 +72,124 @@ This involves the simple addition of chaining on an `order_by()` call to our ORM
 Now that this is all done, confirm it all works by clicking on categories and then pages. Go back to the category and refresh the page to see if the number of clicks has increased. Remember to refresh; the updated count may not show up straight away!
 
 ## Searching Within a Category Page
-Rango aims to provide users with a helpful directory of page links. At the moment, the search functionality is essentially independent of the categories. It would be nicer however to have search integrated into category browsing. Let's assume that a user will first browse their category of interest first. If they can't find the page that they want, they can then search for it. If they find a page that is suitable, then they can add it to the category that they are in. Let's tackle the first part of this description here.
+The main aim of Rango is to provide users of the app with a helpful directory of page links. At the moment, the search functionality is essentially independent of the categories. It would be better to integrate the search functionality within a category page.
 
-We first need to remove the global search functionality and only let users search within a category. This will mean that we essentially decommission the current search page and search view. After this, we'll need to perform the following.
+Let us assume that a user will first navigate to and browse their category of interest first. If they cannot find the page that they want, they will then be able to search for it. Once they examine their search results and find the page they are looking for, they will be able to add the page to the category they are browsing.
+
+We'll tackle the first part of the description here -- adding search functionality to the category page. In order to accomplish this, we first need to remove the [search functionality that we added in a previous chapter](#chapter-bing). This will essentially mean decommissioning the current search page and associated infrastructure (including the view and URL mapping). After this, there are several tasks we will need to undertake. The subsections listed here again correspond to the five main steps we outlined in the [previous chapter](#chapter-ex-searching).
+
+W> ### Don't Delete your Code!
+W> When decommissioning your existing search functionality, don't delete it. Simply comment things out where appropriate (such as in the `urls.py` module). You'll copying some of the code across to a new home later on, anyway.
 
 ### Decommissioning Generic Search
-Remove the generic *Search* link from the menu bar by editing the `base.html` template. You can also remove or comment out the URL mapping in `rango/urls.py`.
+The first step for this exercise is to decommission the existing search functionality that you implemented in a [previous chapter](#chapter-bing).
 
-### Creating a Search Form Template
-Now in `category.html`, after the categories, add in a new `div` at the bottom of the template, and copy in the search form. This is very similar to the template code in the `search.html`, but we have updated the action to point to the `show_category` page. We also pass through a variable called `query`, so that the user can see what query has been issued.
+1. First, open Rango's `base.html` template and find the navigation bar markup (found at the top of the page). Locate the `<li>` element for the `Search` link that you added earlier on and delete it. This needs to be deleted as you'll be commenting out the URL mapping shortly, meaning that a reverse URL lookup for `rango:search` will no longer work. Wrapping this with an HTML comment tag (`<!-- ... -->`) won't work either, as the Django template engine will still process what's inside of it!
+2. Second, open Rango's `urls.py` module and locate the URL mapping for the `/rango/search/` URL. Comment this line out by adding a `#` to the start of the line. This will prevent users from reaching the `search` URL.
+3. Finally, open Rango's `views.py` module and locate the `search()` view you implemented previously. Again, comment out this function by prepending a `#` to the start of each line.
+
+You'll still have the `search.html` template in Rango's templates directory; don't remove this as we will be using the contents of this template as the basis for integrating search functionality within the category template.
+
+### Migrating `search.html` to `category.html`
+As we will be wanting provide search functionality to users who are browsing a category, we need to add in the search presentation functionality (e.g. displaying the search form and results area) to the `category.html` template. This is essentially a simple copy and paste job!
+
+Let's split this into two main steps. First, open your decommissioned `search.html` template and locate the `<div>` element containing the entire search form. This will be the `<div>` whose child is a `<form>` element. Select and copy the `<div>` and its contents, then open Rango's `category.html` file.
+
+We now need to paste the code from `search.html` into `category.html`. As the brief for this problem was to add the search functionality *underneath* the list of pages in the category, find and locate the link inside the `{% block body_block %}` to add a page. Paste the contents from `search.html` underneath that link.
+
+You can then go back to `search.html` and repeat the process, this time selecting the `<div>` for displaying the results list. You can identify this by looking for the `<div>` with Django template code that iterates through the `result_list` list. Copy that and then move back over to `category.html`. Now paste that in underneath the `<div>` containing the form that you previously pasted in.
+
+### Updating the `category.html` Search Form
+Now that the markup required has been added to `category.html`, we need to make one simple change. Instead of submitting the contents of the search form to the `/rango/search/` URL which we decommissioned earlier, we instead will simply direct submitted responses to the Rango `/rango/category/<slug:category_name_slug>` URL instead. This is as simple as finding the `<form>` definition in `category.html` and changing the `action` attribute to Rango's `show_category()` URL mapping.
 
 {lang="html",linenos=off}
-    <form class="form-inline" id="user_form" 
-          method="post" action="{% url 'rango:show_category'  category.slug %}">
-        {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" type="text" size="40" 
-                   name="query" value="{{ query }}" id="query" />
-        </div>
-        <button class="btn btn-primary" type="submit" name="submit"
-                value="Search">Search</button>
-    </form>
+	<form class="form-inline"
+	      id="user-form"
+	      method="post"
+	      action="{% url 'rango:show_category' category.slug %}">
 
-After the search form, we need to provide a space where the results are rendered. Again, this code is similar to the template code in `search.html`.
+### Updating the `show_category()` View
+You should have identified that since we are now redirecting search requests to the `show_category()` view, we'll need to make some changes within that view so that it can handle the processing of the search request, as well as being able to handle the generation of a list of pages for a given category.
 
-{lang="html",linenos=off}
-    {% if result_list %}
-    <h3>Results</h3>
-    <!-- Display search results in an ordered list -->
-    <div class="list-group">
-    {% for result in result_list %}
-        <div class="list-group-item">
-            <h4 class="list-group-item-heading">
-                <a href="{{ result.link }}">{{ result.title }}</a>
-                </h4>
-                <p class="list-group-item-text">{{ result.summary }}</p>
-        </div>
-    {% endfor %}
-    </div>
-    {% endif %}
-	
+This is again a relatively straightforward process in which we update the view based upon code from our decommissioned `search()` view. We provide the complete listing of our model `show_category()` view below. Notice the comments denoting the start of the code we have taken from our existing `search()` view.
 
-Remember to wrap the search form and search results with `{% if user.is_authenticated %}` and `{% endif %}`, so that only authenticated users can search. You don't want random users to be wasting your monthly search API's quota! And remember to encase the search box and results in a div containter and div row 	`<div class="container p-4"><div class="row">` ... `</div></div>`.
-
-### Updating the Category View
-Update the category view to handle a HTTP `POST` request (i.e. when the user submits a search) and inject the results list into the context. The following code demonstrates this new functionality.
-
-{lang="python",linenos=off}
+{lang="python",linenos=on}
 	def show_category(request, category_name_slug):
-	    # Create a context dictionary that we can pass
-	    # to the template rendering engine.
 	    context_dict = {}
 	    
 	    try:
-	        # Can we find a category name slug with the given name?
-	        # If we can't, the .get() method raises a DoesNotExist exception.
-	        # So the .get() method returns one model instance or raises an exception.
 	        category = Category.objects.get(slug=category_name_slug)
-	        # Retrieve all of the associated pages.
-	        # Note that filter() returns a list of page objects or an empty list
-	        pages = Page.objects.filter(category=category)
-	        # Adds our results list to the template context under name pages.
+	        pages = Page.objects.filter(category=category).order_by('-views')
+	        
 	        context_dict['pages'] = pages
-	        # We also add the category object from
-	        # the database to the context dictionary.
-	        # We'll use this in the template to verify that the category exists.
 	        context_dict['category'] = category
-	        # We get here if we didn't find the specified category.
-	        # Don't do anything -
-	        # the template will display the "no category" message for us.
 	    except Category.DoesNotExist:
 	        context_dict['category'] = None
 	        context_dict['pages'] = None
 	    
-	    # New code added here to handle a POST request
+	    # Start new search functionality code.
+	    if request.method == 'POST':
+	        if request.method == 'POST':
+	            query = request.POST['query'].strip()
+	            
+	            if query:
+	                context_dict['result_list'] = run_query(query)
+	    # End new search functionality code.
 	    
-	    # create a default query based on the category name
-	    # to be shown in the search box
-	    context_dict['query'] = category.name
-	    
-	    result_list = []
+	    return render(request, 'rango/category.html', context_dict)
+
+We keep the `show_category()` view the same at the top, and add in an additional block of code towards the end to handle the processing of a search request. If a `POST` request is made, we then attempt to take the `query` from the request and issue the query to the `run_query()` function we defined in the [Bing Search chapter](#sec-bing-pyfunc). This then returns a list of results which we put into the `context_dict` with a key of `result_list` -- exactly the variable name that is expected in the updated `category.html` template.
+
+Search functionality should then all work as expected. Try it out! Navigate to a category page, and you should see a search box. Enter a search query, submit it, and see what happens.
+
+### Restricting Access to Search Functionality
+Our final requirement was to restrict the migrated search functionality only to those who are logged into Rango. This step is straightforward -- one can simply wrap the search-handling template code added to `category.html` with a conditional template check to determine if the user is authenticated.
+
+{lang="python",linenos=off}
+	{% if user.is_authenticated %}
+	<div>
+	    ....
+	</div>
+	{% endif %}
+
+Too easy! You could also go further and add conditional checks within the `show_category()` view to ensure the search functionality part is not executed when the current use is not logged in. Be wary, though -- don't be inclined to add the `login_required()` decorator to the view. Doing so will restrict all category-viewing functionality to logged in users only -- you only want to restrict the *search* functionality!
+
+### Query Box Exercise
+At the end of the Bing Search API chapter, we set an exercise. We noted that in its current state, users would issue a query and then be presented with the results. However, the query box would then be blanked again -- thus making *query reformulation* more taxing.
+
+In our code examples above, we've deliberately kept our model solution to this particular exercise out. How could you allow the results page to *'remember'* the query that was entered, and place it back in the search box?
+
+The solution to this problem is to simply place the `query` variable into the `context_dict` of `show_category()`, and then make use of the variable within the `category.html` template by specifying its value as the `value` attribute for the search box `<input>` element.
+
+In Rango's `show_category()` view, locate the coe block that deals with the search functionality, and add the `query` to the `context_dict`, like so.
+
+{lang="python",linenos=off}
+	# Start new search functionality code.
+	if request.method == 'POST':
 	    if request.method == 'POST':
 	        query = request.POST['query'].strip()
 	        
 	        if query:
-	            # Run our search API function to get the results list!
-	            result_list = run_query(query)
-	            context_dict['query'] = query
-	            context_dict['result_list'] = result_list
-	    
-	    
-	    # Go render the response and return it to the client.
-	    return render(request, 'rango/category.html', context_dict)
+	            context_dict['result_list'] = run_query(query)
+	            context_dict['query] = query
+	# End new search functionality code.
 
-Notice that the `context_dict` now includes the `result_list` and `query`. If there is no query, we provide a default query, i.e. the category name. The query box then displays this value.
+Once this has been completed, open Rango's `category.html` template and modify the `query` `<input>` field like so.
+
+{lang="html",linenos=off}
+	<input class="form-control"
+	       type="text"
+	       size="50"
+	       name="query"
+	       value="{{ query }}"
+	       id="query" />
+
+Template variable `{{ query }}` will be replaced with the user's query, thus setting it to be the default value for the `<input>` field when the page loads.
+
+Once everything has been completed, you should have a category page that looks similar to the example below. Well done!
 
 {id="fig-exercises-categories"}
-![Rango's updated category view, complete with search API search functionality.](images/exercises-categories.png)
+![Rango's updated category view, complete with Bing Search API search functionality. Note also the inclusion of the search terms in the query box -- they are still retained!](images/exercises-categories.png)
 
 ## Creating a `UserProfile` Instance {#section-hints-profiles}
 This section provides a solution for creating Rango `UserProfile` accounts. Recall that the standard Django `auth` `User` object contains a variety of standard information regarding an individual user, such as a username and password. We however chose to implement an additional `UserProfile` model to store additional information such as a user's Website and a profile picture. Here, we'll go through how you can implement this, using the following steps.

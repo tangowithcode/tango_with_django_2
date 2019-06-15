@@ -62,14 +62,14 @@ I> Always check the request method is of type `GET` first. Once you have done th
 I>
 I> You could also do this without using a *querystring*, but through the URL instead. This would mean that instead of having a URL that looks like `/rango/goto/?page_id=x`, you could create a URL pattern that matches to `/rango/goto/<int:page_id>/`. Either solution would work, but if you do this, you would obtain `page_id` in `goto_url()` from a parameter to the function call, rather than from the `request.GET` dictionary.
 
-## Searching Within a Category Page
+## Searching Within a Category Page  {#chapter-ex-searching}
 Rango aims to provide users with a helpful dictionary of useful web pages. At the moment, the search page functionality is essentially independent of the categories. It would be nicer to have search integrated within the categories.
 
 In order to implement this functionality, we will assume that a user will first browse through the category of interest. If they can't find a relevant page, they can then search. If they find a page that is relevant, then they can add it to the category.
 
 For this section, let us focus on the first problem that entails putting search on the category page. To do this, perform the following steps.
 
-1. Remove the generic *Search* link from the navigation bar. This implies that we are decommissioning the global search functionality that we implemented earlier. You can also comment out the URL mapping and view for search if you like, too. Don't delete the view however, as you'll be using it in a few steps!
+1. Remove the generic *Search* link from the navigation bar. This implies that we are decommissioning the global search functionality that we implemented earlier. You can also comment out the URL mapping and view for search if you like, too. **Comment out, don't delete** -- you'll be using the code to form the basis of your updated search functionality in subsequent steps!
 2. Take the search form and results template markup from `search.html`, and place it into `category.html` *underneath* the list of pages. You'll only want to show the search functionality if the category exists in the database.
 3. Update the search form such that the action refers back to the category URL, rather than the search URL.
 
@@ -86,6 +86,11 @@ For this section, let us focus on the first problem that entails putting search 
 	{% if user.is_authenticated %} 
 	    <!-- Your search code goes here -->
 	{% endif %}
+
+T> ### Commenting out Code
+T> Commenting out code stops the interpreter or compiler from using the selected code. Although it cannot see it and execute it, you can still read it and use it. In Python, the simplest way to comment out a line of code is to prepend a `#` to the line -- put it before any text.
+T>
+T> Other languages will have different commenting syntax. HTML for example uses `<!--` to denote the start of a commented-out block of markup, and `-->` to denote the end.
 
 ## Create and View Profiles
 If you have swapped over to the `django-registration-redux` package [as we worked on in an earlier chapter](#chapter-redux), then users who are registering won't be asked for a website or profile image. Essentially, the `UserProfile` information is not being collected. In order to fix this issue, we'll need to change the steps that users go through when registering. Instead of simply redirecting users to the index page once they have successfully filled out the initial registration form, we'll redirect them to a new form to collect the additional `UserProfile` information.

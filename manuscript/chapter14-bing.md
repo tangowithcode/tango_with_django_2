@@ -37,7 +37,7 @@ A new page will then load. Here, you should look for the `Keys` option under the
 {id="fig-azure-keys"}
 ![The keys screen for the Bing Search API resource. Make sure you take a note of the `key 1` value! You will need them later on.](images/ch14-azure-keys.png)
 
-## Adding Search Functionality
+## Adding Search Functionality {#sec-bing-pyfunc}
 With your keys in hand, it's now time to get coding. Below, we have provided the necessary code so that we can programmatically issue search queries to the Bing Search API. Create a file called `bing_search.py` inside your `rango` app directory -- the same directory with modules like `views.py` and `models.py`. Add the code shown below.
 
 I> ### The `requests` Package
