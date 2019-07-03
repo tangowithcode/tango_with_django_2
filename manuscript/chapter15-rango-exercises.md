@@ -92,7 +92,7 @@ T> Commenting out code stops the interpreter or compiler from using the selected
 T>
 T> Other languages will have different commenting syntax. HTML for example uses `<!--` to denote the start of a commented-out block of markup, and `-->` to denote the end.
 
-## Create and View Profiles
+## Create and View User Profiles
 If you have swapped over to the `django-registration-redux` package [as we worked on in an earlier chapter](#chapter-redux), then users who are registering won't be asked for a website or profile image. Essentially, the `UserProfile` information is not being collected. In order to fix this issue, we'll need to change the steps that users go through when registering. Instead of simply redirecting users to the index page once they have successfully filled out the initial registration form, we'll redirect them to a new form to collect the additional `UserProfile` information.
 
 To add the UserProfile registration functionality, you need to undertake the following steps.
