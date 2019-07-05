@@ -84,7 +84,7 @@ The `User` model has five key attributes. They are:
 
 The `User` model also comes with other attributes such as `is_active`, `is_staff` and `is_superuser`. These are boolean fields used to denote whether the account is active, owned by a staff member, or has superuser privileges respectively.  Check out the [Django documentation on the user model](https://docs.djangoproject.com/en/2.0/ref/contrib/auth/#django.contrib.auth.models.User) for a full list of attributes provided by the base `User` model.
 
-##Additional `User` Attributes
+##Additional `User` Attributes {#sec-user-userprofile}
 If you would like to include other user related attributes than what is provided by the `User` model, you will needed to create a model that is *associated* with the `User` model. For our Rango app, we want to include two more additional attributes for each user account. Specifically, we wish to include:
 
 - a `URLField`, allowing a user of Rango to specify their own website; and
@@ -161,7 +161,7 @@ As a final step to integrate our new registration functionality, we will also:
 
 - link the index page to the register page.
 
-### Creating the `UserForm` and `UserProfileForm`
+### Creating the `UserForm` and `UserProfileForm` (#sec-user-forms)
 In `rango/forms.py`, we now need to create two classes inheriting from `forms.ModelForm`. We'll be creating one for the base `User` class, as well as one for the new `UserProfile` model that we just created. The two `ModelForm`-inheriting classes allow us to display a HTML form displaying the necessary form fields for a particular model, taking away a significant amount of work for us.
 
 In `rango/forms.py`, let's first create our two classes which inherit from `forms.ModelForm`. Add the following code to the module.

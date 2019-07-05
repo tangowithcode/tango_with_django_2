@@ -296,13 +296,21 @@ To get you started, here is the code for the `add_page()` view function.
 	                page.views = 0
 	                page.save()
 	                
-	                return show_category(request, category_name_slug)
+	                return redirect(reverse('rango:show_category',
+	                                        kwargs={'category_name_slug': category_name_slug}))
 	        else:
 	            print(form.errors)
 	    
 	    context_dict = {'form':form, 'category': category}
 	    return render(request, 'rango/add_page.html', context_dict)
 
+Note that in the example above, we need to *redirect* the user to the `show_category` view once the page has been created. This involves the use of the `redirect()` and `reverse()` helper functions to redirect the user and to lookup the appropriate URL, respectively. The following imports at the top of Rango's `views.py` module will therefore be required for this code to work.
+
+{lang="python",linenos=off}
+	from django.shortcuts import redirect
+	from django.urls import reverse
+
+What happens here is that the `redirect()` function is called, which in turn calls the `reverse()` function. `reverse()` looks up URL names in your `urls.py` modules -- in this instance, `rango:show_category`. If a match is found against the name provided, the complete URL is returned. The added complication here is that the `show_category()` view takes an additional parameter `category_name_slug`. By providing this value in a dictionary as `kwargs` to the `reverse()` function, it has all of the information it needs to formulate a complete URL. This completed URL is then used as the parameter to the `redirect()` method, and the response is complete!
 
 T> ### Hints
 T> To help you with the exercises above, the following hints may be of some use to you.

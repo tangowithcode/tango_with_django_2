@@ -98,8 +98,7 @@ If you have swapped over to the `django-registration-redux` package [as we worke
 To add the UserProfile registration functionality, you need to undertake the following steps.
 
 1. First, create a `profile_registration.html` template, which will display the `UserProfileForm`. This will need to be placed within the `rango` templates directory. Although it makes sense to place it in the `registration` directory, it is Rango specific; as such, it should live in the `rango` directory.
-2. After this, you need to create a new `UserProfileForm` `ModelForm` class to handle the new form.
-3. Create a new `register_profile()` view in Rango's `views.py` to capture the `UserProfile` details.
+2. Create a new `register_profile()` view in Rango's `views.py` to capture the `UserProfile` details.
 4. Finally, change where you redirect newly-registered users. We'll have to provide you with some code to show you how to do this. You can find that in the [next chapter](#section-hints-profiles).
 
 It would also be useful to let users inspect and edit their own profiles once they have been created. To do this, undertake the following steps.
