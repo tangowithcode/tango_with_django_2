@@ -457,205 +457,253 @@ T> In a class-based implementation, one solution would be to simply add the code
 T>
 T> A possible solution would be to create a *helper method* within your class-based implementation. You can call it whatever you like, but in order to be able to successfully generate the basics for the context dictionary of the `show_category()` view, you'll also need the `category_name_slug`. How could you implement this? We give you a hint in the tip above. Once you have cracked it, you'll also be able to apply the same technique to other class-based views within your code.
 
-~~~~~~
+## Viewing your Profile {#section-hints-profileview}
+With the code now in place to reinstate the use of the `UserProfile` model, we can now implement functionality to allow a user to view his or her profile -- and edit it. The process is again similar in nature to what we have done many times before. We'll need to consider the following three steps.
 
-## Viewing your Profile  {#section-hints-profileview}
-With the creation of a `UserProfile` object now complete, let's implement the functionality to allow a user to view his or her profile and edit it. The process is again pretty similar to what we've done before. We'll need to consider the following aspects:
+1. First, we will need to create a new template, this time called `profile.html`. This will live inside the `rango` `templates` directory.
+2. Second, we'll have to create a new view that renders the new template. We'll make this one a class-based view from the outset!
+3. Finally, the new view must be mapped to a URL. Our URL for this exercise will be `/rango/profile`.
 
-- the creation of a new template, `profile.html`;
-- creating a new view called `profile()` that uses the `profile.html` template; and
-- mapping the `profile()` view to a new URL (`/rango/profile`).
-
-We'll also need to provide a new hyperlink in Rango's `base.html` template to access the new view. For this solution, we'll be creating a generalised view that allows you to access the information of any user of Rango. The code will allow logged in users to also edit their profile; but only *their* profile - thus satisfying the requirements of the exercise.
+Of course, to make the new page accessible, we'll also need to provide an additional hyperlink in Rango's `base.html` template to provide simple access. For this solution, we'll be creating a generalised view that allows you access the information of any user of Rango. The code will also allow users who are logged into the app to also edit their own profile -- *but only theirs* -- thus satisfying the [requirements of this exercise](#sec-ex-profiles).
 
 ### Creating the Template
-First, let's create a simple template for displaying a user's profile. The following HTML markup and Django template code should be placed within the new `profile.html` template within Rango's template directory.
+First, let's work on creating a simple template for displaying a user's profile. The following HTML markup and Django template code should be placed within the new `profile.html` file within Rango's templates directory.
 
 {lang="html",linenos=off}
 	{% extends 'rango/base.html' %}
 	{% load staticfiles %}
-	{% block title %}{{ selecteduser.username }} Profile{% endblock %}
+	
+	{% block title_block %}
+	    Profile for {{ selecteduser.username }}
+	{% endblock %}
+	
 	{% block body_block %}
-	<div class="jumbotron p-4">
-		<div class="container">
-	 		<h1 class="jumbotron-heading">{{selecteduser.username}} Profile</h1>
-        </div>
-    </div>
-    <div class="container">
-    	<div class="row">
-	<img src="{{ MEDIA_URL }}{{userprofile.picture }}"
-	     width="300"
-	     height="300"
-	     alt="{{selecteduser.username}}" />
-	<br/>
-	<div>
-	    {% if selecteduser.username == user.username %}
-	        <form method="post" action="." enctype="multipart/form-data">
-	             {% csrf_token %}
-	            {{ form.as_p }}
-	            <input type="submit" value="Update" />
-	        </form>
-	    {% else %}
-	    <p><strong>Website:</strong> <a href="{{userprofile.website}}">
-	        {{userprofile.website}}</a></p>
-	    {% endif %}
-	</div>
-	<div id="edit_profile"></div>
-    </div>
-    </div>
-    {% endblock %}
+	    <div class="jumbotron p-4">
+	        <div class="container">
+	            <h1 class="jumotron-heading">{{ selecteduser.username }}'s Profile</h1>
+	        </div>
+	    </div>
+	    
+	    <div class="container">
+	        <div class="row">
+	            <img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
+	                 width="300"
+	                 height="300"
+	                 alt="{{ selecteduser.username }}'s profile image" />
+	            <br />
+	            <div>
+	                {% if selecteduser == user %}
+	                <form method="post" action="." enctype="multipart/form-data">
+	                    {% csrf_token %}
+	                    {{ form.as_p }}
+	                    
+	                    <input type="submit" value="Update" />
+	                </form>
+	                {% else %}
+	                <p>
+	                    <strong>Website:</strong>
+	                    <a href="{{ userprofile.website }}">{{ userprofile.website }}</a>
+	                </p>
+	                {% endif %}
+	            </div>
+	        </div>
+	    </div>
+	{% endblock %}
 
-Note that there are a few variables (`selecteduser`, `userprofile` and `form`) that we need to define in the template's context - we'll be doing so in the next section.
+Note that in the template, we make use of a few variables (namely `selecteduser`, `userprofile` and `form`) that we need to make sure are defined in the template's context. In this template, we assume that:
 
-The fun part of this template is within the `body_block` block. The template shows the user's profile image at the top. Underneath, the template shows a form allowing the user to change his or her details, which is populated from the `form` variable. This form however is *only shown* when the selected user matches the user that is currently logged in, thus only allowing the presently logged in user to edit his or her profile. If the selected user does not match the currently logged in user, then the selected user's website is displayed - but it cannot be edited.
+- `selecteduser` represents a Django `User` instance of the user whose profile we want to display;
+- `userprofile` represents a Rango `UserProfile` instance of the associated `User` that we want to display; and
+- `form` represents a `UserProfileForm` instance that is used to display the necessary fields to allow a user to edit his or her profile (i.e. website and/or profile image), with the website field pre-populated where necessary.
 
-You should also take not of the fact that we again use `enctype="multipart/form-data"` in the form due to the fact image uploading is used.
+We'll be making sure that this template is passed the required variables to its context in the next section.
+
+The template block of interest here is of course the `body_block` block. At the top, we display the selected user's profile image, set to dimensions of 300X300 pixels. We also provide `alt` text to display if the image cannot be located.
+
+However, the interesting part of this template is underneath. We use a conditional statement to work out if the user who is currently looking at a given profile is the said user (`selecteduser == user`) -- and if he or she if, we display a form to allow the user to edit their profile. If the user does not match up, then we don't want to provide a form to edit -- so instead, we simply display the profile.
+
+You should also take note of the fact that we once again use `enctype="multipart/form-data"` in the `<form>` due to the fact that users can upload a new profile image -- remember, whenever file uploads are involved, this attribute must be specified.
 
 ### Creating the `profile()` View
-Based upon the template created above, we can then implement a simple view to handle the viewing of user profiles and submission of form data. In Rango's `views.py` module, create a new class based view called `ProfileView`.
+Based on the template created above, we can then implement a simple view to handle the viewing of user profiles and submission of form data. In Rango's `views.py` module, create a new class-based view called `ProfileView`. Add the code as we show below to the new view.
 
 {lang="python",linenos=off}
-    from rango.models import UserProfile
-    from django.contrib.auth.models import User
+	class ProfileView(View):
+	    def get_user_details(self, username):
+	        try:
+	            user = User.objects.get(username=username)
+	        except User.DoesNotExist:
+	            return None
+	        
+	        userprofile = UserProfile.objects.get_or_create(user=user)[0]
+	        form = UserProfileForm({'website': userprofile.website,
+	                                'picture': userprofile.picture})
+	        
+	        return (user, userprofile, form)
+	    
+	    @method_decorator(login_required)
+	    def get(self, request, username):
+	        try:
+	            (user, userprofile, form) = self.get_user_details(username)
+	        except TypeError:
+	            return redirect('rango:index')
+	        
+	        context_dict = {'userprofile': userprofile,
+	                        'selecteduser': user,
+	                        'form': form}
+	        
+	        return render(request, 'rango/profile.html', context_dict)
+	    
+	    @method_decorator(login_required)
+	    def post(self, request, username):
+	        try:
+	            (user, userprofile, form) = self.get_user_details(username)
+	        except TypeError:
+	            return redirect('rango:index')
+	        
+	        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+	        
+	        if form.is_valid():
+	            form.save(commit=True)
+	            return redirect('rango:profile', user.username)
+	        else:
+	            print(form.errors)
+	        
+	        context_dict = {'userprofile': userprofile,
+	                        'selecteduser': user,
+	                        'form': form}
+	        
+	        return render(request, 'rango/profile.html', context_dict)
 
-    class ProfileView(View):
-    
-        def get_user_details(self, username):
-            try:
-                user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                return redirect('index')
-            
-            userprofile = UserProfile.objects.get_or_create(user=user)[0]
-            form = UserProfileForm({'website': userprofile.website,
-                'picture': userprofile.picture})
-            return (user, userprofile, form)
-    
-        @method_decorator(login_required)
-        def get(self, request,  username):
-            (user, userprofile, form) = self.get_user_details(username)
-            return render(request, 'rango/profile.html',
-                {'userprofile': userprofile, 'selecteduser': user, 'form': form})
-        
-        @method_decorator(login_required)
-        def post(self, request,  username):
-            (user, userprofile, form) = self.get_user_details(username)
-            form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
-            if form.is_valid():
-                form.save(commit=True)
-                return redirect('profile', user.username)
-            else:
-                print(form.errors)
-            return render(request, 'rango/profile.html',
-                {'userprofile': userprofile, 'selecteduser': user, 'form': form})
-            
+We'll also need to `import` two classes that we haven't used before. One is the standard Django `User` model, and the other is Rango's `UserProfile` model. Note we did import the the `UserProfileForm` earlier -- that's different!
 
+{lang="python",linenos=off}
+	from django.contrib.auth.models import User
+	from rango.models import UserProfile
 
-This class based view requires that a user be logged in - hence the use of the `@method_decorator(login_required)` decorator, and we also need to import the `User` and `UserProfile` models. In the class, we created a helper method that both `get` and `post` use, so we dont repeat ourselves. 
+Our new class-based view requires that a user be logged in -- hence the use of the `@method_decorator(login_required)` decorator for both the `get()` and `post()` methods.
 
-The helper methods begins by selecting the selected `django.contrib.auth.User` from the database - if it exists.  If it doesn't, we perform a simple redirect to Rango's homepage rather than greet the user with an error message. We can't display information for a non-existent user! If the user does exist, we can select the user's `UserProfile` instance. If it doesn't exist, we can create a blank one. We then populate a `UserProfileForm` object with the selected user's details if we require it. The `user`, `userprofile` and populated `form` are then returned. 
+Within the `ProfileView` class, we also created a `get_user_details()` helper method to ensure that we don't repeat ourselves. This helper method begins by selecting the selected `django.contrib.auth.User` from the database -- if it exists. If it does not exist, the method simply returns None, which signals to both the `get()` and `post()` methods to do a simple `redirect` to Rango's homepage, rather than greet the user with a bespoke error message. We can't display information for a non-existent user! If the user does exist, the `get_user_details()` method selects the `UserProfile` instance (or creates a blank one, if one does not exist). We then populate a `UserProfileForm` with the the selected user's details if it is required. The `user`, `userprofile` and populated `form` objects are then returned in a tuple and are [unpacked](https://www.geeksforgeeks.org/packing-and-unpacking-arguments-in-python/) by the `get()` and `post()` methods that call the helper method.
 
-In the `post` method, we handle the case where a user wants to update their accoutn information. So we  extract information from the form into a `UserProfileForm` instance that is able to reference to the `UserProfile` model instance that it is saving to, rather than creating a new `UserProfile` instance each time. Remember, we are *updating*, not creating *new*. A valid form is then saved. An invalid form or a HTTP `GET` request triggers the rendering of the `profile.html` template with the relevant variables that are passed through to the template via its context.
+Within the `post()` method, we handle the case where a user wants to update their profile's information. To do this, we extract information from the form into a `UserProfileForm` instance that is able to reference to the `UserProfile` instance that it is saving to -- rather than creating a new `UserProfile` instance each time. Remember, we are *updating*, not creating! A valid form is then saved. An invalid form (or a HTTP `GET` request) triggers the rendering of the `profile.html` template, complete with the relevant variables that are passed through to the template via its context.
 
 X> ### Authentication Exercise
 X> How can we change the code above to prevent unauthorised users from changing the details of a user account that isn't theirs? What conditional statement do we need to add to enforce this additional check?
 
 ### Mapping the View to a URL
-We then need to map our new `ProfileView` to a URL. First import the class, `from rango.views import ProfileView`, and then add in the path within the `urlpatterns` list.
+We then need to map our new `ProfileView` to a URL. This involves editing Rango's `urls.py` module. We want to add a further line to the `urlpatterns` list, as shown below.
 
 {lang="python",linenos=off}
-	path('profile/<username>/', ProfileView.as_view(), name='profile')
+	path('profile/<username>/', views.ProfileView.as_view(), name='profile'),
 
-Note the inclusion of a `username` variable which is matched to anything after `/profile/` - meaning that the URL `/rango/profile/maxwelld90/` would yield a `username` of `maxwelld90`, which is in turn passed to the `profile()` view as parameter `username`. This is how we are able to determine what user the current user has selected to view.
+Note the inclusion of a `username` variable which is matched to anything after `/profile/` -- meaning that the URL `/rango/profile/maxwelld90/` would yield a `username` of `maxwelld90`. This is in turn passed to the `get()` or `post()` methods in our class-based view as parameter `username`. This is how we are able to determine what user has been requested.
 
 ### Tweaking the Base Template
-Everything should now be working as expected - but it'd be nice to add a link in Rango's `base.html` template to link the currently logged in user to their profile, providing them with the ability to view or edit it. In Rango's `base.html` template, find the code that lists a series of links in the navigation bar of the page when the *user is logged in*. Add the following hyperlink to this collection.
+Everything should be now working as expected -- but how can users access the new functionality? We can provide a link by modifying Rango's `base.html` template. Find the series of `<li>` elements that you created earlier in the book that comprise the navigation bar. Add a new link to allow users to jump to their `Profile` -- ensuring that this link is *only visible when a user is logged in (authenticated).* If that is the case, what template conditional statement does the following link need to be placed within?
 
 {lang="html",linenos=off}
-    <li class="nav-item ">
-    <a class="nav-link" href="{% url 'rango:profile' user.username %}">Profile</a>
-    </li>
+	<li class="nav-item">
+	    <a class="nav-link" href="{% url 'rango:profile' user.username %}">Profile</a>
+	</li>
 
+All being well, you should see something like [the following example](#fig-exercises-profile).
 
 {id="fig-exercises-profile"}
-![Rango's complete user profile page.](images/exercises-profile.png)
+![A completed Rango profile page, showing a profile for `david`. Note that this is being viewed from the same account -- the ability to edit the website and profile image are both present.](images/exercises-profile.png)
 
 ## Listing all Users
-Our final challenge is to create another page that allows one to view a list of all users on the Rango app. This one is relatively straightforward - we need to implement another template, view and URL mapping - but the view in this instance is very simplistic. We'll be creating a list of users registered to Rango - and providing a hyperlink to view their profile using the code we implemented in the previous section.
+Our final challenge is to create a further page that allows one to view a list of all users registered on the Rango app. This one is relatively straightforward -- implementing a further template, view and URL mapping are all once again required -- but the code in this view is simplistic to the code we added above. We'll be creating a list of users registered to Rango -- and providing a hyperlink to view their profile using the code we implemented in the previous section. *Note that this new view should only be accessible to those who are logged in.*
 
-### Creating a Template for User Profiles
-In Rango's templates directory, create a template called `list_profiles.html`, within the file, add the following HTML markup and Django template code.
+### Creating a Template for Listing User Profiles
+You know the drill by now. Create a new template! Once again, this belongs to Rango, but this time, we will call it `list_profiles.html`. Within the file, add the following HTML markup and Django template code.
 
 {lang="html",linenos=off}
 	{% extends 'rango/base.html' %}
 	{% load staticfiles %}
-	{% block title %}User Profiles{% endblock %}
+	
+	{% block title_block %}
+	    User Profiles
+	{% endblock %}
+	
 	{% block body_block %}
-	<div class="jumbotron p-4">
-		<div class="container">
-	 	<h1 class="jumbotron-heading">User Profiles</h1>
-        </div>
-    </div>
-    <div class="container">
-    	<div class="row">
-	    {% if userprofile_list %}
-	    <div class="panel-heading">
-	        <!-- Display search results in an ordered list -->
-	        <div class="panel-body">
-	            <div class="list-group">
-	            {% for listuser in userprofile_list %}
-	                <div class="list-group-item">
-	                <h4 class="list-group-item-heading">
-	                <a href="{% url 'rango:profile' listuser.user.username %}">
-	                {{ listuser.user.username }}</a>
-	                </h4>
-	                </div>
-	            {% endfor %}
-	            </div>
+	    <div class="jumbotron p-4">
+	        <div class="container">
+	            <h1 class="jumotron-heading">User Profiles</h1>
 	        </div>
 	    </div>
-	    {% else %}
-	        <p>There are no users for the site.</p>
-	    {% endif %}
-	</div>
-    </div>
+	    
+	    <div class="container">
+	        <div class="row">
+	            {% if userprofile_list %}
+	            <div class="panel-body">
+	                <div class="list-group">
+	                    {% for listuser in userprofile_list %}
+	                    <div class="list-group-item">
+	                        <h4 class="list-group-item-heading">
+	                            <a href="{% url 'rango:profile' listuser.user.username %}">
+	                                {{ listuser.user.username }}
+	                            </a>
+	                        </h4>
+	                    </div>
+	                    {% endfor %}
+	                </div>
+	            </div>
+	            {% else %}
+	            <p>There are no users present on Rango.</p>
+	            {% endif %}
+	        </div>
+	    </div>
 	{% endblock %}
 
-This template is relatively straightforward - we created a series of `<div>` tags using various Bootstrap classes to style the list. For each user, we display their username and provide a link to their profile page. Notice since we pass through a list of `UserProfile` objects, to access the username of the user, we need to go view the `user` property of the `UserProfile` object to get `username`.
+As mentioned previously, this template is pretty straightforward compared to what we have been doing as of late! A series of `<div>` tags have been created using various Bootstrap classes to style the list. For each user, we display their username and provide a link to their profile page. Notice that since we pass through a list of `UserProfile` objects, we need to pass through the `user` attribute to lead to the `username` of the user!
 
 ### Creating the View
-With our template created, we can now create the corresponding view that selects all users from the `UserProfile` model. We also make the assumption that the current user must be logged in to view the other users of Rango. The following view `list_profiles()` can be added to Rango's `views.py` module to provide this functionality.
+With our template created, we can now create the corresponding view that selects all users from the `UserProfile` model. We also make the assumption that the current user must be logged in to view the other users of Rango, as stated above.
+
+The following simple class-based view should satisfy these requirements nicely. Again, this is a straightforward view -- selecting all of the `UserProfile` instances via an ORM query is perhaps the trickiest part here. Remember, the list must have a name of `userprofile_list` in the context dictionary to match up with our template defined above.
 
 {lang="python",linenos=off}
-	@login_required
-	def list_profiles(request):
-	    userprofile_list = UserProfile.objects.all()  
-	    return render(request, 'rango/list_profiles.html',
-	        {'userprofile_list' : userprofile_list})
+	class ListProfilesView(View):
+	    @method_decorator(login_required)
+	    def get(self, request):
+	        profiles = UserProfile.objects.all()
+	        
+	        return render(request,
+	                      'rango/list_profiles.html',
+	                      {'userprofile_list': profiles})
 
 
-### Mapping the View and Adding a Link
-Our final step is to map a URL to the new `list_profiles()` view. Add the following to the `urlpatterns` list in Rango's `urls.py` module to do this.
+### Mapping and Linking the View
+Our final step is to map a URL to the new `ListProfilesView` class-based view. Add the following pattern to the `urlpatterns` list provided in Rango's `urls.py`.
 
 {lang="python",linenos=off}
-    path('profiles/', views.list_profiles, name='list_profiles'),
+	path('profiles/', views.ListProfilesView.as_view(), name='list_profiles'),
 
-We could also add a new hyperlink to Rango's `base.html` template, allowing users *who are logged in* to view the new page. Like before, add the following markup to the base template which provides links only to logged in users.
+This creates a mapping with a name of `list_profiles`. No parameters are required here. The new page should now be accessible at [`http://127.0.0.1:8000/rango/profiles/`](http://127.0.0.1:8000/rango/profiles/) -- but what about providing a link to the new feature, too?
+
+Once again, this will involve editing Rango's `base.html` template. Locate the list of links that make up the navigation bar, and add a further link that allows users to `List Profiles`. *Make sure that this new link is only visible to those who are logged into Rango.*
 
 {lang="html",linenos=off}
-    <li class="nav-item ">
-    <a class="nav-link" href="{% url 'rango:list_profiles' %}">List Profiles</a>
-    </li>
+	<li class="nav-item">
+	    <a class="nav-link" href="{% url 'rango:list_profiles' %}">
+	        List Profiles
+	    </a>
+	</li>
 
-With this link added you should be able to view the list of user profiles, and view specific profiles. 
+With this link in place, logged in users should now be able to navigate to the new view and see a list of all users registered with Rango. [The screenshot below](#fig-exercises-list) shows the completed list with three registered users.
 
-X> ### Profile Page Exercise
+{id="fig-exercises-list"}
+![The completed profile listing functionality. Three users are registered to use Rango in this example: *david*, *adelka* and *leifos*.](images/exercises-list.png)
+
+X> ### Profile Page Exercises
+X> With the above now completed, have a look at the following additional exercise to test your knowledge and understanding further.
 X>
 X> - Update the profile list to include a thumbnail of the user's profile picture.
 X> - If a user does not have a profile picture, then insert a substitute picture by using the [service provide by LoremPixel](ttp://lorempixel.com/) that lets you automatically generate images.
-X> Hint: you can use
-X> [`<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>`](http://lorempixel.com/64/64/people/) 
-X>  from LoremPixel to get a picture of `people` that is 64x64 in size. Note that it might take a few seconds for the picture to download.
+X> - Update the user profile view (responsible for rendering `profile.html`) to also use a placeholder image if no profile image has been provided.
 
-
-
+I> ### Hints
+I> The following hints may help you complete the above exercises.
+I> 
+I> - For the first exercise, you will need to use the `<img>` tag.
+I> - Substitution images can be obtained from [`https://lorempixel.com`](https://lorempixel.com). As an example, you can use [`<img width="64" height="64" src="https://lorempixel.com/64/64/people/"/>`](https://lorempixel.com/64/64/people/) to obtain a 64X64 placeholder image. Adjust the dimensions as you see fit. Beware that the image may take a few seconds to load!

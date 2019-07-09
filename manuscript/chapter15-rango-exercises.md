@@ -92,10 +92,10 @@ T> Commenting out code stops the interpreter or compiler from using the selected
 T>
 T> Other languages will have different commenting syntax. HTML for example uses `<!--` to denote the start of a commented-out block of markup, and `-->` to denote the end.
 
-## Create and View User Profiles
+## Create and View User Profiles {#sec-ex-profiles}
 If you have swapped over to the `django-registration-redux` package [as we worked on in an earlier chapter](#chapter-redux), then users who are registering won't be asked for a website or profile image. Essentially, the `UserProfile` information is not being collected. In order to fix this issue, we'll need to change the steps that users go through when registering. Instead of simply redirecting users to the index page once they have successfully filled out the initial registration form, we'll redirect them to a new form to collect the additional `UserProfile` information.
 
-To add the UserProfile registration functionality, you need to undertake the following steps.
+To add the `UserProfile` registration functionality, you need to undertake the following steps.
 
 1. First, create a `profile_registration.html` template, which will display the `UserProfileForm`. This will need to be placed within the `rango` templates directory. Although it makes sense to place it in the `registration` directory, it is Rango specific; as such, it should live in the `rango` directory.
 2. Create a new `register_profile()` view in Rango's `views.py` to capture the `UserProfile` details.
@@ -104,11 +104,13 @@ To add the UserProfile registration functionality, you need to undertake the fol
 It would also be useful to let users inspect and edit their own profiles once they have been created. To do this, undertake the following steps.
 
 1. Create a new template called `profile.html`. This should live in the `rango` templates directory. Within this template, add in the fields associated with the `UserProfile` and the `User` instances, such as the username, website and user profile image.
-2. Create a view called `profile()` in Rango's `views.py`. This view will obtain the necessary information required in order to render the `profile.html` template.
-3. Map the URL `/rango/profile/` to your new `profile()` view. The mapping should have name of `profile`.
+2. Create a new view in Rango's `views.py`. This view will obtain the necessary information required in order to render the `profile.html` template.
+3. Map the URL `/rango/profile/` to your new view. The mapping should have name of `profile`.
 4. Finally, you should add a link in the `base.html` navigation bar called *Profile*. This link should only be available to users who are logged in (those that pass the check `{% if user.is_authenticated %}`).
 
-To allow users to browse through other user profiles, you can also create a *users page* that lists all users registered on Rango. If you click on a username, you will then be redirected to their *profile page.* However, **you must ensure that a user is only able to edit their own profile**, and that logged in users can see the users page! 
+To allow users to browse through other user profiles, you can also create a *users page* that lists all users registered on Rango. If you click on a username, you will then be redirected to their *profile page.* However, **you must ensure that a user is only able to edit their own profile**, and that logged in users can see the users page!
+
+In order to allow users to view different profiles, you'll need to tweak the URL mapping to allow for the provision of a username, too. Instead of simply using `/rango/profile/`, you should allow for a username using the mapping `/rango/profile/<username>/`. For this to work, you will of course need to update the view you create, too.
 
 T> ### Referencing Uploaded Content in Templates
 T> If you have successfully completed all of the [Templates and Media Files chapter](#section-templates-upload), your Django setup should be ready to deal with the uploading and serving of user-defined media files (in this case, profile images). You should be able to reference the `MEDIA_URL` URL (defined in `settings.py`) in your templates through use of the `{{ MEDIA_URL }}` tag, provided by the [media template context processor](https://docs.djangoproject.com/en/2.1/howto/static-files/). We asked you to try this out as an exercises much earlier in the book. Displaying an image `cat.jpg`, the associated HTML markup would be `<img src="{{ MEDIA_URL}}cat.jpg">`.
