@@ -1,41 +1,45 @@
 #AJAX in Django with JQuery {#chapter-ajax}
-AJAX essentially is a combination of technologies that are integrated together to reduce the number of page loads. Instead of reloading the full page, only part of the page or the data in the page is reloaded. If you haven't used AJAX before or would like to know more about it before using it, check out the [AJAX resources at the Mozilla website](https://developer.mozilla.org/en-US/docs/AJAX).
+*Asynchronous JavaScript and XML (AJAX)* can be described as a series of different *client-side* technologies that work seamlessly together to allow for the development of asynchronous web applications. Recall that a standard request over HTTP is initiated by the client, with the server then sending back some form of response. Typically, a synchronous web application will return an entire page as the response to a request, which the browser then loads. Asynchronous web applications permit the request for data -- or pieces of a webpage -- that can then be used by the browser to update the currently loaded page in situ, without the need to refresh it in its entirety. AJAX is the basic technology that drives many of the web applications that are ubiquitous today, such as messenger apps, for example.
 
-To simplify the AJAX requests, we will be using the JQuery library. Note that if you are using the Twitter CSS Bootstrap toolkit then JQuery will already be added in. We are using [JQuery version 3.3.1](https://code.jquery.com/jquery-3.3.1.slim.min.js). Otherwise, download the JQuery library and include it within your application, i.e. save it within your project into the `static/js/` directory (see [JQuery Chapter](#chapter-jquery)).
+I> ### Need More Information?
+I> If you're haven't used AJAX before, or require more information to grasp a better understanding of what AJAX achieves, check out the [AJAX resources page at the Mozilla website](https://developer.mozilla.org/en-US/docs/AJAX).
 
-## AJAX based Functionality
-To modernise the Rango application, let's add in a number of features that will use AJAX, such as:
+As the title may suggest, we'll be working towards incorporating some AJAX requests into Rango during this chapter. To aid our development, we'll also be using the JQuery framework. If you haven't worked through the [JQuery chapter](#chapter-jquery), we recommend you have a look at that now so everything is set up and ready to go.
 
-- adding a "Like Button" to let registered users "like" a particular category;
-- adding inline category suggestions - so that when a user types they can quickly find a category; and
-- adding an "Add Button" to let registered users quickly and easily add a Page to the Category when they perform a search.
+## AJAX and Rango
+What exactly will we be implementing in this chapter? Well, there's still one more major requirement outlined in our [introductory chapter](#overview-design-brief-label) that we still haven't satisfied! Users should be able to *like* a particular category. You may remember that we worked on this earlier in the book -- but we only covered *displaying* the number of likes that a category had received. We didn't implement functionality that allows a user to actually increase the count! This is what we'll be doing in this chapter. Specifically, we're going to:
 
-Create a new file, called `rango-ajax.js` and add it to your `static/js/` directory. Then in your *base* template include:
+- add a *like button* to allow registered users to "like" a particular category;
+- add inline category suggestions, so that when a user types, they can quickly find a specific category; and
+- add an *add button* to allow registered users to quickly and easily add a new page to a category when they perform a search.
 
-{lang="html",linenos=off}
-	<script src="{% static "js/rango-ajax.js" %}"></script>
+All of these features will be implemented using AJAX technologies to make the user experience seamless. However, before we get stuck in, let's create a new JavaScript file called `rango-ajax.js`. This file will house all of our AJAX code for the features we implement in this chapter. Like existing JavaScript files, create this file in your project's `static/js/` directory. You'll also want to add a reference to this file in Rango's `base.html` template, underneath the existing references that we worked on in the previous chapter. As a reminder, these are located towards the bottom of the template.
 
-Here we assume you have downloaded a version of the JQuery library or you link to it as per the instructions in the [JQuery Chapter](#chapter-jquery).
+I> ### JQuery Assumption
+I> We assume that you have completed the [previous chapter on JQuery](#chapter-jquery) -- and are using version 3.3.1 of JQuery for this exercise. If you haven't gone through the setup steps of this chapter *at the very least,* we high recommend that you go through those steps now.
 
-Now that we have created a file to put our client side AJAX code, we can now get to work.
+Now with everything set up and ready to go, let's get to work.
 
-## Add a Like Button
-It would be nice to let users, who are registered, denote that they *"like"* a particular category. In the following workflow, we will let users "like" categories, but we will not be keeping track of what categories they have "liked". A registered user could click the like button multiple times if they refresh the page. If we wanted to keep track of their likes, we would have to add in an additional model, and other supporting infrastructure, but we'll leave that as an exercise for you to complete.
+## Adding a "Like" Button
+The functionality for ordering categories by likes was previously implemented in a previous chapter. Checking out Rango's homepage, categories are ordered by the number of likes they receive (in descending order). However, it would be nice to allow registered users of Rango to express their own fondness of a particular category by providing them with the ability to *like* it, too!
+
+In the following workflow, we will allow registered users to *like* categories, but we won't be keeping track of what they have *liked*. A registered user could click the like button multiple times if they refresh the page. This is the simplest implementation -- if we wanted to keep track of what categories they liked, too, we would have to add an additional model and other supporting infrastructure. We'll leave this advanced step for you to complete as an exercise.
 
 ### Workflow
-To let users "like" certain categories, undertake the following workflow.
+To permit registered users of Rango to *like* categories, we'll progress through the following workflow.
 
-- In the `category.html` template:
-	- Add in a "Like" button with `id="like"`.
-	- Add in a template tag to display the number of likes: `{{% category.likes %}}`
-	- Place this inside a div with `id="like_count"`, i.e. `<div id="like_count">{{ category.likes }} </div>`
-	- This sets up the template to capture likes and to display likes for the category.
-	- Note, since the `category()` view passes a reference to the category object, we can use that to access the number of likes, with `{{ category.likes }}` in the template
-- Create a view called, `like_category` which will examine the request and pick out the `category_id` and then increment the number of likes for that category.
-	- Don't forgot to add in the url mapping; i.e. map the `like_category` view to `rango/like_category/`. The GET request will then be `rango/like_category/?category_id=XXX`
-	- Instead of returning a HTML page have this view will return the new total number of likes for that category.
-- Now in `rango-ajax.js` add the JQuery code to perform the AJAX `GET` request.
-	- If the request is successful, then update the `#like_count` element, and hide the like button.
+1. In Rango's `category.html` template, the following steps need to be undertaken.
+	- Add in a *like* button, complete with an `id="like"`. There'll only be one of these buttons on the page, so using an `id` is fine.
+	- We'll add in a template tag to display the number of likes the category has received. This count will be placed inside a tag with an `id` of `like_count`. This sets the template up to display likes for a given category.
+2. We'll create a new view called `LikeCategoryView`. This view will examine the request, and pick out the `category_id` passed to it. The category being referred to will then have its `likes` field incremented by one.
+	- Of course, we'll need to create a new URL mapping for this view, too. This should be named `/rango/like_category/` -- with the `category_id` passed as a querystring. A complete URL would look something like `/rango/like_category/?category_id=12`, for liking the category with ID `12`.
+	- A key point regarding this view will be that it *does not return a complete HTML page* -- but simply the number of likes that the category now has. This means our response *does not* need to inherit from Rango's `base.html` template!
+3. For the actual AJAX code, we'll add some JavaScript/JQuery code to `rango-ajax.js` to complete the link between the client (displaying likes and providing the option to increment the count) and the server (incrementing the count in the database).
+
+To graphically demonstrate what we are looking to achieve here, check out the [diagram below](#fig-ajax-workflow).
+
+{id="fig-ajax-workflow"}
+![The sequence of events we are looking to implement using AJAX and JQuery. On the left are client-side events, triggered by the user clicking the `Like` button for the `Python` category. Following the arrows, you can then work out the events following this.](images/ajax-workflow.png)
 
 ### Updating Category Template
 To prepare the template, we will need to add in the "like" button with `id="like"` and create a `<div>` to display the number of likes `{{% category.likes %}}`. To do this, add the following `<div>` to the *category.html* template after the `<h1>{{ category.name }}</h1>` tag.
