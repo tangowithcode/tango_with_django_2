@@ -109,18 +109,18 @@ To implement AJAX functionality, open up the blank `rango-ajax.js` file, located
 
 {lang="javascript",linenos=off}
 	$(document).ready(function() {
-        $('#like_btn').click(function() {
-            var category_id_var;
-            category_id_var = $(this).attr('data-categoryid');
-            
-            $.get('/rango/like_category/',
-                  {'category_id': category_id_var},
-                  function(data) {
-                      $('#like_count').html(data);
-                      $('#like_btn').hide();
-                  })
-        });
-    });
+	    $('#like_btn').click(function() {
+	        var category_id_var;
+	        category_id_var = $(this).attr('data-categoryid');
+	        
+	        $.get('/rango/like_category/',
+	              {'category_id': category_id_var},
+	              function(data) {
+	                  $('#like_count').html(data);
+	                  $('#like_btn').hide();
+	              })
+	    });
+	});
 
 This JavaScript/JQuery code will be fired once the page has been loaded, and then binds code to an event handler on the `Like Category` button (identified by the unique identifier `like_btn`). When the user clicks this button, the `category_id` is extracted from the button `data-categoryid` attribute. If you look closely at the template code we defined earlier in this chapter, the `data-categoryid` attribute is populated by the Django templating engine with the unique ID of the category when the page is rendered server-side! Once the `category_id` has been obtained, we then call `$.get()`.
 
@@ -130,7 +130,9 @@ The final argument we supply is a further anonymous function, this time taking a
 
 T> ### Remember, `$.get()` is Asynchronous!
 T> This can take a while to get your head around, but this is worth repeating -- the call to the server is *asynchronous*. JQuery fires off the request to the server, but it doesn't hang around waiting for the server to respond. It could take several seconds, or minutes if the request takes a while! In the meantime, the browser focuses on other inputs from the user.
+T>
 T> Once the request comes back from the server, the browser and JQuery jump back into action, calling the anonymous function we provided in the code above. In short, this anonymous function is called when the response comes through, *not immediately when the user clicks the `Like Category` button.*
+T>
 T> If the browser waited for the response to come back, it would appear to crash! It wouldn't be able to accept any further input from the user until the response comes back. This is highly undesirable. What if the server doesn't respond, or takes substantially longer to respond than you design for? This is why designing systems that are asynchronous is such a challenge, and is one reason why using JQuery is such a bonus -- can take care of most of the issues for you!
 
 With this code implemented, try everything out! Make sure you are logged into Rango, and like the category. You should see the `Like Category` button disappear, and the count of the number of likes increase. To double check everything, check the output of your development server. You should see a request to `/rango/like_category/` -- as shown in [the screenshot below](#fig-ajax-terminal). This is proof that the request was passed to the server.
@@ -139,111 +141,136 @@ With this code implemented, try everything out! Make sure you are logged into Ra
 ![Output of the Django development server, showing the AJAX request going through (highlighted in red). The request shows that the `category_id` being passed was set to `1` -- and from the log above (which shows the initial category page load), we can see that the request was for the `Python` category.](images/ajax-terminal.png)
 
 ##Adding Inline Category Suggestions
-It would be really neat if we could provide a fast way for users to find a category, rather than browsing through a long list. To do this we can create a suggestion component that lets users type in a letter or part of a word, and then the system responds by providing a list of suggested categories, that the user can then select from. As the user types a series of requests will be made to the server to fetch the suggested categories relevant to what the user has entered.
+With a simple AJAX example implemented, let's try something more complex. Let's imagine a scenario where Rango has been populated with dozens of categories. If a user wishes to find one specific category, they would currently need to examine a long list of categories. That's annoying! A faster way to allow users to find the category they are looking for would be to provide a suggestion component. Users can start typing in the name of the category they are searching for, and Rango would respond with a list of suggested categories that the user can then select from. In essence, this feature would provide a form of *filtering* to allow the user to narrow down the options available to him or her.
+
+We can of course achieve this with AJAX. Whenever the user types in a letter from their keyboard, we can send a request off to the Django server, and ask it to return a list of potential filtered down category matches. This list of categories can then be rendered within the loaded page. To ensure this functionality is present across the Rango app, we'll be looking to implement it on left-hand category listing section.
 
 ### Workflow
-To do this you will need to do the following.
+To implement this, we'll need to undertake the following steps.
 
-- Create a parameterised function called `get_category_list(max_results=0, starts_with='')` that returns all the categories starting with `starts_with` if `max_results=0` otherwise it returns up to `max_results` categories.
-	- The function returns a list of category objects annotated with the encoded category denoted by the attribute, `url`
-- Create a view called *suggest\_category* which will examine the request and pick out the category query string.
-	- Assume that a GET request is made and attempt to get the *query* attribute.
-	- If the query string is not empty, ask the Category model to get the top 8 categories that start with the query string.
-	- The list of category objects will then be combined into a piece of HTML via template.
-	- Instead of creating a template called `suggestions.html` re-use the `cats.html` as it will be displaying data of the same type (i.e. categories).
-	- To let the client ask for this data, you will need to create a URL mapping; let's call it *suggest*.
+1. First, we'll need to create a parameterised function called `get_category_list()`. This function will take two parameters, namely `max_results` (defaulting to `0`), and `starts_with` (defaulting to an empty string, `''`). The function will return a list of categories that match what the user is looking for.
+	- `max_results` will limit how many results to return. If `0` is specified, no limit is placed on how many categories are returned.
+	- `starts_with` will represent what the user has supplied so far. Imagine if the user is looking for `python`, a potential string being passed here could be `pyt` -- meaning that the user has supplied the first three characters of what they are looking for.
+2. Second, a further view will need to be created. We'll call this `CategorySuggestionView`. This will again be class-based, and will be accessed through the URL mapping `/rango/suggest/` (with a name of `suggest`). This view will take the user's suggestion, and will return a list of the top eight suggestions for what the user has provided.
+	- We will assume that this achieved through a HTTP `GET` request.
+	- We will check if the querystring provided to the view is empty. If it contains something, we'll call `get_category_list()` to get the top eight results for the supplied string.
+	- The results from `get_category_list()` will be munged together in an existing template, `categories.html`. This is what we used to display the category listing on the left-hand side of Rango's pages, through the custom template tag we implemented earlier.
 
-With the URL mapping, view, and template in place, you will need to update the `base.html` template to provide a category search box, and then add in some JavaScript/JQuery code to link up everything so that when the user types the suggested categories are displayed.
+T> ### Notice the Pattern
+T> Like in the first example where we implemented the ability to like a category, we will once again be implementing a further view here. **AJAX requests need their own views as a means to communicate with the server.** It's just the same as a standard, synchronous request!
 
-In the `base.html` template modify the sidebar block so that a div with an id="cats" encapsulates the categories being presented. The JQuery/AJAX will update this element. Before this `<div>` add an input box for a user to enter the letters of a category, i.e.:
+With the URL mapping, view and template then in place, we will need to alter Rango's `base.html` template to provide a search box, which will allow users to enter their request. After that, we'll then need to implement some further JavaScript/JQuery to glue the client-side and server-side functionality together.
+
+### Preparing the Base Template
+Let's tweak Rango's `base.html` template first. We'll modify the block of code responsible for rendering the sidebar. Find the definition of the `sidebar_block` block, and update the surrounding `<div>` element to include an `id`, like in the example below.
 
 {lang="html",linenos=off}
-	<input type="search" class="form-control ds-input" 
-        id="search-input" placeholder="Search..." >
+	<div class="sidebar-sticky" id="categories-listing">
+	{% block sidebar_block %}
+	    {% get_category_list category %}
+	{% endblock %}
+	</div>
 
-With these elements added into the templates, you can add in some JQuery to update the categories list as the user types.
+By adding an ID of `categories-listing`, we are providing a way for our future JavaScript/JQuery code to reference this `<div>` and update its contents, thus updating the list of categories presented to the user. But how do we allow the user to enter characters in the first place? By providing an `<input>` field! Add this in *above* the `<div>` you have just modified. We include a complete example of both components below.
 
-- Associate an on keypress event handler to the *input* with `id="suggestion"`
-- `$('#suggestion').keyup(function(){ ... })`
-- On keyup, issue an ajax call to retrieve the updated categories list
-- Then use the JQuery `.get()` function i.e. `$(this).get( ... )`
-- If the call is successful, replace the content of the `<div>` with id="cats" with the data received.
-- Here you can use the JQuery `.html()` function i.e. `$('#cats').html( data )`
+{lang="html",linenos=off}
+	<div class="w-75 ml-3">
+	    <input type="search"
+	           id="search-input"
+	           class="form-control ds-input"
+	           placeholder="Search..." />
+	</div>
+	
+	<div class="sidebar-sticky" id="categories-listing">
+	{% block sidebar_block %}
+	    {% get_category_list category %}
+	{% endblock %}
+	</div>
+
+Our new `input` element is of type `search` (which permits string entry), and is assigned an `id` of `search-input`. We also use a `placeholder` message of `Search...` to greet the user and prompt them that they can use this box to search for a category in the provided list. Note the inclusion of several Bootstrap classes to aid styling.
+
+We'll come back to gluing these components to our server-side code later on.
 
 X> ### Populate Exercise
-X> Update the population script by adding in the following categories: `Pascal`, `Perl`, `PHP`, `Prolog`, `PostScript` and `Programming`. 
-X> These additional categories will make the demo of the inline category suggestion functionality more impressive.
+X> Update Rango's population script. Add in the following categories: `Pascal`, `Perl`, `PHP`, `Prolog`, `PostScript` and `Programming`. Run the population script to add these new categories to your database. You don't need to worry about adding pages for each new category, although you can if you wish to do so. If you don't want to do this, just pass an empty list (`[]`) for value of `pages`.
+X> By adding these additional categories, trying out the new inline category suggestion functionality will be a more impressive experience later on.
 
-### Parameterising `get_category_list()`
-In this helper function, we use a filter to find all the categories that start with the string supplied. The filter we use will be `istartwith`, this will make sure that it doesn't matter whether we use uppercase or lowercase letters. If it on the other hand was important to take into account whether letters was uppercase or not you would use `startswith` instead.
+### The `get_category_list()` Helper Function
+Recall that this helper function is to return a list of categories whose names closely match the string provided by the user. We can use a filter operation in the Django ORM to find all of the categories whose names begin with the provided string. This filter is called `istartwith`, and, as the name suggests, filters to categories that *start with* the given string. This is case insensitive, so it doesn't matter if the database has `Python` with a capital `P`, and the user starts typing `pyt` -- this will still match with `Python`.
+
+This function can be added to Rango's `views.py` module. If you want to, you could always create a new module -- something like `helpers.py`, and place it in there. We'll just leave it in `views.py` for now. If you do however choose to create a new module, you'll need to `import` everything that is required!
 
 {lang="python",linenos=off}
 	def get_category_list(max_results=0, starts_with=''):
-	    cat_list = []
+	    category_list = []
+	    
 	    if starts_with:
-	        cat_list = Category.objects.filter(name__istartswith=starts_with)
+	        category_list = Category.objects.filter(name__istartswith=starts_with)
 	    
 	    if max_results > 0:
-	        if len(cat_list) > max_results:
-	            cat_list = cat_list[:max_results]
-	    return cat_list
+	        if len(category_list) > max_results:
+	            category_list = category_list[:max_results]
+	    
+	    return category_list
 
-### Create a Suggest Category View
-Using the `get_category_list()` function, we can now create a view that returns the top eight matching results as follows:
+Note that this function meets the requirements we defined above in that it takes two parameters -- `max_results`, allowing one to specify how many items to return, and `starts_with`, the user's input string. Note how we used the `filter` method to perform the `__istartswith` filter, looking for matches to `starts_with`. If `max_results==0`, we assume that all results are to be returned; otherwise, we chop the list using a standard Python list subindexing operation.
 
-{lang="python",linenos=off}
-    def suggest_category(request):
-        cat_list = []
-        starts_with = ''
-    
-        if request.method == 'GET':
-            starts_with = request.GET['suggestion']
-        
-        cat_list = get_category_list(8, starts_with)
-        if len(cat_list) == 0:
-            cat_list = Category.objects.order_by('-likes')
-
-Note here we are reusing the `rango/cats.html` template.
-
-### Mapping the View to URL
-Add the following code to `urlpatterns` in `rango/urls.py`:
+### The `CategorySuggestionView`
+With our helper function defined, we can then make a new class-based view to make use of it. Remember, we're only dealing with a `GET` request here -- so, like in the example before, out view will only implement a `get()` method. The method will also be available to all, so there is no need to restrict it to users who are logged in.
 
 {lang="python",linenos=off}
-	path('suggest/', views.suggest_category, name='suggest_category'),
+	class CategorySuggestionView(View):
+	    def get(self, request):
+	        suggestion = request.GET['suggestion']
+	        category_list = get_category_list(max_results=8,
+	                                          starts_with=suggestion)
+	        
+	        if len(category_list) == 0:
+	            category_list = Category.objects.order_by('-likes')
+	        
+	        return render(request,
+	                      'rango/categories.html',
+	                      {'categories': category_list})
 
-### Updating the Base Template
-In the base template, in the sidebar `<nav>`, update the HTML template so that you have:
+Note that we reuse the existing template tags template, `categories.html` -- so we don't need to define a new template here. We do however need to make sure our template variable `categories` is specified correctly -- hence the name for the key in the context dictionary.
 
-{lang="html",linenos=off}
-    <div  class="sidebar-sticky">
-        <input type="search" class="form-control ds-input" id="suggestion" placeholder="Search..." >
-        <div id="cats">
-        {% block sidebar_block %}
-            {% get_category_list category %}
-        {% endblock %}
-        </div>
-     </div>
+The implemented `get()` view retrieves the user's input from the `suggestion` variable as part of the `GET` request, and then calls `get_category_list()`, passing this string to the `starts_with` parameter. We set `max_results` to `8` as per our specification. If no results are returned, we default to displaying all categories, sorted by the number of likes received in descending order.
 
-Here, we have added in an input box with `id="suggestion"` and div with `id="cats"` in which we will display the response. We don't need to add a button as we will be adding an event handler on keyup to the input box that will send the suggestion request.
+Of course, no view is of any use without a URL mapping for accessibility! We'll add a further mapping to Rango's `urls.py` `urlpatterns` list.
+
+{lang="python",linenos=off}
+	path('suggest/', views.CategorySuggestionView.as_view(), name='suggest'),
+
+X> ### Test the Filtering Functionality
+X> With this all complete, you should then be able to test the filtering functionality. We'll leave this to you -- if you know the URL is `http://127.0.0.1:8000/rango/suggest/`, and you need to provide a querystring of the form `?suggestion=pro`, what would you do to do a simple test?
+
+H> ### Hint
+H> This is just a straightforward HTTP `GET` request, like any request *your browser issues when you type in a URL or click a link.* What happens when you point your browser to `http://127.0.0.1:8000/rango/suggest/?suggestion=pro`?
 
 ### Add AJAX to Request Suggestions
-Add the following JQuery code to the `js/rango-ajax.js`:
+If you tested your server-side functionality and are happy with it, now it's time to glue the left-hand side component of Rango's pages to the server. We'll do this by adding some more code to the `static` `rango-ajax.js` file. Note that you should add this *within* the `$(document).ready(function() { ... }` block, to ensure that all parts of the page are loaded before the code can be executed.
 
 {lang="javascript",linenos=off}
-	$('#suggestion').keyup(function(){
-	    var query;
-	    query = $(this).val();
-	    $.get('/rango/suggest/', {suggestion: query}, function(data){
-	        $('#cats').html(data);
-	    });
-	});
+	$('#search-input').keyup(function() {
+        var query;
+        query = $(this).val();
+        
+        $.get('/rango/suggest/,
+              {'suggestion': query},
+              function(data) {
+                  $('#categories-listing').html(data);
+              })
+    });
 
-Here, we attached an event handler to the HTML input element with `id="suggestion"` to trigger when a keyup event occurs. When it does, the contents of the input box is obtained and placed into the `query` variable. Then a AJAX `GET` request is made calling `/rango/category_suggest/` with the `query` as the parameter. On success, the HTML element with `id="cats"` (i.e. the `<div>`) is updated with the category list HTML.
+This code binds a `keypress` event (when a user presses a key on their keyboard/smartphone screen) when the `search-input` element is focused. In other words, when the user types a letter into the search box, the code is fired. The value of the input box (`$(this).val()`) is then extracted, and passed to an AJAX `GET` request. We wrap the string provided up by the user in a dictionary-like object, again to help construct the correct URL and querystring.
+
+Once the server responds, the anonymous function is called, with `data` containing the response -- or list of categories that match the user's query. This list is then simply placed inside the `categories-listing` `<div>` element we updated earlier -- replacing any existing content within the `<div>`. Job done. Have a look at the screenshots below to see the new functionality in action.
 	
 {id="fig-exercises-suggestion"}
 ![An example of the inline category suggestions. Notice how the suggestions populate and change as the user types each individual character.](images/exercises-suggestion.png)
 	
 
+~~~~~~
 
 X> ### AJAX Add Button Exercise
 X> To let registered users quickly and easily add a Page to the Category put an "Add" button next to each search result.
