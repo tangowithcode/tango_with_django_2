@@ -32,77 +32,111 @@ To permit registered users of Rango to *like* categories, we'll progress through
 	- Add in a *like* button, complete with an `id="like"`. There'll only be one of these buttons on the page, so using an `id` is fine.
 	- We'll add in a template tag to display the number of likes the category has received. This count will be placed inside a tag with an `id` of `like_count`. This sets the template up to display likes for a given category.
 2. We'll create a new view called `LikeCategoryView`. This view will examine the request, and pick out the `category_id` passed to it. The category being referred to will then have its `likes` field incremented by one.
-	- Of course, we'll need to create a new URL mapping for this view, too. This should be named `/rango/like_category/` -- with the `category_id` passed as a querystring. A complete URL would look something like `/rango/like_category/?category_id=12`, for liking the category with ID `12`.
+	- Of course, we'll need to create a new URL mapping for this view, too. This should be named `/rango/like_category/` -- with the `category_id` passed as a querystring. A complete URL would look something like `/rango/like_category/?category_id=1`, for liking the category with ID `1`.
+	- We'll make use of a `GET` request to implement this functionality.
 	- A key point regarding this view will be that it *does not return a complete HTML page* -- but simply the number of likes that the category now has. This means our response *does not* need to inherit from Rango's `base.html` template!
 3. For the actual AJAX code, we'll add some JavaScript/JQuery code to `rango-ajax.js` to complete the link between the client (displaying likes and providing the option to increment the count) and the server (incrementing the count in the database).
 
 To graphically demonstrate what we are looking to achieve here, check out the [diagram below](#fig-ajax-workflow).
 
 {id="fig-ajax-workflow"}
-![The sequence of events we are looking to implement using AJAX and JQuery. On the left are client-side events, triggered by the user clicking the `Like` button for the `Python` category. Following the arrows, you can then work out the events following this.](images/ajax-workflow.png)
+![The sequence of events we are looking to implement using AJAX and JQuery. On the left are client-side events, triggered by the user clicking the `Like Category` button for the `Python` category. Following the arrows, you can then work out the events following this.](images/ajax-workflow.png)
 
-### Updating Category Template
-To prepare the template, we will need to add in the "like" button with `id="like"` and create a `<div>` to display the number of likes `{{% category.likes %}}`. To do this, add the following `<div>` to the *category.html* template after the `<h1>{{ category.name }}</h1>` tag.
+Study the diagram carefully to help your understanding of what will be implemented. On the left are events that take place client-side (within the browser), with events that take place server-side on the right (within the Django middleware). Everything starts from the user clicking the `Like Category` button. The JQuery code we will implement then fires off an AJAX `GET` request to the server. The Django middleware receives the request, executes the relevant view, and sends a simple response. For this exercise, the response will simply be the new number of likes for the given category -- nothing more. This response is then received by our JQuery code, and the value returned is then placed inside the element containing the count (using the `.html()`) method. Finally, we hide the `Like Category` button from view!
+
+### Updating the Category Template
+Our first step is to prepare Rango's `category.html` template for the new AJAX functionality. We'll need to add in the `Like Category` button, complete with a unique ID of `like_btn`, as well as adding a new element that will contain the number of likes a category has received.
+
+To do this, open up the `category.html` template and locate the `<h1>` tag that displays the `{{ category.name }}`. After the `<h1>` tag has been closed, take a newline, and add in the following markup and template code.
 
 {lang="html",linenos=off}
 	<div>
-	<strong id="like_count">{{ category.likes }}</strong> people like this category
-	{% if user.is_authenticated %}
-	    <button id="likes" data-catid="{{category.id}}" 
-	        class="btn btn-primary btn-sm" type="button">
-            <span data-feather="thumbs-up"></span>
-	        Like
+	    <strong id="like_count">{{ category.likes }}</strong> likes
+	    {% if user.is_authenticated %}
+	    <button id="like_btn"
+	            data-categoryid="{{ category.id }}"
+	            class="btn btn-primary btn-sm"
+	            type="button">
+	        <span data-feather="thumbs-up"></span>
+	        Like Category
 	    </button>
-	{% endif %}
+	    {% endif %}
 	</div>
-    
-Notice that we used the thumbs up icon from [Feather](https://feathericons.com/), e.g. `<span data-feather="thumbs-up"></span>`.
 
-### Create a Like Category View
-Create a new view called, `like_category` in `rango/views.py` which will examine the request and pick out the `category_id` and then increment the number of likes for that category.
+Once this has been added, a user who is logged into Rango should see a page similar to [the one shown below](#fig-ajax-like-button). This markup adds a `<div>` containing all of the infrastructure required -- from a `<strong>` tag exclusively containing the number of likes the given category has received, to a new `<button>` element that will allow people to increment the number of likes. Note that within the button, we also add a small thumbs up icon (represented by the `<span>` element). This icon is provided by [Feather](https://feathericons.com/), and is included as part of the Bootstrap framework. Note also the inclusion of the `id` attributes for both the `<strong>` and `<button>` elements. The `id` values we assign are important as our JQuery code will make use of them.
 
-{lang="python",linenos=off}
-	from django.contrib.auth.decorators import login_required
-	
-	@login_required
-	def like_category(request):
-	    cat_id = None
-	    if request.method == 'GET':
-	        cat_id = request.GET['category_id']
-	        likes = 0
-	    if cat_id:
-	        cat = Category.objects.get(id=int(cat_id))
-	        if cat:
-	            likes = cat.likes + 1
-	            cat.likes =  likes
-	            cat.save()
-	    return HttpResponse(likes)
+{id="fig-ajax-like-button"}
+![The result of the update to the `category.html` template. Note the `Like Category` button, with the number of likes next to it -- all directly underneath the category title. If you view the same page when you are not logged in, the button will not be visible.](images/ajax-like-button.png)
 
-On examining the code, you will see that we are only allowing authenticated users to even access this view because we have put a decorator `@login_required` before our view. 
+### Creating the Like Category View
+With the basics now laid out in Rango's `category.html`, let's turn our attention server-side and focus on implementing the view that will handle incoming requests for liking categories. Recall that in our overview, we stated that we'd make use a `GET` request for liking categories, and URLs of the form `/rango/like_category/?category_id=1`. From these two requirements, our class-based view need only implement the `get()` method, with this method pulling the `category_id` querystring from the `GET` object.
 
-Note that the view assumes that a variable `category_id` has been passed to it via a `GET` request so that we can identify the category to update. In this view, we could also track and record that a particular user has "liked" this category if we wanted - but we are keeping it simple to focus on the AJAX mechanics.
-
-Don't forget to add in the URL mapping, into `rango/urls.py`. Update the `urlpatterns` by adding in:
+Our implementation is shown below. Remember, this code would live inside Rango's `views.py` module.
 
 {lang="python",linenos=off}
-	path('like$', views.like_category, name='like_category'),
+	@method_decorator(login_required)
+	def get(self, request):
+	    category_id = request.GET['category_id']
+	    
+	    try:
+	        category = Category.objects.get(id=int(category_id))
+	    except Category.DoesNotExist:
+	        return HttpResponse(-1)
+	    except ValueError:
+	        return HttpResponse(-1)
+	    
+	    category.likes = category.likes + 1
+	    category.save()
+	    
+	    return HttpResponse(category.likes)
+
+Upon examination of the code above, you can see that we are only allowing users who are logged in to access this view -- hence the `@method_decorator(login_required)` decorator. We also implement some rudimentary error handling. If the user provides a category ID that does not exist, or the category ID supplied cannot be converted to an integer, `-1` is returned in the response. Otherwise, the `likes` attribute for the given category is incremented by one, with the updated value being returned.
+
+You should have all of the necessary `import` statements required for this to work -- but double check that the following is present. This was used right back at the beginning of the tutorial, and you may have taken it out when cleaning up your code.
+
+{lang="python",linenos=off}
+	from django.http import HttpResponse
+
+Of course, this view would be useless without a URL mapping to it. To comply with our requirements, let's add one. Add the following to the `urlpatterns` list in Rango's `urls.py` module.
+
+{lang="python",linenos=off}
+	path('like_category/', views.LikeCategoryView.as_view(), name='like_category'),
+
+You should now be ready to proceed to the next step -- making the AJAX request.
 
 ### Making the AJAX request
-Now in "rango-ajax.js" you will need to add some JQuery code to perform an AJAX `GET` request. Add in the following code:
+To implement AJAX functionality, open up the blank `rango-ajax.js` file, located in your project's `static` directory. Add the following JavaScript.
 
 {lang="javascript",linenos=off}
-	$('#likes').click(function(){
-	    var catid;
-	    catid = $(this).attr("data-catid");
-	    $.get('/rango/like/', {category_id: catid}, function(data){
-	        $('#like_count').html(data);
-	            $('#likes').hide();
-	    });
-	});
+	$(document).ready(function() {
+        $('#like_btn').click(function() {
+            var category_id_var;
+            category_id_var = $(this).attr('data-categoryid');
+            
+            $.get('/rango/like_category/',
+                  {'category_id': category_id_var},
+                  function(data) {
+                      $('#like_count').html(data);
+                      $('#like_btn').hide();
+                  })
+        });
+    });
 
-This piece of JQuery/JavaScript will add an event handler to the element with id `#likes`, i.e. the button. When clicked, it will extract the category ID from the button element, and then make an AJAX `GET` request which will make a call to `/rango/like/` encoding the `category_id` in the request. If the request is successful, then the HTML element with ID `like_count` (i.e. the `<strong>` ) is updated with the data returned by the request, and the HTML element with ID `likes` (i.e. the `<button>`) is hidden.
+This JavaScript/JQuery code will be fired once the page has been loaded, and then binds code to an event handler on the `Like Category` button (identified by the unique identifier `like_btn`). When the user clicks this button, the `category_id` is extracted from the button `data-categoryid` attribute. If you look closely at the template code we defined earlier in this chapter, the `data-categoryid` attribute is populated by the Django templating engine with the unique ID of the category when the page is rendered server-side! Once the `category_id` has been obtained, we then call `$.get()`.
 
-There is a lot going on here, and getting the mechanics right when constructing pages with AJAX can be a bit tricky. Essentially, an AJAX request is made given our URL mapping when the button is clicked. This invokes the `like_category` view that updates the category and returns the new number of likes. When the AJAX request receives the response, it updates parts of the page, i.e. the text and the button. The `#likes` button is hidden.
+`$.get()` is a JQuery function that handles AJAX `GET` requests. We first specify the URL that we want to reach (hard-coded in this instance, which is undesirable!), with a dictionary-like object then passed as the second argument. This is the `data` parameter, from which a querystring is constructed with the key/value pairs supplied. This would mean the final request would look similar to `GET /rango/like_category/?category_id=<category_id_var>`, where `<category_id_var>` is replaced with the ID of the category.
+
+The final argument we supply is a further anonymous function, this time taking a `data` parameter. This is called when the server responds from the request, with `data` containing the server's response. In our case, this will contain the number of likes that the given category now has associated with it. Within the function, we then simply replace the existing inner HTML of the `<strong>` tag (identified by `like_count`) with the updated value from the server -- and hide the button (identified by `like_btn`).
+
+T> ### Remember, `$.get()` is Asynchronous!
+T> This can take a while to get your head around, but this is worth repeating -- the call to the server is *asynchronous*. JQuery fires off the request to the server, but it doesn't hang around waiting for the server to respond. It could take several seconds, or minutes if the request takes a while! In the meantime, the browser focuses on other inputs from the user.
+T> Once the request comes back from the server, the browser and JQuery jump back into action, calling the anonymous function we provided in the code above. In short, this anonymous function is called when the response comes through, *not immediately when the user clicks the `Like Category` button.*
+T> If the browser waited for the response to come back, it would appear to crash! It wouldn't be able to accept any further input from the user until the response comes back. This is highly undesirable. What if the server doesn't respond, or takes substantially longer to respond than you design for? This is why designing systems that are asynchronous is such a challenge, and is one reason why using JQuery is such a bonus -- can take care of most of the issues for you!
+
+With this code implemented, try everything out! Make sure you are logged into Rango, and like the category. You should see the `Like Category` button disappear, and the count of the number of likes increase. To double check everything, check the output of your development server. You should see a request to `/rango/like_category/` -- as shown in [the screenshot below](#fig-ajax-terminal). This is proof that the request was passed to the server.
+
+{id="fig-ajax-terminal"}
+![Output of the Django development server, showing the AJAX request going through (highlighted in red). The request shows that the `category_id` being passed was set to `1` -- and from the log above (which shows the initial category page load), we can see that the request was for the `Python` category.](images/ajax-terminal.png)
 
 ##Adding Inline Category Suggestions
 It would be really neat if we could provide a fast way for users to find a category, rather than browsing through a long list. To do this we can create a suggestion component that lets users type in a letter or part of a word, and then the system responds by providing a list of suggested categories, that the user can then select from. As the user types a series of requests will be made to the server to fetch the suggested categories relevant to what the user has entered.

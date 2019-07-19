@@ -190,3 +190,7 @@ T> ### Always use Developer Tools
 T> Always have your browser's Developer Tools open when you're writing client-side JavaScript. It makes things so much easier to figure out when things don't work as expected!
 
 This chapter has provided a very rudimentary guide to using JQuery, and how you can incorporate it within your web app. From here, you should be able to now understand how JQuery operates, and experiment with the different functions provided by the JQuery framework -- and even those by third-party developers. In the next chapter, we'll be using JQuery to provide simple [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) functionality within Rango.
+
+T> ### Performing a Hard Refresh
+T> When working with `static` files -- especially JavaScript (that changes often when you are developing) -- you may find that your changes don't filter down to your browser, even though you definitely saved the file!
+T> Browsers are developed to try and reduce bandwidth used as much as possible. This means that browser caches -- which are where files that make up a webpage are locally stored -- may not be updated with changes to your static files if you update them often. The solution to this problem is to either clear your browser's cache, or to perform a [*hard refresh*](https://refreshyourcache.com/en/cache/). The command you issue depends on your browser and operating system. Windows systems should work with CTRL+F5, with Macs using CMD+SHIFT+R.
