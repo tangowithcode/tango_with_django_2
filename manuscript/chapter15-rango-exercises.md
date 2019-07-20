@@ -72,13 +72,6 @@ For this section, let us focus on the first problem that entails putting search 
 1. Remove the generic *Search* link from the navigation bar. This implies that we are decommissioning the global search functionality that we implemented earlier. You can also comment out the URL mapping and view for search if you like, too. **Comment out, don't delete** -- you'll be using the code to form the basis of your updated search functionality in subsequent steps!
 2. Take the search form and results template markup from `search.html`, and place it into `category.html` *underneath* the list of pages. You'll only want to show the search functionality if the category exists in the database.
 3. Update the search form such that the action refers back to the category URL, rather than the search URL.
-
-{lang="html",linenos=off}
-	<form class="form-inline"
-	      id="user-form" 
-	      method="post"
-	      action="{% url 'rango:show_category' category.slug %}">
-
 4. Update the `show_category()` view to handle a HTTP `POST` request. The view must then include any search results in the context dictionary for the template to render. Remember that the search query will be provided as part of the `POST` request in field `query`.
 5. Finally, update Rango so that only users who are logged in can view and use the updated search functionality. To restrict access within the `category.html` template, we can use something along the lines of the following code snippet.
 
@@ -86,6 +79,14 @@ For this section, let us focus on the first problem that entails putting search 
 	{% if user.is_authenticated %} 
 	    <!-- Your search code goes here -->
 	{% endif %}
+
+The markup and template code for the third step can be seen below.
+
+{lang="html",linenos=off}
+	<form class="form-inline"
+	      id="user-form" 
+	      method="post"
+	      action="{% url 'rango:show_category' category.slug %}">
 
 T> ### Commenting out Code
 T> Commenting out code stops the interpreter or compiler from using the selected code. Although it cannot see it and execute it, you can still read it and use it. In Python, the simplest way to comment out a line of code is to prepend a `#` to the line -- put it before any text.
