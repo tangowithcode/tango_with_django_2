@@ -244,10 +244,10 @@ Of course, no view is of any use without a URL mapping for accessibility! We'll 
 X> ### Test the Filtering Functionality
 X> With this all complete, you should then be able to test the filtering functionality. We'll leave this to you -- if you know the URL is `http://127.0.0.1:8000/rango/suggest/`, and you need to provide a querystring of the form `?suggestion=pro`, what would you do to do a simple test?
 
-H> ### Hint
-H> This is just a straightforward HTTP `GET` request, like any request *your browser issues when you type in a URL or click a link.* What happens when you point your browser to `http://127.0.0.1:8000/rango/suggest/?suggestion=pro`?
+T> ### Hint
+T> This is just a straightforward HTTP `GET` request, like any request *your browser issues when you type in a URL or click a link.* What happens when you point your browser to `http://127.0.0.1:8000/rango/suggest/?suggestion=pro`?
 
-### Add AJAX to Request Suggestions
+### Adding AJAX to Request Suggestions
 If you tested your server-side functionality and are happy with it, now it's time to glue the left-hand side component of Rango's pages to the server. We'll do this by adding some more code to the `static` `rango-ajax.js` file. Note that you should add this *within* the `$(document).ready(function() { ... }` block, to ensure that all parts of the page are loaded before the code can be executed.
 
 {lang="javascript",linenos=off}
@@ -268,95 +268,124 @@ Once the server responds, the anonymous function is called, with `data` containi
 	
 {id="fig-exercises-suggestion"}
 ![An example of the inline category suggestions. Notice how the suggestions populate and change as the user types each individual character.](images/exercises-suggestion.png)
-	
 
-~~~~~~
+## Further AJAX-ing
+Having gone through two examples of how to incorporate AJAX within the Rango app, why not try one more? This time, *treat this as an exercise.* We'll lay out the specification for you and provide code snippets that will help you towards a solution. However, we implore you to solve it for yourself. If you need help, try going online and searching for a solution. Figuring out what query to type into a search engine can sometimes be half the battle in getting the help you require.
 
-X> ### AJAX Add Button Exercise
-X> To let registered users quickly and easily add a Page to the Category put an "Add" button next to each search result.
-X>  - Update the `category.html` template:
-X> 		- Add a small button next to each search result (if the user is authenticated), garnish the button with the title and URL data, so that the JQuery can pick it out.
-X>		- Put a `<div>` with `id="page"` around the pages in the category so that it can be updated when pages are added.
-X>  - Remove that link to `add` button, if you like.
-X>  - Create a view `auto_add_page` that accepts a parameterised `GET` request ``(title, url, catid)`` and adds it to the category.
-X>  - Map an URL to the view `url(r'^add/$', views.auto_add_page, name='auto_add_page'),`
-X>   - Add an event handler to the add buttons using JQuery - when added hide the button. The response could also update the pages listed on the category page, too.
+### Specification
+We added several new categories to test out our category suggestion feature earlier on. If you didn't add pages to those categories, they'll just be blank. With the Bing Search functionality integrated within a category page, one missing link that we have not yet covered is providing a user the ability to *add a page from search results.*
 
-We have included the following code fragments to help you complete the exercises above. The HTML template code for `category.html` that inserts a button, and crucially keeps a record of the category that the button is associated with.
+That is, when a registered user issues a query and retrieves results, can we provide an `Add` button next to a search result to let the user add this page to the category they are looking at? Furthermore, can this be done through the use of AJAX?
+
+Here's a rough workflow to assist you in finding a solution to this problem.
+
+1. First, update Rango's `category.html` template.
+	- Add a small button next to each search result. Within the `<button>` element, you'll want to add `data` attributes that provide the page title and page URL. Doing this will make it easier for JQuery to pick out this information.
+	- Where pages are listed, you'll want to wrap that block of markup and template code with a `<div>` with a unique ID. Once again, this is so that JQuery can easily select this element and update the contents within it.
+	- Remove the link to the existing `Add Page` view -- this is now essentially redundant.
+2. With the changes in place to the template, you then need to create a new view to handle the addition of a new page.
+	- The view will accept a `GET` request, containing the new `title` and `url` for a page, as well as the `category_id` for the category the page is being added to. This view should then add the new page to the given category.
+	- Map the new view to a URL -- `/rango/search_add_page/`.
+    - The new view should return an updated list of pages for the category. This may involve the addition of a new template to generate this list.
+3. Glue the new view together with the updated `category.html` infrastructure. When an `Add` button is clicked, JQuery code should then be executed, issuing an AJAX `GET` request to your new view. The data returned from the new view should then be placed within your `<div>` container for the list of pages.
+
+T> ### Use a `class` for the `Add` Button!
+T> Until now, we've selected buttons in JQuery using a unique `id`. This is because until now, only one such button has existed on a page.
+T>
+T> However, having an `Add` button for *each page* returned from the Bing Search API presents a problem. How do you get JQuery to be able to bind code to all of them? Use the class selected (`.`) instead of the ID selector (`#`)! You can create a new class, apply it to each button, and then select items using that class with JQuery.
+
+### Code Snippets
+We've included several code snippets to help you along with this exercise. Our sample markup and template code that provides a `<button>` to `Add` a new page from search results is shown below.
 
 {lang="html",linenos=off}
-	{% if user.is_authenticated %}
-	    <button data-catid="{{category.id}}" data-title="{{ result.title }}"
-	        data-url="{{ result.link }}" 
-	            class="rango-add btn btn-info btn-sm" type="button">Add</button>
-	{% endif %}
+	<button class="btn btn-info btn-sm rango-page-add"
+	        type="button"
+	        data-categoryid="{{ category.id }}"
+	        data-title="{{ result.title }}"
+	        data-url="{{ result.link }}">
+	    Add
+	</button>
 
-The JQuery code that adds the `click` event handler to every button with the class `rango-add`:
- 
+Note the three attributes beginning with `data-` to provide the `categoryid` of the category to add a page to, and the `title` and `url` values of the page we are adding. You should also be aware of the extra class we assign to the button -- `rango-page-add` -- that will help us with our JQuery code to select and bind code to the button when it is clicked.
+
+Remember to also update your page listing component by wrapping a `<div>` element around it. For the examples below, we assume you give this `<div>` an `id` of `page-listing`.
+
+Given the button that we add for each page above, we also need some JQuery code to request the addition of the new page, along with dealing with the incoming, updated list of pages returned from the initial request. Here is a model solution.
+
 {lang="javascript",linenos=off}
-	$('.rango-add').click(function(){
-	    var catid = $(this).attr("data-catid");
-	    var url = $(this).attr("data-url");
-	    var title = $(this).attr("data-title");
-	    var me = $(this)
-	    $.get('/rango/add/', 
-	        {category_id: catid, url: url, title: title}, function(data){
-	            $('#pages').html(data);
-	            me.hide();
-	        });
-	    });  
+	$('.rango-page-add').click(function () {
+	    var categoryid = $(this).attr('data-categoryid');
+	    var title = $(this).attr('data-title');
+	    var url = $(this).attr('data-url');
+	    var clickedButton = $(this);
+	    
+	    $.get('/rango/search_add_page/',
+	          {'category_id': categoryid, 'title': title, 'url': url},
+	          function(data) {
+	              $('#page-listing').html(data);
+	              clickedButton.hide();
+	          })
+	});
 
-The view code that handles the adding of a link to a category:
+This code should by now be relatively self-explanatory, and you should also know by now to add this code within a `$(document).ready` block! We extract the necessary information we require from the clicked button's attributes (e.g. `title`, `url`, `categoryid`), then initiate an AJAX `GET` request. We pass the required information over to the URL `/rango/search_add_page/`.
+
+Given the appropriate URL mapping (that we will leave for you to implement), we then pass control over to the new view. In this sample solution, we call the view `SearchAddPageView`. This implements the one required `get()` method.
 
 {lang="python",linenos=off}
-	@login_required
-	def auto_add_page(request):
-	    cat_id = None
-	    url = None
-	    title = None
-	    context_dict = {}
-	    if request.method == 'GET':
-	        cat_id = request.GET['category_id']
-	        url = request.GET['url']
+	class SearchAddPageView(View):
+	    @method_decorator(login_required)
+	    def get(self, request):
+	        category_id = request.GET['category_id']
 	        title = request.GET['title']
-	        if cat_id:
-	            category = Category.objects.get(id=int(cat_id))
-	            p = Page.objects.get_or_create(category=category, 
-	                title=title, url=url)
-	            pages = Page.objects.filter(category=category).order_by('-views')
-	            # Adds our results list to the template context under name pages.
-	            context_dict['pages'] = pages
-	    return render(request, 'rango/page_list.html', context_dict)
+	        url = request.GET['url']
+	        
+	        try:
+	            category = Category.objects.get(id=int(category_id))
+	        except Category.DoesNotExist:
+	            return HttpResponse('Error - category not found.')
+	        except ValueError:
+	            return HttpResponse('Error - bad category ID.')
+	        
+	        p = Page.objects.get_or_create(category=category,
+	                                       title=title,
+	                                       url=url)
+	        
+	        pages = Page.objects.filter(category=category).order_by('-views')
+	        return render(request, 'rango/page_listing.html', {'pages': pages})
 
-The HTML template markup for the new template `page_list.html`:
+This sample class-based view complies with all requirements -- it only allows those who are logged in to add a page, and it expects input from the client with key names as per the JQuery AJAX call we implemented previously. While error handling is very rudimentary (look at the `except` blocks), it does at least catch basic error cases. Passing all of these, the code then creates (or gets, if it already exists), a page with the details passed, obtains a list of all the pages associated with the given category, and calls `render` with a new `page_listing.html` template.
+
+Within this new `rango/page_listing.html` template, we simply copy and paste the markup and template code within Rango's `category.html` template that dealt with listing pages.
 
 {lang="html",linenos=off}
 	{% if pages %}
 	<ul>
 	    {% for page in pages %}
-        <li class="list-group-item">
-	        <a href="{% url 'rango:goto' %}?page_id={{page.id}}">{{ page.title }}</a>
+	    <li>
+	        <a href="{% url 'rango:goto' %}?page_id={{ page.id }}">{{ page.title }}</a>
 	        {% if page.views > 1 %}
 	            ({{ page.views }} views)
 	        {% elif page.views == 1 %}
 	            ({{ page.views }} view)
 	        {% endif %}
 	    </li>
-        {% endfor %}
+	    {% endfor %}
 	</ul>
 	{% else %}
-	    <strong>No pages currently in category.</strong>
+	<strong>No pages currently in category.</strong>
 	{% endif %}
 
-Finally, don't forget to add in the URL mapping:  `path('add/', views.auto_add_page, name='auto_add_page'),`.
+This is *identical* from that existing template. Do not cut it -- you need the original markup and template code to do the initial rendering when the category view page is requested in the first place!
 
-If all has gone well, hopefully, your Rango application will be looking something like screenshots below. But don't stop now, get on with the next chapters and deploy your project!
+Once you have added in the URL mapping, you should then be able to see everything working. Issue a query in a category of your choice, and click the `Add` button next to one of the search results. The button should disappear, and the page listing at the top of the category view should then be updated to include the page you have added. Check out the two screenshots below -- [the first screenshot](#fig-ajax-php) shows the `PHP` category, without any pages. We issued the search term `php hello world`, and want to add the first result to our `PHP` category. Clicking the `Add` button next to the result fires off the JQuery code, issues an AJAX `GET` request to the server, with the server adding the page and returning a list of pages for the category -- just one in this instance! The page is then updated with this new list, with the `Add` button being hidden -- as seen in [the second screenshot](#fig-ajax-php-added).
 
+{id="fig-ajax-php"}
+![The category page, showing the `PHP` category without any pages added. We issued the query `php hello world` to the search functionality, and want to add the first result to the category.](images/ajax-php.png)
 
-{id="fig-exercises-main"}
-![The main index page of the Rango application.](images/exercises-main.png)
+{id="fig-ajax-php-added"}
+![The updated `PHP` category page, once the AJAX functionality has added the first result. Note that there is now a list of pages (albeit with one entry), and the `Add` button has disappeared.](images/ajax-php-added.png)
 
-{id="fig-exercises-results"}
-![The category page with the Add Button feature.](images/exercises-results.png)
+With this functionality implemented, you're almost there! Look forward to being able to deploy your project online so that people from all around the world can look at your work!
 
-
+I> ### Completely Stuck?
+I> We've implemented everything in the book on our model solution Git repository. There's a commit for this exercise which [you can view here](https://github.com/maxwelld90/tango_with_django_2_code/tree/3907500757d271ae81be85e3e2f3dcbc28af0de3). However, we again implore you **not** to use this resource unless you're absolutely, positively unsure about what to do.
