@@ -175,7 +175,7 @@ We don't explicitly cover how to set these tests up here, but you should refer t
 
 If you really want us to include examples on how to run tests this way, let us know!
 
-## Coverage Testing
+## Examining Testing Coverage
 One further point of discussion about testing is *coverage.* Code coverage measures how much of your codebase has been tested. You can install an additional package called `coverage` (issue the command `$ pip install coverage` within your environment) that automatically analyses how much code coverage you have of your tests. Once `coverage` is installed, run the following command at your terminal or Command Prompt.
 
 {lang="text",linenos=off}
