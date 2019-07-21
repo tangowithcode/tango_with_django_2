@@ -32,7 +32,7 @@ I> If you had to add `django.contrib.auth` and `django.contrib.contenttypes` app
 I>
 I> It's generally good practice to run the `migrate` command whenever you add a new app to your Django project - the app could contain models that'll need to be synchronised to your underlying database.
 
-## Password Hashing
+## Password Hashing {#sec-user-passwordhash}
 [*Storing passwords as plaintext within a database is something that should never be done under any circumstances.*](http://stackoverflow.com/questions/1197417/why-are-plain-text-passwords-bad-and-how-do-i-convince-my-boss-that-his-treasur) If the wrong person acquired a database full of user accounts to your app, they could wreak havoc. Fortunately, Django's `auth` app by default stores a [hash of user passwords](https://en.wikipedia.org/wiki/Cryptographic_hash_function) using the [PBKDF2 algorithm](http://en.wikipedia.org/wiki/PBKDF2), providing a good level of security for your user's data.  However, if you want more control over how the passwords are hashed, you can change the approach used by Django in your project's `settings.py` module, by adding in a tuple to specify the `PASSWORD_HASHERS`. An example of this is shown below.
 
 {lang="python",linenos=off}
@@ -119,7 +119,7 @@ I> ### What about Inheriting to Extend?
 I> It may have been tempting to add the additional fields defined above by inheriting from the `User` model directly. However, because other applications may also want access to the `User` model, it not recommended to use inheritance, but to instead use a one-to-one relationship within your database.
 
 I> ### The Python Imaging Library (PIL)
-I> The Django `ImageField` field makes use of the *Python Imaging Library (PIL)*. If you have not done so already, install PIL via Pip with the command `pip install pillow`. If you don't have `jpeg` support enabled, you can also install PIL with the command `pip install pillow --global-option="build_ext" --global-option="--disable-jpeg"`.
+I> The Django `ImageField` field makes use of the *Python Imaging Library (PIL)*. If you have not done so already, install PIL via Pip with the command `pip install pillow==5.4.1`. If you don't have `jpeg` support enabled, you can also install PIL with the command `pip install pillow --global-option="build_ext" --global-option="--disable-jpeg"`.
 I>
 I> You can check what packages are installed in your (virtual) environment by issuing the command `pip list`.
 

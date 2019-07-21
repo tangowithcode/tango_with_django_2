@@ -65,7 +65,7 @@ With your virtual environment switched on, execute the following two commands to
 
 {lang="bash",linenos=off}
 	$ pip install django==2.1.5
-	$ pip install pillow==5.0.0
+	$ pip install pillow==5.4.1
 
 This will be enough to get you started. As you work through the tutorial, there will be a couple more packages that we will require. These will be installed as we require them. For now, you're good to go.
 
@@ -108,7 +108,7 @@ X>  - Get up to speed with Python if you're new to the language. Try out one or 
 X>  - Install Python 3.7. Make sure `pip3` (or `pip` within your virtual environment) is also installed and works on your computer.
 X>  - Play around with your *command line interface (CLI)*, whether it be the Command Prompt (Windows) or a Terminal (macOS, Linux, UNIX, etc.) and create a directory called `code`,  which we use to create our projects in.
 X>  - Create a new virtual environment using Python 3.7. This is optional; but we *strongly encourage you to use virtual environments.*
-X>  - Within your environment, install Django 2.1.5 and Pillow 5.0.0.
+X>  - Within your environment, install Django 2.1.5 and Pillow 5.4.1.
 X>  - Setup an account on a Git repository site like [GitHub](https://github.com/) or [BitBucket](https://bitbucket.org/) if you haven't already done so.
 X>  - Download and setup an IDE like [PyCharm](https://www.jetbrains.com/pycharm/), or setup your favourite text editor for working with Python files.
 X>
