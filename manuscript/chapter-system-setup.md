@@ -305,7 +305,7 @@ If you find yourself in a situation like this, you run `pip` with the `-r` switc
 
 `pip install` installs packages from `requirements.txt`, and `pip freeze`, once everything has been installed, demonstrates that the packages have been installed correctly.
 
-## Version Control System
+## Version Control System {#section-system-setup-git}
 When developing code, it's highly recommended that you house your codebase within a version controlled respository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We have provided a [chapter on how to use Git](#chapter-git) if you haven't used Git and GitHub before. We highly recommend that you set up a Git repository for your own projects. Doing so could save you from disaster.
 
 To use Git, we recommend that you use the command-line tool to interact with your repositories. This is done through the `git` command. On Windows, you'll need to [download Git from the Git website](https://git-scm.com/download/win). If using macOS or Linux, the [Git website also has downloadable installers for you to use](https://git-scm.com/downloads). However, why not get into the habit of using a package manager to install the software? This is generally the recommended way for downloading and using software developed on the UNIX design principles (including macOS).
