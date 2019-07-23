@@ -93,7 +93,7 @@ If no categories exist, a message is displayed instead indicating that no catego
 
 As the example also demonstrates Django's template language, all template commands are enclosed within the tags `{%` and `%}`, while variables whose values are to be placed on the page are referenced within `{{` and `}}` brackets. *Everything* within these tags and brackets is interpreted by the Django templating engine before sending a completed response back to the client.
 
-If you now save the template and refresh Rango's homepage at `http://127.0.0.1:8000/rango/`, you should see a list of categories underneath the page title and your bold message, just like in the [figure below](#figch6-rango-categories-index).
+If you now save the template and refresh Rango's homepage at `http://127.0.0.1:8000/rango/`, you should see a list of categories underneath the page title and your bold message, just like in the [figure below](#fig-ch6-rango-categories-index).
 
 {id="fig-ch6-rango-categories-index"}
 ![The Rango homepage -- now dynamically generated -- showing a list of categories.](images/ch6-rango-categories-index.png)

@@ -160,7 +160,7 @@ As a final step to integrate our new registration functionality, we will also:
 
 - link the index page to the register page.
 
-### Creating the `UserForm` and `UserProfileForm` (#sec-user-forms)
+### Creating the `UserForm` and `UserProfileForm` {#sec-user-forms}
 In `rango/forms.py`, we now need to create two classes inheriting from `forms.ModelForm`. We'll be creating one for the base `User` class, as well as one for the new `UserProfile` model that we just created. The two `ModelForm`-inheriting classes allow us to display a HTML form displaying the necessary form fields for a particular model, taking away a significant amount of work for us.
 
 In `rango/forms.py`, let's first create our two classes which inherit from `forms.ModelForm`. Add the following code to the module.
@@ -341,11 +341,10 @@ Finally, we can add a link pointing to our new registration URL by modifying the
 	</ul>
 
 ### Demo
-Now everything is plugged together, try it out. Start your Django development server and try to register as a new user. Upload a profile image if you wish. Your registration form should look like the one illustrated in the [figure below](#fig-rango-register-form).
+Now everything is plugged together, try it out. Start your Django development server and try to register as a new user. Upload a profile image if you wish. Your registration form should look like the one illustrated in the [figure below](#fig-ch9-user-register).
 
 {id="fig-ch9-user-register"}
-![A screenshot illustrating the basic registration form you create as
-part of this tutorial.](images/ch9-rango-register-form.png)
+![A screenshot illustrating the basic registration form you create as part of this tutorial.](images/ch9-rango-register-form.png)
 
 Upon seeing the message indicating your details were successfully registered, the database should have a new entry in the `User` and `UserProfile` models. Check that this is the case by going into the Django Admin interface.
 

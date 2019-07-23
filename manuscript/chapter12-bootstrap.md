@@ -163,14 +163,14 @@ This ensures you keep a copy of your old `base.html` template and switch the act
 T> ### Using `git`?
 T> If you are using Git, it would be prudent to use the `git mv` commands in your terminal or Command Prompt to ensure that Git can keep track of these filename changes. If you are using a GUI to manage your Git repository, use that to perform the renaming instead.
 
-Now reload Rango in your browser. You should see a screen that looks similar to the one below.
+Now reload Rango in your browser. You should see a screen that looks similar [to the one below](#fig-bootstrap-initial).
 
 {id="fig-bootstrap-initial"}
 ![Rango, after switching `base_bootstrap.html` to be the template from which other templates inherit. Looks nice! Note that here, we are logged in with a username of `david`.](images/ch12-bootstrap-initial.png)
 
-Have a look through the different pages of your app. Since they all inherit from `base.html`, they will all now employ the Bootstrap dashboard layout. However, they aren't perfect yet! In the remainder of this chapter, we will go through several changes to the templates, and use various Bootstrap components to improve the look and feel of Rango further. But to remind yourself of what Rango looked like before, compare and contrast to [the figure below](#fig-bootstrap-initial)!
+Have a look through the different pages of your app. Since they all inherit from `base.html`, they will all now employ the Bootstrap dashboard layout. However, they aren't perfect yet! In the remainder of this chapter, we will go through several changes to the templates, and use various Bootstrap components to improve the look and feel of Rango further. But to remind yourself of what Rango looked like before, compare and contrast to [the figure below](#fig-bootstrap-initial-nostyling)!
 
-{id="fig-bootstrap-initial"}
+{id="fig-bootstrap-initial-nostyling"}
 ![The Rango app, before Bootstrap styling was applied. How much better does your app now look in comparison to this?](images/ch12-bootstrap-nostyling.png)
 
 <!--
