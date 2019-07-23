@@ -30,27 +30,27 @@ As part of its standard default Bash environment, PythonAnywhere comes with Pyth
 First, open a Bash console. By clicking `$ Bash` from under the `New console` header. If you run `python --version` then you will see that the Python is 2.7+. In order to set up our Python 3.7+ environment, we'll need to issue the following command.
 
 {lang="bash",linenos=off}
-	$ mkvirtualenv -p python3.7 rango
+	$ mkvirtualenv -p python3.7 rangoenv
 	Running virtualenv with interpreter /usr/bin/python3.7
 	Using base prefix '/usr'
-	New python executable in /home/rangodemo2019/.virtualenvs/rango/bin/python3.7
-	Also creating executable in /home/rangodemo2019/.virtualenvs/rango/bin/python
+	New python executable in /home/rangodemo2019/.virtualenvs/rangoenv/bin/python3.7
+	Also creating executable in /home/rangodemo2019/.virtualenvs/rangoenv/bin/python
 	Installing setuptools, pip, wheel...done.
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rango/bin/predeactivate
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rango/bin/postdeactivate
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rango/bin/preactivate
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rango/bin/postactivate
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rango/bin/get_env_details
+	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/predeactivate
+	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/postdeactivate
+	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/preactivate
+	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/postactivate
+	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/get_env_details
 
 Above we have used Python 3.7, but you can check which version of Python you are using, and use that instead. Remember that `rangodemo2019` will be replaced with your own username. The process of creating the virtual environment will take a little while to complete (as you are using a host shared with many others). After the environment has been created, you will be presented with a slightly different prompt.
 
 {lang="text",linenos=off}
-	(rango) ~ $
+	(rangoenv) ~ $
 
-Note the inclusion of `(rango)` compared to the previous prompt. This signifies that the `rango` virtual environment has been activated, so any package installations will be done within that virtual environment, leaving the wider system setup alone. If you issue the command `ls -la`, you will see that a directory called `.virtualenvs` has been created. This is the directory in which all of your virtual environments and associated packages will be stored. To confirm the setup, issue the command `which pip`. This will print the location in which the active `pip` binary is located - hopefully within `.virtualenvs` and `rango`, as shown in the example below.
+Note the inclusion of `(rangoenv)` compared to the previous prompt. This signifies that the `rangoenv` virtual environment has been activated, so any package installations will be done within that virtual environment, leaving the wider system setup alone. If you issue the command `ls -la`, you will see that a directory called `.virtualenvs` has been created. This is the directory in which all of your virtual environments and associated packages will be stored. To confirm the setup, issue the command `which pip`. This will print the location in which the active `pip` binary is located - hopefully within `.virtualenvs` and `rangoenv`, as shown in the example below.
 
 {lang="text",linenos=off}
-	/home/rangodemo2019/.virtualenvs/rango/bin/pip
+	/home/rangodemo2019/.virtualenvs/rangoenv/bin/pip
 
 To see what packages are already installed, enter `pip list`. Now we can customise the virtual environment by installing the required packages for our Rango application. Install all the required packages by issuing the following commands.
 
@@ -71,7 +71,7 @@ If you decided to use the [optional Bcrypt password hasher](#sec-user-passwordha
 T> ### Using `requirements.txt`?
 T> If you went down the path of using `pip freeze` on your own computer to create a `requirements.txt` file of all packages, this should have been added to your Git repository.
 T>
-T> In this instance, [skip to cloning your repository first](#sec-deploy-cloning), then come back here. When you clone your repository, you gain access to your requirements files, which means you can then install all the packages to your `rango` virtual environment on PythonAnywhere with the command `pip install -r requirements.txt`.
+T> In this instance, [skip to cloning your repository first](#sec-deploy-cloning), then come back here. When you clone your repository, you gain access to your requirements files, which means you can then install all the packages to your `rangoenv` virtual environment on PythonAnywhere with the command `pip install -r requirements.txt`.
 
 I> ### Waiting to Download...
 I> Since you're on a shared host, downloading and installing these packages will take considerably longer than doing so on your own computer. Don't worry if you think it's crashed -- give it time!
@@ -79,7 +79,7 @@ I> Since you're on a shared host, downloading and installing these packages will
 Once installed, check if Django has been installed with the command `which django-admin.py`. You should receive output similar to the following example.
 
 {lang="text",linenos=off}    
-	/home/rangodemo2019/.virtualenvs/rango/bin/django-admin.py
+	/home/rangodemo2019/.virtualenvs/rangoenv/bin/django-admin.py
 
 I> ### Virtual Environments on PythonAnywhere
 I> PythonAnywhere also provides instructions on how to setup virtual environments. [Check out their Wiki documentation for more information](https://help.pythonanywhere.com/pages/VirtualEnvForNewerDjango).
@@ -87,20 +87,20 @@ I> PythonAnywhere also provides instructions on how to setup virtual environment
 ### Virtual Environment Switching
 Moving between virtual environments can be done pretty easily. PythonAnywhere should have this covered for you. Below, we provide you with a quick tutorial on how to switch between virtual environments.
 
-At your terminal, you can launch into a existing virtual environment with the `workon` command. For example, to load up the `rango` environment, enter the following command.
+At your terminal, you can launch into a existing virtual environment with the `workon` command. For example, to load up the `rangoenv` environment, enter the following command.
 
 {lang="text",linenos=off}
-	~ $ workon rango
+	~ $ workon rangoenv
 
-Here, `rango` can be replaced with the name of the virtual environment you wish to use. Your prompt should then change to indicate you are working within a virtual environment. This is shown by the addition of `(rango)` to your prompt.
-
-{lang="text",linenos=off}
-	(rango) ~ $
-
-You can then leave the virtual environment using the `deactivate` command. Your prompt should then be missing the `(rango)` prefix, with an example shown below. This confirms that the environment has been successfully deactivated.
+Here, `rangoenv` can be replaced with the name of the virtual environment you wish to use. Your prompt should then change to indicate you are working within a virtual environment. This is shown by the addition of `(rangoenv)` to your prompt.
 
 {lang="text",linenos=off}
-	(rango) ~ $ deactivate
+	(rangoenv) ~ $
+
+You can then leave the virtual environment using the `deactivate` command. Your prompt should then be missing the `(rangoenv)` prefix, with an example shown below. This confirms that the environment has been successfully deactivated.
+
+{lang="text",linenos=off}
+	(rangoenv) ~ $ deactivate
 	~ $
 
 ### Cloning your Git Repository {#sec-deploy-cloning}
@@ -129,7 +129,7 @@ You'll see the following output showing that the cloning of the repository was s
 	Checking out files: 100% (54/54), done.
 
 ### Setting Up the Database
-With your repository cloned, you must then prepare your database. If you have the database committed to the repository, delete this copy. We'll start from scratch. We'll also be making use of the `populate_rango.py` module that we created earlier in the book to populate the database with sample data. As we'll be running the module, you must ensure that you are using the `rango` virtual environment (i.e. you see `(rango)` as part of your prompt -- if not, invoke `workon rango`).
+With your repository cloned, you must then prepare your database. If you have the database committed to the repository, delete this copy. We'll start from scratch. We'll also be making use of the `populate_rango.py` module that we created earlier in the book to populate the database with sample data. As we'll be running the module, you must ensure that you are using the `rangoenv` virtual environment (i.e. you see `(rangoenv)` as part of your prompt -- if not, invoke `workon rangoenv`).
 
 From your home directory (denoted by the `~` in your prompt), you want to navigate to the directory containing your `manage.py` and `populate_rango.py` scripts. Following the instructions we provided earlier in the book, this would be located at `~/tango_with_django_project/` -- the directory that you just cloned. If you chose to follow a different structure, navigate to the location where these files are stored.
 
@@ -161,10 +161,10 @@ In a new tab or window in your web browser, go visit your PythonAnywhere subdoma
 ### Configure the Virtual Environment
 Before we do this however, we need to configure our new web app to use the virtual environment we set up previously. Navigate to the *Web* tab in PythonAnywhere's interface if you aren't already there. From there, scroll all the way down the page until you see the heading *Virtualenv*. 
 
-Enter in the path to your virtual environment. Click the red text, which is replaced with an input box. Assuming you created a virtual environment called `rango`, the path would be:
+Enter in the path to your virtual environment. Click the red text, which is replaced with an input box. Assuming you created a virtual environment called `rangoenv`, the path would be:
 
 {lang="text",linenos=off} 
-	/home/rangodemo2019/.virtualenvs/rango
+	/home/rangodemo2019/.virtualenvs/rangoenv
 
 When you have entered the path, click the tick so submit it. Once again, we ask you to replace `rangodemo2019` with your PythonAnywhere username.
 
@@ -268,10 +268,10 @@ Once loaded, perform the following under the *Static files* header. Here, we nee
 First, we should set the location of the Django admin interface's static media files. Click the *Enter URL* text, and type in `/static/admin/`. Click the tick to confirm your input, and then click the *Enter path* link to the right, entering the following long-winded filesystem path (all on a single line). Be careful! We need to split the line up here to make it fit...
 
 {lang="python",linenos=off}  
-	/home/rangodemo2019/.virtualenvs/rango/lib/python3.7/site-packages/django/
+	/home/rangodemo2019/.virtualenvs/rangoenv/lib/python3.7/site-packages/django/
 	  contrib/admin/static/admin
 
-As usual, replace `rangodemo2019` with your PythonAnywhere username. `python3.7` should also be replaced with the version of Python that you are using, be it `python3.6` or `python3.7`. This has to match the version you selected for your virtual environment. You may also need to change `rango` if this is not the name of your application's virtual environment. Remember to click the tick to confirm your input.
+As usual, replace `rangodemo2019` with your PythonAnywhere username. `python3.7` should also be replaced with the version of Python that you are using, be it `python3.6` or `python3.7`. This has to match the version you selected for your virtual environment. You may also need to change `rangoenv` if this is not the name of your application's virtual environment. Remember to click the tick to confirm your input.
 
 We will also need to add a further mapping to serve Rango's static files. Once again. click *Enter URL*, this time on the second line, and enter `/static/`. Confirm this entry. The path entry should then be something similar to `/home/rangodemo2019/tango_with_django_project/static`. In essence, you should point this path to the location of the `static` directory in your project. For our example, this path works -- `rangodemo2019` is our PythonAnywhere username, and `tango_with_django_project` is the directory in which our Git repository was cloned.
 
