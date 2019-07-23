@@ -7,10 +7,10 @@ In this chapter, we'll be introducing you to the basics of JavaScript while usin
 
 - how to incorporate JQuery within Rango;
 - explaining how to interpret basic JQuery code; and
-- providing a number of small examples to show you how everything works.
+- providing several small examples to show you how everything works.
 
 ## Including JQuery
-To include JQuery (or any other JavaScript file), you need to tell the *client.* At the end of the day, the web browser will be the part of the chain that utilises the JavaScript code to provide additional functionality to the end user. Thinking about Rango, how can we do this? We will need to modify our *templates,* as when fully rendered, these are the files that are sent back to the client when something is requested.
+To include JQuery (or any other JavaScript file), you need to tell the *client.* At the end of the day, the web browser will be the part of the chain that utilises the JavaScript code to provide additional functionality to the user. Thinking about Rango, how can we do this? We will need to modify our *templates,* as when fully rendered, these are the files that are sent back to the client when something is requested.
 
 In Rango's `base.html` template, let's make sure we have referenced JQuery. If you completed the [Bootstrap chapter](#chapter-bootstrap) earlier on in the tutorial, you may have noticed that Bootstrap uses JQuery! To make sure nothing breaks, we'll stick with the version that Bootstrap uses -- version 3.3.1. At the bottom of your `base.html` template (before the close of the `<body>` tag), look for the following line.
 
@@ -48,16 +48,16 @@ With the above steps completed, you should now be ready to try things out! Open 
 This small piece of code utilises JQuery. But how does it work? We've broken it down into a series of different steps to show you what's going on.
 
 1. We first select the `document` object via `$(document)`. The `$()` is the shortcut that you can use to access the JQuery framework -- everything that uses JQuery will have commands that start with a `$`. The command `$(document)` tells the JQuery framework to *select* the [HTML document object](https://www.w3schools.com/jsref/dom_obj_document.asp) -- the object that a complete HTML page becomes when a web browser loads it into memory. This object encapsulates the entirety of the page. When we select something like this, we call the mechanism a *selector.*
-2. With the `document` selected, we then *chain* a function onto our selector. In this instance, we chain the `ready()` function. As stated in the [JQuery documentation](https://api.jquery.com/ready/), this is a function that JQuery executes *when the [DOM](https://www.w3.org/TR/WD-DOM/introduction.html)/page is fully loaded in memory, and is ready to go.* It's pretty typical to want to wait until everything in the page has been loaded (including external resources), so you can get a guarantee that everything will be there when code starts executing. If you don't wait, code can begin executing before everything that is expected to be there is ready -- and the end user will get a broken website.
-3. Inside `ready()`, we define an *anonymous function* to execute when the DOM is ready to go. Just like any other function in JavaScript, it can take parameters, and is surrounded by braces (like `{` and `}`). This is different from Python in that Python relies solely on indentation to tell it what lines of code to execute, and when. With a C-style language such as JavaScript and Java, braces are used to this effect.
+2. With the `document` selected, we then *chain* a function onto our selector. In this instance, we chain the `ready()` function. As stated in the [JQuery documentation](https://api.jquery.com/ready/), this is a function that JQuery executes *when the [DOM](https://www.w3.org/TR/WD-DOM/introduction.html)/page is fully loaded in memory, and is ready to go.* It's pretty typical to want to wait until everything on the page has been loaded (including external resources), so you can get a guarantee that everything will be there when the code starts executing. If you don't wait, the code can begin executing before everything that is expected to be present is ready -- and the user will get a broken website.
+3. Inside `ready()`, we define an *anonymous function* to execute when the DOM is ready to go. Just like any other function in JavaScript, it can take parameters and is surrounded by braces (like `{` and `}`). This is different from Python in that Python relies solely on indentation to tell it what lines of code to execute, and when. With a C-style language such as JavaScript and Java, braces are used to this effect.
 4. Inside the function, we have the line `alert("Hello, world!");`. Note that at the end of each line/command, place a semicolon (`;`). The `alert()` function takes a string, and displays it as a popup box in the browser. In this instance, it will display the string `Hello, world!`.
 
-To summarise, this code displays the message `Hello, world!`, just like in the [screenshot we show below](#fig-jquery-alert). The key here however is that the browser waits until everything is loaded, then displays the message. We strongly encourage you to keep the [JQuery API documentation](https://api.jquery.com/) open in a separate tab to help you understand the different concepts we demonstrate here better.
+To summarise, this code displays the message `Hello, world!`, just like in the [screenshot we show below](#fig-jquery-alert). However, the key here is that the browser waits until everything is loaded, then displays the message. We strongly encourage you to keep the [JQuery API documentation](https://api.jquery.com/) open in a separate tab to help you understand the different concepts we demonstrate here better.
 
 {id="fig-jquery-alert"}
 ![The result of the code we demonstrate above -- a small popup box that displays `Hello, world!` when the page is loaded. This should be visible on every page of Rango.](images/jquery-alert.png)
 
-You should of course remove the `alert()` function call once you have seen it working in front of your very eyes -- this is perhaps the simplest demonstration we can implement. Being greeted with this popup on every page is very annoying!
+You should, of course, remove the `alert()` function call once you have seen it working in front of your very eyes -- this is perhaps the simplest demonstration we can implement. Being greeted with this popup on every page is very annoying!
 
 I> ### Select and Act Pattern
 I> JQuery requires you to think in a more *functional* programming style, as opposed to typical JavaScript which is written in a more *procedural* way. For all JQuery commands, they follow a similar pattern: **Select and Act**. Select an element, and then perform some kind of action on/with the element.
@@ -65,7 +65,7 @@ I> JQuery requires you to think in a more *functional* programming style, as opp
 ### On Click
 In the previous example, we executed the `alert()` function call when the page had been loaded, and everything was ready to go. This is based upon an *event* being fired internally within the browser -- but what about trying different events? In this section, we'll work on a more concrete example making use of user interactions.
 
-The goal of this simple exercise will be to add a button to Rango's `about.html` template, and show you how events are bound to different elements of a page. When the user clicks the button, a popup alert appears. We'll of course need to work with the `about.html` template and the new `rango-jquery.js` static JavaScript file.
+The goal of this simple exercise will be to add a button to Rango's `about.html` template and show you how events are bound to different elements of a page. When the user clicks the button, a popup alert appears. We will, of course, need to work with the `about.html` template and the new `rango-jquery.js` static JavaScript file.
 
 Within the `about.html` template, let's first add a button that achieves what we want using vanilla JavaScript. This demonstrates a very simple way of *binding code to an event.* Add the code underneath the closing `</div>`, but before the closure of the `body_block` template block.
 
@@ -99,9 +99,9 @@ This time, we have another button, but there is no code associated with it. Inst
 
 Reload the page, and try things out. Hopefully, you will see that when you click both buttons, you will be greeted with a popup message from both, albeit with different messages.
 
-Like the JQuery code that we tried earlier on, our code sample above starts by selecting the `document` object, and includes a function that is only executed when the page has been loaded (i.e. `ready()`). Within this anonymous function, we then *select* the `about-btn` element (by unique identifier, as instructed to by prepending the ID with a `#`). A further anonymous function is bound to the event when the element with ID `about-btn` is *clicked* (`click()`) -- and this function contains a further call to the `alert()` function that displays a popup box to the end user.
+Like the JQuery code that we tried earlier on, our code sample above starts by selecting the `document` object and includes a function that is only executed when the page has been loaded (i.e. `ready()`). Within this anonymous function, we then *select* the `about-btn` element (by a unique identifier, as instructed to by prepending the ID with a `#`). A further anonymous function is bound to the event when the element with ID `about-btn` is *clicked* (`click()`) -- and this function contains a further call to the `alert()` function that displays a popup box to the user.
 
-For more complex functions, this approach is much more desirable as the JavaScript/JQuery code is maintained in a separate file to the template. Here, we programmatically assign the event to a handler at *runtime,* rather than *statically* within the HTML markup. This therefore achieves separation of concerns between the JavaScript/JQuery code and the HTML markup.
+For more complex functions, this approach is much more desirable as the JavaScript/JQuery code is maintained in a separate file to the template. Here, we programmatically assign the event to a handler at *runtime,* rather than *statically* within the HTML markup. Therefore, this achieves separation of concerns between the JavaScript/JQuery code and the HTML markup.
 
 T> ### Keep things Separated
 T> [Separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) is a design principle that is good to keep in mind. In terms of web apps, the HTML is responsible for the page content. CSS is used to style the presentation of the content. Finally, JavaScript is responsible for how the user can interact with the content -- as well as programmatically manipulating the page's content and style.
@@ -143,7 +143,7 @@ T>
 T> It takes time for content to download to a client's computer; make sure your code is patient!
 
 X> ### Play Around
-X> Play around with the code you have just written. Have a look at the [JQuery documentation](https://api.jquery.com/category/events/mouse-events/) to see what else you can do. And one little thing: what do you think will happen if you change the two instances of `$(this)` above to `$('p')`? Have a think about it, then once you have worked out a solution, experiment and see if you were correct!
+X> Play around with the code you have just written. Have a look at the [JQuery documentation](https://api.jquery.com/category/events/mouse-events/) to see what else you can do. And one little thing: what do you think will happen if you change the two instances of `$(this)` above to `$('p')`? Think about it, then once you have worked out a solution, experiment and see if you were correct!
 
 ## Further DOM Manipulation Examples
 In the above example, we used the `hover()` function to assign an event handler to the hover in and hover out events. For each of those events, we then used the `css()` function to change the text colour of the element being hovered over. The `css()` function is one example of *DOM manipulation* -- or the changing of the page loaded dynamically. However, `css()` is not the only way you can manipulate a page. JQuery provides other ways to manipulate the page!
@@ -177,7 +177,7 @@ One thing that often throws beginners is how to figure out what is going wrong w
 
 Most contemporary web browsers have a series of *developer tools* within them that allow you to see what's going on with your client-side JavaScript code. Accessing these tools depends on what browser you are using. On Chrome, you can access developer tools by clicking the options menu (three dots), selecting `More Tools`, and clicking `Developer Tools`.
 
-When the tools load, you can click the `Console` tab to see output from the JavaScript interpreter -- including any error messages! In the [example screenshot below](#fig-dev-tools), you can see that an error is preventing code from running. A cursory look at the error message shows that we included one too many `r`'s in our `msgStr` variable, thus providing us with a vital clue to figure out what is going on.
+When the tools load, you can click the `Console` tab to see the output from the JavaScript interpreter -- including any error messages! In the [example screenshot below](#fig-dev-tools), you can see that an error is preventing the code from running. A cursory look at the error message shows that we included one too many `r`'s in our `msgStr` variable, thus providing us with a vital clue to figure out what is going on.
 
 {id="fig-dev-tools"}
 ![The developer tools in Google Chrome, showing the console output. Look at the console output to figure out what's going wrong with your code if it's not working as expected.](images/dev-tools.png)
@@ -193,5 +193,5 @@ T> Always have your browser's Developer Tools open when you're writing client-si
 This chapter has provided a very rudimentary guide to using JQuery, and how you can incorporate it within your web app. From here, you should be able to now understand how JQuery operates, and experiment with the different functions provided by the JQuery framework -- and even those by third-party developers. In the next chapter, we'll be using JQuery to provide simple [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) functionality within Rango.
 
 T> ### Performing a Hard Refresh
-T> When working with `static` files -- especially JavaScript (that changes often when you are developing) -- you may find that your changes don't filter down to your browser, even though you definitely saved the file!
-T> Browsers are developed to try and reduce bandwidth used as much as possible. This means that browser caches -- which are where files that make up a webpage are locally stored -- may not be updated with changes to your static files if you update them often. The solution to this problem is to either clear your browser's cache, or to perform a [*hard refresh*](https://refreshyourcache.com/en/cache/). The command you issue depends on your browser and operating system. Windows systems should work with CTRL+F5, with Macs using CMD+SHIFT+R.
+T> When working with `static` files -- especially JavaScript (that changes often when you are developing) -- you may find that your changes don't filter down to your browser, even though you saved the file!
+T> Browsers are developed to try and reduce the bandwidth used as much as possible. This means that browser caches -- which are where files that make up a webpage are locally stored -- may not be updated with changes to your static files if you update them often. The solution to this problem is to either clear your browser's cache or to perform a [*hard refresh*](https://refreshyourcache.com/en/cache/). The command you issue depends on your browser and operating system. Windows systems should work with CTRL+F5, with Macs using CMD+SHIFT+R.

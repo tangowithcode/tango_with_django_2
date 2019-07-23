@@ -101,7 +101,7 @@ Executing this command will launch Python, and instruct Django to initiate its l
 	Quit the server with CONTROL-C.
 
 
-In the output, you can see a number of things. First, there are no issues that stop the application from running. However, you will notice that a warning is raised -- `unapplied migration(s)`. We will talk about this in more detail when we setup our database, but for now we can ignore it. Third, and most importantly, you can see that a URL has been specified: `http://127.0.0.1:8000/`, which is the address that the Django development server is running at.
+In the output, you can see several things. First, there are no issues that stop the application from running. However, you will notice that a warning is raised -- `unapplied migration(s)`. We will talk about this in more detail when we set up our database, but for now we can ignore it. Third, and most importantly, you can see that a URL has been specified: `http://127.0.0.1:8000/`, which is the address that the Django development server is running at.
 
 Now open up your web browser and enter the URL mentioned above -- [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/). You should see a webpage similar to [the one shown below](#img-ch3-django-powered-page).
 
@@ -134,9 +134,9 @@ To do this, from within your Django project directory (e.g. `<workspace>/tango_w
 {lang="text",linenos=off}
     $ python manage.py startapp rango
 
-The `startapp` command creates a new directory within your project's root. Unsurprisingly, this directory is called `rango` -- and contained within it are a number of Python scripts:
+The `startapp` command creates a new directory within your project's root. Unsurprisingly, this directory is called `rango` -- and contained within it are several Python scripts:
 
-- another `__init__.py`, serving the exact same purpose as discussed previously;
+- another `__init__.py`, serving the same purpose as discussed previously;
 - `admin.py`, where you can register your models so that you can benefit from some Django machinery which creates an admin interface for you;
 - `apps.py`, that provides a place for any app-specific configuration; 
 - `models.py`, a place to store your app's data models -- where you specify the entities and relationships between data;
@@ -145,9 +145,9 @@ The `startapp` command creates a new directory within your project's root. Unsur
 - the `migrations` directory, which stores database specific information related to your models.
     
 
-`views.py` and `models.py` are the two files you will use for any given app, and form part of the main architectural design pattern employed by Django, i.e. the *Model-View-Template* pattern. You can check out [the official Django documentation](https://docs.djangoproject.com/en/2.1/intro/overview/) to see how models, views and templates relate to each other in more detail.
+`views.py` and `models.py` are the two files you will use for any given app and form part of the main architectural design pattern employed by Django, i.e. the *Model-View-Template* pattern. You can check out [the official Django documentation](https://docs.djangoproject.com/en/2.1/intro/overview/) to see how models, views and templates relate to each other in more detail.
 
-Before you can get started with creating your own models and views, you must first tell your Django project about your new app's existence. To do this, you need to modify the `settings.py` file, contained within your project's configuration directory. Open the file and find the `INSTALLED_APPS` list. Add the `rango` app to the end of the tuple, which should then look like the following example.
+Before you can get started with creating your models and views, you must first tell your Django project about your new app's existence. To do this, you need to modify the `settings.py` file, contained within your project's configuration directory. Open the file and find the `INSTALLED_APPS` list. Add the `rango` app to the end of the tuple, which should then look like the following example.
 
 {lang="python",linenos=off}
 	INSTALLED_APPS = [
@@ -163,7 +163,7 @@ Before you can get started with creating your own models and views, you must fir
 Verify that Django picked up your new app by running the development server again. If you can start the server without errors, your app was picked up and you will be ready to proceed to the next step.
 
 ## Creating a View
-With our Rango app created, let's now create a simple view. Views handle a *request* that comes from the client, *executes some code*, and provides a *response* to the client. In order to fulfil the request, it may contact other services or query for data from other sources. The job of a view is to collate and package the data required to handle the request, as we outlined above. For our first view, given a request, the view will simply send some text back to the client. For the time being, we won't concern ourselves about using models (i.e. getting data from other sources) or templates (i.e. which help us package our responses nicely).
+With our Rango app created, let's now create a simple view. Views handle a *request* that comes from the client, *executes some code*, and provides a *response* to the client. To fulfil the request, it may contact other services or query for data from other sources. The job of a view is to collate and package the data required to handle the request, as we outlined above. For our first view, given a request, the view will simply send some text back to the client. For the time being, we won't concern ourselves about using models (i.e. getting data from other sources) or templates (i.e. which help us package our responses nicely).
 
 In your editor, open the file `views.py`, located within your newly created `rango` app directory. Remove the comment `# Create your views here.` so that you now have a blank file.
 
@@ -247,7 +247,7 @@ Now, restart the Django development server and visit `http://127.0.0.1:8000/rang
 {id="fig-ch3-hey-there"}
 ![A screenshot of a web browser displaying our first Django powered webpage. Hello, Rango!](images/ch3-hey-there.png)
 
-Within each app, you will create a number of URL mappings. The initial mapping is quite simple, but as we progress through the book we will create more sophisticated and parameterised URL mappings. 
+Within each app, you will create several URL mappings. The initial mapping is quite simple, but as we progress through the book we will create more sophisticated and parameterised URL mappings. 
 
 It's also important to have a good understanding of how URLs are handled in Django. It may seem a bit confusing right now, but as we progress through the book, we will be creating more and more URL mappings, so you'll soon be a pro. To find out more about them, check out the [official Django documentation on URLs](https://docs.djangoproject.com/en/2.1/topics/http/urls/) for further details and further examples.
 
@@ -273,7 +273,7 @@ X> - Revise the procedure and make sure you follow how the URLs are mapped to vi
 X> - Create a new view method called `about` which returns the following `HttpResponse`: `'Rango says here is the about page.'`
 X> - Map this view to `/rango/about/`. For this step, you'll only need to edit the `urls.py` of the Rango app. Remember the `/rango/` part is handled by the projects `urls.py`.
 X> - Revise the `HttpResponse` in the `index` view to include a link to the about page.
-X> - In the `HttpResponse` in the `about` view include a link back to the main page.
+X> - Include a link back to the index page in the `about` view's response.
 X> - Now that you have started the book, follow us on Twitter [@tangowithdjango](https://twitter.com/tangowithdjango), and let us know how you are getting on!
 
 I> ### Hints

@@ -5,7 +5,7 @@ I> ### Not for Windows!
 I> Note that we're focusing on the Bash shell, a shell for UNIX-based operating systems and their derivatives, including OS X and Linux distributions. If you're a Windows user, you can use the [Windows Command Prompt](http://www.ai.uga.edu/mc/winforunix.html) or [Windows PowerShell](https://msdn.microsoft.com/en-us/powershell/mt173057.aspx). Users of Windows 10 can now install the necessary infrastructure [straight from Microsoft](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to use Bash on your Windows installation! You could also experiment by [installing Cygwin](https://www.cygwin.com/) to bring Bash commands to Windows.
 
 ## Using the Terminal
-UNIX based operating systems and derivatives -- such as OS X and Linux distributions -- all use a similar looking terminal application, typically using the [Bash shell](https://en.wikipedia.org/wiki/Bash_(Unix_shell)). All possess a core set of commands that allow you to navigate through your computer's filesystem and launch programs -- all without the need for any graphical interface.
+UNIX based operating systems and derivatives -- such as OS X and Linux distributions -- all use a similar-looking terminal application, typically using the [Bash shell](https://en.wikipedia.org/wiki/Bash_(Unix_shell)). All possess a core set of commands that allow you to navigate through your computer's filesystem and launch programs -- all without the need for any graphical interface.
 
 Upon launching a new terminal instance, you'll be typically presented with something resembling the following.
 
@@ -24,7 +24,7 @@ D> In the text above, we refer to your present working directory. But what exact
 The dollar sign (`$`) typically indicates that the user is a standard user account. Conversely, a hash symbol (`#`) may be used to signify the user logged in has [root privileges](http://en.wikipedia.org/wiki/Superuser). Whatever symbol is present is used to signify that the computer is awaiting your input.
 
 I> ### Prompts can Differ
-I> The information presented by the prompt on your computer may differ from the example shown above. For example, some prompts may display the current date and time, or any other information. It all depends how your computer is set up.
+I> The information presented by the prompt on your computer may differ from the example shown above. For example, some prompts may display the current date and time, or any other information. It all depends on how your computer is set up.
 
 When you are using the terminal, it is important to know where you are in the file system. To find out where you are, you can issue the command `pwd`. This will display your *Present Working Directory* (hence `pwd`). For example, check the example terminal interactions below.
 
@@ -36,7 +36,7 @@ When you are using the terminal, it is important to know where you are in the fi
 
 You can see that the present working directory in this example is `/users/grad/david`.
 
-You'll also note that the prompt indicates that the present working directory is a tilde `~`. The tilde is used a special symbol which represents your *home directory*. The base directory in any UNIX based file system is the *root directory*. The path of the root directory is denoted by a single forward slash (`/`). As folders (or directories) are separated in UNIX paths with a `/`, a single `/` denotes the root!
+You'll also note that the prompt indicates that the present working directory is a tilde `~`. The tilde is used as a special symbol which represents your *home directory*. The base directory in any UNIX based file system is the *root directory*. The path of the root directory is denoted by a single forward-slash (`/`). As folders (or directories) are separated in UNIX paths with a `/`, a single `/` denotes the root!
 
 If you are not in your home directory, you can *Change Directory* (`cd`) by issuing the following command:
 
@@ -47,11 +47,11 @@ If you are not in your home directory, you can *Change Directory* (`cd`) by issu
 Note how the present working directory switches from `/` to `~` upon issuing the `cd ~` command.
 
 I> ### Path Shortcuts
-I> UNIX shells have a number of different shorthand ways for you to move around your computer's filesystem. You've already seen that a forward slash (`/`) represents the [root directory](https://en.wikipedia.org/wiki/Root_directory), and the tilde (`~`) represents your home directory in which you store all your personal files. However, there are a few more special characters you can use to move around your filesystem in conjunction with the `cd` command.
+I> UNIX shells have several different shorthand ways for you to move around your computer's filesystem. You've already seen that a forward slash (`/`) represents the [root directory](https://en.wikipedia.org/wiki/Root_directory), and the tilde (`~`) represents your home directory in which you store all your files. However, there are a few more special characters you can use to move around your filesystem in conjunction with the `cd` command.
 I>
 I> * Issuing `cd ~` will always return you to your home directory. On some UNIX or UNIX derivatives, simply issuing `cd` will return you to your home directory, too.
 I> * Issuing `cd ..` will move your present working directory **up one level** of the filesystem hierarchy. For example, if you are currently in `/users/grad/david/code/`, issuing `cd ..` will move you to `/users/grad/david/`.
-I> * Issuing `cd -` will move you to the **previous directory you were working in**. Your shell remembers where you were, so if you were in `/var/tmp/` and moved to `/users/grad/david/`, issuing `cd -` will move you straight back to `/var/tmp/`. This command obviously only works if you've move around at least once in a given terminal session.
+I> * Issuing `cd -` will move you to the **previous directory you were working in**. Your shell remembers where you were, so if you were in `/var/tmp/` and moved to `/users/grad/david/`, issuing `cd -` will move you straight back to `/var/tmp/`. This command only works if you've moved around at least once in a given terminal session.
 
 Now, let's create a directory within the home directory called `code`. To do this, you can use the *Make Directory* command, called `mkdir`.
 
@@ -117,7 +117,7 @@ Creating files is also easy to do, straight from the terminal. The `touch` comma
 Note the filesize of `new.txt` -- it is zero bytes, indicating an empty file. We can start editing the file using one of the many available text editors that are available for use directly from a terminal, such as [`nano`](http://www.nano-editor.org/) or [`vi`](http://en.wikipedia.org/wiki/Vi). While we don't cover how to use these editors here, you can [have a look online for a simple how-to tutorial](http://www.howtogeek.com/howto/42980/the-beginners-guide-to-nano-the-linux-command-line-text-editor/). We suggest starting with `nano` -- while there are not as many features available compared to other editors, using `nano` is much simpler.
 
 ## Core Commands {#section-unix-commands}
-In the short tutorial above, you've covered a few of the core commands such as `pwd`, `ls` and `cd`. There are however a few more standard UNIX commands that you should familiarise yourself with before you start working for real. These are listed below for your reference, with most of them focusing upon file management. The list comes with an explanation of each, and an example of how to use them.
+In the short tutorial above, you've covered a few of the core commands such as `pwd`, `ls` and `cd`. There are however a few more standard UNIX commands that you should familiarise yourself with before you start working for real. These are listed below for your reference, with most of them focusing upon file management. The list comes with an explanation of each and an example of how to use them.
 
 * `pwd`: As explained previously, this command displays your *present working directory* to the terminal. The full path of where you are presently is displayed.
 * `ls`: Displays a list of files in the current working directory to the terminal. 

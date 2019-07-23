@@ -3,10 +3,10 @@ Hopefully, you will have been able to complete the exercises in the previous cha
 
 I> ### Got a better solution?
 I> The solutions provided in this chapter are only one way to solve each problem. There are many ways you could approach each problem, and use solutions that exclusively use techniques that we have learnt so far.
-I> However, if you successfully implement them in a different way, please feel free to share your solution(s) with us -- and tweet links to [@tangowithdjango](https://www.twitter.com/tangowithdjango) for others to see!
+I> However, if you successfully implement them differently, please feel free to share your solution(s) with us -- and tweet links to [@tangowithdjango](https://www.twitter.com/tangowithdjango) for others to see!
 
 ## Track Page Clickthroughs
-As we said when we introduced [this problem earlier](#chapter-ex-clickthroughs), Rango provides only a direct link to the pages of external pages saved to each category. This approach limits our ability to track (or simply count) the number of times a particular link is clicked. In order to be able to track clicks, we'll need to work on the following steps. The subsections we provide here correspond to the four main steps we [outlined earlier](#chapter-ex-clickthroughs) in our workflow.
+As we said when we introduced [this problem earlier](#chapter-ex-clickthroughs), Rango provides only a direct link to the pages of external pages saved to each category. This approach limits our ability to track (or simply count) the number of times a particular link is clicked. To be able to track clicks, we'll need to work on the following steps. The subsections we provide here correspond to the four main steps we [outlined earlier](#chapter-ex-clickthroughs) in our workflow.
 
 ### Creating a URL Tracking View
 First, create a new view called `goto_url()` in Rango's `views.py` module. The view which takes a parameterised HTTP `GET` request (i.e. `rango/goto/?page_id=1`) and updates the number of views for the page. The view should then redirect to the actual URL.
@@ -40,7 +40,7 @@ The second major step involves mapping the new `goto_url()` view to the URL `/ra
 {lang="python",linenos=off}
 	path('goto/', views.goto_url, name='goto'),
 
-Note that we are complying with specification in the previous chapter and using a mapping `name` of `goto`.
+Note that we are complying with the specification in the previous chapter and using a mapping `name` of `goto`.
 
 ### Updating the `category.html` Template
 The third step involves updating the `category.html` template. We were tasked to implement two changes, the first of which changed page links to use the new `goto_view()` view, rather than providing a direct URL link. Secondly, we were tasked to report back to users how many clicks each page had received.
@@ -76,10 +76,10 @@ The main aim of Rango is to provide users of the app with a helpful directory of
 
 Let us assume that a user will first navigate to and browse their category of interest first. If they cannot find the page that they want, they will then be able to search for it. Once they examine their search results and find the page they are looking for, they will be able to add the page to the category they are browsing.
 
-We'll tackle the first part of the description here -- adding search functionality to the category page. In order to accomplish this, we first need to remove the [search functionality that we added in a previous chapter](#chapter-bing). This will essentially mean decommissioning the current search page and associated infrastructure (including the view and URL mapping). After this, there are several tasks we will need to undertake. The subsections listed here again correspond to the five main steps we outlined in the [previous chapter](#chapter-ex-searching).
+We'll tackle the first part of the description here -- adding search functionality to the category page. To accomplish this, we first need to remove the [search functionality that we added in a previous chapter](#chapter-bing). This will essentially mean decommissioning the current search page and associated infrastructure (including the view and URL mapping). After this, there are several tasks we will need to undertake. The subsections listed here again correspond to the five main steps we outlined in the [previous chapter](#chapter-ex-searching).
 
 W> ### Don't Delete your Code!
-W> When decommissioning your existing search functionality, don't delete it. Simply comment things out where appropriate (such as in the `urls.py` module). You'll copying some of the code across to a new home later on, anyway.
+W> When decommissioning your existing search functionality, don't delete it. Simply comment things out where appropriate (such as in the `urls.py` module). You'll be copying some of the code across to a new home later on, anyway.
 
 ### Decommissioning Generic Search
 The first step for this exercise is to decommission the existing search functionality that you implemented in a [previous chapter](#chapter-bing).
@@ -91,7 +91,7 @@ The first step for this exercise is to decommission the existing search function
 You'll still have the `search.html` template in Rango's templates directory; don't remove this as we will be using the contents of this template as the basis for integrating search functionality within the category template.
 
 ### Migrating `search.html` to `category.html`
-As we will be wanting provide search functionality to users who are browsing a category, we need to add in the search presentation functionality (e.g. displaying the search form and results area) to the `category.html` template. This is essentially a simple copy and paste job!
+As we will be wanting to provide search functionality to users who are browsing a category, we need to add in the search presentation functionality (e.g. displaying the search form and results area) to the `category.html` template. This is essentially a simple copy and paste job!
 
 Let's split this into two main steps. First, open your decommissioned `search.html` template and locate the `<div>` element containing the entire search form. This will be the `<div>` whose child is a `<form>` element. Select and copy the `<div>` and its contents, then open Rango's `category.html` file.
 
@@ -100,7 +100,7 @@ We now need to paste the code from `search.html` into `category.html`. As the br
 You can then go back to `search.html` and repeat the process, this time selecting the `<div>` for displaying the results list. You can identify this by looking for the `<div>` with Django template code that iterates through the `result_list` list. Copy that and then move back over to `category.html`. Now paste that in underneath the `<div>` containing the form that you previously pasted in.
 
 ### Updating the `category.html` Search Form
-Now that the markup required has been added to `category.html`, we need to make one simple change. Instead of submitting the contents of the search form to the `/rango/search/` URL which we decommissioned earlier, we instead will simply direct submitted responses to the Rango `/rango/category/<slug:category_name_slug>` URL instead. This is as simple as finding the `<form>` definition in `category.html` and changing the `action` attribute to Rango's `show_category()` URL mapping.
+Now that the markup required has been added to `category.html`, we need to make one simple change. Instead of submitting the contents of the search form to the `/rango/search/` URL which we decommissioned earlier, we instead will simply direct submitted responses to the Rango `/rango/category/<slug:category_name_slug>` URL. This is as simple as finding the `<form>` definition in `category.html` and changing the `action` attribute to Rango's `show_category()` URL mapping.
 
 {lang="html",linenos=off}
 	<form class="form-inline"
@@ -152,7 +152,7 @@ Our final requirement was to restrict the migrated search functionality only to 
 	</div>
 	{% endif %}
 
-Too easy! You could also go further and add conditional checks within the `show_category()` view to ensure the search functionality part is not executed when the current use is not logged in. Be wary, though -- don't be inclined to add the `login_required()` decorator to the view. Doing so will restrict all category-viewing functionality to logged in users only -- you only want to restrict the *search* functionality!
+Too easy! You could also go further and add conditional checks within the `show_category()` view to ensure the search functionality part is not executed when the current user is not logged in. Be wary, though -- don't be inclined to add the `login_required()` decorator to the view. Doing so will restrict all category-viewing functionality to logged in users only -- you only want to restrict the *search* functionality!
 
 ### Query Box Exercise
 At the end of the Bing Search API chapter, we set an exercise. We noted that in its current state, users would issue a query and then be presented with the results. However, the query box would then be blanked again -- thus making *query reformulation* more taxing.
@@ -161,7 +161,7 @@ In our code examples above, we've deliberately kept our model solution to this p
 
 The solution to this problem is to simply place the `query` variable into the `context_dict` of `show_category()`, and then make use of the variable within the `category.html` template by specifying its value as the `value` attribute for the search box `<input>` element.
 
-In Rango's `show_category()` view, locate the coe block that deals with the search functionality, and add the `query` to the `context_dict`, like so.
+In Rango's `show_category()` view, locate the code block that deals with the search functionality, and add the `query` to the `context_dict`, like so.
 
 {lang="python",linenos=off}
 	# Start new search functionality code.
@@ -192,11 +192,11 @@ Once everything has been completed, you should have a category page that looks s
 ![Rango's updated category view, complete with Bing Search API search functionality. Note also the inclusion of the search terms in the query box -- they are still retained!](images/exercises-categories.png)
 
 ## Creating a `UserProfile` Instance {#section-hints-profiles}
-This section provides one solution for creating Rango `UserProfile` accounts in conjunction with the `django-registration-redux` package. Recall that the standard `django.contrib.auth.models.User` model contains several standard fields pertaining to user accounts, such as a `username` and `password`. We however chose to implement an additional `UserProfile` model within Rango to store additional information such as a user's website URL, and a profile image. Here, we'll go through the steps required to implement this functionality. The steps that we'll work on are listed below, and each correspond to a subsection below.
+This section provides one solution for creating Rango `UserProfile` accounts in conjunction with the `django-registration-redux` package. Recall that the standard `django.contrib.auth.models.User` model contains several standard fields related to user accounts, such as a `username` and `password`. However, we chose to implement an additional `UserProfile` model within Rango to store additional information such as a user's website URL, and a profile image. Here, we'll go through the steps required to implement this functionality. The steps that we'll work on are listed below, and each corresponds to a subsection below.
 
 1. We first will create a new `profile_registration.html` template that will our pre-existing `UserProfileForm` Django form.
 2. We'll then work on creating a new `register_profile()` view to capture the details for a new `UserProfile` instance.
-3. After that, standard procedure applies. We'll first map the new view to a new URL -- in this instance, the URL will be `/rango/register_profile/`. Even though this details with user accounts, it is *Rango specific*, so it makes sense to place it within the `/rango/` URL pattern.
+3. After that, the standard procedure applies. We'll first map the new view to a new URL -- in this instance, the URL will be `/rango/register_profile/`. Even though this details with user accounts, it is *Rango specific*, so it makes sense to place it within the `/rango/` URL pattern.
 4. We'll then need to write some code for the `django-registration-redux` package to tell it to redirect to a different place when a `User` object has been created -- or in other words, redirect the user to the new `/rango/registrer_profile/` URL.
 
 Step four requires some additional code that requires knowledge of the `django-registration-redux` package. We've taken care of that for you, but we'll point to the relevant parts of the associated documentation to show you how we figured everything out.
@@ -250,7 +250,7 @@ W> ### Don't Forget `multipart/form-data`!
 W> When creating your form, don't forget to include the `enctype="multipart/form-data"` attribute in the `<form>` tag. We need to set this to [instruct the web browser and server that no character encoding should be used](https://stackoverflow.com/questions/4526273/what-does-enctype-multipart-form-data-mean). Why? Here, we could be performing *file uploads* (a user profile image). If you don't include this attribute, uploading images with this form will not work.
 
 ### Creating a Profile Registration View
-The second step in this process is to create the corresponding view for our new `profile_registration.html` template. This new view will handle the processing of the `UserProfileForm` form we created way back in the [User Authentication chapter](#sec-user-forms), and instructing Django to render any response with our new template. By now, this sequence of actions should be pretty straightforward for you to implement. Handling a form means being able to handle a request to render the form (via a HTTP `GET` request), and being able to process any entered information (via a HTTP `POST` request). A possible implementation for this view is shown below. You can add it to Rango's `views.py` module.
+The second step in this process is to create the corresponding view for our new `profile_registration.html` template. This new view will handle the processing of the `UserProfileForm` form we created way back in the [User Authentication chapter](#sec-user-forms), and instructing Django to render any response with our new template. By now, this sequence of actions should be pretty straightforward for you to implement. Handling a form means being able to handle a request to render the form (via an HTTP `GET` request), and being able to process any entered information (via an HTTP `POST` request). A possible implementation for this view is shown below. You can add it to Rango's `views.py` module.
 
 {lang="python",linenos=off}
 	@login_required
@@ -272,7 +272,7 @@ The second step in this process is to create the corresponding view for our new 
 	    context_dict = {'form': form}
 	    return render(request, 'rango/profile_registration.html', context_dict)
 
-Remember to check that you also have the relevant `import` statements at the top of the `views.py` module. You should have them all by now from previous chapters, but nevertheless, it's good to check!
+Remember to check that you also have the relevant `import` statements at the top of the `views.py` module. You should have them all by now from previous chapters, but nevertheless it's good to check!
 
 {lang="python",linenos=off}
 	from django.contrib.auth.decorators import login_required
@@ -283,9 +283,9 @@ Upon creating a new `UserProfileForm` instance, we then check our `request` obje
 
 With a valid `UserProfileForm`, we can then create a new instance of the `UserProfile` model with the line `user_profile = form.save(commit=False)`. Setting `commit=False` gives us the time to manipulate the new `UserProfile` instance that is created before we commit it to the database. This is where we can then add in the necessary step to associate the new `UserProfile` instance with the associated `User` instance (refer to the user flow/experience list [at the top of this section](#section-hints-profiles) to refresh your memory). After then saving the new `UserProfile` instance, we then redirect the user with a new account to Rango's `index` view, using the `reverse()` URL lookup. If form validation failed for any reason, errors are simply printed to the console. You'll most likely want to deal with this in a better way to make error handling more robust -- and intuitive for the user.
 
-If the request was instead sent as a HTTP `GET`, the user simply wants to request a blank form to fill out. In this case, we respond by `render`ing the `rango/profile_registration.html` template created above with a blank instance of the `UserProfileForm`, passed to the rendering context dictionary as `form`. Doing this satisfies the requirement that we created previously in our new template.
+If the request was instead sent as an HTTP `GET`, the user simply wants to request a blank form to fill out. In this case, we respond by `render`ing the `rango/profile_registration.html` template created above with a blank instance of the `UserProfileForm`, passed to the rendering context dictionary as `form`. Doing this satisfies the requirement that we created previously in our new template.
 
-This solution should therefore handle all required scenarios for creating, parsing and saving data from a `UserProfileForm` form.
+Therefore, this solution should handle all required scenarios for creating, parsing and saving data from a `UserProfileForm` form.
 
 H> ### Why use `login_required`?
 H> Remember, once a newly registered user hits this view, they will have had a new account created for them. This means that we can safely assume that he or she is now logged into Rango. This is why we are using the `@login_required` decorator at the top of our view to prevent individuals from accessing the view when they are unauthorised to do so.
@@ -293,7 +293,7 @@ H>
 H> See the [Django Documentation for more details about Authentication](https://docs.djangoproject.com/en/2.1/topics/auth/default/).
 
 ### Mapping the `register_profile()` View to a URL
-Now that our template and corresponding view have been implemented, a seasoned Djangoer should now be thinking: *map it!* We need to map out new view to a URL, so that users can access the newly created content. Opening up Rango's `urls.py` module and adding the following line to the `urlpatterns` list will achieve this.
+Now that our template and corresponding view have been implemented, a seasoned Djangoer should now be thinking: *map it!* We need to map out new view to a URL so that users can access the newly created content. Opening up Rango's `urls.py` module and adding the following line to the `urlpatterns` list will achieve this.
 
 {lang="python",linenos=off}
 	path('register_profile/', views.register_profile, name='register_profile'),
@@ -301,9 +301,9 @@ Now that our template and corresponding view have been implemented, a seasoned D
 This maps out new `register_profile()` view to the URL `/rango/register_profile/`. Remember, the `/rango/` part of the URL comes from your *project's* `urls.py` module. The remainder of the URL is then handled by Rango's `urls.py`.
 
 ### Modifying the Registration Flow
-Now that everything is (almost!) working, we need to tweak the process -- or flow -- that users undertake when registering. In order to do this, we need to do some *overriding* within the `django-registration-redux` package. Specifically, what we need to do is be able to tell the package where to redirect users who successfully create an account. We want to redirect them to the new `register_profile()` view!
+Now that everything is (almost!) working, we need to tweak the process -- or flow -- that users undertake when registering. To do this, we need to do some *overriding* within the `django-registration-redux` package. Specifically, what we need to do is be able to tell the package where to redirect users who successfully create an account. We want to redirect them to the new `register_profile()` view!
 
-In order to accomplish this, we need to use something called a *class-based view* to override a method provided by the `django-registration-redux` package. Given that we are working towards overriding a URL, it makes sense to add this to your *project's* `urls.py` -- the one that lives in the `tango_with_django_project` directory. Add the following code *above* the definition of your `urlpatterns` list, but after the `import` statements.
+To accomplish this, we need to use something called a *class-based view* to override a method provided by the `django-registration-redux` package. Given that we are working towards overriding a URL, it makes sense to add this to your *project's* `urls.py` -- the one that lives in the `tango_with_django_project` directory. Add the following code *above* the definition of your `urlpatterns` list, but after the `import` statements.
 
 {lang="python",linenos=off}
 	class MyRegistrationView(RegistrationView):
@@ -316,7 +316,7 @@ As we extend this class from the `RegistrationView` class, we need to add this t
 	from registration.backends.simple.views import RegistrationView
 	from django.urls import reverse
 
-With this complete, we now need to tell our project what to do with this extended class! It's just sitting there by itself at the moment, doing nothing. In order to tell the `django-registration-redux` package to use this class, we also need to update the `urlpatterns` list by adding a new entry. **Make sure you add this line directly above the existing entry for the `accounts/` URL -- not after!** To ensure you get it in the right place, we have included a complete copy of what your `urlpatterns` list should look like.
+With this complete, we now need to tell our project what to do with this extended class! It's just sitting there by itself at the moment, doing nothing. To tell the `django-registration-redux` package to use this class, we also need to update the `urlpatterns` list by adding a new entry. **Make sure you add this line directly above the existing entry for the `accounts/` URL -- not after!** To ensure you get it in the right place, we have included a complete copy of what your `urlpatterns` list should look like.
 
 {lang="python",linenos=off}
 	urlpatterns = [
@@ -335,9 +335,9 @@ With this complete, we now need to tell our project what to do with this extende
 This overrides the existing `registration_register` URL mapping, provided to us in the standard, out-of-the-box `django-registration-redux` `urls.py` module, and replaces the URL we jump to with a mapping to our new class-based view.
 
 ## Class-Based Views {#section-hints-class-based-views}
-What is a class-based view, though? What *exactly* have we made you code up in the example solution above? Class-based views are a more sophisticated and elegant mechanism for handling requests. Rather than taking a functional approach as we have done so far in this tutorial -- that is creating *functions* in Rango's `views.py` module to serve requests -- the class-based approach means creating classes that inherit and implement a series of methods to handle your app's requests.
+What is a class-based view, though? What *exactly* have we made implement up in the example solution above? Class-based views are a more sophisticated and elegant mechanism for handling requests. Rather than taking a functional approach as we have done so far in this tutorial -- that is creating *functions* in Rango's `views.py` module to serve requests -- the class-based approach means creating classes that inherit and implement a series of methods to handle your app's requests.
 
-For example, rather than checking if a request was a HTTP `GET` or a HTTP `POST` request, class-based viewed allow you to implement a `get()` and `post()` method within the class handling your request for a given view. When your project and handlers become more complex, using a class-based approach is the more preferable solution. You can look at the [Django Documentation for more information about Class Based Views](https://docs.djangoproject.com/en/2.1/topics/class-based-views/).
+For example, rather than checking if a request was an HTTP `GET` or an HTTP `POST` request, class-based viewed allow you to implement a `get()` and `post()` method within the class handling your request for a given view. When your project and handlers become more complex, using a class-based approach is the more preferable solution. You can look at the [Django Documentation for more information about class-based views](https://docs.djangoproject.com/en/2.1/topics/class-based-views/).
 
 To give you more of an idea about how class-based views work, let's try converting the `about()` view from a functional-based to a class-based approach. First, in Rango's `views.py` module, define a class called `AboutView` which inherits from the `View` base class. This base class needs to be imported from `django.views`, as shown in the example code below.
 
@@ -388,7 +388,7 @@ As our existing `import` statement simply imports Rango's `views.py`, we must sp
 
 Note that we also call the `as_view()` function. This is part of the base `View` class that provides the necessary code for Django to be able to process the view using your logic defined in the `get()` method.
 
-For such a simple view, you may think that switching to a class-based approach doesn't really save you much time or space. However, you should now get the idea -- and you should now be able to begin refactoring more complex views to use the class-based approach. A more complex view that considers both a HTTP `GET` and HTTP `POST` could be the `add_category()` view. To convert this from a functional- to class-based view, we can create a new `AddCategoryView` class in Rango's `views.py`. From there, we can begin the process of moving our code over from the function to the new class, as we show below.
+For such a simple view, you may think that switching to a class-based approach doesn't save you much time or space. However, you should now get the idea -- and you should now be able to begin refactoring more complex views to use the class-based approach. A more complex view that considers both a HTTP `GET` and HTTP `POST` could be the `add_category()` view. To convert this from a functional- to class-based view, we can create a new `AddCategoryView` class in Rango's `views.py`. From there, we can begin the process of moving our code over from the function to the new class, as we show below.
 
 {lang="python",linenos=off}
 	class AddCategoryView(View):
@@ -414,7 +414,7 @@ Compare the code you've got currently written in your `add_category()` function-
 {lang="python",linenos=off}
 	from django.utils.decorators import method_decorator
 
-By associating the `@method_decorator(login_required)` line for both the `get()` and `post()` methods, we are ensuring that neither method can be accessed by users who are not logged into Rango. If we were to drop the decorator from the `get()` method, what do you think would happen? Users would see the form to add a new category, but given that the `post()` method is still protected, those who are not logged in wouldn't be able to actually create a new category!
+By associating the `@method_decorator(login_required)` line for both the `get()` and `post()` methods, we are ensuring that neither method can be accessed by users who are not logged into Rango. If we were to drop the decorator from the `get()` method, what do you think would happen? Users would see the form to add a new category, but given that the `post()` method is still protected, those who are not logged in wouldn't be able to create a new category!
 
 T> ### Why do we need `@method_decorator`?
 T> The `@method_decorator` is required because function decorations (i.e. `login_required()`) [need to be transformed to method decorators](https://docs.djangoproject.com/en/2.2/topics/class-based-views/intro/#decorating-the-class) -- `method_decorator()` achieves this for us.
@@ -432,7 +432,7 @@ X>
 X> - Have a look at the [Django documentation](https://docs.djangoproject.com/en/2.1/topics/class-based-views/) and look for some more examples on how you can create class-based views.
 X> - Update your Rango app to make sure that *all* views in Rango's `views.py` module make use of class-based views!
 X>
-X> This won't take as long as you think. The hardest part here are for the more complex views with both HTTP `GET` and HTTP `POST` functionality. Being able to clearly delineate between the flow for each type of request and put the necessary code in separate methods will test your understanding of the code!
+X> This won't take as long as you think. The hardest part here is for the more complex views with both HTTP `GET` and HTTP `POST` functionality. Being able to delineate between the flow for each type of request and put the necessary code in separate methods will test your understanding of the code!
 X>
 X> There's a couple of things we also want you to think about when you work through this exercise. We've listed them below as individual tips.
 
@@ -446,7 +446,7 @@ T> ### Mapping the `IndexView`
 T> When you create a class-based view for your old `index()` view, be wary that you will have mapped it in both Rango's `urls.py` module *and your project's `urls.py` module, too!*
 
 T> ### Passing URL parameters
-T> Some URL mappings in Rango have parameters, such as the `category_name_slug` parameter for the `show_category()` view. You'll need to make sure that all of the methods within a class-based approach for one of these views contains not only the `self` and `request` parameters, but the one or more URL parameters, too. In the example above, a `get()` method definition may look like the example below.
+T> Some URL mappings in Rango have parameters, such as the `category_name_slug` parameter for the `show_category()` view. You'll need to make sure that all of the methods within a class-based approach for one of these views contain not only the `self` and `request` parameters but the one or more URL parameters, too. In the example above, a `get()` method definition may look like the example below.
 T>
 T> {lang="python",linenos=off}
 T> 	class ShowCategoryView(View):
@@ -459,16 +459,16 @@ T> ### Classes and Helper Methods
 T> You may find that when you're implementing your class-based views that you are repeating yourself. For instance, in the `show_category()` function-based view, we have some reasonably extensive code that deals with populating a dictionary for use as the context dictionary when we pass it to `render()`. This code is executed for *both* HTTP `GET` and HTTP `POST` requests.
 T> In a class-based implementation, one solution would be to simply add the code to the `get()` and `post()` methods... but remember, [DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself)! How could you engineer a solution that means you only need one instance of the context dictionary generating code?
 T>
-T> A possible solution would be to create a *helper method* within your class-based implementation. You can call it whatever you like, but in order to be able to successfully generate the basics for the context dictionary of the `show_category()` view, you'll also need the `category_name_slug`. How could you implement this? We give you a hint in the tip above. Once you have cracked it, you'll also be able to apply the same technique to other class-based views within your code.
+T> A possible solution would be to create a *helper method* within your class-based implementation. You can call it whatever you like, but to be able to successfully generate the basics for the context dictionary of the `show_category()` view, you'll also need the `category_name_slug`. How could you implement this? We give you a hint in the tip above. Once you have cracked it, you'll also be able to apply the same technique to other class-based views within your code.
 
 ## Viewing your Profile {#section-hints-profileview}
-With the code now in place to reinstate the use of the `UserProfile` model, we can now implement functionality to allow a user to view his or her profile -- and edit it. The process is again similar in nature to what we have done many times before. We'll need to consider the following three steps.
+With the code now in place to reinstate the use of the `UserProfile` model, we can now implement functionality to allow a user to view his or her profile -- and edit it. The process is again similar to what we have done many times before. We'll need to consider the following three steps.
 
 1. First, we will need to create a new template, this time called `profile.html`. This will live inside the `rango` `templates` directory.
 2. Second, we'll have to create a new view that renders the new template. We'll make this one a class-based view from the outset!
 3. Finally, the new view must be mapped to a URL -- in this case, `/rango/profile`.
 
-Of course, to make the new page accessible, we'll also need to provide an additional hyperlink in Rango's `base.html` template to provide simple access. For this solution, we'll be creating a generalised view that allows you access the information of any user of Rango. The code will also allow users who are logged into the app to also edit their own profile -- *but only theirs* -- thus satisfying the [requirements of this exercise](#sec-ex-profiles).
+Of course, to make the new page accessible, we'll also need to provide an additional hyperlink in Rango's `base.html` template to provide simple access. For this solution, we'll be creating a generalised view that allows you access the information of any user of Rango. The code will also allow users who are logged into the app to also edit their profile -- *but only theirs* -- thus satisfying the [requirements of this exercise](#sec-ex-profiles).
 
 ### Creating the Template
 First, let's work on creating a simple template for displaying a user's profile. The following HTML markup and Django template code should be placed within the new `profile.html` file within Rango's templates directory.
@@ -522,11 +522,11 @@ Note that in the template, we make use of a few variables (namely `selecteduser`
 
 We'll be making sure that this template is passed the required variables to its context in the next section.
 
-The template block of interest here is of course the `body_block` block. At the top, we display the selected user's profile image, set to dimensions of 300X300 pixels. We also provide `alt` text to display if the image cannot be located.
+The template block of interest here is, of course, the `body_block` block. At the top, we display the selected user's profile image, set to dimensions of 300X300 pixels. We also provide `alt` text to display if the image cannot be located.
 
 However, the interesting part of this template is underneath. We use a conditional statement to work out if the user who is currently looking at a given profile is the said user (`selecteduser == user`) -- and if he or she if, we display a form to allow the user to edit their profile. If the user does not match up, then we don't want to provide a form to edit -- so instead, we simply display the profile.
 
-You should also take note of the fact that we once again use `enctype="multipart/form-data"` in the `<form>` due to the fact that users can upload a new profile image -- remember, whenever file uploads are involved, this attribute must be specified.
+You should also take note of the fact that we once again use `enctype="multipart/form-data"` in the `<form>` because users can upload a new profile image -- remember, whenever file uploads are involved, this attribute must be specified.
 
 ### Creating the `profile()` View
 Based on the template created above, we can then implement a simple view to handle the viewing of user profiles and submission of form data. In Rango's `views.py` module, create a new class-based view called `ProfileView`. Add the code as we show below to the new view.
@@ -579,7 +579,7 @@ Based on the template created above, we can then implement a simple view to hand
 	        
 	        return render(request, 'rango/profile.html', context_dict)
 
-We'll also need to `import` two classes that we haven't used before. One is the standard Django `User` model, and the other is Rango's `UserProfile` model. Note we did import the the `UserProfileForm` earlier -- that's different!
+We'll also need to `import` two classes that we haven't used before. One is the standard Django `User` model, and the other is Rango's `UserProfile` model. Note we did import the `UserProfileForm` earlier -- that's different!
 
 {lang="python",linenos=off}
 	from django.contrib.auth.models import User
@@ -587,9 +587,9 @@ We'll also need to `import` two classes that we haven't used before. One is the 
 
 Our new class-based view requires that a user be logged in -- hence the use of the `@method_decorator(login_required)` decorator for both the `get()` and `post()` methods.
 
-Within the `ProfileView` class, we also created a `get_user_details()` helper method to ensure that we don't repeat ourselves. This method begins by selecting the `django.contrib.auth.User` instance from the database -- if it exists. If it does not exist, the method simply returns None, which signals to both the `get()` and `post()` methods to do a simple `redirect` to Rango's homepage, rather than greet the user with a bespoke error message. We can't display information for a non-existent user! If the user does exist, the `get_user_details()` method selects the `UserProfile` instance (or creates a blank one, if one does not exist). We then populate a `UserProfileForm` with the the selected user's details if it is required. The `user`, `userprofile` and populated `form` objects are then returned in a tuple and are [unpacked](https://www.geeksforgeeks.org/packing-and-unpacking-arguments-in-python/) by the `get()` and `post()` methods that call the helper method.
+Within the `ProfileView` class, we also created a `get_user_details()` helper method to ensure that we don't repeat ourselves. This method begins by selecting the `django.contrib.auth.User` instance from the database -- if it exists. If it does not exist, the method simply returns None, which signals to both the `get()` and `post()` methods to do a simple `redirect` to Rango's homepage, rather than greet the user with a bespoke error message. We can't display information for a non-existent user! If the user does exist, the `get_user_details()` method selects the `UserProfile` instance (or creates a blank one, if one does not exist). We then populate a `UserProfileForm` with the selected user's details if it is required. The `user`, `userprofile` and populated `form` objects are then returned in a tuple and are [unpacked](https://www.geeksforgeeks.org/packing-and-unpacking-arguments-in-python/) by the `get()` and `post()` methods that call the helper method.
 
-Within the `post()` method, we handle the case where a user wants to update their profile's information. To do this, we extract information from the form into a `UserProfileForm` instance that is able to reference to the `UserProfile` instance that it is saving to -- rather than creating a new `UserProfile` instance each time. Remember, we are *updating*, not creating! A valid form is then saved. An invalid form (or a HTTP `GET` request) triggers the rendering of the `profile.html` template, complete with the relevant variables that are passed through to the template via its context.
+Within the `post()` method, we handle the case where a user wants to update their profile's information. To do this, we extract information from the form into a `UserProfileForm` instance that can refer to the `UserProfile` instance that it is saving to -- rather than creating a new `UserProfile` instance each time. Remember, we are *updating*, not creating! A valid form is then saved. An invalid form (or an HTTP `GET` request) triggers the rendering of the `profile.html` template, complete with the relevant variables that are passed through to the template via its context.
 
 X> ### Authentication Exercise
 X> How can we change the code above to prevent unauthorised users from changing the details of a user account that isn't theirs? What conditional statement do we need to add to enforce this additional check?
@@ -613,7 +613,7 @@ Everything should be now working as expected -- but how can users access the new
 All being well, you should see something like [the following example](#fig-exercises-profile).
 
 {id="fig-exercises-profile"}
-![A completed Rango profile page, showing a profile for `david`. Note that this is being viewed from the same account -- the ability to edit the website and profile image are both present.](images/exercises-profile.png)
+![A completed Rango profile page, showing a profile for `david`. Note that this is being viewed from the same account -- the ability to edit the website and profile image are both available.](images/exercises-profile.png)
 
 ## Listing all Users
 Our final challenge is to create a further page that allows one to view a list of all users registered on the Rango app. This one is relatively straightforward -- implementing a further template, view and URL mapping are all once again required -- but the code in this view is simplistic to the code we added above. We'll be creating a list of users registered to Rango -- and providing a hyperlink to view their profile using the code we implemented in the previous section. *Note that this new view should only be accessible to those who are logged in.*
@@ -663,7 +663,7 @@ You know the drill by now. Create a new template! Once again, this belongs to Ra
 As mentioned previously, this template is pretty straightforward compared to what we have been doing as of late! A series of `<div>` tags have been created using various Bootstrap classes to style the list. For each user, we display their username and provide a link to their profile page. Notice that since we pass through a list of `UserProfile` objects, we need to pass through the `user` attribute to lead to the `username` of the user!
 
 ### Creating the View
-With our template created, we can now create the corresponding view that selects all users from the `UserProfile` model. We also make the assumption that the current user must be logged in to view the other users of Rango, as stated above.
+With our template created, we can now create the corresponding view that selects all users from the `UserProfile` model. We also assume that the current user must be logged in to view the other users of Rango, as stated above.
 
 The following simple class-based view should satisfy these requirements nicely. Again, this is a straightforward view -- selecting all of the `UserProfile` instances via an ORM query is perhaps the trickiest part here. Remember, the list must have a name of `userprofile_list` in the context dictionary to match up with our template defined above.
 

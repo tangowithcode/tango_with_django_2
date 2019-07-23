@@ -53,7 +53,7 @@ From then on, all of your prompts with the terminal or Command Prompt will prece
 The penultimate line of the example above demonstrates how to switch your virtual environment off after you have finished with it -- note the lack of `(rangoenv)` before the prompt. Again, [refer to the later chapter in this tutorial](#section-system-setup-virtualenv) for more information on how to setup and use virtual environments.
 
 ## The Python Package Manager
-Going hand in hand with virtual environments, we'll also be making use of the Python package manager, *pip*, to install a number of different Python software packages -- including Django -- to our development environment. Specifically, we'll need to install two packages: Django 2 and *Pillow*. Pillow is a Python package providing support for handling image files (e.g. `.jpg` and `.png` files), something we'll be doing later in this tutorial.
+Going hand in hand with virtual environments, we'll also be making use of the Python package manager, *pip*, to install several different Python software packages -- including Django -- to our development environment. Specifically, we'll need to install two packages: Django 2 and *Pillow*. Pillow is a Python package providing support for handling image files (e.g. `.jpg` and `.png` files), something we'll be doing later in this tutorial.
 
 A package manager, whether for Python, your [operating system](https://en.wikipedia.org/wiki/Advanced_Packaging_Tool) or [some other environment](https://docs.npmjs.com/cli/install), is a software tool that automates the process of installing, upgrading, configuring and removing *packages* -- that is, a package of software which you can use on your computer that provides some functionality. This is opposed to downloading, installing and maintaining software manually. Maintaining Python packages is pretty painful. Most packages often have *dependencies* -- additional packages that are required for your package to work! This can get very complex very quickly. A package manager handles all of this for you, along with issues such as conflicts regarding different versions of a package. Luckily, *pip* handles all this for you.
 
@@ -65,7 +65,7 @@ With your virtual environment switched on, execute the following two commands to
 	$ pip install django==2.1.5
 	$ pip install pillow==5.4.1
 
-Installing these two packages will be sufficient to get you started. As you work through the tutorial, there will be a couple more packages that we will require. We'll tell you to install them as we require them. For now though, you're good to go.
+Installing these two packages will be sufficient to get you started. As you work through the tutorial, there will be a couple more packages that we will require. We'll tell you to install them as we require them. For now, you're good to go.
 
 I> ### Problems Installing `pillow`?
 I> When installing Pillow, you may receive an error stating that the installation failed due to a lack of JPEG support.
@@ -87,14 +87,14 @@ T> ### Working within in a Virtual Environment
 T> Substitute `pip3` with `pip` when working within your virtual environment. The command `pip` is aliased to the correct one for your virtual environment.
 
 ## Integrated Development Environment
-While not absolutely necessary, a good Python-based IDE can be very helpful to you during the development process. Several exist, with perhaps [*PyCharm*](http://www.jetbrains.com/pycharm/) by JetBrains and *PyDev* (a plugin of the [Eclipse IDE](http://www.eclipse.org/downloads/)) standing out as popular choices. The [Python Wiki](http://wiki.python.org/moin/IntegratedDevelopmentEnvironments) provides an up-to-date list of Python IDEs.
+While not necessary, a good Python-based IDE can be very helpful to you during the development process. Several exist, with perhaps [*PyCharm*](http://www.jetbrains.com/pycharm/) by JetBrains and *PyDev* (a plugin of the [Eclipse IDE](http://www.eclipse.org/downloads/)) standing out as popular choices. The [Python Wiki](http://wiki.python.org/moin/IntegratedDevelopmentEnvironments) provides an up-to-date list of Python IDEs.
 
-Research which one is right for you, and be aware that some may require you to purchase a licence. Ideally, you'll want to select an IDE that supports integration with Django. Of course, if you prefer not to use an IDE, using a simple text editor like [Sublime Text](https://www.sublimetext.com/), [TextMate](https://macromates.com/) or [Atom](https://atom.io/) will do just fine. Many modern text editors actually support Python syntax highlighting, which makes things much easier!
+Research which one is right for you, and be aware that some may require you to purchase a licence. Ideally, you'll want to select an IDE that supports integration with Django. Of course, if you prefer not to use an IDE, using a simple text editor like [Sublime Text](https://www.sublimetext.com/), [TextMate](https://macromates.com/) or [Atom](https://atom.io/) will do just fine. Many modern text editors support Python syntax highlighting, which makes things much easier!
 
-We use PyCharm as it supports virtual environments and Django integration -- though you will have to configure the IDE accordingly. We don't cover that here -- although JetBrains do provide a [guide on setting PyCharm up](https://www.jetbrains.com/help/pycharm/2016.1/creating-and-running-your-first-django-project.html).
+We use PyCharm as it supports virtual environments and Django integration -- though you will have to configure the IDE accordingly. We don't cover that here -- although JetBrains does provide a [guide on setting PyCharm up](https://www.jetbrains.com/help/pycharm/2016.1/creating-and-running-your-first-django-project.html).
 
 ## Version Control
-We should also point out that when you develop code, you should always house your code within a version-controlled repository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We won't be explaining this right now, so that we can get stuck into developing an application in Django. We have however written a [chapter providing a crash course on Git](#chapter-git) for your reference that you can refer to later on. **We highly recommend that you set up a Git repository for your own projects.**
+We should also point out that when you develop code, you should always house your code within a version-controlled repository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We won't be explaining this right now so that we can get stuck into developing an application in Django. We have however written a [chapter providing a crash course on Git](#chapter-git) for your reference that you can refer to later on. **We highly recommend that you set up a Git repository for your projects.**
 
 X> ### Exercises
 X> To get comfortable with your environment, try out the following exercises.
@@ -102,10 +102,10 @@ X>
 X> - Get up to speed with Python if you're new to the language. Try out one or more of the tutorials we listed earlier.
 X> - Install Python 3.7. Make sure `pip3` (or `pip` within your virtual environment) is also installed and works on your computer.
 X> - Play around with your *command line interface (CLI)*, whether it be the Command Prompt (Windows) or a terminal (macOS, Linux, UNIX, etc.).
-X> - Create a new virtual environment using Python 3.7. This is optional; but we *strongly encourage you to use virtual environments.*
+X> - Create a new virtual environment using Python 3.7. This is optional, but we *strongly encourage you to use virtual environments.*
 X> - Within your environment, install Django 2 and Pillow 5.4.1.
-X> - Setup an account on a Git repository site like [GitHub](https://github.com/) or [BitBucket](https://bitbucket.org/) if you haven't already done so.
-X> - Download and setup an IDE like [PyCharm](https://www.jetbrains.com/pycharm/), or setup your favourite text editor for working with Python files.
+X> - Set up an account on a Git repository site like [GitHub](https://github.com/) or [BitBucket](https://bitbucket.org/) if you haven't already done so.
+X> - Download and set up an IDE like [PyCharm](https://www.jetbrains.com/pycharm/), or set up your favourite text editor for working with Python files.
 X>
 X> As previously stated, we've made the code for the application available on our [GitHub repository](https://github.com/maxwelld90/tango_with_django_2_code).
 X>

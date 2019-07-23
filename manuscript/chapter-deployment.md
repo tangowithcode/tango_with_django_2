@@ -1,16 +1,16 @@
 # Deploying Your Project {#chapter-deploy}
-This chapter provides a step-by-step guide on how to deploy your Django application on  [PythonAnywhere](https://www.pythonanywhere.com/?affiliate_id=000116e3). PythonAnywhere is an online IDE and web hosting service, geared towards hosting Python applications. The service provides in-browser access to the server-based Python and Bash command line interfaces, meaning you can interact with PythonAnywhere's servers just like you would with a regular terminal instance on your own computer. Currently, PythonAnywhere are offering a free beginner account, which is perfect to get started. It provides you with an adequate amount of storage space and CPU time to get a single Django project up and running.
+This chapter provides a step-by-step guide on how to deploy your Django application on  [PythonAnywhere](https://www.pythonanywhere.com/?affiliate_id=000116e3). PythonAnywhere is an online IDE and web hosting service, geared towards hosting Python applications. The service provides in-browser access to the server-based Python and Bash command line interfaces, meaning you can interact with PythonAnywhere's servers just like you would with a regular terminal instance on your computer. Currently, PythonAnywhere is offering a free beginner account, which is perfect to get started. It provides you with an adequate amount of storage space and CPU time to get a single Django project up and running.
 
 I> ### Are you using Git?
 I> You can do this chapter independently as we have already implemented Rango and it is [available from GitHub](https://github.com/maxwelld90/tango_with_django_2_code). If you haven't used Git/GitHub before, you can check out our [chapter on using Git](#chapter-git).
 
 ## Creating a PythonAnywhere Account
-First, [sign up for a Beginner PythonAnywhere account](https://www.pythonanywhere.com/?affiliate_id=000116e3). We recommend that you take the seven step tour to get familiar with the PythonAnywhere interface. If your application takes off and becomes popular, you'll always have the ability to upgrade your account at a later date to gain more storage space and CPU time along with a number of other benefits, such as hosting specific domains and the ability to SSH in, for example.
+First, [sign up for a Beginner PythonAnywhere account](https://www.pythonanywhere.com/?affiliate_id=000116e3). We recommend that you take the seven-step tour to get familiar with the PythonAnywhere interface. If your application takes off and becomes popular, you'll always have the ability to upgrade your account at a later date to gain more storage space and CPU time along with several other benefits, such as hosting specific domains and the ability to SSH in, for example.
 
-Once your account has been created and you have confirmed your email, you will have your own little slice of the World Wide Web at `http://<username>.pythonanywhere.com`, where `<username>` is your PythonAnywhere username. It is from this URL that your hosted application will be available.
+Once your account has been created and you have confirmed your email, you will have your little slice of the World Wide Web at `http://<username>.pythonanywhere.com`, where `<username>` is your PythonAnywhere username. It is from this URL that your hosted application will be available.
 
 I> ### Your Username
-I> Your username will obviously vary from the one we have used to demonstrate the functionality of PythonAnywhere. We chose `rangodemo2019`, and you'll see this throughout the screenshots and code snippets in this chapter. Simply substitute `rangodemo2019` with your own username when required.
+I> Your username will vary from the one we have used to demonstrate the functionality of PythonAnywhere. We chose `rangodemo2019`, and you'll see this throughout the screenshots and code snippets in this chapter. Simply substitute `rangodemo2019` with your username when required.
 
 ## The PythonAnywhere Web Interface
 The PythonAnywhere web interface contains a *dashboard* which in turn provides a series of different components allowing you to manage your application. The components as [illustrated in the figure below](#pa-interface) include:
@@ -25,9 +25,9 @@ Other components exist, such as *Notebooks*, but we won't be using them here -- 
 ![The PythonAnywhere dashboard, showing the main components you can use. We're logged in as `rangodemo2019` here. You can see links to Consoles, Files, Notebooks (that we don't use here), and web apps.](images/ch-deploy-pa-interface.png)
 
 ## Creating a Virtual Environment
-As part of its standard default Bash environment, PythonAnywhere comes with Python 2.7+ and a number of pre-installed Python Packages (including *Django *). But, since we are using a different setup, we need to setup the Python 3 version manually through the creation of a virtual environment.
+As part of its standard default Bash environment, PythonAnywhere comes with Python 2.7+ and several pre-installed Python Packages (including *Django *). But, since we are using a different setup, we need to set up the Python 3 version manually through the creation of a virtual environment.
 
-First, open a Bash console. By clicking `$ Bash` from under the `New console` header. If you run `python --version` then you will see that the Python is 2.7+. In order to set up our Python 3.7+ environment, we'll need to issue the following command.
+First, open a Bash console. By clicking `$ Bash` from under the `New console` header. If you run `python --version` then you will see that the Python is 2.7+. To set up our Python 3.7+ environment, we'll need to issue the following command.
 
 {lang="bash",linenos=off}
 	$ mkvirtualenv -p python3.7 rangoenv
@@ -47,7 +47,7 @@ First, open a Bash console. By clicking `$ Bash` from under the `New console` he
 	virtualenvwrapper.user_scripts creating
 	    /home/rangodemo2019/.virtualenvs/rangoenv/bin/get_env_details
 
-Above we have used Python 3.7, but you can check which version of Python you are using, and use that instead. Remember that `rangodemo2019` will be replaced with your own username. The process of creating the virtual environment will take a little while to complete (as you are using a host shared with many others). After the environment has been created, you will be presented with a slightly different prompt.
+Above we have used Python 3.7, but you can check which version of Python you are using, and use that instead. Remember that `rangodemo2019` will be replaced with your username. The process of creating the virtual environment will take a little while to complete (as you are using a host shared with many others). After the environment has been created, you will be presented with a slightly different prompt.
 
 {lang="text",linenos=off}
 	(rangoenv) ~ $
@@ -71,10 +71,10 @@ If you decided to use the [optional Bcrypt password hasher](#sec-user-passwordha
 {lang="text",linenos=off}
 	$ pip install bcrypt
 
-**Ensure that you replace the version of Django specified above with the one you are using for development.** Here we have used version 2.1.5. Remember that this book supports a range of versions, from 2.0 to 2.2. Not using the same version as your development machine could lead to some weird errors, which will be frustrating to say the least. To ensure you have the same setup, we recommend using `pip freeze > requirements.txt` on your local development machine. This will note down all the packages in your current development environment. Then on PythonAnywhere, you can run `pip install -r requirements.txt` to install all the packages in one go.
+**Ensure that you replace the version of Django specified above with the one you are using for development.** Here we have used version 2.1.5. Remember that this book supports a range of versions, from 2.0 to 2.2. Not using the same version as your development machine could lead to some weird errors, which will be frustrating, to say the least. To ensure you have the same setup, we recommend using `pip freeze > requirements.txt` on your local development machine. This will note down all the packages in your current development environment. Then on PythonAnywhere, you can run `pip install -r requirements.txt` to install all the packages in one go.
 
 T> ### Using `requirements.txt`?
-T> If you went down the path of using `pip freeze` on your own computer to create a `requirements.txt` file of all packages, this should have been added to your Git repository.
+T> If you went down the path of using `pip freeze` on your computer to create a `requirements.txt` file of all packages, this should have been added to your Git repository.
 T>
 T> In this instance, [skip to cloning your repository first](#sec-deploy-cloning), then come back here. When you clone your repository, you gain access to your requirements files, which means you can then install all the packages to your `rangoenv` virtual environment on PythonAnywhere with the command `pip install -r requirements.txt`.
 
@@ -87,12 +87,12 @@ Once installed, check if Django has been installed with the command `which djang
 	/home/rangodemo2019/.virtualenvs/rangoenv/bin/django-admin.py
 
 I> ### Virtual Environments on PythonAnywhere
-I> PythonAnywhere also provides instructions on how to setup virtual environments. [Check out their Wiki documentation for more information](https://help.pythonanywhere.com/pages/VirtualEnvForNewerDjango).
+I> PythonAnywhere also provides instructions on how to set up virtual environments. [Check out their Wiki documentation for more information](https://help.pythonanywhere.com/pages/VirtualEnvForNewerDjango).
 
 ### Virtual Environment Switching
 Moving between virtual environments can be done pretty easily. PythonAnywhere should have this covered for you. Below, we provide you with a quick tutorial on how to switch between virtual environments.
 
-At your terminal, you can launch into a existing virtual environment with the `workon` command. For example, to load up the `rangoenv` environment, enter the following command.
+At your terminal, you can launch into an existing virtual environment with the `workon` command. For example, to load up the `rangoenv` environment, enter the following command.
 
 {lang="text",linenos=off}
 	~ $ workon rangoenv
@@ -109,12 +109,12 @@ You can then leave the virtual environment using the `deactivate` command. Your 
 	~ $
 
 ### Cloning your Git Repository {#sec-deploy-cloning}
-Now that your virtual environment for Rango is all setup, you can now clone your Git repository to obtain a copy of your project's files. Clone your repository by issuing the following command from your home directory.
+Now that your virtual environment for Rango is all set up, you can now clone your Git repository to obtain a copy of your project's files. Clone your repository by issuing the following command from your home directory.
 
 {lang="text",linenos=off}
 	$ git clone https://github.com/<OWNER>/<REPO_NAME>
 
-Obviously, you will be looking to replace `<OWNER>` with the username of the person who owns the repository, and `<REPO_NAME>` with the name of your project's repository. For example, a repository `tango_with_django_project` hosted by `djangolearner` would have the following command.
+You will of course be looking to replace `<OWNER>` with the username of the person who owns the repository and `<REPO_NAME>` with the name of your project's repository. For example, a repository `tango_with_django_project` hosted by `djangolearner` would have the following command.
 
 {lang="text",linenos=off}
 	$ git clone https://github.com/djangolearner/tango_with_django_project
@@ -139,7 +139,7 @@ With your repository cloned, you must then prepare your database. If you have th
 From your home directory (denoted by the `~` in your prompt), you want to navigate to the directory containing your `manage.py` and `populate_rango.py` scripts. Following the instructions we provided earlier in the book, this would be located at `~/tango_with_django_project/` -- the directory that you just cloned. If you chose to follow a different structure, navigate to the location where these files are stored.
 
 T> ### How do I navigate?
-T> In a Bash terminal, you can change the directory with the `cd` command, followed by the path you wish to change to. In this instance you would issue the command `cd ~/tango_with_django_project/`.
+T> In a Bash terminal, you can change the directory with the `cd` command, followed by the path you wish to change to. In this instance, you would issue the command `cd ~/tango_with_django_project/`.
 T>
 T> Note that when you change directory, your prompt will change to reflect your *present working directory.* `~ $` would change to `~/tango_with_django_project $`, for instance.
 
@@ -154,7 +154,7 @@ Once you have changed directory, issue the following commands. These should be s
 You should know exactly what all of these commands do. Of course, the final command will require some interaction on your part to create an administrator's account for your Django project.
 
 ## Setting up your Web Application
-Now that the database is setup, we need to configure the PythonAnywhere [*NGINX*](https://www.nginx.com/resources/wiki/) web server to serve up your application. To do this, navigate back to your PythonAnywhere dashboard, fine the *Web apps* section, and click the *Open Web tab* button. On the left of the page that appears, click *Add a new web app.*
+Now that the database is set up, we need to configure the PythonAnywhere [*NGINX*](https://www.nginx.com/resources/wiki/) webserver to serve up your application. To do this, navigate back to your PythonAnywhere dashboard, fine the *Web apps* section, and click the *Open Web tab* button. On the left of the page that appears, click *Add a new web app.*
 
 A popup box will then appear. Follow the instructions on-screen, and when the time comes, select the *manual configuration* option and complete the wizard. Make sure you select the same Python version as the one you selected earlier. Click *Next*, and PythonAnywhere will then set up your web app, redirecting you to an updated *Web app* page, complete with a green button to reload the app.
 
@@ -164,16 +164,16 @@ In a new tab or window in your web browser, go visit your PythonAnywhere subdoma
 ![The default PythonAnywhere *hello world* webpage.](images/ch-deploy-hello-world.png)
 
 ### Configure the Virtual Environment
-Before we do this however, we need to configure our new web app to use the virtual environment we set up previously. Navigate to the *Web* tab in PythonAnywhere's interface if you aren't already there. From there, scroll all the way down the page until you see the heading *Virtualenv*. 
+However, before we do this, we need to configure our new web app to use the virtual environment we set up previously. Navigate to the *Web* tab in PythonAnywhere's interface if you aren't already there. From there, scroll down the page until you see the heading *Virtualenv*. 
 
-Enter in the path to your virtual environment. Click the red text, which is replaced with an input box. Assuming you created a virtual environment called `rangoenv`, the path would be:
+Enter the path to your virtual environment. Click the red text, which is replaced with an input box. Assuming you created a virtual environment called `rangoenv`, the path would be:
 
 {lang="text",linenos=off} 
 	/home/rangodemo2019/.virtualenvs/rangoenv
 
 When you have entered the path, click the tick so submit it. Once again, we ask you to replace `rangodemo2019` with your PythonAnywhere username.
 
-Now scroll up the page to the *Code* section. From here, you can set the path to your Django project's source code. Click the red text next to *Source code*, which will again turn into an input field.
+Now scroll to the *Code* section. From here, you can set the path to your Django project's source code. Click the red text next to *Source code*, which will again turn into an input field.
 
 {lang="text",linenos=off} 
 	/home/rangodemo2019/tango_with_django_project/
@@ -220,14 +220,14 @@ When you have completed the WSGI configuration, click the green *Save* button at
 ### Allowing your Hostname
 Django provides a useful security feature which will only accept requests from particular, *allowed* hosts. By only allowing specified domains to be served by your web server, this reduces the chance that your app could be part [HTTP Host Header attack](https://www.acunetix.com/blog/articles/automated-detection-of-host-header-attacks/). If you were to load and view your application now, you would encounter a `DisallowedHost` exception stopping your app from loading.
 
-This is a simple problem to fix, and involves a change in your project's `settings.py` module. First, work out your app's URL on PythonAnywhere. For a basic account, this will be `rangodemo2019.pythonanywhere.com`, where `rangodemo2019` is replaced with your PythonAnywhere username. It's a good idea to edit this file locally (on your own computer), then `git add`, `git commit` and `git push` your changes to your Git repository, before downloading the changes to your PythonAnywhere account. Alternatively, you can edit the file directly on PythonAnywhere by editing the file in the web interface's files component -- or using a text editor in the terminal, like `nano` or `vi`.
+This is a simple problem to fix and involves a change in your project's `settings.py` module. First, work out your app's URL on PythonAnywhere. For a basic account, this will be `rangodemo2019.pythonanywhere.com`, where `rangodemo2019` is replaced with your PythonAnywhere username. It's a good idea to edit this file locally (on your computer), then `git add`, `git commit` and `git push` your changes to your Git repository, before downloading the changes to your PythonAnywhere account. Alternatively, you can edit the file directly on PythonAnywhere by editing the file in the web interface's files component -- or using a text editor in the terminal, like `nano` or `vi`.
 
 With this information, open your project's `settings.py` module and locate the `ALLOWED_HOSTS` list, which by default will be empty (and found near the top of the file). Add a string with your PythonAnywhere URL into that list -- such that it now looks like the following example.
 
 {lang="python",linenos=off}
 	ALLOWED_HOSTS = ['rangodemo2019.pythonanywhere.com']
 
-If you have edited the file on your own computer, you can now go through the (hopefully) now familiar process of running the `git add settings.py`, `git commit` and `git push` commands to make changes to your Git repository. Once done, you should then run the `git pull` command to retrieve the changes on your PythonAnywhere account through a console. If you have edited the file directly on PythonAnywhere, simply save the file.
+If you have edited the file on your computer, you can now go through the (hopefully) familiar process of running the `git add settings.py`, `git commit` and `git push` commands to make changes to your Git repository. Once done, you should then run the `git pull` command to retrieve the changes on your PythonAnywhere account through a console. If you have edited the file directly on PythonAnywhere, simply save the file.
 
 T> ### No Place like `127.0.0.1`
 T> When debugging, you might also want to add the host `127.0.0.1` to your `ALLOWED_HOSTS` list so that you'll be able to continue working on your app locally. Of course, this should be removed in production.
@@ -239,7 +239,7 @@ All that then remains is for you to reload your PythonAnywhere app. This can be 
 
 	
 I> ### Bad Gateway Errors
-I> During deployment sometimes you might receive `HTTP 502 - Bad Gateway` errors instead of your application. Try reloading your application again, and then waiting a longer. If the problem persists, try reloading again. If the problem still persists, [check out your log files](#section-deploy-logfiles) to see if any errors are occurring before contacting the PythonAnywhere support.
+I> During deployment sometimes you might receive `HTTP 502 - Bad Gateway` errors instead of your application. Try reloading your application again, and then waiting a little longer. If the problem persists, try reloading again. If the problem persists, [check out your log files](#section-deploy-logfiles) to see if any errors are occurring before contacting the PythonAnywhere support.
 
 ### Setting the Secret Key
 It is wise not to commit your secret key your git repository -- and instead load the key in from a separate, uncommitted file. To do this, open your project's `settings.py` file and either change the secret key that you are using in production (a hacky solution), or load it from a file, as we demonstrate with the example below.
@@ -259,14 +259,14 @@ While you are adding secret keys, also [add your search API key]({#section-bing-
 ### Turning off `DEBUG` Mode
 Next, you need to turn off the debug mode. If you leave debug mode on, you can providing hackers with sensitive information about your web application when they get it to crash through the helpful error messages that will have undoubtedly helped you during development.
 
-Therefore, we highly recommend that you instruct Django that it is now running on a production server. To do this, open your project's `settings.py` file and change `DEBUG = True` to `DEBUG = False`. This disables [Django's debug mode](https://docs.djangoproject.com/en/2.1/ref/settings/#debug), and removes explicit error messages. You can still however view Python stack traces to debug any exceptions that are raised as people use your app. These are provided in the server logs, as we will [discuss later](#section-deploy-logfiles).
+Therefore, we highly recommend that you instruct Django that it is now running on a production server. To do this, open your project's `settings.py` file and change `DEBUG = True` to `DEBUG = False`. This disables [Django's debug mode](https://docs.djangoproject.com/en/2.1/ref/settings/#debug), and removes explicit error messages. However, you can still view Python stack traces to debug any exceptions that are raised as people use your app. These are provided in the server logs, as we will [discuss later](#section-deploy-logfiles).
 
 T> ### Remember to `git add`, `git commit` and `git push` -- and Reload!
 T> If you edit your files locally, you'll need to push them up to your Git repository and `git pull` in a PythonAnywhere console.
 T> Furthermore, remember to reload your app on PythonAnywhere anytime you make changes to it! If you don't, your changes won't be applied. This can be done by pushing the green *Reload* button in the *Web* tab of the PythonAnywhere interface.
 
 ### Assigning Static Paths
-We're almost there. One issue that we still have to address is to sort out static paths for our application. Doing so will allow PythonAnywhere's servers to serve your project's static content. Open the *Web* tab of the PythonAnywhere interface to fix this.
+We're almost there. One issue that we still have to address is to sort out the static paths for our application. Doing so will allow PythonAnywhere's servers to serve your project's static content. Open the *Web* tab of the PythonAnywhere interface to fix this.
 
 Once loaded, perform the following under the *Static files* header. Here, we need to add the correct URLs and filesystem paths to allow PythonAnywhere's web server to find and serve your static media files.
 
@@ -280,10 +280,10 @@ As usual, replace `rangodemo2019` with your PythonAnywhere username. `python3.7`
 
 We will also need to add a further mapping to serve Rango's static files. Once again. click *Enter URL*, this time on the second line, and enter `/static/`. Confirm this entry. The path entry should then be something similar to `/home/rangodemo2019/tango_with_django_project/static`. In essence, you should point this path to the location of the `static` directory in your project. For our example, this path works -- `rangodemo2019` is our PythonAnywhere username, and `tango_with_django_project` is the directory in which our Git repository was cloned.
 
-Once completed, your app should then have access to its stylesheets, images and JavaScript files. The same applies for the Django admin interface. Don't forget to *Reload* your app once these paths have been applied!
+Once completed, your app should then have access to its stylesheets, images and JavaScript files. The same applies to the Django admin interface. Don't forget to *Reload* your app once these paths have been applied!
 
 ### Enabling HTTPS
-PythonAnywhere also provides really straightforward support for enabling [HTTPS](https://en.wikipedia.org/wiki/HTTPS) functionality, adding a layer of encryption between the client and server. PythonAnywhere can provide you with a security certificate to say your app is genuine. It's super easy, and definitely worth doing!
+PythonAnywhere also provides really straightforward support for enabling [HTTPS](https://en.wikipedia.org/wiki/HTTPS) functionality, adding a layer of encryption between the client and the server. PythonAnywhere can provide you with a security certificate to say your app is genuine. It's super easy, and definitely worth doing!
 
 To enable HTTPS, go to the *Web* tab of the PythonAnywhere interface, and look for the *Security* section. Find the switch for *Force HTTPS*, and switch this feature on. Once you have done this, scroll up to the top of the page and *Reload* your app once more. If you then navigate to your app's URL, you should then notice that you are redirected to `https://rangodemo2019.pythonanywhere.com` (of course, replacing `rangodemo2019` with your username!) -- denoting that you are using your app using HTTPS.
 
@@ -291,7 +291,7 @@ To enable HTTPS, go to the *Web* tab of the PythonAnywhere interface, and look f
 ![Rango, deployed using HTTPS. Excellent!](images/ch-deploy-https.png)
 
 ## Log Files {#section-deploy-logfiles}
-Deploying your app to an online environment introduces another layer of complexity to proceedings. It is likely that you will encounter new and potentially confusing errors due to a whole host of additional problems you can face. When facing such errors, vital clues to help you solve them can be found in one of three log files that PythonAnywhere's web server creates for you.
+Deploying your app to an online environment introduces another layer of complexity to proceedings. You will likely encounter new and potentially confusing errors due to a whole host of additional problems you can face. When facing such errors, vital clues to help you solve them can be found in one of three log files that PythonAnywhere's web server creates for you.
 
 If you find yourself confused with an issue, you can view the log files on the PythonAnywhere web interface. Clicking the *Web* tab, look for the *Log files* section. Alternatively, you can access logs from the console in directory `/var/log/`. The three log files are:
 
@@ -304,7 +304,7 @@ Note that the names for each log file are prepended with your subdomain. For exa
 When debugging, you may find it useful to delete or move the log files so that you don't have to scroll through a huge list of previous attempts. If the files are moved or deleted, they will be recreated automatically when a new request or error arises. The most recent issue appears at the bottom of the file, and it will provide you with the clues you need to solve it. Remember, you can always paste the error message into your search engine to see what others have done to solve the problem. We are sure that you won't be the first person to encounter the problem you are facing!
 
 X> ###Exercises
-X> Congratulations, you've successfully completed and deployed Rango!
+X> Congratulations, you've completed and deployed Rango!
 X> 
 X> - Go through the [Django's Security Deployment Checklist](https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/) and configure your application to be more secure.
 X> -  Tweet a link of your application to [@tangowithdjango](https://twitter.com/tangowithdjango).

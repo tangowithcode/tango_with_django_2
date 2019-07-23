@@ -4,10 +4,10 @@
 I> ### Need More Information?
 I> If you're haven't used AJAX before, or require more information to grasp a better understanding of what AJAX achieves, check out the [AJAX resources page at the Mozilla website](https://developer.mozilla.org/en-US/docs/AJAX).
 
-As the title may suggest, we'll be working towards incorporating some AJAX requests into Rango during this chapter. To aid our development, we'll also be using the JQuery framework. If you haven't worked through the [JQuery chapter](#chapter-jquery), we recommend you have a look at that now so everything is set up and ready to go.
+As the title may suggest, we'll be working towards incorporating some AJAX requests into Rango during this chapter. To aid in our development, we'll also be using the JQuery framework. If you haven't worked through the [JQuery chapter](#chapter-jquery), we recommend you have a look at that now so everything is set up and ready to go.
 
 ## AJAX and Rango
-What exactly will we be implementing in this chapter? Well, there's still one more major requirement outlined in our [introductory chapter](#overview-design-brief-label) that we still haven't satisfied! Users should be able to *like* a particular category. You may remember that we worked on this earlier in the book -- but we only covered *displaying* the number of likes that a category had received. We didn't implement functionality that allows a user to actually increase the count! This is what we'll be doing in this chapter. Specifically, we're going to:
+What exactly will we be implementing in this chapter? Well, there's still one more major requirement outlined in our [introductory chapter](#overview-design-brief-label) that we still haven't satisfied! Users should be able to *like* a particular category. You may remember that we worked on this earlier in the book -- but we only covered *displaying* the number of likes that a category had received. We didn't implement functionality that allows a user to increase the count! This is what we'll be doing in this chapter. Specifically, we're going to:
 
 - add a *like button* to allow registered users to "like" a particular category;
 - add inline category suggestions, so that when a user types, they can quickly find a specific category; and
@@ -16,12 +16,12 @@ What exactly will we be implementing in this chapter? Well, there's still one mo
 All of these features will be implemented using AJAX technologies to make the user experience seamless. However, before we get stuck in, let's create a new JavaScript file called `rango-ajax.js`. This file will house all of our AJAX code for the features we implement in this chapter. Like existing JavaScript files, create this file in your project's `static/js/` directory. You'll also want to add a reference to this file in Rango's `base.html` template, underneath the existing references that we worked on in the previous chapter. As a reminder, these are located towards the bottom of the template.
 
 I> ### JQuery Assumption
-I> We assume that you have completed the [previous chapter on JQuery](#chapter-jquery) -- and are using version 3.3.1 of JQuery for this exercise. If you haven't gone through the setup steps of this chapter *at the very least,* we high recommend that you go through those steps now.
+I> We assume that you have completed the [previous chapter on JQuery](#chapter-jquery) -- and are using version 3.3.1 of JQuery for this exercise. If you haven't gone through the setup steps of this chapter *at the very least,* we highly recommend that you go through those steps now.
 
 Now with everything set up and ready to go, let's get to work.
 
 ## Adding a "Like" Button
-The functionality for ordering categories by likes was previously implemented in a previous chapter. Checking out Rango's homepage, categories are ordered by the number of likes they receive (in descending order). However, it would be nice to allow registered users of Rango to express their own fondness of a particular category by providing them with the ability to *like* it, too!
+The functionality for ordering categories by likes was previously implemented in a previous chapter. Checking out Rango's homepage, categories are ordered by the number of likes they receive (in descending order). However, it would be nice to allow registered users of Rango to express their fondness of a particular category by providing them with the ability to *like* it, too!
 
 In the following workflow, we will allow registered users to *like* categories, but we won't be keeping track of what they have *liked*. A registered user could click the like button multiple times if they refresh the page. This is the simplest implementation -- if we wanted to keep track of what categories they liked, too, we would have to add an additional model and other supporting infrastructure. We'll leave this advanced step for you to complete as an exercise.
 
@@ -47,7 +47,7 @@ Study the diagram carefully to help your understanding of what will be implement
 ### Updating the Category Template
 Our first step is to prepare Rango's `category.html` template for the new AJAX functionality. We'll need to add in the `Like Category` button, complete with a unique ID of `like_btn`, as well as adding a new element that will contain the number of likes a category has received.
 
-To do this, open up the `category.html` template and locate the `<h1>` tag that displays the `{{ category.name }}`. After the `<h1>` tag has been closed, take a newline, and add in the following markup and template code.
+To do this, open up the `category.html` template and locate the `<h1>` tag that displays the `{{ category.name }}`. After the `<h1>` tag has been closed, take a line break, and add in the following markup and template code.
 
 {lang="html",linenos=off}
 	<div>
@@ -92,7 +92,7 @@ Our implementation is shown below. Remember, this code would live inside Rango's
 
 Upon examination of the code above, you can see that we are only allowing users who are logged in to access this view -- hence the `@method_decorator(login_required)` decorator. We also implement some rudimentary error handling. If the user provides a category ID that does not exist, or the category ID supplied cannot be converted to an integer, `-1` is returned in the response. Otherwise, the `likes` attribute for the given category is incremented by one, with the updated value being returned.
 
-You should have all of the necessary `import` statements required for this to work -- but double check that the following is present. This was used right back at the beginning of the tutorial, and you may have taken it out when cleaning up your code.
+You should have all of the necessary `import` statements required for this to work -- but double-check that the following is present. This was used right back at the beginning of the tutorial, and you may have taken it out when cleaning up your code.
 
 {lang="python",linenos=off}
 	from django.http import HttpResponse
@@ -133,9 +133,9 @@ T> This can take a while to get your head around, but this is worth repeating --
 T>
 T> Once the request comes back from the server, the browser and JQuery jump back into action, calling the anonymous function we provided in the code above. In short, this anonymous function is called when the response comes through, *not immediately when the user clicks the `Like Category` button.*
 T>
-T> If the browser waited for the response to come back, it would appear to crash! It wouldn't be able to accept any further input from the user until the response comes back. This is highly undesirable. What if the server doesn't respond, or takes substantially longer to respond than you design for? This is why designing systems that are asynchronous is such a challenge, and is one reason why using JQuery is such a bonus -- can take care of most of the issues for you!
+T> If the browser waited for the response to come back, it would appear to crash! It wouldn't be able to accept any further input from the user until the response comes back. This is highly undesirable. What if the server doesn't respond, or takes substantially longer to respond than you design for? This is why designing asynchronous systems is such a challenge and is one reason why using JQuery is such a bonus -- can take care of most of the issues for you!
 
-With this code implemented, try everything out! Make sure you are logged into Rango, and like the category. You should see the `Like Category` button disappear, and the count of the number of likes increase. To double check everything, check the output of your development server. You should see a request to `/rango/like_category/` -- as shown in [the screenshot below](#fig-ajax-terminal). This is proof that the request was passed to the server.
+With this code implemented, try everything out! Make sure you are logged into Rango, and like the category. You should see the `Like Category` button disappear, and the count of the number of likes increases. To double-check everything, check the output of your development server. You should see a request to `/rango/like_category/` -- as shown in [the screenshot below](#fig-ajax-terminal). This is proof that the request was passed to the server.
 
 {id="fig-ajax-terminal"}
 ![Output of the Django development server, showing the AJAX request going through (highlighted in red). The request shows that the `category_id` being passed was set to `1` -- and from the log above (which shows the initial category page load), we can see that the request was for the `Python` category.](images/ajax-terminal.png)
@@ -143,7 +143,7 @@ With this code implemented, try everything out! Make sure you are logged into Ra
 ##Adding Inline Category Suggestions
 With a simple AJAX example implemented, let's try something more complex. Let's imagine a scenario where Rango has been populated with dozens of categories. If a user wishes to find one specific category, they would currently need to examine a long list of categories. That's annoying! A faster way to allow users to find the category they are looking for would be to provide a suggestion component. Users can start typing in the name of the category they are searching for, and Rango would respond with a list of suggested categories that the user can then select from. In essence, this feature would provide a form of *filtering* to allow the user to narrow down the options available to him or her.
 
-We can of course achieve this with AJAX. Whenever the user types in a letter from their keyboard, we can send a request off to the Django server, and ask it to return a list of potential filtered down category matches. This list of categories can then be rendered within the loaded page. To ensure this functionality is present across the Rango app, we'll be looking to implement it on left-hand category listing section.
+We can, of course, achieve this with AJAX. Whenever the user types in a letter from their keyboard, we can send a request off to the Django server, and ask it to return a list of potential filtered down category matches. This list of categories can then be rendered within the loaded page. To ensure this functionality is present across the Rango app, we'll be looking to implement it on the left-hand category listing section.
 
 ### Workflow
 To implement this, we'll need to undertake the following steps.
@@ -151,13 +151,13 @@ To implement this, we'll need to undertake the following steps.
 1. First, we'll need to create a parameterised function called `get_category_list()`. This function will take two parameters, namely `max_results` (defaulting to `0`), and `starts_with` (defaulting to an empty string, `''`). The function will return a list of categories that match what the user is looking for.
 	- `max_results` will limit how many results to return. If `0` is specified, no limit is placed on how many categories are returned.
 	- `starts_with` will represent what the user has supplied so far. Imagine if the user is looking for `python`, a potential string being passed here could be `pyt` -- meaning that the user has supplied the first three characters of what they are looking for.
-2. Second, a further view will need to be created. We'll call this `CategorySuggestionView`. This will again be class-based, and will be accessed through the URL mapping `/rango/suggest/` (with a name of `suggest`). This view will take the user's suggestion, and will return a list of the top eight suggestions for what the user has provided.
-	- We will assume that this achieved through a HTTP `GET` request.
+2. Second, a further view will need to be created. We'll call this `CategorySuggestionView`. This will again be class-based and will be accessed through the URL mapping `/rango/suggest/` (with a name of `suggest`). This view will take the user's suggestion, and will return a list of the top eight suggestions for what the user has provided.
+	- We will assume that this achieved through an HTTP `GET` request.
 	- We will check if the querystring provided to the view is empty. If it contains something, we'll call `get_category_list()` to get the top eight results for the supplied string.
 	- The results from `get_category_list()` will be munged together in an existing template, `categories.html`. This is what we used to display the category listing on the left-hand side of Rango's pages, through the custom template tag we implemented earlier.
 
 T> ### Notice the Pattern
-T> Like in the first example where we implemented the ability to like a category, we will once again be implementing a further view here. **AJAX requests need their own views as a means to communicate with the server.** It's just the same as a standard, synchronous request!
+T> Like in the first example where we implemented the ability to like a category, we will once again be implementing a further view here. **AJAX requests need their views as a means to communicate with the server.** It's just the same as a standard, synchronous request!
 
 With the URL mapping, view and template then in place, we will need to alter Rango's `base.html` template to provide a search box, which will allow users to enter their request. After that, we'll then need to implement some further JavaScript/JQuery to glue the client-side and server-side functionality together.
 
@@ -189,10 +189,10 @@ By adding an ID of `categories-listing`, we are providing a way for our future J
 
 Our new `input` element is of type `search` (which permits string entry), and is assigned an `id` of `search-input`. We also use a `placeholder` message of `Search...` to greet the user and prompt them that they can use this box to search for a category in the provided list. Note the inclusion of several Bootstrap classes to aid styling.
 
-We'll come back to gluing these components to our server-side code later on.
+We'll come back to glueing these components to our server-side code later on.
 
 X> ### Populate Exercise
-X> Update Rango's population script. Add in the following categories: `Pascal`, `Perl`, `PHP`, `Prolog`, `PostScript` and `Programming`. Run the population script to add these new categories to your database. You don't need to worry about adding pages for each new category, although you can if you wish to do so. If you don't want to do this, just pass an empty list (`[]`) for value of `pages`.
+X> Update Rango's population script. Add in the following categories: `Pascal`, `Perl`, `PHP`, `Prolog`, `PostScript` and `Programming`. Run the population script to add these new categories to your database. You don't need to worry about adding pages for each new category, although you can if you wish to do so. If you don't want to do this, just pass an empty list (`[]`) for the value of `pages`.
 X> By adding these additional categories, trying out the new inline category suggestion functionality will be a more impressive experience later on.
 
 ### The `get_category_list()` Helper Function
@@ -213,10 +213,10 @@ This function can be added to Rango's `views.py` module. If you want to, you cou
 	    
 	    return category_list
 
-Note that this function meets the requirements we defined above in that it takes two parameters -- `max_results`, allowing one to specify how many items to return, and `starts_with`, the user's input string. Note how we used the `filter` method to perform the `__istartswith` filter, looking for matches to `starts_with`. If `max_results==0`, we assume that all results are to be returned; otherwise, we chop the list using a standard Python list subindexing operation.
+Note that this function meets the requirements we defined above in that it takes two parameters -- `max_results`, allowing one to specify how many items to return, and `starts_with`, the user's input string. Note how we used the `filter` method to perform the `__istartswith` filter, looking for matches to `starts_with`. If `max_results==0`, we assume that all results are to be returned; otherwise, we chop the list using a standard Python list sub indexing operation.
 
 ### The `CategorySuggestionView`
-With our helper function defined, we can then make a new class-based view to make use of it. Remember, we're only dealing with a `GET` request here -- so, like in the example before, out view will only implement a `get()` method. The method will also be available to all, so there is no need to restrict it to users who are logged in.
+With our helper function defined, we can then make a new class-based view to make use of it. Remember, we're only dealing with a `GET` request here -- so, like in the example before, our view will only implement a `get()` method. The method will also be available to all, so there is no need to restrict it to users who are logged in.
 
 {lang="python",linenos=off}
 	class CategorySuggestionView(View):
@@ -267,15 +267,15 @@ This code binds a `keypress` event (when a user presses a key on their keyboard/
 Once the server responds, the anonymous function is called, with `data` containing the response -- or list of categories that match the user's query. This list is then simply placed inside the `categories-listing` `<div>` element we updated earlier -- replacing any existing content within the `<div>`. Job done. Have a look at the screenshots below to see the new functionality in action.
 	
 {id="fig-exercises-suggestion"}
-![An example of the inline category suggestions. Notice how the suggestions populate and change as the user types each individual character.](images/exercises-suggestion.png)
+![An example of the inline category suggestions. Notice how the suggestions populate and change as the user types each character.](images/exercises-suggestion.png)
 
 ## Further AJAX-ing
 Having gone through two examples of how to incorporate AJAX within the Rango app, why not try one more? This time, *treat this as an exercise.* We'll lay out the specification for you and provide code snippets that will help you towards a solution. However, we implore you to solve it for yourself. If you need help, try going online and searching for a solution. Figuring out what query to type into a search engine can sometimes be half the battle in getting the help you require.
 
 ### Specification
-We added several new categories to test out our category suggestion feature earlier on. If you didn't add pages to those categories, they'll just be blank. With the Bing Search functionality integrated within a category page, one missing link that we have not yet covered is providing a user the ability to *add a page from search results.*
+We added several new categories to test out our category suggestion feature earlier on. If you didn't add pages to those categories, they'll just be blank. With the Bing Search functionality integrated within a category page, one missing link that we have not yet covered is providing a user with the ability to *add a page from search results.*
 
-That is, when a registered user issues a query and retrieves results, can we provide an `Add` button next to a search result to let the user add this page to the category they are looking at? Furthermore, can this be done through the use of AJAX?
+That is when a registered user issues a query and retrieves results, can we provide an `Add` button next to a search result to let the user add this page to the category they are looking at? Furthermore, can this be done through the use of AJAX?
 
 Here's a rough workflow to assist you in finding a solution to this problem.
 
@@ -295,7 +295,7 @@ T>
 T> However, having an `Add` button for *each page* returned from the Bing Search API presents a problem. How do you get JQuery to be able to bind code to all of them? Use the class selected (`.`) instead of the ID selector (`#`)! You can create a new class, apply it to each button, and then select items using that class with JQuery.
 
 ### Code Snippets
-We've included several code snippets to help you along with this exercise. Our sample markup and template code that provides a `<button>` to `Add` a new page from search results is shown below.
+We've included several code snippets to help you along with this exercise. Our sample markup and template code that provides a `<button>` to `Add` a new page from search results are shown below.
 
 {lang="html",linenos=off}
 	<button class="btn btn-info btn-sm rango-page-add"
@@ -353,7 +353,7 @@ Given the appropriate URL mapping (that we will leave for you to implement), we 
 	        pages = Page.objects.filter(category=category).order_by('-views')
 	        return render(request, 'rango/page_listing.html', {'pages': pages})
 
-This sample class-based view complies with all requirements -- it only allows those who are logged in to add a page, and it expects input from the client with key names as per the JQuery AJAX call we implemented previously. While error handling is very rudimentary (look at the `except` blocks), it does at least catch basic error cases. Passing all of these, the code then creates (or gets, if it already exists), a page with the details passed, obtains a list of all the pages associated with the given category, and calls `render` with a new `page_listing.html` template.
+This sample class-based view complies with all requirements -- it only allows those who are logged in to add a page, and it expects input from the client with key names as per the JQuery AJAX call we implemented previously. While error handling is very rudimentary (look at the `except` blocks), it does at least catch basic error cases. Passing all of these, the code then creates (or gets, if it already exists), a page with the details passed, obtains a list of all the pages associated with the given category and calls `render()` with a new `page_listing.html` template.
 
 Within this new `rango/page_listing.html` template, we simply copy and paste the markup and template code within Rango's `category.html` template that dealt with listing pages.
 

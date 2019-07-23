@@ -6,17 +6,17 @@ I> This chapter provides instructions on how to set up the various technologies 
 I> 
 I> If you are using this book as part of a course, you may be provided with setup instructions unique to your lab computers. Follow these instructions instead -- a majority of the setup work will likely be taken care of for you already.
 I>
-I> However, if you are working solo on your own computer and you follow the instructions provided in this chapter without success, we recommend heading to your favourite search engine and entering the problem you're having. Typically, this will involve copying and pasting the error message you see at whatever step you're struggling at. By pasting in the message verbatim, chances are you'll find someone who suffered the same issue as you -- and from that point, you'll hopefully find a solution to resolve your problem.
+I> However if you are working solo on your computer and you follow the instructions provided in this chapter without success, we recommend heading to your favourite search engine and entering the problem you're having. Typically, this will involve copying and pasting the error message you see at whatever step you're struggling at. By pasting in the message verbatim, chances are you'll find someone who suffered the same issue as you -- and from that point, you'll hopefully find a solution to resolve your problem.
 
 ## Installing Python 3 and `pip` {#section-system-setup-python}
-How do you go about installing Python 3.7 on your computer? This section answers that question. As we [discussed previously](#chapter-getting-ready-python3), you may find that you already have Python installed on your computer. If you are using a Linux distribution or macOS, you will definitely have it installed. Some of your operating system's functionality [is implemented in Python](http://en.wikipedia.org/wiki/Yellowdog_Updater,_Modified), hence the need for an interpreter! Unfortunately, most modern operating systems that come preloaded with Python use a version that is much older than what we require. Exceptions include Ubuntu, coming with version 3.6.5 which should be sufficient for your needs. If you do need to install 3.7, we must install this version of Python *side-by-side* with the old one.
+How do you go about installing Python 3.7 on your computer? This section answers that question. As we [discussed previously](#chapter-getting-ready-python3), you may find that you already have Python installed on your computer. If you are using a Linux distribution or macOS, you will have it installed. Some of your operating system's functionality [is implemented in Python](http://en.wikipedia.org/wiki/Yellowdog_Updater,_Modified), hence the need for an interpreter! Unfortunately, most modern operating systems that come preloaded with Python use a version that is much older than what we require. Exceptions include Ubuntu, coming with version 3.6.5 which should be sufficient for your needs. If you do need to install 3.7, we must install this version of Python *side-by-side* with the old one.
 
-There's many different ways in which you can install Python. We demonstrate here the most common approaches that you can use on Apple's macOS, various Linux distributions and Windows 10. Pick the section associated with your operating system to proceed. Note that we favour the use of [package managers](https://en.wikipedia.org/wiki/Package_manager) where appropriate to ensure that you have the means of maintaining and updating the software easily (when required).
+There are many different ways in which you can install Python. We demonstrate here the most common approaches that you can use on Apple's macOS, various Linux distributions and Windows 10. Pick the section associated with your operating system to proceed. Note that we favour the use of [package managers](https://en.wikipedia.org/wiki/Package_manager) where appropriate to ensure that you have the means of maintaining and updating the software easily (when required).
 
 ### Apple macOS
 The simplest way to acquire Python 3 for macOS is to download a `.dmg` image file from the [official Python website](https://www.python.org/downloads/mac-osx/). This will provide you with a step-by-step installation interface that makes setting everything up straightforward. If your development environment will be kept lightweight (i.e. Python only), this option makes sense. Simply download the installer, and Python 3 should then be available on your Mac's terminal!
 
-However, [package managers make life easier](https://softwareengineering.stackexchange.com/questions/372444/why-prefer-a-package-manager-over-a-library-folder) when development steps up and involves a greater number of software tools. Installing a package manager makes it easy to maintain and update software on your computer -- and even to install new software, too. macOS does not come preinstalled with a package manager, so you need to download and install one yourself. If you want to go down this route, we'll introduce you to *MacPorts*, a superb package manager offering a [large host of tools](https://www.macports.org/ports.php) for you to download and use. We recommend that you follow this route. Although more complex, the end result will be a complete development environment, ready for you to get coding and working on whatever project you (or your future self!) will be entrusted with.
+However, [package managers make life easier](https://softwareengineering.stackexchange.com/questions/372444/why-prefer-a-package-manager-over-a-library-folder) when development steps up and involves a greater number of software tools. Installing a package manager makes it easy to maintain and update the software on your computer -- and even to install new software, too. macOS does not come preinstalled with a package manager, so you need to download and install one yourself. If you want to go down this route, we'll introduce you to *MacPorts*, a superb package manager offering a [large host of tools](https://www.macports.org/ports.php) for you to download and use. We recommend that you follow this route. Although more complex, the result will be a complete development environment, ready for you to get coding and working on whatever project you (or your future self!) will be entrusted with.
 
 A prerequisite for using MacPorts is that you have Apple's *Xcode* environment installed. This download is several gigabytes in size. The easiest way to acquire this is through the App Store on your macOS installation. You'll need your Apple account to download that software. Once XCode has been installed, follow the following steps to setup MacPorts.
 
@@ -57,7 +57,7 @@ Once the MacPorts installation has been completed, installing Python is straight
    
 4. Test that the command succeeds by issuing the command `$ python`. You should then see the interpreter for Python 3.7.2 (or whatever version you just installed -- as long as it starts with `3.7`, this will be fine).
 
-Once this has been completed, Python has been successfully installed and is ready to use. However, we still need to setup virtual environments to work with your installation.
+Once this has been completed, Python has been successfully installed and is ready to use. However, we still need to set up virtual environments to work with your installation.
 
 1. Enter the following commands to install `virtualenv` and helper functions provided in the user-friendly wrapper.
    
@@ -70,7 +70,7 @@ Once this has been completed, Python has been successfully installed and is read
    {lang="bash",linenos=off}
    	$ sudo port select --set virtualenv virtualenv37
 
-3. Edit your `~/.profile` file. This can be done with the *TextEdit* app in MacOS by issuing the command `$ open ~/.profile`. Add the following four lines at the end of the file.
+3. Edit your `~/.profile` file. This can be done with the *TextEdit* app in macOS by issuing the command `$ open ~/.profile`. Add the following four lines at the end of the file.
    
    {lang="bash",linenos=off}
    	export VIRTUALENVWRAPPER_PYTHON='/opt/local/bin/python3.7'
@@ -90,13 +90,13 @@ I>
 I> To view the packages MacPorts has already installed on your system, issue the command `$ port list installed`. You will see `python37` listed!
 
 ### Linux Distributions
-There are many different ways in which you can download, install and run an updated version of Python on your Linux distribution. Methodologies unfortunately vary from distribution to distribution. To compound this, almost all distributions of Linux don't have a precompiled version of Python 3.7 ready for you to download and start using (at the time of writing), although the latest release of Ubuntu use Python 3.6 (which is sufficient).
+There are many different ways in which you can download, install and run an updated version of Python on your Linux distribution. Unfortunately, methodologies vary from distribution to distribution. To compound this, almost all distributions of Linux don't have a precompiled version of Python 3.7 ready for you to download and start using (at the time of writing), although the latest release of Ubuntu uses Python 3.6 (which is sufficient).
 
-If you do choose to install a new version of Python, we've put together a series of steps that you can follow. These will allow you to install Python 3.7.2 from scratch. The steps have been tested thoroughly in Ubuntu 18.04 LTS; other distributions should also work with minor tweaks, especially in relation to the package manager being used in step 1. A cursory search on your favorite search engine should reveal the correct command to enter. For example, on a *Red Hat Enterprise Linux* installation, the system package manager is `yum` instead of `apt`.
+If you do choose to install a new version of Python, we've put together a series of steps that you can follow. These will allow you to install Python 3.7.2 from scratch. The steps have been tested thoroughly in Ubuntu 18.04 LTS; other distributions should also work with minor tweaks, especially concerning the package manager being used in step 1. A cursory search on your favourite search engine should reveal the correct command to enter. For example, on a *Red Hat Enterprise Linux* installation, the system package manager is `yum` instead of `apt`.
 
 W> ## Assumption of Knowledge
 W>
-W> In order to complete these steps, we assume you know the basics for Bash interaction, including what the tilde (`~`) means, for example. Be careful with the `sudo` command, and do not execute it except for the steps we list requiring it below.
+W> To complete these steps, we assume you know the basics for Bash interaction, including what the tilde (`~`) means, for example. Be careful with the `sudo` command, and do not execute it except for the steps we list requiring it below.
 
 1. Install the required packages for Python to be built successfully. These are listed below, line by line. These can be entered into an Ubuntu Terminal as-is; slight modifications will be required for other Linux distributions.
    
@@ -124,7 +124,7 @@ W> In order to complete these steps, we assume you know the basics for Bash inte
    	$ tar zxf Python-3.7.2.tgz
    	$ cd Python-3.7.2
 
-4. Configure the Python source code for your computer, and build it. `altinstall` tells the installer to install the new version of Python to a different directory from the prexisting version of Python on your computer. You'll need to enter your password for the system to make the necessary changes. This process will take a few minutes, and you'll see a lot of output. Don't panic. This is normal. If the build fails, you haven't installed all of the necessary prerequisites. Check you have installed everything correctly from step 1, and try again.
+4. Configure the Python source code for your computer, and build it. `altinstall` tells the installer to install the new version of Python to a different directory from the pre-existing version of Python on your computer. You'll need to enter your password for the system to make the necessary changes. This process will take a few minutes, and you'll see a lot of output. Don't panic. This is normal. If the build fails, you haven't installed all of the necessary prerequisites. Check you have installed everything correctly from step 1, and try again.
    
    {lang="bash",linenos=off}
    	$ sudo ./configure --enable-optimizations
@@ -164,7 +164,7 @@ W> In order to complete these steps, we assume you know the basics for Bash inte
    	EXPORT VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3.7
    	source /usr/local/bin/virtualenvwrapper.sh
 
-10. Restart your Terminal. Python 3.7.2 will now be setup and ready for you to use, along with the `pip` and `virtualenv` tools.
+10. Restart your Terminal. Python 3.7.2 will now be set up and ready for you to use, along with the `pip` and `virtualenv` tools.
 
 
 ### Windows {#section-system-setup-python-windows}
@@ -172,8 +172,8 @@ By default, Microsoft Windows comes with no installation of Python. This means t
 
 1. Download the appropriate installer from the [official Python website](http://www.python.org/download/). At the time of writing, the latest release was version 3.7.2.
 2. Run the installer. You'll want to make sure that you check the box saying that Python 3.7 is added to `PATH`. You'll want to install for all users, too. Choose the `Customize` option.
-3. Proceed with the currently selected check boxes, and choose `Next`.
-4. Make sure that the check box for installing Python for all users is checked. The installation location will change. Refer to [the figure below](#fig-ch4setup-pywin-3) for an example.
+3. Proceed with the currently selected checkboxes, and choose `Next`.
+4. Make sure that the checkbox for installing Python for all users is checked. The installation location will change. Refer to [the figure below](#fig-ch4setup-pywin-3) for an example.
 5. Click `Next` to install Python. You will need to give the installer elevated privileges to install the software.
 6. Close the installer when completed, and delete the file you downloaded.
 
@@ -191,9 +191,9 @@ Once completed, everything should be set up and ready for you to use.
 ![Configuring Python 3.7.2 on Windows 10 x64 -- allowing the installation to be run by all users.](images/chsetup-pywin-3.png)
 
 ## Virtual Environments {#section-system-setup-virtualenv}
-By default, when you install software for Python, it is installed *system-wide*. All Python applications can see the new software and make use of it. However, issues can occur with this setup. [Earlier in the book](#chapter-getting-ready-venv), we discussed a scenario of two pieces of software requiring two different versions of the *same dependency*. This presents a headache; you cannot typically install two differing versions of the same software into your Python environment!
+By default, when you install software for Python, it is installed *system-wide*. All Python applications can see the new software and make use of it. However, issues can occur with this setup. [Earlier in the book](#chapter-getting-ready-venv), we discussed a scenario of two pieces of software requiring two different versions of the *same dependency*. This presents a headache; you cannot typically install two different versions of the same software into your Python environment!
 
-The solution to this is to use a *virtual environment*. Using a virtual environment, each different piece of software that you wish to run can be given its own environment, and by definition, its own set of installed dependencies. If you have `ProjectA` requiring Django 1.11 and `ProjectB` requiring Django 2.1, you could create a virtual environment for each with their own packages installed.
+The solution to this is to use a *virtual environment*. Using a virtual environment, each different piece of software that you wish to run can be given its environment, and by definition, its set of installed dependencies. If you have `ProjectA` requiring Django 1.11 and `ProjectB` requiring Django 2.1, you could create a virtual environment for each with their packages installed.
 
 The four basic commands one would use to manipulate virtual environments are listed below.
 
@@ -203,7 +203,7 @@ The four basic commands one would use to manipulate virtual environments are lis
 * `rmvirtualenv <name>` deletes a virtual environment of name `<name>`.
 * `lsvirtualenv` lists all user-created virtual environments.
 
-Following the examples above, we can then create an environment for each, installing the required software in the relevant environment. For `ProjectA`, the environment is called `projAENV`, with `projBENV` used for `ProjectB`. Note that to install software to the respective environments, we use `pip`. The commands used for `pip` [are discussed below.](#section-system-setup-pip)
+Following the examples above, we can then create an environment for each, installing the required software in the relevant environment. For `ProjectA`, the environment is called `projAENV`, with `projBENV` used for `ProjectB`. Note that to install software to the respective environments we use `pip`. The commands used for `pip` [are discussed below.](#section-system-setup-pip)
 
 {lang="bash",linenos=off}
 	$ mkvirtualenv projAENV
@@ -269,7 +269,7 @@ T>
 T> Note that when you enable your virtual environment, the command you enter to start Python is simply `python`. The same is applied for `pip` -- if you launch `pip3` outside a virtual environment, `pip` will be the command you use inside the virtual environment.
 
 ## Using `pip` {#section-system-setup-pip}
-The Python package manager is very straightforward to use, and allows you to keep track of the various Python packages (software) that you have installed. We highly recommend that you use `pip` alongside a virtual environment, as packages installed using `pip` appear only within the said virtual environment.
+The Python package manager is very straightforward to use and allows you to keep track of the various Python packages (software) that you have installed. We highly recommend that you use `pip` alongside a virtual environment, as packages installed using `pip` appear only within the said virtual environment.
 
 When you find a package that you want to install, the command required is `$ pip install <packagename>==<version>`. Note that the version component is optional; omitting the version of a particular package will mean that the latest available version is installed.
 
@@ -293,7 +293,7 @@ The recommended way to create your own `requirements.txt` file is to pipe the ou
 
 This then creates your `requirements.txt` file. You can then add this to your project's version control. A Python developer who sees a `requirements.txt` file should know exactly what to do with it!
 
-If you find yourself in a situation like this, you run `pip` with the `-r` switch. Given a `requirements.txt` in a directory `downloaded_project` with only `pytz==2018.9` listed, an example CLI session would therefore involve something like the following.
+If you find yourself in a situation like this, you run `pip` with the `-r` switch. Given a `requirements.txt` in a directory `downloaded_project` with only `pytz==2018.9` listed, an example CLI session would involve something like the following.
 
 {lang="bash",linenos=off}
 	$ cd downloaded_project
@@ -306,7 +306,7 @@ If you find yourself in a situation like this, you run `pip` with the `-r` switc
 `pip install` installs packages from `requirements.txt`, and `pip freeze`, once everything has been installed, demonstrates that the packages have been installed correctly.
 
 ## Version Control System {#section-system-setup-git}
-When developing code, it's highly recommended that you house your codebase within a version controlled respository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We have provided a [chapter on how to use Git](#chapter-git) if you haven't used Git and GitHub before. We highly recommend that you set up a Git repository for your own projects. Doing so could save you from disaster.
+When developing code, it's highly recommended that you house your codebase within a version-controlled repository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We have provided a [chapter on how to use Git](#chapter-git) if you haven't used Git and GitHub before. We highly recommend that you set up a Git repository for your projects. Doing so could save you from disaster.
 
 To use Git, we recommend that you use the command-line tool to interact with your repositories. This is done through the `git` command. On Windows, you'll need to [download Git from the Git website](https://git-scm.com/download/win). If using macOS or Linux, the [Git website also has downloadable installers for you to use](https://git-scm.com/downloads). However, why not get into the habit of using a package manager to install the software? This is generally the recommended way for downloading and using software developed on the UNIX design principles (including macOS).
 

@@ -1,7 +1,7 @@
 # Automated Testing {#chapter-testing}
-If you're new to software development, it would be a good thing to get into the habit of writing and developing tests for the code you write. A lot of software engineering is about writing and developing tests and test suites in order to ensure the developed software is robust. Of course, most of the time, we are too busy trying to build things to bother about making sure that they work -- or too arrogant to believe that what we create would fail!
+If you're new to software development, it would be a good thing to get into the habit of writing and developing tests for the code you write. A lot of software engineering is about writing and developing tests and test suites To ensure the developed software is robust. Of course, most of the time, we are too busy trying to build things to bother about making sure that they work -- or too arrogant to believe that what we create would fail!
 
-However, trust us. **Through our experiences writing code in both industrial and academic settings, writing tests has saved us. On multiple occasions.** They are a vital part of a software engineer's toolbox, and provide you with confidence that the software you write actually does what you think it will!
+However, trust us. **Through our experiences writing code in both industrial and academic settings, writing tests have saved us. On multiple occasions.** They are a vital part of a software engineer's toolbox, and provide you with confidence that the software you write does what you think it will!
 
 According to the [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial05/), there are numerous reasons why you should include tests. Several key reasons listed are repeated below.
 
@@ -10,7 +10,7 @@ According to the [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/t
 - **Test make your code more attractive.** *"Code without tests is broken by design"* - Jacob Kaplan-Moss, one of Django's original developers.
 - **Tests help teams work together.** You want to be a team player, right? Then write tests. Writing tests will make sure your team doesn't inadvertently break your code, or you don't break the code of your team members!
 
-In addition to these reasons, the [Python Guide](http://docs.python-guide.org/en/latest/writing/tests/) lists a number of general rules that you should try to follow when writing tests. Below are some of the main rules.
+In addition to these reasons, the [Python Guide](http://docs.python-guide.org/en/latest/writing/tests/) lists several general rules that you should try to follow when writing tests. Below are some of the main rules.
 
 1. Tests should focus on *one small bit of functionality.*
 2. Tests should have a *clear purpose.*
@@ -42,7 +42,7 @@ This command will run through all tests that have been created for the Rango app
 From the output shown above, you might also notice that a database called `default` is referred to. When you run tests, a temporary database is constructed, which your tests can populate and perform operations on. This way your testing is *performed independently* of your live database, satisfying one of the rules we listed above.
 
 ### Testing Rango's Models
-Given that there are presently no tests, let's create one! In the `Category` model, we want to ensure that the number of views received are zero or greater, because you cannot have a negative number of views. To create a test for this, we can put the following code into Rango's `tests.py` module, being careful to keep the existing `import` statement.
+Given that there are presently no tests, let's create one! In the `Category` model, we want to ensure that the number of views received is zero or greater because you cannot have a negative number of views. To create a test for this, we can put the following code into Rango's `tests.py` module, being careful to keep the existing `import` statement.
 
 {lang="python", linenos=off}
 	class CategoryMethodTests(TestCase):
@@ -60,7 +60,7 @@ You'll also want to make sure that you `import` the `Category` model.
 {lang="python", linenos=off}
 	from rango.models import Category
 
-The first thing to notice about the test we have written is that we must place the tests within a class. This class must inherit from `django.test.TestCase`. Each method implemented within a class tests a particular piece of functionality. These methods should always have a name that starts with `test_`, and should always contain some form of assertion. In this example, we use `assertEqual` which checks whether two items are equal to one another. However, there are lots of other assert checks you can use -- as demonstrated in the [official Python documentation](https://docs.python.org/3/library/unittest.html#assert-methods). Django's testing machinery is derived from the Python implementation, but also provides a number of asserts and specific test cases unique to Django and web development.
+The first thing to notice about the test we have written is that we must place the tests within a class. This class must inherit from `django.test.TestCase`. Each method implemented within a class tests a particular piece of functionality. These methods should always have a name that starts with `test_`, and should always contain some form of assertion. In this example, we use `assertEqual` which checks whether two items are equal. However, there are lots of other assert checks you can use -- as demonstrated in the [official Python documentation](https://docs.python.org/3/library/unittest.html#assert-methods). Django's testing machinery is derived from the Python implementation, but also provides several asserts and specific test cases unique to Django and web development.
 
 If we then run the test, we will see the following output.
 
@@ -83,7 +83,7 @@ If we then run the test, we will see the following output.
 	
 	FAILED (failures=1)
 
-We can see that Django picked up our solitary test, and it `FAILED`. This is because the model does not check whether the value for `views` is less than zero. Since we really want to ensure that the values are non-zero for this particular field, we will need to update the model to ensure that this requirement is fulfilled. Update the model now by adding some code to the `save()` method of the `Category` model, located in Rango's `models.py` module. The code should check the value of the `views` attribute, and update it accordingly if the value provided is less than zero. A simple conditional check on `self.views` should suffice.
+We can see that Django picked up our solitary test, and it `FAILED`. This is because the model does not check whether the value for `views` is less than zero. Since we want to ensure that the values are non-zero for this particular field, we will need to update the model to ensure that this requirement is fulfilled. Update the model now by adding some code to the `save()` method of the `Category` model, located in Rango's `models.py` module. The code should check the value of the `views` attribute, and update it accordingly if the value provided is less than zero. A simple conditional check on `self.views` should suffice.
 
 Once you have updated your model, re-run the test. See if your code now passes the test. If not, try again and work out a solution that passes the test. 
 
@@ -104,7 +104,7 @@ Let's try adding a further test that ensures that an appropriate `slug` is creat
 Run the tests again. Does your code pass both tests? You should now be starting to see that if you have tests written up that you are confident satisfy the requirements of a particular component, you can write code that complies with these tests -- ergo your code satisfies the requirements provided!
 
 ### Testing Views
-The two simple tests that we have written so far focus on ensuring the integrity of the data housed within Rango's `Category` model. Django also provides testing mechanisms to also test views. It does this with a mock client (or browser) that internally makes calls to the Django development server via a URL. In these tests, you have access to the server's response (including the rendered HTML markup), as well as the context dictionary that was used.
+The two simple tests that we have written so far focus on ensuring the integrity of the data housed within Rango's `Category` model. Django also provides mechanisms to test views. It does this with a mock client (or browser) that internally makes calls to the Django development server via a URL. In these tests, you have access to the server's response (including the rendered HTML markup), as well as the context dictionary that was used.
 
 To demonstrate this testing feature, we can create a test that checks when the index page loads. When the `Category` model is empty, it should present the user with a message that *exactly* says `There are no categories present`.
 
@@ -125,7 +125,7 @@ As we are using the Django `reverse()` function to perform a URL lookup, we'll n
 {lang="python",linenos=off}
 	from django.urls import reverse
 
-Looking at the code above, the Django `TestCase` class has access to a `client` object which can make requests. Here, it uses the helper function `reverse()` to lookup the URL of Rango's `index` page. It then tries to issue a HTTP `GET` request on that page. The response is returned and stored in `response`. The test then checks a number of things: whether the page loaded successfully (with a `200` status code returned); whether the response's HTML contains the string `"There are no categories present"`; and whether the context dictionary used to render the response contains an empty list for the `categories` supplied.
+Looking at the code above, the Django `TestCase` class has access to a `client` object which can make requests. Here, it uses the helper function `reverse()` to lookup the URL of Rango's `index` page. It then tries to issue an HTTP `GET` request on that page. The response is returned and stored in `response`. The test then checks several things: whether the page loaded successfully (with a `200` status code returned); whether the response's HTML contains the string `"There are no categories present"`; and whether the context dictionary used to render the response contains an empty list for the `categories` supplied.
 
 Recall that when you run tests, a new database is created, which by default is not populated. This is true for each test method -- and explains why the categories you create in the two `CategoryMethodTests` tests are not visible to the test in `IndexViewTests`.
 
@@ -162,7 +162,7 @@ Make use of this helper method by creating a further test method inside your `In
 	    num_categories = len(response.context['categories'])
 	    self.assertEquals(num_categories, 3)
 
-In this test, we populate the the database with three sample categories, `Python`, `C++` and `Erlang`. We make use of our helper function `add_category()` here. We then again request the `index` page, check the response was successful (HTTP `200`), and check whether all three categories are presented on the page. We also check the number of categories listed in the context dictionary is equal to three -- the number of categories present in the database at the time.
+In this test, we populate the database with three sample categories, `Python`, `C++` and `Erlang`. We make use of our helper function `add_category()` here. We then again request the `index` page, check the response was successful (HTTP `200`), and check whether all three categories are presented on the page. We also check the number of categories listed in the context dictionary is equal to three -- the number of categories present in the database at the time.
 
 Run the test. Does it pass?
 
@@ -172,9 +172,9 @@ X> Update the existing tests that you have created so far to make use of the hel
 ### Testing the Rendered Page
 Django's test suite also allows you to perform tests that load up your web app, and programmatically interact with the DOM elements on the rendered HTML pages. This is incredibly useful, as you can test your web app as a human would -- by 'clicking' links, or entering information into form fields and submitting them. This is achieved with some further third-party "driver" software that controls interactions on a webpage for you.
 
-We don't explicitly cover how to set these tests up here, but you should refer to the [official Django documentation](https://docs.djangoproject.com/en/2.2/topics/testing/tools/#liveservertestcase) to learn more, and see how this is achieved.
+We don't explicitly cover how to set these tests up here, but you should refer to the [official Django documentation](https://docs.djangoproject.com/en/2.2/topics/testing/tools/#liveservertestcase) to learn more and see how this is achieved.
 
-If you really want us to include examples on how to run tests this way, let us know!
+If you really want us to include examples of how to run tests this way, let us know!
 
 ## Examining Testing Coverage
 One further point of discussion about testing is *coverage.* Code coverage measures how much of your codebase has been tested. You can install an additional package called `coverage` (issue the command `$ pip install coverage` within your environment) that automatically analyses how much code coverage you have of your tests. Once `coverage` is installed, run the following command at your terminal or Command Prompt.
@@ -213,12 +213,12 @@ This will run through all of the tests that you have implemented so far, and col
 	-----------------------------------------------------------------
 	TOTAL                                           470    215    54%
 
-We can see from the output of this command that critical parts of the code have not been tested. The `views.py` has a pretty low coverage percentage as an example of 34%. This output can therefore provide you with a measure-based approach to determine where to focus your efforts on writing tests.
+We can see from the output of this command that critical parts of the code have not been tested. The `views.py` has a pretty low coverage percentage as an example of 34%. Therefore, this output can provide you with a measure-based approach to determine where to focus your efforts on writing tests.
 
 The `coverage` package [has many more features](https://coverage.readthedocs.io/en/latest/) that you can explore to make your tests even more comprehensive!
 
 X> ### Testing Exercises
-X> Let's assume that we want to extend the `Page` model to include an additional field -- `last_visit`. This field will be of the type `models.DateTimeField`, and represents the date and time when the page was last accessed. If the page has never been accessed, the value given will be the date and time at which the page was saved -- whether this was the initial creation, or an update. Given this requirement, complete the following tasks.
+X> Let's assume that we want to extend the `Page` model to include an additional field -- `last_visit`. This field will be of the type `models.DateTimeField`, and represents the date and time when the page was last accessed. If the page has never been accessed, the value given will be the date and time at which the page was saved -- whether this was the initial creation or an update. Given this requirement, complete the following tasks.
 X>
 X> - Update the `Page` model to include this new field.
 X> - Update the `Page` model to set this value on creation to the current date and time.
@@ -233,10 +233,10 @@ T> You'll want to use the timezone-aware functionality of Django to get the curr
 T>
 T> In order to compare two dates, you will need to make use of the `assertTrue()` method to perform the assertion. This takes a boolean expression, where you can perform your evaluation, such as `page.last_visit < timezone.now()`.
 T>
-T> When working on the second test, you'll need to make a call to the `rango:goto` view, passing the `page_id` as a parameter. You can do this with the `client.get()` method, by providing a dictionary as the second argument with `page_id` as the key, and the ID of the page you are looking to access as the value. Depending upon how you implement this test, it may also require you to refresh a model instance from the database. This can be achieved using the `refresh_from_db()` method.
+T> When working on the second test, you'll need to make a call to the `rango:goto` view, passing the `page_id` as a parameter. You can do this with the `client.get()` method by providing a dictionary as the second argument with `page_id` as the key, and the ID of the page you are looking to access as the value. Depending upon how you implement this test, it may also require you to refresh a model instance from the database. This can be achieved using the `refresh_from_db()` method.
 T>
-T> As a final hint, it may also be helpful to write a further helper function to add a page to a given category. If you are totally stuck, we have implemented a [model solution on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/tree/ba2cbed99316b667206eb3e43730463bf976001d).
+T> As a final hint, it may also be helpful to write a further helper function to add a page to a given category. If you are stuck, we have implemented a [model solution on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/tree/ba2cbed99316b667206eb3e43730463bf976001d).
 
 I> ### Other Test Resources
 I> - Run through [Part Five of the official Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial05/) to learn more about testing.
-I> - Check out the [tutorial on test driven development by Harry Percival](https://www.obeythetestinggoat.com/book/part1.harry.html).
+I> - Check out the [tutorial on test-driven development by Harry Percival](https://www.obeythetestinggoat.com/book/part1.harry.html).

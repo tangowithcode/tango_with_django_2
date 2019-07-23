@@ -1,22 +1,22 @@
 # Overview
-The aim of this book is to provide you with a practical guide to web development using *Django 2* and *Python 3*. The book is designed primarily for students, providing a walkthrough of the steps involved in getting a web application up and running with Django.
+This book aims to provide you with a practical guide to web development using *Django 2* and *Python 3*. The book is designed primarily for students, providing a walkthrough of the steps involved in getting a web application up and running with Django.
 
 This book seeks to complement the [official Django Tutorials](https://docs.djangoproject.com/en/2.1/intro/tutorial01/) and many of the other excellent tutorials available online. By putting everything together in one place, this book fills in many of the gaps in the official Django documentation by providing an example-based, design-driven approach to learning the Django framework. Furthermore, this book provides an introduction to many of the aspects required to master web application development (such as HTML, CSS and JavaScript). 
 
 ## Why Work with this Book?
 **This book will save you time.** On many occasions we've seen clever students get stuck, spending hours trying to fight with Django and other aspects of web development. More often than not, the problem was usually because a key piece of information was not provided, or something was not made clear. While the occasional blip might set you back 10-15 minutes, sometimes they can take hours to resolve. We've tried to remove as many of these hurdles as possible. This will mean you can get on with developing your application instead of getting stuck.
 
-**This book will lower the learning curve.** Web application frameworks can save you a lot of hassle and a lot of time. But that is only true if you know how to use them in the first place! Often the learning curve is steep. This book tries to get you going -- and going fast -- by explaining how all the pieces fit together and how to build your web app in a logical manner.
+**This book will lower the learning curve.** Web application frameworks can save you a lot of hassle and a lot of time. But that is only true if you know how to use them in the first place! Often the learning curve is steep. This book tries to get you going -- and going fast -- by explaining how all the pieces fit together and how to build your web app logically.
 
-**This book will improve your workflow.** Using web application frameworks requires you to pick up and run with particular design patterns -- so you only have to fill in certain pieces in certain places. After working with many students, we heard lots of complaints about using web application frameworks -- specifically about how they take control away from the software engineer (i.e. [inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control)).  To help you, we've created a number of *workflows* to focus your development process so that you can regain that sense of control and build your web application in a disciplined manner.
+**This book will improve your workflow.** Using web application frameworks requires you to pick up and run with particular design patterns -- so you only have to fill in certain pieces in certain places. After working with many students, we heard lots of complaints about using web application frameworks -- specifically about how they take control away from the software engineer (i.e. [inversion of control](https://en.wikipedia.org/wiki/Inversion_of_control)).  To help you, we've created several *workflows* to focus your development process so that you can regain that sense of control and build your web application in a disciplined manner.
 
-**This book is not designed to be read.** Whatever you do, *do not read this book!* It is a hands-on guide to building web applications in Django. Reading is not doing. To increase the value you gain from this experience, go through and develop the application. When you code up the application, *do not just cut and paste the code.* Type it in, think about what it does, then read the explanations we have provided. If you still do not understand, then check out the Django documentation, go to [Stack Overflow](http://stackoverflow.com/questions/tagged/django) or other helpful websites and fill in this gap in your knowledge. If you are really stuck, get in touch with us, so that we can improve the book -- we've already had contributions from [numerous other readers](#chapter-acks)!
+**This book is not designed to be read.** Whatever you do, *do not read this book!* It is a hands-on guide to building web applications in Django. Reading is not doing. To increase the value you gain from this experience, go through and develop the application. When you code up the application, *do not just cut and paste the code.* Type it in, think about what it does, then read the explanations we have provided. If you still do not understand, then check out the Django documentation, go to [Stack Overflow](http://stackoverflow.com/questions/tagged/django) or other helpful websites and fill in this gap in your knowledge. If you are stuck, get in touch with us, so that we can improve the book -- we've already had contributions from [numerous other readers](#chapter-acks)!
 
 ## What you will Learn
 In this book, we will be taking an example-based approach to web application development. In the process, we will show you how to design a web application called *Rango* ([see the Design Brief below](#overview-design-brief-label)), and take a step by step in setting up, developing and deploying the application. Along the way, we'll show you how to perform the following key tasks which are common to most software engineering and web-based projects.
 
 * How to  **configure your development environment** -- including how to use the terminal, your virtual environment, the `pip` installer, how to work with Git, and more.
-* How to  **setup a Django project** and **create a basic Django application**.
+* How to  **set up a Django project** and **create a basic Django application**.
 * How to  **configure the Django project** to serve static media and other media files.
 * How to  **work with Django's *Model-View-Template* design pattern**.
 * How to  **work with database models** and use the [*object-relational mapping (ORM)*](https://en.wikipedia.org/wiki/Object-relational_mapping) functionality provided by Django.
@@ -31,15 +31,15 @@ In this book, we will be taking an example-based approach to web application dev
 * How to **Deploy your application** to a web server using *PythonAnywhere.*
 
 
-At the end of each chapter, we have also included a number of exercises designed to push you to apply what you have learnt during the chapter. To push you harder, we've also included a number of open development challenges, which require you to use many of the lessons from the previous chapters -- but don't worry, as we've also included solutions and explanations on these, too!
+At the end of each chapter, we have also included several exercises designed to push you to apply what you have learnt during the chapter. To push you harder, we've also included several open development challenges, which require you to use many of the lessons from the previous chapters -- but don't worry, as we've also included solutions and explanations on these, too!
 
 X> ### Exercises
-X> In each chapter, we have added a number of exercises to test your knowledge and skill. Such exercises are denoted like this.
+X> In each chapter, we have added several exercises to test your knowledge and skill. Such exercises are denoted like this.
 X>
 X> *You will need to complete these exercises as the subsequent chapters are dependent on them.*
 
 T> ### Hints and Tips
-T> For each set of exercises, we will provide a series of hints and tips that will assist you if you need a push. If you get totally stuck however, you can always check out our solutions to all the exercises on our [*GitHub* repository](https://github.com/maxwelld90/tango_with_django_2_code).
+T> For each set of exercises, we will provide a series of hints and tips that will assist you if you need a push. If you get stuck however, you can always check out our solutions to all the exercises on our [*GitHub* repository](https://github.com/maxwelld90/tango_with_django_2_code).
 
 ## Technologies and Services
 Through the course of this book, we will use various technologies and external services including:
@@ -60,7 +60,7 @@ Through the course of this book, we will use various technologies and external s
 We've selected these technologies and services as they are either fundamental to web development, and/or enable us to provide examples on how to integrate your web application with CSS toolkits like *Twitter Bootstrap*, external services like those provided by the *Microsoft Bing Search API* and deploy your application quickly and easily with *PythonAnywhere*. Let's get started!
 
 ## Rango: Initial Design and Specification {#overview-design-brief-label}
-The focus of this book will be to develop an application called *Rango*. As we develop this application, it will cover the core components that need to be developed when building any web application. To see a fully functional version of the application, you can visit our [How to Tango with Django website](http://www.tangowithdjango.com/).
+The focus of this book will be to develop an application called *Rango*. As we develop this application, it will cover the core components that need to be developed when building any web application. To see a fully-functional version of the application, you can visit our [How to Tango with Django website](http://www.tangowithdjango.com/).
 
 ### Design Brief
 
@@ -77,7 +77,7 @@ Let's imagine that we would like to create a website called *Rango* that lets us
 * *Each category should be accessible via a readable URL* -- for example, `/rango/books-about-django/`.
 * Only *registered users will be able to search and add pages to categories*. Therefore, visitors to the site should be able to register for an account.
 
-At first glance, the specified application to develop seems reasonably straightforward. In essence, it is just a list of categories that link to pages. However, there are a number of complexities and challenges that need to be addressed. First, let's try and build up a better picture of what needs to be developed by laying down some high-level designs.
+At first glance, the specified application to develop seems reasonably straightforward. In essence, it is just a list of categories that link to pages. However, there are several complexities and challenges that need to be addressed. First, let's try and build up a better picture of what needs to be developed by laying down some high-level designs.
 
 X> ### Exercises
 X> Before going any further, think about these specifications and draw up the following design artefacts. 
@@ -87,9 +87,7 @@ X> * What is the interface going to look like? Draw up some **Wireframes** of th
 X> * What are the URLs that users visit going to look like? Write down a series of **URL mappings** for the application.
 X> * What data are we going to have to store or represent? Construct an [***Entity-Relationship (ER)***](https://en.wikipedia.org/wiki/Entity–relationship_model) diagram to describe the data model that we'll be implementing.
 X>
-X> Try these exercises out before moving on -- even if you aren't familiar with system 
-X> architecture diagrams, wireframes or ER diagrams, how would you explain and describe, formally, what 
-X> you are going to build so that someone else can understand it.
+X> Try these exercises out before moving on -- even if you aren't familiar with system architecture diagrams, wireframes or ER diagrams, how would you explain and describe, formally, what you are going to build so that someone else can understand it.
 
 {pagebreak}
 
@@ -107,7 +105,7 @@ Given the different boxes within the high-level architecture, we need to start m
 * The **database** will be the Python-based *SQLite3* Database engine.
 * The **search API** will be the *Bing Search API*.
 
-For the most part, this book will focus on developing middleware. It should however be evident from the [system architecture diagram](#fig-ntier) that we will have to interface with all the other components.
+For the most part, this book will focus on developing middleware. However, it should be evident from the [system architecture diagram](#fig-ntier) that we will have to interface with all the other components.
 
 ### Wireframes
 Wireframes are a great way to provide clients with some idea of what the application is going to look like and what features it will provide. They save a lot of time and can vary from hand-drawn sketches to exact mockups depending on the tools that you have at your disposal. For our Rango application, we'd like to make the index page of the site look like the [screenshot below](#fig-index-page). Our category page is also [shown below](#fig-cat-page).
@@ -136,7 +134,7 @@ Given the specification, it should be clear that we have at least two entities: 
 {id="fig-rango-erd"}
 ![The Entity Relationship Diagram of Rango's two main entities.](images/rango-erd.png)
 
-Note that this specification is rather vague. A single page could, in theory, exist in one or more categories. Working with this assumption, we could model the relationship between categories and pages as a [many-to-many relationship](https://en.wikipedia.org/wiki/Many-to-many_(data_model)). However, this approach introduces a number of complexities. We will make the simplifying assumption that *one category contains many pages, but one page is assigned to one category.* This does not preclude that the same page can be assigned to different categories -- but the page would have to be entered twice. While this is not ideal, it does reduce the complexity of the models.
+Note that this specification is rather vague. A single page could, in theory, exist in one or more categories. Working with this assumption, we could model the relationship between categories and pages as a [many-to-many relationship](https://en.wikipedia.org/wiki/Many-to-many_(data_model)). However, this approach introduces several complexities. We will make the simplifying assumption that *one category contains many pages, but one page is assigned to one category.* This does not preclude that the same page can be assigned to different categories -- but the page would have to be entered twice. While this is not ideal, it does reduce the complexity of the models.
 
 D> ### Take Note!
 D> Get into the habit of noting down any working assumptions that you make, just like the one-to-many relationship assumption that we assume above. You never know when they may come back to bite you later on! By noting them down, this means you can communicate it with your development team and make sure that the assumption is sensible, and that they are happy to proceed under such an assumption. 
@@ -163,10 +161,10 @@ With this assumption, we can produce a series of tables that describe each entit
 | `url`      | `URLField`     |
 | `views`    | `IntegerField` |
 
-We will also have a model for the `User` so that they can register and login. We have not shown it here but shall introduce it later in the book when we discuss [user authentication](#chapter-user). In subsequent chapters, will we see how to instantiate these models in Django and how to use the built-in ORM to interact with the database.
+We will also have a model for the `User` so that they can register and login. We have not shown it here but shall introduce it later in the book when we discuss [user authentication](#chapter-user). In subsequent chapters, we will see how to instantiate these models in Django, and how we can use the built-in ORM to interact with the database.
 
 ## Summary
-These high-level design and specifications will serve as a useful reference point when building our web application. While we will be focusing on using specific technologies, these steps are common to most database driven websites. It's a good idea to become familiar with reading and producing such specifications and designs so that you can communicate your designs and ideas with others. Here we will be focusing on using Django and the related technologies to implement this specification.
+These high-level design and specifications will serve as a useful reference point when building our web application. While we will be focusing on using specific technologies, these steps are common to most database-driven websites. It's a good idea to become familiar with reading and producing such specifications and designs so that you can communicate your designs and ideas with others. Here we will be focusing on using Django and the related technologies to implement this specification.
 
 
 T> ### Cut and Paste Coding

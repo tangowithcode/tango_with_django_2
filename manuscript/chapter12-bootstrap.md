@@ -4,21 +4,21 @@ In this chapter, we will be styling Rango using the *Twitter Bootstrap 4* toolki
 I> ### Cascading Style Sheets
 I> If you are not familiar with CSS, have a look at the [CSS crash course](#chapter-css). We provide a quick guide on the basics of using Cascading Style Sheets.
 
-Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/). The website provides you with sample code and examples of the different components that the toolkit provides, and provides you with examples and documentation on how to style them by adding in the appropriate markup and/or code. In addition, the website also provides a number of [complete example layouts](http://getbootstrap.com/examples/) from which we can base our design for Rango on.
+Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/). The website provides you with sample code and examples of the different components that the toolkit provides, and provides you with examples and documentation on how to style them by adding in the appropriate markup and/or code. Besides this, the website also provides several [complete example layouts](http://getbootstrap.com/examples/) from which we can base our design for Rango on.
 
-To style Rango we have identified that the [dashboard layout](https://getbootstrap.com/docs/4.2/examples/dashboard/) more or less meets our needs. The layout provides us with a menu bar at the top, a sidebar (which we will use to show categories), and a main content pane in which we can display page-specific information. You can see the example layout in [the figure below](#fig-bootstrap-dashboard).
+To style Rango, we have identified that the [dashboard layout](https://getbootstrap.com/docs/4.2/examples/dashboard/) more or less meets our needs. The layout provides us with a menu bar at the top, a sidebar (which we will use to show categories), and a main content pane in which we can display page-specific information. You can see the example layout in [the figure below](#fig-bootstrap-dashboard).
 
 {id="fig-bootstrap-dashboard"}
-![Version 4 of the Bootstrap dashboard layout, as taken from the Twitter Bootstrap examples website. This is the layout we will be working with in this chapter.](images/ch12-bootstrap-dashboard.png)
+![Version 4 of the Bootstrap dashboard layout, as taken from the Twitter Bootstrap examples website. This is the layout we will be working within this chapter.](images/ch12-bootstrap-dashboard.png)
 
-To tailor the dashboard HTML source to our Rango app, we need to make a number of modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd-bootstrap-base), but for completeness is also shown below.
+To tailor the dashboard HTML source to our Rango app, we need to make several modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd-bootstrap-base), but for completeness is also shown below.
 
 Download the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `<Workspace>/tango_with_django_project/templates/rango/` directory.
 
 Below is a list of all the different modifications we made to the original dashboard HTML source.
 
 - First, we replaced all references of `../../` (which symbolises to go look two directories back from where we are currently) to be `http://getbootstrap.com/docs/4.2/`. This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
-- We changed `dashboard.css` to the absolute URL to access this stylesheet, and removes any doubt as to what version of the file we are referring to.
+- We changed `dashboard.css` to the absolute URL to access this stylesheet and removes any doubt as to what version of the file we are referring to.
 - We took out the search form from the *navigation bar* at the top of the page.
 - We stripped out all the non-essential content from the original HTML page, and replaced it with the Rango `body_block` code `{% block body_block %}{% endblock %}`.
 - We set the `<title>` element of the page to fit with what we worked on earlier: `<title>{% block title_block %}How to Tango with Django!{% endblock %}</title>`
@@ -34,7 +34,7 @@ We appreciate that this all seems rather hacky -- and to some extent it is -- bu
 
 W> ### Copying and Pasting
 W> In the introductory chapter, we said not the copy and paste -- but this is an exception. 
-W> However, if you directly cut and paste you will end up bringing additional text you do not want. To get started quickly, go to our GitHub page and get the [base template](http://bit.ly/twd-bootstrap-base) shown below.
+W> However if you directly cut and paste you will end up bringing additional text you do not want. To get started quickly, go to our GitHub page and get the [base template](http://bit.ly/twd-bootstrap-base) shown below.
 W> 
 W> If you don't understand what the specific Bootstrap classes do, check out the [Bootstrap documentation](https://getbootstrap.com/docs/4.3/getting-started/introduction/) to improve your understanding.
 
@@ -147,18 +147,18 @@ If you take a close look at the modified Bootstrap dashboard HTML source, you'll
 
 The code above assumes that you have completed the chapters on user authentication and used `django-registration-redux`, as outlined in the previous chapter. If you haven't done both of these activities, you will need to update the template and remove/modify the references to those links in the navigation bar in the header. 
 	
-Also of note is that the HTML template makes references to external websites to request the required `css` and `js` files. In order for everything to work, you will need to be connected to the Internet for the styles and JavaScript files to be loaded when you run Rango.
+Also of note is that the HTML template makes references to external websites to request the required `css` and `js` files. For everything to work, you will need to be connected to the Internet for the styles and JavaScript files to be loaded when you run Rango.
 
 I> ### Working Offline?
 I> Rather than including external references to the `css` and `js` files, you could download all the associated files and store them in your project's `static` directory. We recommend storing CSS files in `static/css/`, with JavaScript files in `static/js/`. If you do this, you will need to update the `bootstrap_base.html` to point to the correct files locally using the `{% static '...' %}` template function.
 
 ## Quick Style Change
-To give Rango a much needed facelift, we need to update our base template to make use of the new `base_bootstrap.html` template. It's now ready to go! There are many ways to do this, with one option being to rename `base.html` to `base_bootstrap.html` in all your other templates. However, a quicker solution would be to do the following.
+To give Rango a much-needed facelift, we need to update our base template to make use of the new `base_bootstrap.html` template. It's now ready to go! There are many ways to do this, with one option being to rename `base.html` to `base_bootstrap.html` in all your other templates. However, a quicker solution would be to do the following.
 
 1. Rename the `base.html` template in `templates/rango/` to `base-old.html`.
 2. Rename the `base_bootstrap.html` template in `templates/rango/` to `base.html`.
 
-This ensures you keep a copy of your old `base.html` template, and switch the active template that all other Rango templates inherit from to the Bootstrapped version.
+This ensures you keep a copy of your old `base.html` template and switch the active template that all other Rango templates inherit from to the Bootstrapped version.
 
 T> ### Using `git`?
 T> If you are using Git, it would be prudent to use the `git mv` commands in your terminal or Command Prompt to ensure that Git can keep track of these filename changes. If you are using a GUI to manage your Git repository, use that to perform the renaming instead.
@@ -168,10 +168,10 @@ Now reload Rango in your browser. You should see a screen that looks similar to 
 {id="fig-bootstrap-initial"}
 ![Rango, after switching `base_bootstrap.html` to be the template from which other templates inherit. Looks nice! Note that here, we are logged in with a username of `david`.](images/ch12-bootstrap-initial.png)
 
-Have a look through the different pages of your app. Since they all inherit from `base.html`, they will all now employ the Bootstrap dashboard layout. However, they aren't perfect yet! In the remainder of this chapter, we will go through a number of changes to the templates, and use various Bootstrap components to improve the look and feel of Rango further. But to remind yourself of what Rango looked like before, compare and contrast to [the figure below](#fig-bootstrap-initial)!
+Have a look through the different pages of your app. Since they all inherit from `base.html`, they will all now employ the Bootstrap dashboard layout. However, they aren't perfect yet! In the remainder of this chapter, we will go through several changes to the templates, and use various Bootstrap components to improve the look and feel of Rango further. But to remind yourself of what Rango looked like before, compare and contrast to [the figure below](#fig-bootstrap-initial)!
 
 {id="fig-bootstrap-initial"}
-![The Rango app, before Bootstrap styling was applied. How much better does you app now look in comparison to this?](images/ch12-bootstrap-nostyling.png)
+![The Rango app, before Bootstrap styling was applied. How much better does your app now look in comparison to this?](images/ch12-bootstrap-nostyling.png)
 
 <!--
 ## Page Headers
@@ -202,7 +202,7 @@ This doesn't visually appear to change the look and feel, but it informs the too
 -->
 
 ### Sidebar Categories
-One thing that we could improve are the way that the categories on the sidebar to the left appear. They look pretty basic at the moment, so let's make them look nicer! If we first take a look at the HTML source code for the example [Bootstrap dashboard page](https://getbootstrap.com/docs/4.2/examples/dashboard/), we notice that a few [*classes*](https://www.w3schools.com/cssref/sel_class.asp) have been added to the `<ul>` *(unordered list)* and `<li>` *(list item)* tags to denote that they are navigation items (`nav-item`) and navigation links (`nav-link`) respectively. Let's apply these classes to our `rango/categories.html` template. Refactor the file to look like the example below. Note that the logic and basic structure stays the same -- we just add classes and some supplementary tags to make things look nicer.
+One thing that we could improve is the way that the categories on the sidebar to the left appear. They look pretty basic at the moment, so let's make them look nicer! If we first take a look at the HTML source code for the example [Bootstrap dashboard page](https://getbootstrap.com/docs/4.2/examples/dashboard/), we notice that a few [*classes*](https://www.w3schools.com/cssref/sel_class.asp) have been added to the `<ul>` *(unordered list)* and `<li>` *(list item)* tags to denote that they are navigation items (`nav-item`) and navigation links (`nav-link`) respectively. Let's apply these classes to our `rango/categories.html` template. Refactor the file to look like the example below. Note that the logic and basic structure stays the same -- we just add classes and some supplementary tags to make things look nicer.
 
 {lang="html",linenos=on}
 	<ul class="nav flex-column">
@@ -254,7 +254,7 @@ If we go back to the Bootstrap examples, we can see that [Jumbotron](https://get
 For the `<div>` container, we applied classes `jumbotron` and `p-4`. The class `p-4` controls the [spacing](https://getbootstrap.com/docs/4.2/utilities/spacing/) around the jumbotron. Try changing the padding to be `p-6` or `p-1` to see what happens! You can also control the space of the top, bottom, left and right by specifically setting `pt`, `pb`, `pr` and `pl` instead of just `p`. 
 
 X> ### Site Styling Exercise
-X> Update all other templates so that the page heading is encapsulated within a jumbotron. This will make the whole application have a consistent look, something that is crucial for a professionally-designed website.
+X> Update all other templates so that the page heading is encapsulated within a jumbotron. This will make the whole application have a consistent look, something crucial for a professionally-designed website.
 X>
 X> Don't forget to update the templates used for the `registration` package!
 
@@ -316,7 +316,7 @@ Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com
 ![The updated Rango index page, after applying both the jumbotron and two-column layout. How much better does it look now?](images/ch12-bootstrap-styled-index.png)
 
 ### The Login Page
-Now that the index page has been styled, let's turn our attention to Rango's login page. On the Bootstrap website, there is a demonstration [login form](https://getbootstrap.com/docs/4.2/examples/sign-in/). If you take a look at the source, you'll notice that there are a number of classes that we need to include to get a basic login form to work using Bootstrap. To do this, we can start by replacing the `body_block` in the `registration/login.html` template with the following code.
+Now that the index page has been styled, let's turn our attention to Rango's login page. On the Bootstrap website, there is a demonstration [login form](https://getbootstrap.com/docs/4.2/examples/sign-in/). If you take a look at the source, you'll notice that there are several classes that we need to include to get a basic login form to work using Bootstrap. To do this, we can start by replacing the `body_block` in the `registration/login.html` template with the following code.
 
 {lang="html",linenos=off}
 	{% block body_block %}
@@ -450,9 +450,9 @@ W> It would be much nicer and cleaner if we could instruct Django when building 
 W> Nevertheless, by manually bringing everything together, you can obtain a better appreciation and understanding of how the different components fit together.
 
 ### Next Steps
-This chapter has described how to quickly style your Django application using the Bootstrap toolkit. Bootstrap is highly extensible and it is relatively easy to change themes -- check out the [StartBootstrap website](http://startbootstrap.com/) for a whole series of free themes. Alternatively, you might want to use a different CSS toolkit like: [Zurb](http://zurb.com), [Pure](https://purecss.io) or [GroundWorkd](https://groundworkcss.github.io/groundwork/). Now that you have an idea of how to hack the templates and set them up to use a responsive CSS toolkit, we can now go back and focus on finishing off the extra functionality that will really pull the application together.
+This chapter has described how to quickly style your Django application using the Bootstrap toolkit. Bootstrap is highly extensible and it is relatively easy to change themes -- check out the [StartBootstrap website](http://startbootstrap.com/) for a whole series of free themes. Alternatively, you might want to use a different CSS toolkit like: [Zurb](http://zurb.com), [Pure](https://purecss.io) or [GroundWorkd](https://groundworkcss.github.io/groundwork/). Now that you have an idea of how to hack the templates and set them up to use a responsive CSS toolkit, we can now go back and focus on finishing off the extra functionality that will pull the application together.
 
 ![A screenshot of the registration form page with customised Bootstrap styling.](images/ch12-styled-register.png)
 
 X> ### Another Style Exercise
-X> While this tutorial uses Bootstrap, an additional, and optional exercise, would be to style Rango using one of the other responsive CSS toolkits. If you do create your own style, let us know and we can link to it to show others how you have improved Rango's styling!
+X> While this tutorial uses Bootstrap, an additional, and optional exercise, would be to style Rango using one of the other responsive CSS toolkits. If you do create your style, let us know and we can link to it to show others how you have improved Rango's styling!

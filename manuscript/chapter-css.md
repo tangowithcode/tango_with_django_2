@@ -1,13 +1,13 @@
 #A CSS Crash Course {#chapter-css}
-In web development, we use *Cascading Style Sheets (CSS)* to describe the presentation of a HTML document (i.e. its look and feel). Each element within a HTML document can be *styled*. The CSS for a given HTML element describes how it is to be rendered on screen. This is done by ascribing *values* to the different *properties* associated with an element. For example, the `font-size` property could be set to `24pt` to make any text contained within the specified HTML element to appear at 24pt. We could also set the `text-align` property to a value of `right` to make text appear within the HTML element on the right-hand side.
+In web development, we use *Cascading Style Sheets (CSS)* to describe the presentation of an HTML document (i.e. its look and feel). Each element within an HTML document can be *styled*. The CSS for a given HTML element describes how it is to be rendered on screen. This is done by ascribing *values* to the different *properties* associated with an element. For example, the `font-size` property could be set to `24pt` to make any text contained within the specified HTML element to appear at 24pt. We could also set the `text-align` property to a value of `right` to make text appear within the HTML element on the right-hand side.
 
 I> ### This Chapter
 I> It's worth noting that this chapter is supplementary material to the main tutorial. We use the Twitter [Bootstrap CSS toolkit](#chapter-bootstrap) to do most of the styling for us in a later chapter of the tutorial -- this crash course serves as a very basic introduction to what is going on under the hood of Bootstrap!
 
 I> ### CSS Properties
-I> There are many, many different CSS properties that you can use in your stylesheets. Each provides a different functionality. Check out the [W3C website](https://www.w3.org/Style/CSS/all-properties.en.html) for a huge list of available properties. [pageresource.com](http://www.pageresource.com/dhtml/cssprops.htm) also has a neat list of properties, with descriptions of what each one does. Check out Section css-course-reading-label for a more comprehensive set of links.
+I> There are many, many different CSS properties that you can use in your stylesheets. Each provides different functionality. Check out the [W3C website](https://www.w3.org/Style/CSS/all-properties.en.html) for a huge list of available properties. [pageresource.com](http://www.pageresource.com/dhtml/cssprops.htm) also has a neat list of properties, with descriptions of what each one does. Check out Section css-course-reading-label for a more comprehensive set of links.
 
-CSS works by following a *select and apply pattern*. For a specified element, a set of styling properties are applied. Take a look at the following example in the [figure below](#image-css-render), where we have some HTML containing `<h1>` tags. In the CSS code example, we specify that all `h1` be styled. We'll come back to [selectors](https://www.w3schools.com/cssref/css_selectors.asp) later on in [this chapter](#section-css-selectors). For now though, you can assume the CSS style defined will be applied to our `<h1>` tags. The style contains four properties:
+CSS works by following a *select and apply pattern*. For a specified element, a set of styling properties are applied. Take a look at the following example in the [figure below](#image-css-render), where we have some HTML containing `<h1>` tags. In the CSS code example, we specify that all `h1` be styled. We'll come back to [selectors](https://www.w3schools.com/cssref/css_selectors.asp) later on in [this chapter](#section-css-selectors). For now, though, you can assume the CSS style defined will be applied to our `<h1>` tags. The style contains four properties:
 
 -   `font-size`, setting the size of the font to 16pt;
 -   `font-style`, which when set to `italic` italicises the contents of all `<h1>` tags within the document;
@@ -20,7 +20,7 @@ With all of these properties applied, the resultant page render can be seen in t
 ![Illustration demonstrating the rendered output of the sample HTML markup and CSS stylesheet shown. Pay particular attention to the CSS example -- the colours are used to demonstrate the syntax used to define styles and the property/value pairings associated with them.](images/css-render.png)
 
 W> ### What you see is what you *(may or may not)* get
-W> Due to the nature of web development, *what you see isn't necessarily what you'll get*. This is because different browsers have their own way of interpreting [web standards](http://en.wikipedia.org/wiki/Web_standards) and so the pages may be rendered differently. This quirk can unfortunately lead to plenty of frustration, but today's modern browsers (or developers) are much more in agreement as to how different components of a page should be rendered compared to those of the past. Thank goodness!
+W> Due to the nature of web development, *what you see isn't necessarily what you'll get*. This is because different browsers have their way of interpreting [web standards](http://en.wikipedia.org/wiki/Web_standards) and so the pages may be rendered differently. Unfortunately, this quirk can lead to plenty of frustration, but today's modern browsers (or developers) are much more in agreement as to how different components of a page should be rendered compared to those of the past. Thank goodness!
 W>
 W> One of the classic examples of the disagreement between browsers in terms of interpreting standards is Microsoft's *Internet Explorer*. If you want to know more, have a [look here](https://www.456bereastreet.com/archive/200612/internet_explorer_and_the_css_box_model/). Thankfully, Microsoft's modern browser, *Edge*, is much more standards-compliant.
 
@@ -55,7 +55,7 @@ I> You can also add CSS to your HTML documents *inline*, meaning that the CSS is
 CSS selectors are used to map particular styles to particular HTML elements. In essence, a CSS selector is a *pattern*. Here, we cover three basic forms of CSS selector: *element selectors*, *id selectors* and *class selectors*. [Later on in this chapter](#section-css-links), we also touch on what are known as *pseudo-selectors*.
 
 ## Element Selectors
-Taking the CSS example from the [rendering example shown above](#image-css-render), we can see that the selector `h1` matches to any `<h1>` tag. Any selector referencing a tag like this can be called an *element selector*. We can apply element selectors to any HTML element such as `<body>`, `<h1>`, `<h2>`, `<h3>`, `<p>` and `<div>`. These can be all styled in a similar manner. However, using element selectors is pretty crude -- styles are applied to *all* instances of a particular tag. We usually want a more fine-grained approach to selecting what elements we style, and this is where *id selectors* and *class selectors* come into play.
+Taking the CSS example from the [rendering example shown above](#image-css-render), we can see that the selector `h1` matches to any `<h1>` tag. Any selector referencing a tag like this can be called an *element selector*. We can apply element selectors to any HTML element such as `<body>`, `<h1>`, `<h2>`, `<h3>`, `<p>` and `<div>`. These can be all styled similarly. However, using element selectors is pretty crude -- styles are applied to *all* instances of a particular tag. We usually want a more fine-grained approach to selecting what elements we style, and this is where *id selectors* and *class selectors* come into play.
 
 ### ID Selectors
 The *id selector* is used to map to a unique element on your webpage. Each element on your webpage can be assigned a unique id via the `id` attribute, and it is this identifier that CSS uses to latch styles onto your element. This type of selector begins with a hash symbol (`#`), followed directly by the identifier of the element you wish to match to. Check out the figure below for an example.
@@ -63,16 +63,16 @@ The *id selector* is used to map to a unique element on your webpage. Each eleme
 ![An illustration demonstrating the use of an *id selector* in CSS. Note the blue header has an identifier which matches the CSS attribute `#blue_header`.](images/css-id.png)
 
 ### Class Selectors
-The alternative option is to use *class selectors*. This approach is similar to that of *id selectors*, with the difference that you can legitimately target multiple elements with the same class. If you have a group of HTML elements that you wish to apply the same style to, use a class-based approach. The selector for using this method is to precede the name of your class with a period (`.`) before opening up the style with curly braces (`{ }`). Check out the [figure below](#image-css-class) for an example.
+The alternative option is to use *class selectors*. This approach is similar to that of *id selectors*, with the difference that you can legitimately target multiple elements with the same class. If you have a group of HTML elements that you wish to apply the same style, use a class-based approach. The selector for using this method is to precede the name of your class with a period (`.`) before opening up the style with curly braces (`{ }`). Check out the [figure below](#image-css-class) for an example.
 
 {#image-css-class}
 ![An illustration demonstrating the use of a *class selector* in CSS. The blue headers employ the use of the `.blue` CSS style to override the red text of the `h1` style.](images/css-class.png)
 
 W> ### Ensure `id`s are Unique
-W> Try to use id selectors sparingly. [Ask yourself:](http://net.tutsplus.com/tutorials/html-css-techniques/the-30-css-selectors-you-must-memorize/) *do I absolutely need to apply an identifier to this element in order to target it?* If you need to apply a given set of styles to more than one element, the answer will always be **no**. In cases like this, you should use a class or element selector.
+W> Try to use id selectors sparingly. [Ask yourself:](http://net.tutsplus.com/tutorials/html-css-techniques/the-30-css-selectors-you-must-memorize/) *do I need to apply an identifier to this element in order to target it?* If you need to apply a given set of styles to more than one element, the answer will always be **no**. In cases like this, you should use a class or element selector.
 
 ## Fonts
-Due to the huge number available, using fonts has historically been a pitfall when it comes to web development. Picture this scenario: a web developer has installed and uses a particular font on his or her webpage. The font is pretty arcane -- so the probability of the font being present on other computers is relatively small. A user who visits the developer's webpage subsequently sees the page rendered incorrectly as the font is not present on their system. CSS tackles this particular issue with the `font-family` property.
+Due to the huge number available, using fonts has historically been a pitfall when it comes to web development. Picture this scenario: a web developer has installed and uses a particular font on his or her webpage. The font is pretty arcane -- so the probability of the font is present on other computers is relatively small. A user who visits the developer's webpage subsequently sees the page rendered incorrectly as the font is not present on their system. CSS tackles this particular issue with the `font-family` property.
 
 The value you specify for `font-family` can be a *list* of possible fonts -- and the first one your computer or other device has installed is the font that is used to render the webpage. Text within the specified HTML element subsequently has the selected font applied. The example CSS shown below applies *Arial* if the font exists. If it doesn't, it looks for *Helvetica*. If that font doesn't exist, any available [sans-serif font](http://en.wikipedia.org/wiki/Sans-serif) is applied.
 
@@ -81,7 +81,7 @@ The value you specify for `font-family` can be a *list* of possible fonts -- and
 	    font-family: 'Arial', 'Helvetica', sans-serif;
 	}
 
-In 1996, Microsoft started the [core fonts for the web](http://en.wikipedia.org/wiki/Core_fonts_for_the_Web) initiative with the aim of guaranteeing a particular set of fonts to be present on all computers. Today however, you can use pretty much any font you like -- check out [Google Fonts](http://www.google.com/fonts) for examples of the fonts that you can use and [this W3Schools article](https://www.w3schools.com/howto/howto_google_fonts.asp) on how to use such fonts.
+In 1996, Microsoft started the [core fonts for the web](http://en.wikipedia.org/wiki/Core_fonts_for_the_Web) initiative to guarantee a particular set of fonts to be present on all computers. However, you can today use pretty much any font you like -- check out [Google Fonts](http://www.google.com/fonts) for examples of the fonts that you can use and [this W3Schools article](https://www.w3schools.com/howto/howto_google_fonts.asp) on how to use such fonts.
 
 ## Colours and Backgrounds
 Colours are important in defining the look and feel of your website. You can change the colour of any element within your webpage, ranging from background colours to borders and text. In this book, we make use of words and *hexadecimal colour codes* to choose the colours we want. As you can see from the list of basic colours shown in the [figure below](#image-css-colours), you can supply either a *hexadecimal* or *RGB (red-green-blue)* value for the colour you want to use. You can also [specify words to describe your colours](https://www.w3schools.com/colors/colors_names.asp), such as `green`, `yellow` or `blue`.
@@ -96,16 +96,16 @@ Applying colours to your elements is a straightforward process. The property tha
 {#image-css-colours}
 ![Illustration of some basic colours with their corresponding hexadecimal and RGB values.](images/css-colours.png)
 
-There are many different websites that you can use to aid you in picking the right hexadecimal codes to enter into your stylesheets. You aren't simply limited to the nine examples above! Try out [html-color-codes.com](http://html-color-codes.com/) for a simple grid of colours and their associated six character hexadecimal code. You can also try sites such as [color-hex.com](http://www.color-hex.com/color-wheel/) which gives you fine grained control over the colours you can choose.
+There are many different websites that you can use to aid you in picking the right hexadecimal codes to enter into your stylesheets. You aren't simply limited to the nine examples above! Try out [html-color-codes.com](http://html-color-codes.com/) for a simple grid of colours and their associated six-character hexadecimal code. You can also try sites such as [color-hex.com](http://www.color-hex.com/color-wheel/) which gives you fine-grained control over the colours you can choose.
 
 I> ### Hexadecimal Colour Codes
 I> For more information on how colours are coded with hexadecimal, check out [this thorough tutorial](http://www.quackit.com/css/css_color_codes.cfm).
 
 W> ### Watch your English!
-W> As you may have noticed, CSS uses American English to spell words. As such, there are a few words that are spelt slightly differently compared to their British counterparts, like `color` and `center`. If you have grown up in the United Kingdom or Australia for instance, double check your spelling and be prepared to spell it the *wrong way!*
+W> As you may have noticed, CSS uses American English to spell words. As such, there are a few words that are spelt slightly differently compared to their British counterparts, like `color` and `center`. If you have grown up in the United Kingdom or Australia for instance, double-check your spelling and be prepared to spell it the *wrong way!*
 
 ### Text Colours {#section-css-colours-text}
-To change the colour of text within an element, you must apply the `color` property to the element containing the text you wish to change. The following CSS for example changes all the text within an element using class `red` to red.
+To change the colour of text within an element, you must apply the `color` property to the element containing the text you wish to change. The following CSS, for example, changes all the text within an element using class `red` to red.
 
 {lang="css",linenos=off}
 	.red {
@@ -129,7 +129,7 @@ In the example above, we use multiple colours to specify a different colour for 
 Our example applies any element with class `some-element` with a black top border, a red right border and a green bottom border. No left border value is supplied, meaning that the left-hand border is left transparent. To specify a colour for only one side of an element's border, consider using the `border-top-color`, `border-right-color`, `border-bottom-color` and `border-left-color` properties where appropriate.
 
 ### Background Colours
-You can also change the colour of an element's background through use of the CSS `background-color` property. Like the `color` property described above, the `background-color` property can be easily applied by specifying a single colour as its value. Check out the example below which applies a bright green background to the entire webpage. Not very pretty!
+You can also change the colour of an element's background through the use of the CSS `background-color` property. Like the `color` property described above, the `background-color` property can be easily applied by specifying a single colour as its value. Check out the example below which applies a bright green background to the entire webpage. Not very pretty!
 
 {lang="css",linenos=off}
 	body {
@@ -137,7 +137,7 @@ You can also change the colour of an element's background through use of the CSS
 	}
 
 ### Background Images
-Of course, a colour isn't the only way to change your backgrounds. You can also apply background images to your elements, too. We can achieve this through the `background-image` property.
+Of course, specifying a colour isn't the only way to change your backgrounds. You can also apply background images to your elements, too. We can achieve this through the `background-image` property.
 
 {lang="css",linenos=off}
 	#some-unique-element {
@@ -145,7 +145,7 @@ Of course, a colour isn't the only way to change your backgrounds. You can also 
 	    background-color: #000000;
 	}
 
-The example above makes use of `filename.png` as the background image for the element with identifier `some-unique-element`. The path to your image is specified *relative to the path of your CSS stylesheet*. Our example above uses the [double dot notation to specify the relative path](http://programmers.stackexchange.com/a/186719) to the image. We also apply a black background colour to fill the gaps left by our background image -- it may not fill the entire size of the element.
+The example above makes use of `filename.png` as the background image for the element with the identifier `some-unique-element`. The path to your image is specified *relative to the path of your CSS stylesheet*. Our example above uses the [double dot notation to specify the relative path](http://programmers.stackexchange.com/a/186719) to the image. We also apply a black background colour to fill the gaps left by our background image -- it may not fill the entire size of the element.
 
 I> ### Background Image Positioning
 I> By default, background images default to the top-left corner of the relevant element and are repeated on both the horizontal and vertical axes. You can customise this functionality by altering [how the image is repeated](https://www.w3schools.com/cssref/pr_background-repeat.asp) with the `background-image` property. You can also specify [where the image is placed](https://www.w3schools.com/cssref/pr_background-position.asp) by default with the `background-position` property.
@@ -166,7 +166,7 @@ In simple terms, *block-level elements* are by default rectangular in shape and 
 Block-level elements can be nested within other block-level elements to create a hierarchy of elements. You can also nest *inline elements* within block-level elements, but not vice-versa! Read on to find out why.
 
 ### Inline Elements
-An *inline element* does exactly what it says on the tin. These elements appear *inline* to block-level elements on your webpage, and are commonly found to be wrapped around text. You'll find that `<span>` tags are commonly used for this purpose.
+An *inline element* does exactly what it says on the tin. These elements appear *inline* to block-level elements on your webpage and are commonly found to be wrapped around the text. You'll find that `<span>` tags are commonly used for this purpose.
 
 This text-wrapping application was explained in the [text colours section](#section-css-colours-text), where a portion of text could be wrapped in `<span>` tags to change its colour. The corresponding HTML markup would look similar to the example below.
 
@@ -178,7 +178,7 @@ This text-wrapping application was explained in the [text colours section](#sect
 Refer back to the [nested blocks figure above](#image-css-nesting-blocks) to refresh your mind about what you can and cannot nest before you move on.
 
 I> ### The CSS `display` Property
-I> The [`display` property of CSS](https://www.w3schools.com/cssref/pr_class_display.asp) allows you to change the behaviour of a container. For example, `display: block;` can be set on a `<span>` element to change it to block level!
+I> The [`display` property of CSS](https://www.w3schools.com/cssref/pr_class_display.asp) allows you to change the behaviour of a container. For example, `display: block;` can be set on a `<span>` element to change it to block-level!
 
 ## Basic Positioning
 An important concept that we have not yet covered in this CSS crash course regards the positioning of elements within your webpage. Most of the time, you'll be satisfied with inline elements appearing alongside each other, and block-level elements appearing underneath each other. These elements are said to be *positioned statically*.
@@ -216,7 +216,7 @@ This produces the output shown below.
 {id="fig-css-ex1"}
 ![](images/css-ex1.png)
 
-We can see that each element follows its natural flow: the container element with class `container` spans the entire width of its parent container, while each of the `<span>` elements are enclosed inline within the parent. Now suppose that we wish to then move the red element with text `Span 2` to the right of its container. We can achieve this by modifying our CSS `.red` class to look like the following example.
+We can see that each element follows its natural flow: the container element with class `container` spans the entire width of its parent container, while each of the `<span>` elements are enclosed inline within the parent. Now suppose that we wish to then move the red element with the text `Span 2` to the right of its container. We can achieve this by modifying our CSS `.red` class to look like the following example.
 
 {lang="css",linenos=off}
 	.red {
@@ -275,12 +275,12 @@ Let's explain how this works. Consider our previous example where two `<span>` e
 	    border: 1px solid black;
 	}
 
-This produces the following result -- just as we would expect. Note that we have artificially increased the `height` of our `container` element to 150 pixels. This will allow us more room with which to play with.
+This produces the following result -- just as we would expect. Note that we have artificially increased the `height` of our `container` element to 150 pixels. This will allow us more room with which to play.
 
 {id="fig-css-ex5"}
 ![](images/css-ex5.png)
 
-Now let's attempt to position our `.red` `<span>` element relatively. First, we apply the `position: relative` property and value pairing to our `.red` class, like so.
+Now let's attempt to position our `.red` `<span>` element relatively. First, we apply `position: relative` to our `.red` class, like so.
 
 {lang="css",linenos=off}
 	.red {
@@ -289,7 +289,7 @@ Now let's attempt to position our `.red` `<span>` element relatively. First, we 
 	    position: relative;
 	}
 
-This has no effect on the positioning of our `.red` element. What it does do however is change the positioning of `.red` from `static` to `relative`. This paves the way for us to specify where -- from the original position of our element -- we now wish the element to be located.
+This does not affect the positioning of our `.red` element. What it does do however is change the positioning of `.red` from `static` to `relative`. This paves the way for us to specify where -- from the original position of our element -- we now wish the element to be located.
 
 {lang="css",linenos=off}
 	.red {
@@ -387,7 +387,7 @@ We now apply absolute positioning to our `.red` element.
 	    position: absolute;
 	}
 
-Like with relative positioning, this has no overall effect on the positioning of our red element in the webpage. We must apply one or more of `top`, `bottom`, `left` or `right` in order for a new position to take effect. As a demonstration, we can apply `top` and `left` properties to our red element like in the example below.
+Like with relative positioning, this has no overall effect on the positioning of our red element in the webpage. We must apply one or more of `top`, `bottom`, `left` or `right` for a new position to take effect. As a demonstration, we can apply `top` and `left` properties to our red element like in the example below.
 
 {lang="css",linenos=off}
 	.red {
@@ -401,7 +401,7 @@ Like with relative positioning, this has no overall effect on the positioning of
 {id="fig-css-ex11"}
 ![](images/css-ex11.png)
 
-Wow, what happened here? Our red element is now positioned outside of our container! You'll note that if you run this code within your own web browser window, the red element appears in the top left-hand corner of the viewport. This therefore means that our `top`, `bottom`, `left` and `right` properties take on a slightly different meaning when absolute positioning is concerned.
+Wow, what happened here? Our red element is now positioned outside of our container! You'll note that if you run this code within your web browser window, the red element appears in the top left-hand corner of the viewport. Therefore, this means that our `top`, `bottom`, `left` and `right` properties take on a slightly different meaning when absolute positioning is concerned.
 
 As our container element's position is by default set to `position: static`, the red and yellow elements are moving to the top left and bottom right of our screen respectively. Let's now modify our `.yellow` class to move the yellow `<span>` to 5 pixels from the bottom right-hand corner of our page. The `.yellow` class now looks like the example below.
 
@@ -419,7 +419,7 @@ This produces the following result.
 {id="fig-css-ex12"}
 ![](images/css-ex12.png)
 
-But what if we don't want our elements to be positioned absolutely in relation to the entire page? More often than not, we'll be looking to adjusting the positioning of our elements in relation to a container. If we recall our definition for absolute positioning, we will note that absolute positions are calculated *relative to the first parent element that has a position value other than static.* As our container is the only parent for our two `<span>` elements, the container to which the absolutely positioned elements is therefore the `<body>` of our HTML page. We can fix this by adding `position: relative` to our `.container` class, just like in the example below.
+But what if we don't want our elements to be positioned absolutely with respect to the entire page? More often than not, we'll be looking to adjusting the positioning of our elements with respect to a container. If we recall our definition for absolute positioning, we will note that absolute positions are calculated *relative to the first parent element that has a position value other than static.* As our container is the only parent for our two `<span>` elements, the container to which the absolutely positioned elements is therefore the `<body>` of our HTML page. We can fix this by adding `position: relative` to our `.container` class, just like in the example below.
 
 {lang="css",linenos=off}
 	.container {
@@ -464,9 +464,9 @@ When using CSS, you're never too far away from using *padding*, *borders* and *m
 Each element that you create on a webpage can be considered as a box. The [CSS box model](http://www.w3.org/TR/CSS2/box.html) is defined by the [W3C](http://www.w3.org/) as a formal means of describing the elements or boxes that you create, and how they are rendered in your web browser's viewport. Each element or box consists of *four separate areas*, all of which are illustrated in the [figure below](#image-css-box-model). The areas -- listed from inside to outside -- are the *content area*, the *padding area*, the *border area* and the *margin area*.
 
 {#image-css-box-model}
-![An illustration demonstrating the CSS box model, complete with key showing the four areas of the model.](images/css-box-model.png)
+![An illustration demonstrating the CSS box model, complete with legend showing the four areas of the model.](images/css-box-model.png)
 
-For each element within a webpage, you can create a margin, apply some padding or a border with the respective properties `margin`, `padding` and `border`. Margins clear a transparent area around the border of your element; meaning margins are incredibly useful for creating a gap between elements. In contrast, padding creates a gap between the content of an element and its border. This therefore gives the impression that the element appears wider. If you supply a background colour for an element, the background colour is extended with the element's padding. Finally, borders are what you might expect them to be -- they provide a border around your element's content and padding.
+For each element within a webpage, you can create a margin, apply some padding or a border with the respective properties `margin`, `padding` and `border`. Margins clear a transparent area around the border of your element; meaning margins are incredibly useful for creating a gap between elements. In contrast, padding creates a gap between the content of an element and its border. This gives the impression that the element appears wider. If you supply a background colour for an element, the background colour is extended with the element's padding. Finally, borders are what you might expect them to be -- they provide a border around your element's content and padding.
 
 For more information on the CSS box model, check out [Mozilla's excellent explanation of the model](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS/Box_model). [Why not even order a t-shirt with the box model on it](http://cssboxmodel.com/)?
 
@@ -481,7 +481,7 @@ T> ### Borders and Padding
 T> If you find yourself working with elements that have a `border` and/or `padding`, working out precise widths can be hard. In a scenario where the widths are crucial, you might want to explore the [`box-sizing` property](https://www.w3schools.com/css/css3_box-sizing.asp) to better control widths and heights. Read the linked W3CSchools article for more information. This property has saved us on numerous occasions!
 
 ## Styling Lists
-Lists are everywhere. Whether you're reading a list of learning outcomes for a course or a reading a list of times for the train, you know what a list looks like and appreciate its simplicity. If you have a list of items on a webpage, why not use a HTML list? Using lists within your webpages promotes good HTML document structure, allowing text-based browsers, screen readers and other browsers that do not support CSS to render your page in a sensible manner.
+Lists are everywhere. Whether you're reading a list of learning outcomes for a course or a reading a list of times for the train, you know what a list looks like and appreciate its simplicity. If you have a list of items on a webpage, why not use an HTML list? Using lists within your webpages promotes good HTML document structure, allowing text-based browsers, screen readers and other browsers that do not support CSS to render your page sensibly.
 
 Lists however by default do not look particularly appealing to end-users. Take the following HTML list that we'll be styling as we go along trying out different things.
 
@@ -547,7 +547,7 @@ The possibilities of styling lists are endless! You could say it's a never-endin
 ## Styling Links {#section-css-links}
 CSS provides you with the ability to easily style hyperlinks in any way you wish. You can change their colour, their font or any other aspect that you wish -- and you can even change how they look when you hover over them!
 
-Hyperlinks are represented within a HTML page through the `<a>` tag, which is short for *anchor*. We can apply styling to all hyperlinks within your webpage as shown in following example.
+Hyperlinks are represented within an HTML page through the `<a>` tag, which is short for *anchor*. We can apply styling to all hyperlinks within your webpage as shown in the following example.
 
 {lang="css",linenos=off}
 	a {
@@ -573,7 +573,7 @@ This produces links as shown below. Notice the change in colour of the second li
 {id="fig-css-ex19"}
 ![](images/css-ex19.png)
 
-You may not however wish for the same link styles across the entire webpage. For example, your navigation bar may have a dark background while the rest of your page has a light background. This would necessitate having different link stylings for the two areas of your webpage. The example below demonstrates how you can apply different link styles by using a slightly more complex CSS style selector.
+However, you may not wish for the same link styles across the entire webpage. For example, your navigation bar may have a dark background while the rest of your page has a light background. This would necessitate having different link stylings for the two areas of your webpage. The example below demonstrates how you can apply different link styles by using a slightly more complex CSS style selector.
 
 {lang="css",linenos=off}
 	#dark {
@@ -630,9 +630,9 @@ It's worth pointing out where the *Cascading* in *Cascading Style Sheets* comes 
 ## Additional Reading
 What we've discussed in this section is by no means a definitive guide to CSS. There are [300-page books](https://www.amazon.co.uk/CSS-Definitive-Guide-Visual-Presentation/dp/1449393195/) devoted to CSS alone! What we have provided you with here is a very brief introduction showing you the very basics of what CSS is and how you can use it.
 
-As you develop your web applications, you'll undoubtedly run into issues and frustrating problems with styling web content. This is part of the learning experience, and you still have a bit to learn. We strongly recommend that you invest some time trying out several online tutorials about CSS. There are so many resources freely available online, that there isn't really any need to buy a book (unless you want to).
+As you develop your web applications, you'll undoubtedly run into issues and frustrating problems with styling web content. This is part of the learning experience, and you still have a bit to learn. We strongly recommend that you invest some time trying out several online tutorials about CSS. There are so many resources freely available online, that there isn't any need to buy a book (unless you want to).
 
--   The *W3C* [provides a neat tutorial on CSS](https://www.w3.org/Style/Examples/011/firstcss.en.html), taking you by the hand and guiding you through the different stages required. They also introduce you to several new HTML elements along the way, and show you how to style them accordingly.
+-   The *W3C* [provides a neat tutorial on CSS](https://www.w3.org/Style/Examples/011/firstcss.en.html), taking you by the hand and guiding you through the different stages required. They also introduce you to several new HTML elements along the way and show you how to style them accordingly.
 -   [W3Schools also provides some cool CSS tutorials](https://www.w3schools.com/css/css_examples.asp). Instead of guiding you through the process of creating a webpage with CSS, *W3Schools* has a series of mini-tutorials and code examples to show you to achieve a particular feature, such as setting a background image. We highly recommend that you have a look here.
 
 This list is by no means exhaustive, and a quick web search will indeed yield much more about CSS for you to chew on. Just remember: CSS can be tricky to learn, and there may be times where you feel you want to throw your computer through the window. We say this is pretty normal -- but take a break if you get to that stage.
