@@ -280,7 +280,7 @@ You can find the name of a package by examining the [*PyPi package index*](https
 {lang="bash",linenos=off}
 	(rangoenv) $ pip freeze
 	Django==2.1.5
-	Pillow==5.0.0
+	Pillow==5.4.1
 	pytz==2018.9
 
 This shows that three packages are installed in a given environment: `Django`, `Pillow` and `pytz`. The output from this command is typically saved to a file called `requirements.txt`, stored in the root directory of a Python project. If somebody wants to use your software, they can then download your software -- complete with the `requirements.txt` file. Using this file, they can then create a new virtual environment set up with the required packages to make the software work.
