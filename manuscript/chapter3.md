@@ -151,7 +151,7 @@ The `startapp` command creates a new directory within your project's root. Unsur
 - `admin.py`, where you can register your models so that you can benefit from some Django machinery which creates an admin interface for you;
 - `apps.py`, that provides a place for any app-specific configuration; 
 - `models.py`, a place to store your app's data models - where you specify the entities and relationships between data;
-- `tests.py`, where you can store a series of functions to test your app's code; 
+- `tests.py`, where you can store a series of functions to test your implementation;
 - `views.py`, where you can store a series of functions that handle requests and return responses; and
 - `migrations` directory, which stores database specific information related to your models.
     

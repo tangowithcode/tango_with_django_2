@@ -445,7 +445,7 @@ T> * After your population script has been updated, you can move on to customisi
 T>      * Within your new `PageAdmin` class, add `list_display = ('title', 'category', 'url')`.
 T>      * Finally, register the `PageAdmin` class with Django's admin interface. You should modify the line `admin.site.register(Page)`. Change it to `admin.site.register(Page, PageAdmin)` in Rango's `admin.py` file.
 
-I> ### Tests
+<!-- I> ### Tests
 I>
 I> Like in the last chapter we have written tests to check if you have completed the chapter and the exercises. To check your work so far, [download the `tests.py` script](https://github.com/leifos/tango_with_django_2/blob/master/code/tango_with_django_project/rango/tests.py) from our [GitHub repository](https://github.com/leifos/tango_with_django_2/), and save it within your `rango` app directory.
 I>
@@ -455,4 +455,4 @@ I>
 I> {lang="text",linenos=off}
 I>     $ python manage.py test rango
 I>
-I> If you are interested in learning about automated testing, now is a good time to check out the [chapter on testing](#chapter-testing). The chapter runs through some of the basics on how you can write tests to automatically check the integrity of your code.
+I> If you are interested in learning about automated testing, now is a good time to check out the [chapter on testing](#chapter-testing). The chapter runs through some of the basics on how you can write tests to automatically check the integrity of your code. -->

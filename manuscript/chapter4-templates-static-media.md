@@ -371,8 +371,8 @@ T> Remember: static files, as the name implies, do not change. These files form 
 T>
 T> An example of a static file could be a stylesheet file (CSS), which determines the appearance of your app's webpages. An example of a media file could be a user profile image, which is uploaded by the user when they create an account on your app.
 
-
-I> ### Tests
+<!-- Leaving out tests for now -- DMAX (2019-07-23), these require some work to make them work properly with the small tweaks that have been made throughout the book.>
+<!-- I> ### Tests
 I>
 I> We have written a few tests to check if you have completed the exercises. To check your work so far, [download the `tests.py` script](https://github.com/leifos/tango_with_django_2/blob/master/code/tango_with_django_project/rango/tests.py) from our [GitHub repository](https://github.com/leifos/tango_with_django_2/), and save it within your `rango` app directory.
 I>
@@ -384,5 +384,4 @@ I>     $ python manage.py test rango
 I>
 I> If you are interested in learning about automated testing, now is a good time to check out the [chapter on testing](#chapter-testing). The chapter runs through some of the basics on how you can write tests to automatically check the integrity of your code.
 I>
-I> However for the time being you can see if you pass the tests. If you don't check carefully the test out put and see what tests you fail on - then go back to your code and update it to meet the test requirements.
-
+I> However for the time being you can see if you pass the tests. If you don't check carefully the test out put and see what tests you fail on - then go back to your code and update it to meet the test requirements. -->
