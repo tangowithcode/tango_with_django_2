@@ -143,7 +143,6 @@ I> to execute the migration which creates the associated tables within the under
 ##Creating a *User Registration* View and Template
 With our authentication infrastructure laid out, we can now begin to build on it by providing users of our application with the opportunity to create user accounts. We can achieve this by creating a new view, template and URL mapping to handle user registrations.
 
-
 I> ### Django User Registration Applications
 I>
 I> It is important to note that there are several off the shelf user registration applications available which reduce a lot of the hassle of building your own registration and login forms. 

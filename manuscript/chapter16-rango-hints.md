@@ -205,7 +205,7 @@ Once complete, the basic flow/experience for a user registering with Rango will 
 
 1. The user will jump to the Rango website.
 2. They will then click the `Register Here` link on the navigation bar.
-3. They will then be redirected to the `django-registration-redux` registration form, at `/accounts/register`.
+3. They will then be redirected to the `django-registration-redux` registration form. This form is located at the URL `/accounts/register`.
 4. Once this form has been completed, the form will be submitted and processed. If successful, they will then be redirected to the new `/rango/register_profile/` page, allowing them to create a `UserProfile` instance.
 5. Once this has been completed and submitted, the user will be redirected to the homepage. Registration will then be complete.
 
@@ -233,7 +233,9 @@ To start, create a new template in `templates/rango/` called `profile_registrati
 	    
 	    <div class="container">
 	        <div class="row">
-	            <form method="post" action="{% url 'rango:register_profile' %}" enctype="multipart/form-data">
+	            <form method="post"
+	                  action="{% url 'rango:register_profile' %}"
+	                  enctype="multipart/form-data">
 	                {% csrf_token %}
 	                {{ form.as_p }}
 	                <input type="submit" value="Create Profile" />
@@ -323,12 +325,14 @@ With this complete, we now need to tell our project what to do with this extende
 	    path('admin/', admin.site.urls),
 	    
 	    # New line below!
-	    path('accounts/register/', MyRegistrationView.as_view(), name='registration_register'),
+	    path('accounts/register/', 
+	         MyRegistrationView.as_view(),
+	         name='registration_register'),
 	    
 	    path('accounts/', include('registration.backends.simple.urls')),
 	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-This overrides the existing `registration_register` URL mapping defined in the standard `django-registration-redux` `urls.py` module, and replace the URL we jump to with a mapping to our new class-based view.
+This overrides the existing `registration_register` URL mapping, provided to us in the standard, out-of-the-box `django-registration-redux` `urls.py` module, and replaces the URL we jump to with a mapping to our new class-based view.
 
 ## Class-Based Views {#section-hints-class-based-views}
 What is a class-based view, though? What *exactly* have we made you code up in the example solution above? Class-based views are a more sophisticated and elegant mechanism for handling requests. Rather than taking a functional approach as we have done so far in this tutorial -- that is creating *functions* in Rango's `views.py` module to serve requests -- the class-based approach means creating classes that inherit and implement a series of methods to handle your app's requests.
@@ -462,7 +466,7 @@ With the code now in place to reinstate the use of the `UserProfile` model, we c
 
 1. First, we will need to create a new template, this time called `profile.html`. This will live inside the `rango` `templates` directory.
 2. Second, we'll have to create a new view that renders the new template. We'll make this one a class-based view from the outset!
-3. Finally, the new view must be mapped to a URL. Our URL for this exercise will be `/rango/profile`.
+3. Finally, the new view must be mapped to a URL -- in this case, `/rango/profile`.
 
 Of course, to make the new page accessible, we'll also need to provide an additional hyperlink in Rango's `base.html` template to provide simple access. For this solution, we'll be creating a generalised view that allows you access the information of any user of Rango. The code will also allow users who are logged into the app to also edit their own profile -- *but only theirs* -- thus satisfying the [requirements of this exercise](#sec-ex-profiles).
 
@@ -583,7 +587,7 @@ We'll also need to `import` two classes that we haven't used before. One is the 
 
 Our new class-based view requires that a user be logged in -- hence the use of the `@method_decorator(login_required)` decorator for both the `get()` and `post()` methods.
 
-Within the `ProfileView` class, we also created a `get_user_details()` helper method to ensure that we don't repeat ourselves. This helper method begins by selecting the selected `django.contrib.auth.User` from the database -- if it exists. If it does not exist, the method simply returns None, which signals to both the `get()` and `post()` methods to do a simple `redirect` to Rango's homepage, rather than greet the user with a bespoke error message. We can't display information for a non-existent user! If the user does exist, the `get_user_details()` method selects the `UserProfile` instance (or creates a blank one, if one does not exist). We then populate a `UserProfileForm` with the the selected user's details if it is required. The `user`, `userprofile` and populated `form` objects are then returned in a tuple and are [unpacked](https://www.geeksforgeeks.org/packing-and-unpacking-arguments-in-python/) by the `get()` and `post()` methods that call the helper method.
+Within the `ProfileView` class, we also created a `get_user_details()` helper method to ensure that we don't repeat ourselves. This method begins by selecting the `django.contrib.auth.User` instance from the database -- if it exists. If it does not exist, the method simply returns None, which signals to both the `get()` and `post()` methods to do a simple `redirect` to Rango's homepage, rather than greet the user with a bespoke error message. We can't display information for a non-existent user! If the user does exist, the `get_user_details()` method selects the `UserProfile` instance (or creates a blank one, if one does not exist). We then populate a `UserProfileForm` with the the selected user's details if it is required. The `user`, `userprofile` and populated `form` objects are then returned in a tuple and are [unpacked](https://www.geeksforgeeks.org/packing-and-unpacking-arguments-in-python/) by the `get()` and `post()` methods that call the helper method.
 
 Within the `post()` method, we handle the case where a user wants to update their profile's information. To do this, we extract information from the form into a `UserProfileForm` instance that is able to reference to the `UserProfile` instance that it is saving to -- rather than creating a new `UserProfile` instance each time. Remember, we are *updating*, not creating! A valid form is then saved. An invalid form (or a HTTP `GET` request) triggers the rendering of the `profile.html` template, complete with the relevant variables that are passed through to the template via its context.
 
@@ -640,7 +644,8 @@ You know the drill by now. Create a new template! Once again, this belongs to Ra
 	                    {% for listuser in userprofile_list %}
 	                    <div class="list-group-item">
 	                        <h4 class="list-group-item-heading">
-	                            <a href="{% url 'rango:profile' listuser.user.username %}">
+	                            <a href="{% url 'rango:profile'
+	                                listuser.user.username %}">
 	                                {{ listuser.user.username }}
 	                            </a>
 	                        </h4>

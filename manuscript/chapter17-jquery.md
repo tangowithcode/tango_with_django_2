@@ -15,7 +15,8 @@ To include JQuery (or any other JavaScript file), you need to tell the *client.*
 In Rango's `base.html` template, let's make sure we have referenced JQuery. If you completed the [Bootstrap chapter](#chapter-bootstrap) earlier on in the tutorial, you may have noticed that Bootstrap uses JQuery! To make sure nothing breaks, we'll stick with the version that Bootstrap uses -- version 3.3.1. At the bottom of your `base.html` template (before the close of the `<body>` tag), look for the following line.
 
 {lang="html",linenos=off}
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	        crossorigin="anonymous"></script>
 
 It should already be there! The `<script>` tag can contain JavaScript code *inline* -- or if you want to load an external JavaScript file (`.js`), then you can use the `src` attribute and specify the filename. In this instance, we load the JQuery file directly from the JQuery servers. You can alternatively load this file in your web browser, save it, and put it in your `static` folder, meaning that you are then not reliant on the JQuery servers for your app to work.
 

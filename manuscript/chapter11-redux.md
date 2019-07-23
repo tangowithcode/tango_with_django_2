@@ -100,7 +100,8 @@ In the `templates/registration` directory, create the file `login.html`. This wi
 	    </form>
 	
 	    <p>
-	        Not registered? <a href="{% url 'registration_register' %}">Register here!</a>
+	        Not registered?
+	        <a href="{% url 'registration_register' %}">Register here!</a>
 	    </p>
 	{% endblock %}
 

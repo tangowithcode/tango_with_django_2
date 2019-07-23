@@ -1,0 +1,1 @@
+	                                        kwargs={'category_name_slug': category_name

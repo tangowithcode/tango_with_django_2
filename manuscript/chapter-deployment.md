@@ -36,11 +36,16 @@ First, open a Bash console. By clicking `$ Bash` from under the `New console` he
 	New python executable in /home/rangodemo2019/.virtualenvs/rangoenv/bin/python3.7
 	Also creating executable in /home/rangodemo2019/.virtualenvs/rangoenv/bin/python
 	Installing setuptools, pip, wheel...done.
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/predeactivate
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/postdeactivate
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/preactivate
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/postactivate
-	virtualenvwrapper.user_scripts creating /home/rangodemo2019/.virtualenvs/rangoenv/bin/get_env_details
+	virtualenvwrapper.user_scripts creating
+	    /home/rangodemo2019/.virtualenvs/rangoenv/bin/predeactivate
+	virtualenvwrapper.user_scripts creating
+	    /home/rangodemo2019/.virtualenvs/rangoenv/bin/postdeactivate
+	virtualenvwrapper.user_scripts creating
+	    /home/rangodemo2019/.virtualenvs/rangoenv/bin/preactivate
+	virtualenvwrapper.user_scripts creating
+	    /home/rangodemo2019/.virtualenvs/rangoenv/bin/postactivate
+	virtualenvwrapper.user_scripts creating
+	    /home/rangodemo2019/.virtualenvs/rangoenv/bin/get_env_details
 
 Above we have used Python 3.7, but you can check which version of Python you are using, and use that instead. Remember that `rangodemo2019` will be replaced with your own username. The process of creating the virtual environment will take a little while to complete (as you are using a host shared with many others). After the environment has been created, you will be presented with a slightly different prompt.
 

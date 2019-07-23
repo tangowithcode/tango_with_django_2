@@ -13,12 +13,12 @@ To style Rango we have identified that the [dashboard layout](https://getbootstr
 
 To tailor the dashboard HTML source to our Rango app, we need to make a number of modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd-bootstrap-base), but for completeness is also shown below.
 
-Download and save the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `<Workspace>/tango_with_django_project/templates/rango/` directory.
+Download the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `<Workspace>/tango_with_django_project/templates/rango/` directory.
 
 Below is a list of all the different modifications we made to the original dashboard HTML source.
 
 - First, we replaced all references of `../../` (which symbolises to go look two directories back from where we are currently) to be `http://getbootstrap.com/docs/4.2/`. This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
-- We replaced the reference to the Bootstrap dashboard stylesheet `dashboard.css` to `http://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css`. This provides an absolute reference to the file, once again removing doubt as to what version we are referring to.
+- We replaced the reference `dashboard.css` to `http://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.css`. This provides an absolute reference to the file, once again removing doubt as to what version we are referring to.
 - We took out the search form from the *navigation bar* at the top of the page.
 - We stripped out all the non-essential content from the original HTML page, and replaced it with the Rango `body_block` code `{% block body_block %}{% endblock %}`.
 - We set the `<title>` element of the page to fit with what we worked on earlier: `<title>{% block title_block %}How to Tango with Django!{% endblock %}</title>`
@@ -128,10 +128,13 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 	    <!-- Placed at the end of the document so the pages load faster -->
 	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	    <script>
-	        window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')
+	        window.jQuery || document.write('<script src="https://getbootstrap.com/
+	            docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')
 	    </script>
-	    <script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js"></script>
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js">
+	    <script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js">
+	        </script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/
+	        feather.min.js">
 	    </script>
 	    <script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js">
 	    </script>
