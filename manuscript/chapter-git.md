@@ -103,11 +103,23 @@ Git also provides you with the capability to stop -- or ignore -- particular fil
 Check out the following example of a `.gitignore` file:
 
 {lang="text",linenos=off}
+	.pyc
+	.DS_Store
+	__pycache__/
 	db.sqlite3
-	config/api_keys.py
-	*.pyc
+	*.key
+	thumbs.db
 
-In this example `.gitignore` file, there are three entries -- one on each line. The first entry prompts Git to ignore the file `db.sqlite3`, a binary database file that should never be committed. The file `api_keys.py` residing within the `config` directory of your repository is also ignored, being presented on the second line. The third entry then prompts Git to ignore *all* instance of files with a `.pyc` extension, or compiled Python files. This is a really nice feature: you can use *wildcards* to make generic entries if you need to!
+In this example `.gitignore` file, there are six entries -- one on each line. We detail each of the entries below.
+
+- The first entry prompts Git to ignore any file with an extension of `.pyc` -- the wildcard `*` denoting *anything.* A `.pyc` file is a [bytecode representation of a Python module](https://stackoverflow.com/a/2998228), something that Python creates for modules in order to speed up execution. These can be safely ignored when committing to version control.
+- The second entry, `.DS_Store`, is a hidden file created by macOS systems. These files contain custom attributes that you unknowingly set when browsing through your filesystem using the Finder app. Custom attributes may, for example, represent the position of icons, or the view that you use to show your files in a given directory.
+- The third entry represents any directory of the name `__pycache__`. This directory is new to Python 3, and is where the [bytecode representation](https://stackoverflow.com/a/16869074) of your modules live. Again, these directories can be safely ignored.
+- `db.sqlite3` is your database. Read the note below for a detailed explanation on why this should always be excluded from your repository.
+- `*.key` is the fifth entry. This represents any file with the extension `key`, a convention we use where files with this extension contain sensitive information -- like keys for API authentication. These should never be committed -- doing so would be the equivalent of publicly sharing your password!
+- The final entry is `thumbs.db`. Like the `.DS_Store` file created by macOS, this is the Windows equivalent.
+
+Remember, wildcards are a neat feature to use here. If you ever have a type of file you do not wish to commit, then just use a `*.abc` to denote any filename, with the extension `.abc`.
 
 I> ### `.gitignore` -- What else should I ignore?
 I> There are many kinds of files you could safely ignore from being committed and pushed to your Git repositories.
