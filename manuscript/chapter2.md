@@ -95,7 +95,7 @@ While not absolutely necessary, a good Python-based IDE can be very helpful to y
 
 Research which one is right for you, and be aware that some may require you to purchase a licence. Ideally, you'll want to select an IDE that supports integration with Django. Of course, if you prefer not to use an IDE, using a simple text editor like [Sublime Text](https://www.sublimetext.com/), [TextMate](https://macromates.com/) or [Atom](https://atom.io/) will do just fine. Many modern text editors actually support Python syntax highlighting, which makes things much easier!
 
-We use PyCharm as it supports virtual environments and Django integration -- though you will have to configure the IDE accordingly. We don't cover that here - although JetBrains do provide a [guide on setting PyCharm up](https://www.jetbrains.com/help/pycharm/2016.1/creating-and-running-your-first-django-project.html).
+We use PyCharm as it supports virtual environments and Django integration -- though you will have to configure the IDE accordingly. We don't cover that here -- although JetBrains do provide a [guide on setting PyCharm up](https://www.jetbrains.com/help/pycharm/2016.1/creating-and-running-your-first-django-project.html).
 
 ## Version Control System
 We should also point out that when you develop code, you should always house your code within a version-controlled repository such as [SVN](http://subversion.tigris.org/) or [Git](http://git-scm.com/). We won't be explaining this right now, so that we can get stuck into developing an application in Django. We have however written a [chapter providing a crash course on Git](#chapter-git) for your reference that you can refer to later on. **We highly recommend that you set up a Git repository for your own projects.**
@@ -104,18 +104,18 @@ X> ### Exercises
 X>
 X> To get comfortable with your environment, try out the following exercises.
 X>
-X>  - Get up to speed with Python if you're new to the language. Try out one or more of the tutorials we list earlier.
-X>  - Install Python 3.7. Make sure `pip3` (or `pip` within your virtual environment) is also installed and works on your computer.
-X>  - Play around with your *command line interface (CLI)*, whether it be the Command Prompt (Windows) or a Terminal (macOS, Linux, UNIX, etc.) and create a directory called `code`,  which we use to create our projects in.
-X>  - Create a new virtual environment using Python 3.7. This is optional; but we *strongly encourage you to use virtual environments.*
-X>  - Within your environment, install Django 2.1.5 and Pillow 5.4.1.
-X>  - Setup an account on a Git repository site like [GitHub](https://github.com/) or [BitBucket](https://bitbucket.org/) if you haven't already done so.
-X>  - Download and setup an IDE like [PyCharm](https://www.jetbrains.com/pycharm/), or setup your favourite text editor for working with Python files.
+X> - Get up to speed with Python if you're new to the language. Try out one or more of the tutorials we list earlier.
+X> - Install Python 3.7. Make sure `pip3` (or `pip` within your virtual environment) is also installed and works on your computer.
+X> - Play around with your *command line interface (CLI)*, whether it be the Command Prompt (Windows) or a Terminal (macOS, Linux, UNIX, etc.) and create a directory called `code`,  which we use to create our projects in.
+X> - Create a new virtual environment using Python 3.7. This is optional; but we *strongly encourage you to use virtual environments.*
+X> - Within your environment, install Django 2.1.5 and Pillow 5.4.1.
+X> - Setup an account on a Git repository site like [GitHub](https://github.com/) or [BitBucket](https://bitbucket.org/) if you haven't already done so.
+X> - Download and setup an IDE like [PyCharm](https://www.jetbrains.com/pycharm/), or setup your favourite text editor for working with Python files.
 X>
-X>  As previously stated, we've made the code for the book and application available on our [GitHub repository](https://github.com/maxwelld90/tango_with_django_2_code).
+X> As previously stated, we've made the code for the book and application available on our [GitHub repository](https://github.com/maxwelld90/tango_with_django_2_code).
 X>
-X>  - If you spot any errors or problems, please let us know by making a change request on GitHub.
-X>  - If you have any problems with the exercises, you can check out the repository to see how we completed them.
+X> - If you spot any errors or problems, please let us know by making an [issue on GitHub](https://github.com/leifos/tango_with_django_2/issues).
+X> - If you have any problems with the exercises, you can check out the repository to see how we completed them.
 
 D> ### What is a Directory?
 D>
