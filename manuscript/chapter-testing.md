@@ -73,7 +73,7 @@ If we then run the test, we will see the following output.
 	FAIL: test_ensure_views_are_positive (rango.tests.CategoryMethodTests)
 	----------------------------------------------------------------------
 	Traceback (most recent call last):
-	    File "/Users/leif/Code/tango_with_django_project_19/rango/tests.py", 
+	    File "/Users/david/Workspace/tango_with_django_project/rango/tests.py", 
 	    line 12, in test_ensure_views_are_positive
 	    self.assertEqual((cat.views>=0), True)
 	    AssertionError: False != True
