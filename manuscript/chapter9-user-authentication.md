@@ -1,5 +1,5 @@
 # User Authentication {#chapter-user}
-Most web applications ask users to sign up and register - so that they can manage their account and have access to special features. For Rango, we want to control what actions are available to different users. Therefore, the aim of this next part of the tutorial is to get you familiar with the basic user authentication mechanisms provided by Django. We'll be using the `auth` app provided as part of a standard Django installation, located in package `django.contrib.auth`. According to the [Django documentation on authentication](https://docs.djangoproject.com/en/2.0/topics/auth/), the application provides the following concepts and functionality.
+Most web applications ask users to sign up and register, so that they can manage their account and have access to special features. For Rango, we want to control what actions are available to different users. Therefore, the aim of this next part of the tutorial is to get you familiar with the basic user authentication mechanisms provided by Django. We'll be using the `auth` app provided as part of a standard Django installation, located in package `django.contrib.auth`. According to the [Django documentation on authentication](https://docs.djangoproject.com/en/2.1/topics/auth/), the application provides the following concepts and functionality.
 
 - The concept of a *User* and the *User* Model.
 - *Permissions*, a series of binary flags (e.g. yes/no) that determine what a user may or may not do.
@@ -7,7 +7,7 @@ Most web applications ask users to sign up and register - so that they can manag
 - A configurable *password hashing system*, a must for ensuring data security.
 - *Forms and view tools for logging in users*, or restricting content.
 
-There's lots that Django can do for you regarding user authentication. In this chapter, we'll be covering the basics to get you started. This will help you build your confidence with the available tools and their underlying concepts. Note that we'll be showing you how to set up the user authentication manually, from first principles using Django, but in a later chapter we will show you how we can use a pre-made application that handles the registeration process for us.
+There's lots that Django can do for you regarding user authentication. In this chapter, we'll be covering the basics to get you started. This will help you build your confidence with the available tools and their underlying concepts. Note that we'll be showing you how to set up the user authentication manually, from first principles using Django, but in a later chapter we will show you how we can use a pre-made application that handles the registration process for us.
 
 ## Setting up Authentication
 Before you can begin to play around with Django's authentication offering, you'll need to make sure that the relevant settings are present in your Rango project's `settings.py` file.
@@ -30,7 +30,7 @@ While `django.contrib.auth` provides Django with access to the provided authenti
 I> ### Migrate, if necessary!
 I> If you had to add `django.contrib.auth` and `django.contrib.contenttypes` applications to your `INSTALLED_APPS` tuple, you will need to update your database with the `$ python manage.py migrate` command. This will add the underlying tables to your database e.g. a table for the `User` model.
 I>
-I> It's generally good practice to run the `migrate` command whenever you add a new app to your Django project - the app could contain models that'll need to be synchronised to your underlying database.
+I> It's generally good practice to run the `migrate` command whenever you add a new app to your Django project -- the app could contain models that'll need to be synchronised to your underlying database.
 
 ## Password Hashing {#sec-user-passwordhash}
 [*Storing passwords as plaintext within a database is something that should never be done under any circumstances.*](http://stackoverflow.com/questions/1197417/why-are-plain-text-passwords-bad-and-how-do-i-convince-my-boss-that-his-treasur) If the wrong person acquired a database full of user accounts to your app, they could wreak havoc. Fortunately, Django's `auth` app by default stores a [hash of user passwords](https://en.wikipedia.org/wiki/Cryptographic_hash_function) using the [PBKDF2 algorithm](http://en.wikipedia.org/wiki/PBKDF2), providing a good level of security for your user's data.  However, if you want more control over how the passwords are hashed, you can change the approach used by Django in your project's `settings.py` module, by adding in a tuple to specify the `PASSWORD_HASHERS`. An example of this is shown below.
@@ -53,11 +53,11 @@ If you want to use a more secure hasher, you can install [Bcrypt](https://pypi.p
 	    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 	]
 
-As previously mentioned, Django by default uses the PBKDF2 algorithm to hash passwords. If you do not specify a `PASSWORD_HASHERS` tuple in `settings.py`, Django will use the `PBKDF2PasswordHasher` password hasher, by default. You can read more about password hashing in the [Django documentation on how Django stores passwords](https://docs.djangoproject.com/en/2.0/topics/auth/passwords/#how-django-stores-passwords).
+As previously mentioned, Django by default uses the PBKDF2 algorithm to hash passwords. If you do not specify a `PASSWORD_HASHERS` tuple in `settings.py`, Django will use the `PBKDF2PasswordHasher` password hasher, by default. You can read more about password hashing in the [Django documentation on how Django stores passwords](https://docs.djangoproject.com/en/2.1/topics/auth/passwords/#how-django-stores-passwords).
 
 
 ## Password Validators
-As people may be tempted to enter a password that is comparatively easy to guess, Django provides a number of [password validation](https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators) methods. In your Django project's `settings.py` module, you will notice a list of nested dictionaries with the name `AUTH_PASSWORD_VALIDATORS`. From the nested dictionaries, you can clearly see that Django 2.x comes with a number of pre-built password validators for common password checks, such as length. An `OPTIONS` dictionary can be specified for each validator, allowing for easy customisation. If, for example, you wanted to ensure accepted passwords are at least six characters long, you can set `min_length` of the `MinimumLengthValidator` password validator to `6`. This can be seen in the example shown below.
+As people may be tempted to enter a password that is comparatively easy to guess, Django provides a number of [password validation](https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators) methods. In your Django project's `settings.py` module, you will notice a list of nested dictionaries with the name `AUTH_PASSWORD_VALIDATORS`. From the nested dictionaries, you can clearly see that Django 2.x comes with a number of pre-built password validators for common password checks, such as length. An `OPTIONS` dictionary can be specified for each validator, allowing for easy customisation. If, for example, you wanted to ensure accepted passwords are at least six characters long, you can set `min_length` of the `MinimumLengthValidator` password validator to `6`. This can be seen in the example shown below.
 
 {lang="python",linenos=off}
 	AUTH_PASSWORD_VALIDATORS = [
@@ -69,10 +69,10 @@ As people may be tempted to enter a password that is comparatively easy to guess
 	    ...
 	]
 	
-It is also possible to create your own password validators. Although we don't cover the creation of custom password validators in this tutorial, refer to the [official Django documentation on password validators](https://docs.djangoproject.com/en/2.0/topics/auth/passwords/#password-validation) for more information.
+It is also possible to create your own password validators. Although we don't cover the creation of custom password validators in this tutorial, refer to the [official Django documentation on password validators](https://docs.djangoproject.com/en/2.1/topics/auth/passwords/#password-validation) for more information.
 
 ## The `User` Model
-The `User` object (located at `django.contrib.auth.models.User`) is considered to be the core of Django's authentication system. A `User` object represents each of the individuals interacting with a Django application. The [Django documentation on User objects](https://docs.djangoproject.com/en/2.0/topics/auth/default/#user-objects) states that they are used to allow aspects of the authentication system like access restriction, registration of new user profiles, and the association of creators with site content.
+The `User` object (located at `django.contrib.auth.models.User`) is considered to be the core of Django's authentication system. A `User` object represents each of the individuals interacting with a Django application. The [Django documentation on User objects](https://docs.djangoproject.com/en/2.1/topics/auth/default/#user-objects) states that they are used to allow aspects of the authentication system like access restriction, registration of new user profiles, and the association of creators with site content.
 
 The `User` model has five key attributes. They are:
 
@@ -82,7 +82,7 @@ The `User` model has five key attributes. They are:
 -   the user's *first name*; and
 -   the user's *surname*.
 
-The `User` model also comes with other attributes such as `is_active`, `is_staff` and `is_superuser`. These are boolean fields used to denote whether the account is active, owned by a staff member, or has superuser privileges respectively.  Check out the [Django documentation on the user model](https://docs.djangoproject.com/en/2.0/ref/contrib/auth/#django.contrib.auth.models.User) for a full list of attributes provided by the base `User` model.
+The `User` model also comes with other attributes such as `is_active`, `is_staff` and `is_superuser`. These are boolean fields used to denote whether the account is active, owned by a staff member, or has superuser privileges respectively.  Check out the [Django documentation on the user model](https://docs.djangoproject.com/en/2.1/ref/contrib/auth/#django.contrib.auth.models.User) for a full list of attributes provided by the base `User` model.
 
 ##Additional `User` Attributes {#sec-user-userprofile}
 If you would like to include other user related attributes than what is provided by the `User` model, you will needed to create a model that is *associated* with the `User` model. For our Rango app, we want to include two more additional attributes for each user account. Specifically, we wish to include:
@@ -301,7 +301,7 @@ I> ### Using the `url` Template Tag
 I> Note that we are using the `url` template tag in the above template code e.g. `{% url 'rango:register' %}`. 
 I> This means we will have to ensure that when we map the URL, we name it `register`.
 
-The first thing to note here is that this template makes use of the `registered` variable we used in our view indicating whether registration was successful or not. Note that `registered` must be `False` in order for the template to display the registration form - otherwise the success message is displayed.
+The first thing to note here is that this template makes use of the `registered` variable we used in our view indicating whether registration was successful or not. Note that `registered` must be `False` in order for the template to display the registration form -- otherwise the success message is displayed.
 
 Next, we have used the `as_p` template method on the `user_form` and `profile_form`. This wraps each element in the form in a paragraph (denoted by the `<p>` HTML tag). This ensures that each element appears on a new line.
 
@@ -405,15 +405,15 @@ First, open up Rango's views module at `rango/views.py` and create a new view ca
 	        # blank dictionary object...
 	        return render(request, 'rango/login.html')
 
-As before, this view may seem rather complex as it has to handle a variety of scenarios. As shown in previous examples, the `user_login()` view handles form rendering and processing - where the form this time contains `username` and `password` fields.
+As before, this view may seem rather complex as it has to handle a variety of scenarios. As shown in previous examples, the `user_login()` view handles form rendering and processing -- where the form this time contains `username` and `password` fields.
 
 First, if the view is accessed via the HTTP `GET` method, then the login form is displayed. However, if the form has been posted via the HTTP `POST` method, then we can handle processing the form.
 
 If a valid form is sent via a `POST` request, the username and password are extracted from the form. These details are then used to attempt to authenticate the user. The Django function `authenticate()` checks whether the username and password provided actually match to a valid user account. If a valid user exists with the specified password, then a `User` object is returned, otherwise `None` is returned.
 
-If we retrieve a `User` object, we can then check if the account is active or inactive - if active, then we can issue the Django function  `login()`, which officially signifies to Django that the user is to be logged in.
+If we retrieve a `User` object, we can then check if the account is active or inactive -- if active, then we can issue the Django function  `login()`, which officially signifies to Django that the user is to be logged in.
 
-However, if an invalid form is sent - due to the fact that the user did not add both a username and password - the login form is presented back to the user with error messages (i.e. an invalid username/password combination was provided).
+However, if an invalid form is sent -- due to the fact that the user did not add both a username and password -- the login form is presented back to the user with error messages (i.e. an invalid username/password combination was provided).
 
 You'll also notice that we make use of the helper function `redirect()`. We used this back in the [chapter on creating forms](#section-forms-addpage), and it simply tells the client's browser to redirect to the URL that you provide as an argument. Note that this will return a HTTP status code of `302`, which denotes a redirect, as opposed to an status code of `200` (success). See the [Django documentation on redirection](https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/#redirect) to learn more.
 
@@ -483,7 +483,7 @@ This line can then be replaced with the following code.
 	    hey there partner!
 	{% endif %}
 
-As you can see, we have used Django's template language to check if the user is authenticated with `{% if user.is_authenticated %}`. If a user is logged in, then Django gives us access to the `user` object. We can tell from this object if the user is logged in (authenticated). If he or she is logged in, we can also obtain details about him or her. In the example about, the user's username will be presented to them if logged in - otherwise the generic `hey there partner!` message will be shown.
+As you can see, we have used Django's template language to check if the user is authenticated with `{% if user.is_authenticated %}`. If a user is logged in, then Django gives us access to the `user` object. We can tell from this object if the user is logged in (authenticated). If he or she is logged in, we can also obtain details about him or her. In the example about, the user's username will be presented to them if logged in -- otherwise the generic `hey there partner!` message will be shown.
 
 ### Demo
 Start the Django development server and attempt to login to the application. The [figure below](#fig-ch9-user-login) shows a screenshot of the login page as it should look.
@@ -512,7 +512,7 @@ The direct approach checks to see whether a user is logged in, via the `user.is_
 The third approach uses [Python decorators](http://wiki.python.org/moin/PythonDecorators). Decorators
 are named after a [software design pattern by the same name](http://en.wikipedia.org/wiki/Decorator_pattern). They can dynamically alter the functionality of a function, method or class without having to directly edit the source code of the given function, method or class.
 
-Django provides a decorator called `login_required()`, which we can attach to any view where we require the user to be logged in. If a user is not logged in and attempts to access a view decorated with `login_required()`, they are then redirected to another page ([that you can set](https://docs.djangoproject.com/en/2.0/ref/settings/#login-url)) - typically the login page.
+Django provides a decorator called `login_required()`, which we can attach to any view where we require the user to be logged in. If a user is not logged in and attempts to access a view decorated with `login_required()`, they are then redirected to another page ([that you can set](https://docs.djangoproject.com/en/2.1/ref/settings/#login-url)) -- typically the login page.
 
 ### Restricting Access with a Decorator
 
@@ -620,7 +620,7 @@ Let's modify the links in the `base.html` template. We will employ the `user` ob
 This code states that when a user is authenticated and logged in, he or she can see the `Restricted Page` and `Logout` links. If he or she isn't logged in, `Login` and `Sign Up` are presented. As `Add New Category`, `About` and `Index` are not within the template conditional blocks, these links are available to both anonymous and logged in users.
 
 ## Taking it Further
-In this chapter, we've covered several important aspects of managing user authentication within Django. We've covered the basics of installing Django's `django.contrib.auth` application into our project. Additionally, we have also shown how to implement a user profile model that can provide additional fields to the base `django.contrib.auth.models.User` model. We have also detailed how to setup the functionality to allow user registrations, login, logout, and to control access. For more information about user authentication and registration consult the [Django documentation on authentication](https://docs.djangoproject.com/en/2.0/topics/auth/).
+In this chapter, we've covered several important aspects of managing user authentication within Django. We've covered the basics of installing Django's `django.contrib.auth` application into our project. Additionally, we have also shown how to implement a user profile model that can provide additional fields to the base `django.contrib.auth.models.User` model. We have also detailed how to setup the functionality to allow user registrations, login, logout, and to control access. For more information about user authentication and registration consult the [Django documentation on authentication](https://docs.djangoproject.com/en/2.1/topics/auth/).
 
 Many web applications however take the concepts of user authentication further. For example, you may require different levels of security when registering users, by ensuring a valid e-mail address is supplied. While we could implement this functionality, why reinvent the wheel when such functionality already exists? The `django-registration-redux` app has been developed to greatly simplify the process of adding extra functionality related to user authentication. We cover how you can use this package in a [following chapter](#chapter-redux).
 

@@ -110,7 +110,7 @@ I> In function `read_bing_key()`, you may be a bit unsure as to why we attempt r
 
 In the module(s) above, we have implemented two functions: one to retrieve your Bing API key from a local file, and another to issue a query to the Bing search engine. Below, we discuss how both of the functions work.
 
-### `read_bing_key()` - Reading the Bing Key {#section-bing-adding-key}
+### `read_bing_key()` -- Reading the Bing Key {#section-bing-adding-key}
 The `read_bing_key()` function reads in your key from a file called `bing.key`, located in your Django project's root directory (i.e. `<workspace>/tango_with_django/`). Putting your API key in a different file from the logic of handling API *requests separates your concerns.* We have created this function because if you are putting your code into a public repository on GitHub for example, you should take some precautions to avoid sharing your API Key publicly. 
 
 Take the value of `key 1` that you took from the Azure portal earlier, and paste it into `<workspace>/tango_with_django/bing.key`. The key should be the only contents of the file -- nothing else should exist within it. **This file should NOT be committed to your GitHub repository.** To make sure that you do not accidentally commit it, add or update your [repository's `.gitignore` file](#section-git-setup-tweaks) to exclude any files with a `.key` extension, by adding the line `*.key`. This way, your key file will only be stored locally and will reduce the risk of individuals from acquiring and using your key without your knowledge.
@@ -118,7 +118,7 @@ Take the value of `key 1` that you took from the Azure portal earlier, and paste
 T> ### Keep your Keys Safe!
 T> Keys to access APIs are exclusively yours to use. Keep them secret, keep them safe! Do not publish them online. If you app requires use of an API key, then provide clear instructions describing how people can acquire their own key, and what they should do with it.
 
-### `run_query()` - Executing the Query
+### `run_query()` -- Executing the Query
 The `run_query()` function takes a query as a string, and by default returns the top ten results from Bing in a list that contains a dictionary of the result items (including the `title`, a `link`, and a `summary`). 
 
 To summarise though, the logic of the `run_query()` function can be broadly split into six main tasks.
