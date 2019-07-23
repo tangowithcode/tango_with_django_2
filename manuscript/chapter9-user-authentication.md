@@ -1,5 +1,5 @@
 # User Authentication {#chapter-user}
-Most web applications ask users to sign up and register, so that they can manage their account and have access to special features. For Rango, we want to control what actions are available to different users. Therefore, the aim of this next part of the tutorial is to get you familiar with the basic user authentication mechanisms provided by Django. We'll be using the `auth` app provided as part of a standard Django installation, located in package `django.contrib.auth`. According to the [Django documentation on authentication](https://docs.djangoproject.com/en/2.1/topics/auth/), the application provides the following concepts and functionality.
+Most web applications ask users to sign up and register, so that they can manage their account and have access to special features. For Rango, we want to control what actions are available to different users. Therefore, this next part of the tutorial aims to get you familiar with the basic user authentication mechanisms provided by Django. We'll be using the `auth` app provided as part of a standard Django installation, located in package `django.contrib.auth`. According to the [Django documentation on authentication](https://docs.djangoproject.com/en/2.1/topics/auth/), the application provides the following concepts and functionality.
 
 - The concept of a *User* and the *User* Model.
 - *Permissions*, a series of binary flags (e.g. yes/no) that determine what a user may or may not do.
@@ -57,7 +57,7 @@ As previously mentioned, Django by default uses the PBKDF2 algorithm to hash pas
 
 
 ## Password Validators
-As people may be tempted to enter a password that is comparatively easy to guess, Django provides a number of [password validation](https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators) methods. In your Django project's `settings.py` module, you will notice a list of nested dictionaries with the name `AUTH_PASSWORD_VALIDATORS`. From the nested dictionaries, you can clearly see that Django 2.x comes with a number of pre-built password validators for common password checks, such as length. An `OPTIONS` dictionary can be specified for each validator, allowing for easy customisation. If, for example, you wanted to ensure accepted passwords are at least six characters long, you can set `min_length` of the `MinimumLengthValidator` password validator to `6`. This can be seen in the example shown below.
+As people may be tempted to enter a password that is comparatively easy to guess, Django provides several [password validation](https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators) methods. In your Django project's `settings.py` module, you will notice a list of nested dictionaries with the name `AUTH_PASSWORD_VALIDATORS`. From the nested dictionaries, you can see that Django 2.x comes with several pre-built password validators for common password checks, such as length. An `OPTIONS` dictionary can be specified for each validator, allowing for easy customisation. If, for example, you wanted to ensure accepted passwords are at least six characters long, you can set `min_length` of the `MinimumLengthValidator` password validator to `6`. This can be seen in the example shown below.
 
 {lang="python",linenos=off}
 	AUTH_PASSWORD_VALIDATORS = [
@@ -87,7 +87,7 @@ The `User` model also comes with other attributes such as `is_active`, `is_staff
 ##Additional `User` Attributes {#sec-user-userprofile}
 If you would like to include other user related attributes than what is provided by the `User` model, you will needed to create a model that is *associated* with the `User` model. For our Rango app, we want to include two more additional attributes for each user account. Specifically, we wish to include:
 
-- a `URLField`, allowing a user of Rango to specify their own website; and
+- a `URLField`, allowing a user of Rango to specify their personal website's URL; and
 - a `ImageField`, which allows users to specify a picture for their user profile.
 
 This can be achieved by creating an additional model in Rango's `models.py` file. Let's add a new model called `UserProfile`:
@@ -300,7 +300,7 @@ I> ### Using the `url` Template Tag
 I> Note that we are using the `url` template tag in the above template code e.g. `{% url 'rango:register' %}`. 
 I> This means we will have to ensure that when we map the URL, we name it `register`.
 
-The first thing to note here is that this template makes use of the `registered` variable we used in our view indicating whether registration was successful or not. Note that `registered` must be `False` in order for the template to display the registration form -- otherwise the success message is displayed.
+The first thing to note here is that this template makes use of the `registered` variable we used in our view indicating whether registration was successful or not. Note that `registered` must be `False` for the template to display the registration form -- otherwise the success message is displayed.
 
 Next, we have used the `as_p` template method on the `user_form` and `profile_form`. This wraps each element in the form in a paragraph (denoted by the `<p>` HTML tag). This ensures that each element appears on a new line.
 
@@ -408,11 +408,11 @@ As before, this view may seem rather complex as it has to handle a variety of sc
 
 First, if the view is accessed via the HTTP `GET` method, then the login form is displayed. However, if the form has been posted via the HTTP `POST` method, then we can handle processing the form.
 
-If a valid form is sent via a `POST` request, the username and password are extracted from the form. These details are then used to attempt to authenticate the user. The Django function `authenticate()` checks whether the username and password provided actually match to a valid user account. If a valid user exists with the specified password, then a `User` object is returned, otherwise `None` is returned.
+If a valid form is sent via a `POST` request, the username and password are extracted from the form. These details are then used to attempt to authenticate the user. The Django function `authenticate()` checks whether the username and password provided matches to a valid user account. If a valid user exists with the specified password, then a `User` object is returned, otherwise `None` is returned.
 
 If we retrieve a `User` object, we can then check if the account is active or inactive -- if active, then we can issue the Django function  `login()`, which officially signifies to Django that the user is to be logged in.
 
-However, if an invalid form is sent -- due to the fact that the user did not add both a username and password -- the login form is presented back to the user with error messages (i.e. an invalid username/password combination was provided).
+However, if an invalid form is sent (since the user did not add both a username and password) the login form is presented back to the user with error messages (i.e. an invalid username/password combination was provided).
 
 You'll also notice that we make use of the helper function `redirect()`. We used this back in the [chapter on creating forms](#section-forms-addpage), and it simply tells the client's browser to redirect to the URL that you provide as an argument. Note that this will return a HTTP status code of `302`, which denotes a redirect, as opposed to an status code of `200` (success). See the [Django documentation on redirection](https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/#redirect) to learn more.
 
@@ -597,7 +597,7 @@ Finally, we can add a further link to our `base.html` template.
 ## Tidying up the `base.html` Hyperlinks
 Now that all the machinery for logging a user out has been completed, we can add some finishing touches. Providing a link to log out as we did above is good, but is it smart? If a user is not logged in, what would the point be of providing a link to logout? Conversely, if a user is already logged in, would it be sensible to provide a link to login? Perhaps not -- you can make the argument that the links in that are presented to the user in `base.html` will change *depending on their circumstances.* We need to do some more work to make sure our Rango app satisfies the requirements we set off with.
 
-Let's modify the links in the `base.html` template. We will employ the `user` object in the template's context to determine what links we want to show to a particular user. Find your growing list of links at the bottom of the page, and replace it with the following code. Feel free to copy and paste things around here, because all you are really doing here is adding in some conditional statements, and moving existing links around.
+Let's modify the links in the `base.html` template. We will employ the `user` object in the template's context to determine what links we want to show to a particular user. Find your growing list of links at the bottom of the page, and replace it with the following code. Feel free to copy and paste things around here, because all you are doing here is adding in some conditional statements, and moving existing links around.
 
 {lang="html",linenos=off}
 	<ul>
