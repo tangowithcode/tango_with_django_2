@@ -72,7 +72,7 @@ For the purposes of this tutorial, we call this nested directory called `tango_w
 In the project directory, you will see there is a file called `manage.py`. We will be calling this script time and time again as we develop our project. It provides you with a series of commands you can run to maintain your Django project. For example, `manage.py` allows you to run the built-in Django development server, test your application, and run various database commands. We will be using the script for virtually every Django that command we want to run.
 
 I> ### The Django Admin and Manage Scripts
-I> For Further Information on Django admin script, see the Django documentation for more details about the  [Admin and Manage scripts](https://docs.djangoproject.com/en/2.0/ref/django-admin/#django-admin-py-and-manage-py).
+I> For Further Information on Django admin script, see the Django documentation for more details about the  [Admin and Manage scripts](https://docs.djangoproject.com/en/2.1/ref/django-admin/#django-admin-py-and-manage-py).
 I>
 I> Note that if you run `python manage.py help` you can see the list of commands available.
 
@@ -249,7 +249,7 @@ Now, restart the Django development server and visit `http://127.0.0.1:8000/rang
 
 Within each app, you will create a number of URL mappings. The initial mapping is quite simple, but as we progress through the book we will create more sophisticated and parameterised URL mappings. 
 
-It's also important to have a good understanding of how URLs are handled in Django. It may seem a bit confusing right now, but as we progress through the book, we will be creating more and more URL mappings, so you'll soon be a pro. To find out more about them, check out the [official Django documentation on URLs](https://docs.djangoproject.com/en/2.0/topics/http/urls/) for further details and further examples.
+It's also important to have a good understanding of how URLs are handled in Django. It may seem a bit confusing right now, but as we progress through the book, we will be creating more and more URL mappings, so you'll soon be a pro. To find out more about them, check out the [official Django documentation on URLs](https://docs.djangoproject.com/en/2.1/topics/http/urls/) for further details and further examples.
 
 If you are using version control, now is a good time to commit the changes you have made to your workspace. Refer to the [chapter providing a crash course on Git](#chapter-git) if you can't remember the commands and steps involved in doing this.
 
@@ -284,4 +284,4 @@ I> - The expression to use for matching the second view is `'about/'`. This mean
 I> - Within the `index()` view, you will want to include an HTML [*hyperlink*](https://en.wikipedia.org/wiki/Hyperlink) to provide a link to the about page -- something like `<a href='/rango/about/'>About</a>` will suffice. 
 I> - The same will also be added to the `about()` view, although time time it will point to `/rango/`, the homepage -- not `/rango/about/`. An example would look like: `<a href='/rango/'>Index</a>`.
 I>
-I> - If you haven't done so already, now's a good time to head off and complete part one of the official [Django Tutorial](https://docs.djangoproject.com/en/2.0/intro/tutorial01/).
+I> - If you haven't done so already, now's a good time to head off and complete part one of the official [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial01/).
