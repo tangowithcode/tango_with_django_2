@@ -134,10 +134,9 @@ You can also specify *default content* for your blocks, which will be used if no
 	    This is body_block's default content.
 	{% endblock %}
 
-When we create templates for each page, we will inherit from `rango/base.html` and override the contents of `body_block`. However, you can place as many blocks in your templates as you so desire. For example, you could create a block for the page title, a block for the footer, a block for the sidebar, and more. Blocks are a really powerful feature of Django's templating system, and you can learn more about them check on [Django's official documentation on templates](https://docs.djangoproject.com/en/1.9/topics/templates/).
+When we create templates for each page, we will inherit from `rango/base.html` and override the contents of `body_block`. However, you can place as many blocks in your templates as you so desire. For example, you could create a block for the page title, a block for the footer, a block for the sidebar, and more. Blocks are a really powerful feature of Django's templating system, and you can learn more about them check on [Django's official documentation on templates](https://docs.djangoproject.com/en/2.1/topics/templates/).
 
 I> ### Extract Common Structures
-I>
 I> You should always aim to extract as much reoccurring content for your base templates as possible. While it may be a hassle to do, the time you will save in maintenance will far outweigh the initial overhead of doing it up front.
 I>
 I> *Thinking hurts, but it is better than doing lots of grunt work!*
