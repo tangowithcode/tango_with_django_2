@@ -81,7 +81,7 @@ The value you specify for `font-family` can be a *list* of possible fonts -- and
 	    font-family: 'Arial', 'Helvetica', sans-serif;
 	}
 
-In 1996, Microsoft started the [core fonts for the Web](http://en.wikipedia.org/wiki/Core_fonts_for_the_Web) initiative with the aim of guaranteeing a particular set of fonts to be present on all computers. Today however, you can use pretty much any font you like -- check out [Google Fonts](http://www.google.com/fonts) for examples of the fonts that you can use and [this W3Schools article](https://www.w3schools.com/howto/howto_google_fonts.asp) on how to use such fonts.
+In 1996, Microsoft started the [core fonts for the web](http://en.wikipedia.org/wiki/Core_fonts_for_the_Web) initiative with the aim of guaranteeing a particular set of fonts to be present on all computers. Today however, you can use pretty much any font you like -- check out [Google Fonts](http://www.google.com/fonts) for examples of the fonts that you can use and [this W3Schools article](https://www.w3schools.com/howto/howto_google_fonts.asp) on how to use such fonts.
 
 ## Colours and Backgrounds
 Colours are important in defining the look and feel of your website. You can change the colour of any element within your webpage, ranging from background colours to borders and text. In this book, we make use of words and *hexadecimal colour codes* to choose the colours we want. As you can see from the list of basic colours shown in the [figure below](#image-css-colours), you can supply either a *hexadecimal* or *RGB (red-green-blue)* value for the colour you want to use. You can also [specify words to describe your colours](https://www.w3schools.com/colors/colors_names.asp), such as `green`, `yellow` or `blue`.

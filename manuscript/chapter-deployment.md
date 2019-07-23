@@ -22,7 +22,7 @@ The PythonAnywhere web interface contains a *dashboard* which in turn provides a
 Other components exist, such as *Notebooks*, but we won't be using them here -- we'll be working primarily with the *consoles* and *web app* components. The [PythonAnywhere Wiki](https://www.pythonanywhere.com/wiki/) provides a series of detailed explanations on how to use the other components if you are interested in finding out more.
 
 {#pa-interface}
-![The PythonAnywhere dashboard, showing the main components you can use. We're logged in as `rangodemo2019` here. You can see links to Consoles, Files, Notebooks (that we don't use here), and Web apps.](images/ch-deploy-pa-interface.png)
+![The PythonAnywhere dashboard, showing the main components you can use. We're logged in as `rangodemo2019` here. You can see links to Consoles, Files, Notebooks (that we don't use here), and web apps.](images/ch-deploy-pa-interface.png)
 
 ## Creating a Virtual Environment
 As part of its standard default Bash environment, PythonAnywhere comes with Python 2.7+ and a number of pre-installed Python Packages (including *Django *). But, since we are using a different setup, we need to setup the Python 3 version manually through the creation of a virtual environment.
@@ -153,7 +153,7 @@ Now that the database is setup, we need to configure the PythonAnywhere [*NGINX*
 
 A popup box will then appear. Follow the instructions on-screen, and when the time comes, select the *manual configuration* option and complete the wizard. Make sure you select the same Python version as the one you selected earlier. Click *Next*, and PythonAnywhere will then set up your web app, redirecting you to an updated *Web app* page, complete with a green button to reload the app.
 
-In a new tab or window in your Web browser, go visit your PythonAnywhere subdomain at the address `http://<username>.pythonanywhere.com`. You should be presented with the [default `Hello, World!` webpage, as shown below](#hello-world). This is because the WSGI script is currently serving up this simple page, and not your Django application. This is the next thing we need to work on -- updating the WSGI to serve your Django app instead!
+In a new tab or window in your web browser, go visit your PythonAnywhere subdomain at the address `http://<username>.pythonanywhere.com`. You should be presented with the [default `Hello, World!` webpage, as shown below](#hello-world). This is because the WSGI script is currently serving up this simple page, and not your Django application. This is the next thing we need to work on -- updating the WSGI to serve your Django app instead!
 
 {#hello-world}
 ![The default PythonAnywhere *hello world* webpage.](images/ch-deploy-hello-world.png)
@@ -215,7 +215,7 @@ When you have completed the WSGI configuration, click the green *Save* button at
 ### Allowing your Hostname
 Django provides a useful security feature which will only accept requests from particular, *allowed* hosts. By only allowing specified domains to be served by your web server, this reduces the chance that your app could be part [HTTP Host Header attack](https://www.acunetix.com/blog/articles/automated-detection-of-host-header-attacks/). If you were to load and view your application now, you would encounter a `DisallowedHost` exception stopping your app from loading.
 
-This is a simple problem to fix, and involves a change in your project's `settings.py` module. First, work out your app's URL on PythonAnywhere. For a basic account, this will be `rangodemo2019.pythonanywhere.com`, where `rangodemo2019` is replaced with your PythonAnywhere username. It's a good idea to edit this file locally (on your own computer), then `git add`, `git commit` and `git push` your changes to your Git repository, before downloading the changes to your PythonAnywhere account. Alternatively, you can edit the file directly on PythonAnywhere by editing the file in the Web interface's files component -- or using a text editor in the terminal, like `nano` or `vi`.
+This is a simple problem to fix, and involves a change in your project's `settings.py` module. First, work out your app's URL on PythonAnywhere. For a basic account, this will be `rangodemo2019.pythonanywhere.com`, where `rangodemo2019` is replaced with your PythonAnywhere username. It's a good idea to edit this file locally (on your own computer), then `git add`, `git commit` and `git push` your changes to your Git repository, before downloading the changes to your PythonAnywhere account. Alternatively, you can edit the file directly on PythonAnywhere by editing the file in the web interface's files component -- or using a text editor in the terminal, like `nano` or `vi`.
 
 With this information, open your project's `settings.py` module and locate the `ALLOWED_HOSTS` list, which by default will be empty (and found near the top of the file). Add a string with your PythonAnywhere URL into that list -- such that it now looks like the following example.
 

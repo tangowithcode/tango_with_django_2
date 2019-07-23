@@ -123,7 +123,7 @@ I> The Django `ImageField` field makes use of the *Python Imaging Library (PIL)*
 I>
 I> You can check what packages are installed in your (virtual) environment by issuing the command `pip list`.
 
-To make the `UserProfile` model data accessible via the Django admin Web interface, import the new `UserProfile` model to Rango's `admin.py` module.
+To make the `UserProfile` model data accessible via the Django admin web interface, import the new `UserProfile` model to Rango's `admin.py` module.
 
 {lang="python",linenos=off}
 	from rango.models import UserProfile
@@ -622,7 +622,7 @@ This code states that when a user is authenticated and logged in, he or she can 
 ## Taking it Further
 In this chapter, we've covered several important aspects of managing user authentication within Django. We've covered the basics of installing Django's `django.contrib.auth` application into our project. Additionally, we have also shown how to implement a user profile model that can provide additional fields to the base `django.contrib.auth.models.User` model. We have also detailed how to setup the functionality to allow user registrations, login, logout, and to control access. For more information about user authentication and registration consult the [Django documentation on authentication](https://docs.djangoproject.com/en/2.0/topics/auth/).
 
-Many Web applications however take the concepts of user authentication further. For example, you may require different levels of security when registering users, by ensuring a valid e-mail address is supplied. While we could implement this functionality, why reinvent the wheel when such functionality already exists? The `django-registration-redux` app has been developed to greatly simplify the process of adding extra functionality related to user authentication. We cover how you can use this package in a [following chapter](#chapter-redux).
+Many web applications however take the concepts of user authentication further. For example, you may require different levels of security when registering users, by ensuring a valid e-mail address is supplied. While we could implement this functionality, why reinvent the wheel when such functionality already exists? The `django-registration-redux` app has been developed to greatly simplify the process of adding extra functionality related to user authentication. We cover how you can use this package in a [following chapter](#chapter-redux).
 
 X> ### Exercises
 X> For now, work on the following two exercises to reinforce what you've learnt in this chapter.

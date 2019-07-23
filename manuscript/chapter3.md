@@ -1,5 +1,5 @@
 # Django Basics {#chapter-django-basics}
-Let's get started with Django! In this chapter, we'll be giving you an overview of the creation process. You'll be setting up a new project and a new Web application. By the end of this chapter, you will have a simple Django powered website up and running!
+Let's get started with Django! In this chapter, we'll be giving you an overview of the creation process. You'll be setting up a new project and a new web application. By the end of this chapter, you will have a simple Django powered website up and running!
 
 ## Testing Your Setup
 
@@ -52,7 +52,9 @@ To create a new Django Project, go to your `workspace` directory, and issue the 
 {lang="text",linenos=off}
 	$ django-admin.py startproject tango_with_django_project
 
-If you don't have a `workspace` directory, then create one, so that you can house your Django projects and other code projects within this directory. We will refer to your `workspace` directory in the code as `<workspace>`. You will have to substitute in the path to your `workspace` directory, for example: `/Users/leifos/Code/` or `/Users/maxwelld90/Workspace/`.
+If you don't have a `workspace` directory, we recommend that you create one. This means that you can house your Django projects (and other code projects) within this directory. It keeps things organised, without you placing directories containing code in random places, such as your `Desktop` directory!
+
+We will refer to your `workspace` directory in the code as `<workspace>`. You will have to substitute this with the path to your `workspace` directory. For example, we recommend that you create a `workspace` directory in your home folder. The path `/Users/maxwelld90/Workspace/` would then constitute as a valid directory for the user `maxwelld90` on a Mac.
 
 I> ### Can't find `django-admin.py`?
 I> Try entering `django-admin` instead. Depending on your setup, some systems may not recognise `django-admin.py`.
@@ -65,7 +67,7 @@ I> 	       startproject tango_with_django_project
 I>
 I> as suggested on [StackOverflow](http://stackoverflow.com/questions/8112630/cant-create-django-project-using-command-prompt).
 
-This command will invoke the `django-admin.py` script, which will set up a new Django project called `tango_with_django_project` for you. Typically, we append `_project` to the end of our Django project directories so we know exactly what they contain - but the naming convention is entirely up to you.
+This command will invoke the `django-admin.py` script, which will set up a new Django project called `tango_with_django_project` for you. Typically, we append `_project` to the end of our Django project directories so we know exactly what they contain -- but the naming convention is entirely up to you.
 
 You'll now notice within your workspace is a directory set to the name of your new project, `tango_with_django_project`. Within this newly created directory, you should see two items:
 
@@ -114,7 +116,7 @@ Executing this command will launch Python, and instruct Django to initiate its l
 In the output, you can see a number of things. First, there are no issues that stop the application from running. Second, however, you will notice that a warning is raised, i.e. unapplied migrations. We will talk about this in more detail when we setup our database, but for now we can ignore it. Third, and most importantly, you can see that a URL has been specified: `http://127.0.0.1:8000/`, which is the address of the Django development server.
    
 
-Now open up your Web browser and enter the URL [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/). You should see a webpage similar to [the one shown below](#img-ch3-django-powered-page).
+Now open up your web browser and enter the URL [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/). You should see a webpage similar to [the one shown below](#img-ch3-django-powered-page).
 
 {id="img-ch3-django-powered-page"}
 ![A screenshot of the initial Django page you will see when running the development server for the first time.](images/ch3-django-powered-page.png)
@@ -133,10 +135,10 @@ I> `python manage.py runserver 0.0.0.0:5555`
 
 When setting ports, it is unlikely that you will be able to use TCP port 80 or 8080 as these are traditionally reserved for HTTP traffic. Also, any port below 1024 is considered to be [privileged](http://www.w3.org/Daemon/User/Installation/PrivilegedPorts.html) by your operating system. 
 
-While you won't be using the lightweight development server to deploy your application, it's nice to be able to demo your application on another machine in your network. Running the server with your machine's IP address will enable others to enter in `http://<your_machines_ip_address>:<port>/` and view your Web application. Of course, this will depend on how your network is configured. There may be proxy servers or firewalls in the way that would need to be configured before this would work. Check with the administrator of the network you are using if you can't view the development server remotely.
+While you won't be using the lightweight development server to deploy your application, it's nice to be able to demo your application on another machine in your network. Running the server with your machine's IP address will enable others to enter in `http://<your_machines_ip_address>:<port>/` and view your web application. Of course, this will depend on how your network is configured. There may be proxy servers or firewalls in the way that would need to be configured before this would work. Check with the administrator of the network you are using if you can't view the development server remotely.
 
 ## Creating a Django App
-A Django project is a collection of *configurations* and *apps* that together make up a given Web application or website. One of the intended outcomes of using this approach is to promote good software engineering practices. By developing a series of small applications, the idea is that you can theoretically drop an existing application into a different Django project and have it working with minimal effort. 
+A Django project is a collection of *configurations* and *apps* that together make up a given web application or website. One of the intended outcomes of using this approach is to promote good software engineering practices. By developing a series of small applications, the idea is that you can theoretically drop an existing application into a different Django project and have it working with minimal effort. 
 
 A Django application exists to perform a particular task. You need to create specific apps that are responsible for providing your site with particular kinds of functionality. For example, we could imagine that a project might consist of several apps including a polling app, a registration app, and a specific content related app. In another project, we may wish to re-use the polling and registration apps, and so can include them in other projects. We will talk about this later. For now, we are going to create the app for the *Rango* app.
 
@@ -262,7 +264,7 @@ Now, restart the Django development server and visit `http://127.0.0.1:8000/rang
 
 
 {id="fig-ch3-hey-there"}
-![A screenshot of a Web browser displaying our first Django powered webpage. Hello, Rango!](images/ch3-hey-there.png)
+![A screenshot of a web browser displaying our first Django powered webpage. Hello, Rango!](images/ch3-hey-there.png)
 
 Within each app, you will create a number of URL mappings. The initial mapping is quite simple, but as we progress through the book we will create more sophisticated and parameterised URL mappings. 
 
@@ -288,7 +290,7 @@ What you've just learnt in this chapter can be succinctly summarised into a list
 
 X>###Exercises
 X>
-X> Now that you have got Django and your new app up and running, try out the following exercises to reinforce what you've learnt. Getting to this stage is a significant landmark in working with Django. Creating views and mapping URLs to views is the first step towards developing more complex and usable Web applications.
+X> Now that you have got Django and your new app up and running, try out the following exercises to reinforce what you've learnt. Getting to this stage is a significant landmark in working with Django. Creating views and mapping URLs to views is the first step towards developing more complex and usable web applications.
 X> 
 X> - Revise the procedure and make sure you follow how the URLs are mapped to views.
 X> - Create a new view method called `about` which returns the following `HttpResponse`: `'Rango says here is the about page.'`

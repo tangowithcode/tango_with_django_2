@@ -1,7 +1,7 @@
 # Models and Databases {#chapter-models-databases}
 Typically web applications require a back end to store the dynamic content that appears on the website. For Rango, we need to store the pages and the categories, along with other details. The most convention way is to do so by employing the services of a relational database - that uses *Structured Query Language (SQL)*. Django, however, provides a convenient way in which to access data stored in databases by using an [*Object Relational Mapper (ORM)*](https://en.wikipedia.org/wiki/Object-relational_mapping). In essence, data stored within a database table is  encapsulated via Django *models*. A model is a Python object that describes the database table's data. Instead of directly working on the database via SQL, Django provides methods that let you manipulate the data via the corresponding Python model object.
 
-This chapter walks you through the basics of data management with Django and its ORM. You'll find it's incredibly easy to add, modify and delete data within your app's underlying database, and how straightforward it is to get data from the database to the Web browsers of your users.
+This chapter walks you through the basics of data management with Django and its ORM. You'll find it's incredibly easy to add, modify and delete data within your app's underlying database, and how straightforward it is to get data from the database to the web browsers of your users.
 
 ## Rango's Requirements {#section-models-databases-requirements}
 Before we get started, let's go over the data requirements for the Rango app that we are developing. Full requirements for the application are [provided in detail earlier on](#overview-er), but to refresh your memory, let's quickly summarise our client's requirements.
@@ -202,7 +202,7 @@ X> ### Complete the Official Tutorial
 X> The example above is only a very basic taster on database related activities you can perform in the Django shell. If you have not done so already, it's now a good time to complete [part two of the official Django Tutorial to learn more about interacting with models](https://docs.djangoproject.com/en/2.0/intro/tutorial02/). Also check out the [official Django documentation on the list of available commands](https://docs.djangoproject.com/en/2.0/ref/django-admin/#available-commands) for working with models.
 
 ## Configuring the Admin Interface
-One of the standout features of Django is the built-in, Web-based administrative (or *admin*) interface that allows you to browse, edit and delete data represented as model instances (from the corresponding database tables). In this section, we'll be setting the admin interface up so you can see the two Rango models you have created so far.
+One of the standout features of Django is the built-in, web-based administrative (or *admin*) interface that allows you to browse, edit and delete data represented as model instances (from the corresponding database tables). In this section, we'll be setting the admin interface up so you can see the two Rango models you have created so far.
 
 Setting everything up is relatively straightforward. In your project's `settings.py` module, you will notice that one of the preinstalled apps (within the `INSTALLED_APPS` list) is `django.contrib.admin`. Furthermore, there is a `urlpattern` that matches `admin/` within your project's `urls.py` module.
 
@@ -211,7 +211,7 @@ By default, things are pretty much ready to go. Start the Django development ser
 {lang="text",linenos=off}
 	$ python manage.py runserver
 
-Navigate your Web browser to `http://127.0.0.1:8000/admin/`. You are then presented with a login prompt. Login using the credentials you created previously with the `$ python manage.py createsuperuser` command. You are then presented with an interface looking [similar to the one shown below](#fig-ch5-admin-first).
+Navigate your web browser to `http://127.0.0.1:8000/admin/`. You are then presented with a login prompt. Login using the credentials you created previously with the `$ python manage.py createsuperuser` command. You are then presented with an interface looking [similar to the one shown below](#fig-ch5-admin-first).
 
 {id="fig-ch5-admin-first"}
 ![The Django admin interface, sans Rango models.](images/ch5-admin-first.png)
