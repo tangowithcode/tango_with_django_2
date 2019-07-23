@@ -29,7 +29,7 @@ Here we will complete steps two and step three, where we need to modify the view
 	def index(request):
 	    # Query the database for a list of ALL categories currently stored.
 	    # Order the categories by the number of likes in descending order.
-	    # Retrieve the top 5 only - or all if less than 5.
+	    # Retrieve the top 5 only -- or all if less than 5.
 	    # Place the list in our context_dict dictionary (with our boldmessage!)
 	    # that will be passed to the template engine.
 	    category_list = Category.objects.order_by('-likes')[:5]
@@ -85,7 +85,7 @@ With the view updated, we can complete the fourth step and update the template `
 	</body>
 	</html>
 
-Here, we make use of Django's template language to present the data using `if` and `for` control statements. Within the `<body>` of the page, we test to see if `categories` - the name of the context variable containing our list of (a maximum of) five categories - actually contains any categories (`{% if categories %}`).
+Here, we make use of Django's template language to present the data using `if` and `for` control statements. Within the `<body>` of the page, we test to see if `categories` -- the name of the context variable containing our list of (a maximum of) five categories -- actually contains any categories (`{% if categories %}`).
 
 If so, we proceed to construct an unordered HTML list (within the `<ul>` tags). The `for` loop (`{% for category in categories %}`) then iterates through the list of results, and outputs each category's name (`{{ category.name }})` within an `<li>` element to denote that it is a *list element.*
 
@@ -96,7 +96,7 @@ As the example also demonstrates Django's template language, all template comman
 If you now save the template and refresh Rango's homepage at `http://127.0.0.1:8000/rango/`, you should see a list of categories underneath the page title and your bold message, just like in the [figure below](#figch6-rango-categories-index).
 
 {id="fig-ch6-rango-categories-index"}
-![The Rango homepage - now dynamically generated - showing a list of categories.](images/ch6-rango-categories-index.png)
+![The Rango homepage -- now dynamically generated -- showing a list of categories.](images/ch6-rango-categories-index.png)
 
 ##Creating a Details Page
 According to the [specifications for Rango](#overview-design-brief-label), we also need to show a list of pages that are associated with each category. In order to accomplish this, there are a number of different challenges that we need to overcome. First, a new view must be created. *This new view will have to be parameterised.* We also need to create URL patterns and URL strings that encode category names.
@@ -143,7 +143,7 @@ Don't forget to add in the following `import` at the top of the module, either.
 
 The overriden `save()` method is relatively straightforward to understand. When called, the `slug` field is set by using the output of the `slugify()` function as the new field's value. Once set, the overriden `save()` method then calls the parent (or `super`) `save()` method defined in the base `django.db.models.Model` class. It is this call that performs the necessary logic to save the updated instance to the correct database table.
 
-Now that the model has been updated, the changes must now be propagated to the database. However, since data already exists within the database from previous chapters, we need to consider the implications of the change. Essentially, for all the existing category names, we want to turn them into slugs (which is performed when the record is initially saved). When we update the models via the migration tool, it will add the `slug` field and provide the option of populating the field with a default value. Of course, we want a specific value for each entry - so we will first need to perform the migration, and then re-run the population script. This is because the population script will explicitly call the `save()` method on each entry, triggering the `save()` as implemented above, and thus update the slug accordingly for each entry.
+Now that the model has been updated, the changes must now be propagated to the database. However, since data already exists within the database from previous chapters, we need to consider the implications of the change. Essentially, for all the existing category names, we want to turn them into slugs (which is performed when the record is initially saved). When we update the models via the migration tool, it will add the `slug` field and provide the option of populating the field with a default value. Of course, we want a specific value for each entry -- so we will first need to perform the migration, and then re-run the population script. This is because the population script will explicitly call the `save()` method on each entry, triggering the `save()` as implemented above, and thus update the slug accordingly for each entry.
 
 To perform the migration, issue the following commands (as detailed in the [Models and Databases Workflow](#section-models-databases-workflow)).
 
@@ -210,7 +210,7 @@ Now that we have addressed the first problem, we can ensure that the slug field 
 {lang="python",linenos=off}
 	slug = models.SlugField(unique=True)
 
-Now that we have added in the slug field, we can now use the slugs to guarantee a unique match to an associated category. We could have added the unique constraint earlier. However, if we had done that and then performed the migration (and thus setting everything to be an empty string by default), the migration would have failed. This is because the unique constraint would have been violated. We could have deleted the database and then recreated everything - but that is not always desirable.
+Now that we have added in the slug field, we can now use the slugs to guarantee a unique match to an associated category. We could have added the unique constraint earlier. However, if we had done that and then performed the migration (and thus setting everything to be an empty string by default), the migration would have failed. This is because the unique constraint would have been violated. We could have deleted the database and then recreated everything -- but that is not always desirable.
 
 W> ### Migration Woes
 W> It's always best to plan out your database in advance and avoid changing it. Making a population script means that you easily recreate your database if you find that you need to delete it and start again.
@@ -305,9 +305,9 @@ The HTML code example again demonstrates how we utilise the data passed to the t
 If the `category` exists, then we check to see if there are any pages in the category. If so, we iterate through the returned pages using the `{% for page in pages %}` template tags. For each `page` in the `pages` list, we present their `title` and `url` attributes as listed hyperlink (e.g. within `<li>` and `<a>` elements). These are displayed in an unordered HTML list (denoted by the `<ul>` tags). If you are not too familiar with HTML, then have a look at the [HTML Tutorial by W3Schools.com](http://www.w3schools.com/html/) to learn more about the different tags.
 
 I> ### Note on Conditional Template Tags
-I> The Django template conditional tag - represented with `{% if condition %}` - is a really neat way of determining the existence of an object within the template's context. Make sure you check the existence of an object to avoid errors when rendering your templates, especially if your associated view's logic doesn't populate the context dictionary in all possible scenarios.
+I> The Django template conditional tag -- represented with `{% if condition %}` -- is a really neat way of determining the existence of an object within the template's context. Make sure you check the existence of an object to avoid errors when rendering your templates, especially if your associated view's logic doesn't populate the context dictionary in all possible scenarios.
 I>
-I> Placing conditional checks in your templates - like `{% if category %}` in the example above - also makes sense semantically. The outcome of the conditional check directly affects the way in which the rendered page is presented to the user. Remember, presentational aspects of your Django apps should be encapsulated within templates.
+I> Placing conditional checks in your templates -- like `{% if category %}` in the example above -- also makes sense semantically. The outcome of the conditional check directly affects the way in which the rendered page is presented to the user. Remember, presentational aspects of your Django apps should be encapsulated within templates.
 
 ### Parameterised URL Mapping
 Now let's have a look at how we actually pass the value of the `category_name_url` parameter to the `show_category()` function. To do so, we need to modify Rango's `urls.py` file and update the `urlpatterns` tuple as follows.
@@ -320,7 +320,7 @@ Now let's have a look at how we actually pass the value of the `category_name_ur
 	         views.show_category, name='show_category'),
 	]
 
-We have added a new mapping which contains a parameter, represented by `<slug:category_name_slug>`. This indicates to Django that we want to match a string which is a `slug`, and to assign it to variable `category_name_slug`. You will notice that this variable name is what we pass through to the view `show_category()`. If these two names do not match exactly, Django will get confused and raise an error. Instead of slugs, you can also extract out other variables like strings and integers. Refer to the [Django documentation on URL paths](https://docs.djangoproject.com/en/2.0/ref/urls/) for more details. If you need to parse more complicated expressions, you can use `re_path()` instead of `path()`. This will allow you to match all sorts of regular (and irregular) expressions. Luckily for us, Django provides matches for the most common patterns.
+We have added a new mapping which contains a parameter, represented by `<slug:category_name_slug>`. This indicates to Django that we want to match a string which is a `slug`, and to assign it to variable `category_name_slug`. You will notice that this variable name is what we pass through to the view `show_category()`. If these two names do not match exactly, Django will get confused and raise an error. Instead of slugs, you can also extract out other variables like strings and integers. Refer to the [Django documentation on URL paths](https://docs.djangoproject.com/en/2.1/ref/urls/) for more details. If you need to parse more complicated expressions, you can use `re_path()` instead of `path()`. This will allow you to match all sorts of regular (and irregular) expressions. Luckily for us, Django provides matches for the most common patterns.
 
 <!-->
 We have added in a rather complex entry that will invoke `view.show_category()` when the URL pattern `r'^category/(?P<category_name_slug>[\w\-]+)/$'` is matched. 
@@ -331,7 +331,7 @@ The next thing to note is that the regular expression `[\w\-]+)` will look for a
 The URL pattern will match a sequence of alphanumeric characters and hyphens which are between the `rango/category/` and the trailing `/`. This sequence will be stored in the parameter `category_name_slug` and passed to `views.show_category()`. For example, the URL `rango/category/python-books/` would result in the `category_name_slug` having the value, `python-books`. However, if the URL was `rango/category/££££-$$$$$/` then the sequence of characters between `rango/category/` and the trailing `/` would not match the regular expression, and a `404 not found` error would result because there would be no matching URL pattern.
 -->
 
-All view functions defined as part of a Django applications *must* take at least one parameter. This is typically called `request` - and provides access to information related to the given HTTP request made by the user. When parameterising URLs, you supply additional named parameters to the signature for the given view. That is why our `show_category()` view was defined as `def show_category(request, category_name_slug)`.
+All view functions defined as part of a Django applications *must* take at least one parameter. This is typically called `request` -- and provides access to information related to the given HTTP request made by the user. When parameterising URLs, you supply additional named parameters to the signature for the given view. That is why our `show_category()` view was defined as `def show_category(request, category_name_slug)`.
 
 <!--
 It's not the position of the additional parameters that matters, it's
@@ -348,7 +348,7 @@ I>
 I> Django's `path()` method means you can generally avoid Regex Hell -- but if you need to use a regular expression (with the `re_path()` function, for instance), this [cheat sheet](http://cheatography.com/davechild/cheat-sheets/regular-expressions/) is really useful.
 
 ### Modifying the Index Template
-Our new view is set up and ready to go - but we need to do one more thing. Our index page template needs to be updated so that it links to the category pages that are listed. We can update the `index.html` template to now include a link to the category page via the slug.
+Our new view is set up and ready to go -- but we need to do one more thing. Our index page template needs to be updated so that it links to the category pages that are listed. We can update the `index.html` template to now include a link to the category page via the slug.
 
 {lang="html",linenos=on}
 	<!DOCTYPE html>
@@ -405,7 +405,7 @@ X> * Update the population script to add some value to the `views` count for eac
 X> * Modify the index page to also include the top five most viewed pages.
 X> * Leading on from the exercise above, include a heading for the `Most Liked Categories` and `Most Viewed Pages`.
 X> * Include a link back to the index page from the category page.
-X> * Undertake [part three of official Django tutorial](https://docs.djangoproject.com/en/2.0/intro/tutorial03/) if you have not done so already to reinforce what you've learnt here.
+X> * Undertake [part three of official Django tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial03/) if you have not done so already to reinforce what you've learnt here.
 
 {id="fig-ch6-exercises"}
 ![The index page after you complete the exercises, showing the most liked categories and most viewed pages. Note that the ordering of the most viewed pages will vary, as you have freedom to choose whatever counts you like!](images/ch6-exercises.png)
