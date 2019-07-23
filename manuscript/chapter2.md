@@ -112,7 +112,7 @@ X>  - Within your environment, install Django 2.1.5 and Pillow 5.4.1.
 X>  - Setup an account on a Git repository site like [GitHub](https://github.com/) or [BitBucket](https://bitbucket.org/) if you haven't already done so.
 X>  - Download and setup an IDE like [PyCharm](https://www.jetbrains.com/pycharm/), or setup your favourite text editor for working with Python files.
 X>
-X>  As previously stated, we've made the code for the book and application available on our [GitHub repository](https://github.com/leifos/tango_with_django_2/).
+X>  As previously stated, we've made the code for the book and application available on our [GitHub repository](https://github.com/maxwelld90/tango_with_django_2_code).
 X>
 X>  - If you spot any errors or problems, please let us know by making a change request on GitHub.
 X>  - If you have any problems with the exercises, you can check out the repository to see how we completed them.
