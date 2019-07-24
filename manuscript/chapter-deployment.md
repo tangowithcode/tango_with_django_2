@@ -254,7 +254,7 @@ It is wise not to commit your secret key your git repository -- and instead load
 This sets `SECRET_KEY` to the contents of the `secret.key` file, located in your home directory. Create this file, and take the string representation of `SECRET_KEY` from `settings.py`, and paste it into that new file. This neatly separates your secret key from being placed in a repository! Of course, this is just to demonstrate -- anyone can look at a previous commit from your repository and take the key. In future Django projects, keep this in mind!
 
 ### Adding your Search API Key
-While you are adding secret keys, also [add your search API key]({#section-bing-adding-key}) to the file `bing.key`. This will ensure that the search functionality in Rango is enabled. You'll again want to keep this file outside of your repository.
+While you are adding secret keys, also [add your search API key](#section-bing-adding-key) to the file `bing.key`. This will ensure that the search functionality in Rango is enabled. You'll again want to keep this file outside of your repository.
 
 ### Turning off `DEBUG` Mode
 Next, you need to turn off the debug mode. If you leave debug mode on, you can providing hackers with sensitive information about your web application when they get it to crash through the helpful error messages that will have undoubtedly helped you during development.
