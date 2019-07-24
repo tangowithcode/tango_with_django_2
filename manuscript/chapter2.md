@@ -23,6 +23,8 @@ W> On installations of macOS, Linux or UNIX, you will find that Python is alread
 
 I> ## Django 2.0, 2.1 or 2.2?
 I> In this book, we explicitly use Django version `2.1.5`. However, we have also tested the instructions provided with versions `2.0.13`, `2.1.10`, and `2.2.3`. Therefore, you will be able to use version 2.2 if you wish! We'll be regularly checking the compatibility of the instructions provided with future Django releases. If you notice any issues with later versions, feel free to get in touch with us. You can [send us a tweet](https://twitter.com/tangowithdjango), [raise an issue on GitHub](https://github.com/leifos/tango_with_django_2/issues), or e-mail us -- our addresses are available on the [www.tangowithdjango.com](https://www.tangowithdjango.com) website.
+I>
+I> You must however make sure you are using *at least* Python version 3.5. Version 3.4 and below are incompatible with these releases of Django.
 
 I> ## Python Skills Rusty?
 I> If you haven't used Python before -- or you simply want to brush up on your skills -- then we highly recommend that you check out and work through one or more of the following guides:
