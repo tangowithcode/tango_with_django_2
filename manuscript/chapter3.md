@@ -11,7 +11,7 @@ Once activated, issue the following command. The output will tell what Python ve
 
 The response should be something like `3.7.2`, but any 3.5+ versions of Python should work fine. If you need to upgrade or install Python, go to the chapter on [setting up your system](#chapter-system-setup). 
 
-If you are using a virtual environment, then ensure that you have activated it -- if you don't remember how then have a look at our chapter on [virtual environments](#chapter-virtual-environments).
+If you are using a virtual environment, then ensure that you have activated it -- if you don't remember how then have a look at our chapter on [virtual environments](#section-system-setup-virtualenv).
 
 After verifying your Python installation, check your Django installation. In your terminal window, run the Python interpreter by issuing the following command.
 

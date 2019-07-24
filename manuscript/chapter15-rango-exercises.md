@@ -17,7 +17,7 @@ In addition to these new features, we'll be working to provide further services 
 - let users who are logged in view a list of other users and their profiles.
 
 I> ### Note
-I> As we have alluded to above, we won't be working through all of these tasks in this chapter. The AJAX-related tasks (as well as a definition of what AJAX is!) will be left to the [AJAX in Django]({#chapter-ajax}) later on, while others will be left to you to complete as additional exercises.
+I> As we have alluded to above, we won't be working through all of these tasks in this chapter. The AJAX-related tasks (as well as a definition of what AJAX is!) will be left to the [AJAX in Django](#chapter-ajax) later on, while others will be left to you to complete as additional exercises.
 
 Before we start to add this additional functionality, we will make a *todo* list to plan our workflow for each task. Breaking tasks down into smaller sub-tasks will greatly simplify the implementation process. We'll then be attacking each main activity with a clear plan. In this chapter, we'll be providing you with the workflow for a number of the above tasks. From what you have learnt so far, you should now be able to fill in the gaps and implement most of it on your own (except for those requiring AJAX).
 
@@ -37,7 +37,7 @@ To implement functionality to track page links, have a go at the following steps
     - After incrementing the `views` field, redirect the user to the page instance's `url` value using the handy `redirect()` function, available at `django.shortcuts`.
     - If the `page_id` parameter is not supplied in the `GET` request, or an unknown `page_id` is supplied, then you should simply redirect the user to Rango's homepage. Again, you'll need to make use of the `redirect()` helper function, and the `reverse()` function to look up the URL for the Rango homepage. Error handling should mean that you structure your code with `try`/`except` blocks.
     - See [Django shortcut functions](https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/) for more on `redirect` and    
-    [Django reverse function](ttps://docs.djangoproject.com/en/2.1/ref/urlresolvers/#django.urls.reverse) for more on `reverse`.
+    [Django reverse function](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#django.urls.reverse) for more on `reverse`.
 2. Update Rango's `urls.py` URL mappings to incorporate the new view to use the URL `/rango/goto/`. The mapping should also be given the name `goto`.
 3. Then you can update Rango's `category.html` template so that instead of providing a direct link to each page, you link to the new `goto_url()` view.
     - Remember to use the `url` template tag instead of hard-coding the URL `/rango/goto/?page_id=x`, as shown in the example below.

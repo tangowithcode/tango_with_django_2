@@ -57,14 +57,14 @@ From then on, all of your prompts with the terminal or Command Prompt will prece
 	(rangoenv) $ deactivate
 	$ 
 
-The penultimate line of the example above demonstrates how to switch your virtual environment off after you have finished with it -- note the lack of `(rangoenv)` before the prompt. Again, [refer to the later chapter in this tutorial](#section-system-setup-virtualenv) for more information on how to setup and use virtual environments.
+The penultimate line of the example above demonstrates how to switch your virtual environment off after you have finished with it -- note the lack of `(rangoenv)` before the prompt. Again, [refer to the system setup chapter in the appendices of this book](#section-system-setup-virtualenv) for more information on how to setup and use virtual environments.
 
 ## The Python Package Manager
 Going hand in hand with virtual environments, we'll also be making use of the Python package manager, *pip*, to install several different Python software packages -- including Django -- to our development environment. Specifically, we'll need to install two packages: Django 2 and *Pillow*. Pillow is a Python package providing support for handling image files (e.g. `.jpg` and `.png` files), something we'll be doing later in this tutorial.
 
 A package manager, whether for Python, your [operating system](https://en.wikipedia.org/wiki/Advanced_Packaging_Tool) or [some other environment](https://docs.npmjs.com/cli/install), is a software tool that automates the process of installing, upgrading, configuring and removing *packages* -- that is, a package of software which you can use on your computer that provides some functionality. This is opposed to downloading, installing and maintaining software manually. Maintaining Python packages is pretty painful. Most packages often have *dependencies* -- additional packages that are required for your package to work! This can get very complex very quickly. A package manager handles all of this for you, along with issues such as conflicts regarding different versions of a package. Luckily, *pip* handles all this for you.
 
-Try and run the command `$ pip` to execute the package manager. Make sure you do this with your virtual environment `acivate`d. Globally, you may have to use the command `pip3`. If these don't work, you have a setup issue -- refer to our [pip setup guide](#section-system-setup-pip) for help.
+Try and run the command `$ pip` to execute the package manager. Make sure you do this with your virtual environment `acivate`d. Globally, you may have to use the command `pip3`. If these don't work, you have a setup issue -- refer to our [`pip` setup guide](#section-system-setup-pip) for help.
 
 With your virtual environment switched on, execute the following two commands to install Django and Pillow.
 

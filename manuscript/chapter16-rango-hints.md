@@ -704,7 +704,7 @@ X> ### Profile Page Exercises
 X> With the above now completed, have a look at the following additional exercise to test your knowledge and understanding further.
 X>
 X> - Update the profile list to include a thumbnail of the user's profile picture.
-X> - If a user does not have a profile picture, then insert a substitute picture by using the [service provide by LoremPixel](ttp://lorempixel.com/) that lets you automatically generate images.
+X> - If a user does not have a profile picture, then insert a substitute picture by using the [service provide by LoremPixel](https://lorempixel.com/) that lets you automatically generate images.
 X> - Update the user profile view (responsible for rendering `profile.html`) to also use a placeholder image if no profile image has been provided.
 
 I> ### Hints
