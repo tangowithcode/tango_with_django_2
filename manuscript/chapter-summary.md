@@ -50,21 +50,23 @@ Karen Little,
 **[Krace Kumar](https://github.com/kracekumar),**
 [ma-152478](https://github.com/ma-152478),
 **Manoel Maria,**
-[Martin de G.](https://github.com/martindegroot),
-**[Matevz P.](https://github.com/matonsjojc),**
-[mHulb](https://github.com/mHulb),
-**[Michael Herman](https://github.com/mjhea0),**
-[Michael Ho Chum](https://github.com/michaelchum),
-**[Mickey P.](https://github.com/mickeypash),**
-Mike Gleen,
-**[nCrazed](https://github.com/nCrazed),**
-Nitin Tulswani,
-**[nolan-m](https://github.com/nolan-m),**
-Oleg Belausov,
-**[pawonfire](https://github.com/pawonfire),**
-[pdehaye](https://github.com/pdehaye),
+[marshwiggle](https://github.com/marshwiggle)
+**[Martin de G.](https://github.com/martindegroot),**
+[Matevz P.](https://github.com/matonsjojc),
+**[mHulb](https://github.com/mHulb),**
+[Michael Herman](https://github.com/mjhea0),
+**[Michael Ho Chum](https://github.com/michaelchum),**
+[Mickey P.](https://github.com/mickeypash),
+**Mike Gleen,**
+[nCrazed](https://github.com/nCrazed),
+**Nitin Tulswani,**
+[nolan-m](https://github.com/nolan-m),
+**Oleg Belausov,**
+[pawonfire](https://github.com/pawonfire),
+**[pdehaye](https://github.com/pdehaye),**
 Peter Mash,
-[Pierre-Yves Mathieu](https://github.com/pywebdesign),
+**[Pierre-Yves Mathieu](https://github.com/pywebdesign),**
+[Piotr Synowiec](https://holysheep.co/),
 **Praestgias,**
 [pzkpfwVI](https://github.com/pzkpfwVI),
 **[Ramdog](https://github.com/ramdog),**
