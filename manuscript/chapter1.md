@@ -141,9 +141,6 @@ D> Get into the habit of noting down any working assumptions that you make, just
 
 With this assumption, we can produce a series of tables that describe each entity in more detail. The tables contain information on what fields are contained within each entity.  We use Django `ModelField` types to define the type of each field (i.e. `IntegerField`, `CharField`, `URLField` or `ForeignKey`). Note that in Django *primary keys* are implicit such that Django adds an `id` to each Model, but we will talk more about that later in the Models and Database chapter.
 
-
-
-
 #### Category Model
 
 | Field   | Type            |

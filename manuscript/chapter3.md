@@ -285,3 +285,6 @@ I> - Within the `index()` view, you will want to include an HTML [*hyperlink*](h
 I> - The same will also be added to the `about()` view, although time time it will point to `/rango/`, the homepage -- not `/rango/about/`. An example would look like: `<a href='/rango/'>Index</a>`.
 I>
 I> - If you haven't done so already, now's a good time to head off and complete part one of the official [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial01/).
+
+X> ### Test your Implementation
+X> If you have completed everything in this chapter up to and including the exercises, you can test your implementation so far. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter3.py`. Do the tests pass when run against your implementation?

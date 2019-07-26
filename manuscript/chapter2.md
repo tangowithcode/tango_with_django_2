@@ -118,3 +118,31 @@ X> As previously stated, we've made the code for the application available on ou
 X>
 X> - If you spot any errors or problems, please let us know by making an [issue on GitHub](https://github.com/leifos/tango_with_django_2/issues).
 X> - If you have any problems with the exercises, you can check out the repository to see how we completed them.
+
+## Testing your Implementation {#section-getting-ready-tests}
+As you work through your implementation of the requirements for the Rango app, we want you to have the confidence to know that *what you are coding up is correct.* We can't physically sit next to you, so we've gone and done the next best thing -- **we've implemented a series of different tests that you can run against your codebase to see what's correct, and what can be improved**.
+
+These are available from our sample codebase repository, [available on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/tree/master/progress_tests). The `progress_tests` directory on this repository contains a number of different Python modules, each containing a series of different test modules you can run against your Rango implementation. Note that they are for individual chapters -- for example, you should run the module `tests_chapter3.py` against your implementation *after* completion of Chapter 3, but before starting Chapter 4. Note that not every chapter will have tests at the end of it.
+
+W> ### Complete the Exercises!
+W> These tests assume that you complete all of the exercises for a chapter! If you don't do this, it's likely some tests will not pass.
+
+We check the basic functionality that should be working up to the point you are testing at. We also check what is returned from the server when a particular URL is accessed -- and if the response doesn't match *exactly* what we requested in the book, *the test will fail.* This might seem overly harsh, but we want to drill into your head that *you must satisfy requirements exactly as they are laid out -- no deviation is acceptable.* This also drills into your head the idea of *test-driven development,* something that we outline [at the start of the testing chapter](#chapter-testing).
+
+How do you run the tests, though? This step-by-step process demonstrates the basic process on what you have to do. We will assume that you want to run the tests for [Chapter 3, Django Basics](#chapter-django-basics).
+
+1. First, identify what chapter's tests you want to run.
+2. Either make a clone of our [sample code repository](https://github.com/maxwelld90/tango_with_django_2_code) on your computer, or access the individual test module that you want from the [GitHub web interface](https://github.com/maxwelld90/tango_with_django_2_code/tree/master/progress_tests).
+    * To do the latter, click the module you require (i.e. `tests_chapter3.py`). When you see the code on the GitHub website, click the `Raw` button and save the page that then loads.
+3. Move the `tests_chapter3.py` module to your project's `rango` directory. This step does not make sense right now; as you progress through the book and come back here to refresh your memory on what to do, this will make sense.
+4. Run the command `$ python manage.py test rango.tests_chapter3`. This will start the tests.
+
+You will also need to ensure that when these tests run, your `rangoenv` virtual environment is active.
+
+Once the tests all complete, you should see `OK`. This means they all passed! If you don't see `OK`, something failed -- look through the output of the tests to see what test failed, and why. Sometimes, you might have missed something which causes an exception to be raised before the test can be carried out. In instances like this, you'll need to look at what is expected, and go back and fill it in. You can tweak your code and re-run the tests to see if they then pass.
+
+X> ### Test your Implementation
+X> When you have completed enough of the book to reach another round of tests, we'll denote the prompt for you to do this like so. We'll tell you what module to run, and always point you back to here so you can refresh your memory if you forget how to run them.
+
+T> ### Delete when Complete!
+T> When you have finished with the tests for a particular chapter, we **highly recommend** that you delete the module that you moved over to your `rango` directory. In the example above, we'd be looking to delete `tests_chapter3.py`. Once you have confirmed your solution passes the tests we provide, there's no need for the module anymore. Just delete it -- don't clutter your repository up with these modules!
