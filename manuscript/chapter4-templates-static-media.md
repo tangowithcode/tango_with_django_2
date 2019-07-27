@@ -379,6 +379,9 @@ T> Remember, **static files, as the name implies, do not change.** These files f
 T>
 T> An example of a static file could be a stylesheet file (CSS), which determines the appearance of your app's webpages. An example of a media file could be a user profile image, which is uploaded by the user when they create an account on your app.
 
+X> ### Test your Implementation
+X> If you have completed everything in this chapter up to and including the exercises, you can test your implementation so far. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter4.py`. How does your implementation stack up against our tests?
+
 <!-- Leaving out tests for now -- DMAX (2019-07-23), these require some work to make them work properly with the small tweaks that have been made throughout the book.>
 <!-- I> ### Tests
 I>
