@@ -68,6 +68,9 @@ At the top of your `settings.py` file, there is a variable called `BASE_DIR`. Th
 
 Having access to the value of `BASE_DIR` makes it easy for you to reference other aspects of your Django project. Using the `BASE_DIR` variable, we can now create a new variable called `TEMPLATE_DIR` that will reference your new `templates` directory. We can make use of the `os.path.join()` function to join up multiple paths, leading to a variable definition like the example below. Make sure you put this underneath the definition of `BASE_DIR`!
 
+I> ### Delete those Lines!
+I> If you included the three `print()` statements above to see what's going on, make sure you remove them once you understand. Don't just leave them lying there. They will clutter your settings module, and clutter the output of the Django development server!
+
 {lang="python",linenos=off}
 	TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
@@ -110,7 +113,7 @@ From this HTML code, it should be clear that a simple HTML page is going to be g
 
 To use this template, we need to reconfigure the `index()` view that we created earlier. Instead of dispatching a simple response, we will change the view to dispatch our template.
 
-In `rango/views.py`, check to see if the following `import` statement exists at the top of the file. If it is not present, add it.
+In `rango/views.py`, check to see if the following `import` statement exists at the top of the file. Django should have added it for you when you created the Rango app. If it is not present, add it.
 
 {lang="python",linenos=off}
 	from django.shortcuts import render
@@ -217,7 +220,7 @@ To demonstrate how to include static files, open up the `index.html` templates y
 	        
 	        <div>
 	            <a href="/rango/about/">About</a><br />
-	            <img src="{% static "images/rango.jpg" %}"
+	            <img src="{% static 'images/rango.jpg' %}"
 	                 alt="Picture of Rango" /> <!-- New line -->
 	        </div>
 	    </body>
@@ -266,6 +269,8 @@ T> 	    </body>
 T> 	
 T> 	</html>
 T>
+T> **Don't update the `base.html` template here -- this is merely a demonstration to show you how the `{% static %}` template function works. You'll be adding CSS and JavaScript later on in this tutorial.**
+T>
 T> Static files you reference will obviously need to be present within your `static` directory. If a requested file is not present or you have referenced it incorrectly, the console output provided by Django's development server will show a [`HTTP 404` error](https://en.wikipedia.org/wiki/HTTP_404). Try referencing a non-existent file and see what happens. Looking at the output snippet below, notice how the last entry's HTTP status code is `404`.
 T>
 T> {lang="text",linenos=off}
@@ -300,7 +305,6 @@ Now find a blank spot in `settings.py`, and add two more variables. The variable
 	MEDIA_URL = '/media/'
 
 W> ### Once again, don't Forget the Slashes!
-W>
 W> Like the `STATIC_URL` variable, ensure that `MEDIA_URL` ends with a forward slash (i.e. `/media/`, not `/media`). The extra slash at the end ensures that the root of the URL (e.g. `/media/`) is separated from the content uploaded by your app's users.
 
 The two variables tell Django where to look in your filesystem for media files (`MEDIA_ROOT`) that have been uploaded/stored, and what URL to serve them from (`MEDIA_URL`). With the configuration defined above, the uploaded file `cat.jpg` will, for example, be available on your Django development server at `http://localhost:8000/media/cat.jpg`. 
@@ -315,7 +319,7 @@ To do this, find the `TEMPLATES` list in `settings.py`. Within that list, look f
 	    'django.template.context_processors.request',
 	    'django.contrib.auth.context_processors.auth',
 	    'django.contrib.messages.context_processors.messages',
-	    'django.template.context_processors.media'
+	    'django.template.context_processors.media',  # Check for this line!
 	],
 
 ### Tweaking your URLs
@@ -334,6 +338,9 @@ You'll also need to add the following `import` statements at the top of the `url
 	from django.conf.urls.static import static
 
 Once this is complete, you should be able to serve content from the `media` directory of your project from the `/media/` URL.
+
+X> ### Create the `media` Directory
+X> Did you create the `media` directory within the `tango_with_django_project` directory? It should be a the same level as the `static` directory and the `manage.py` module.
 
 ## Basic Workflow
 With the chapter complete, you should now know how to set up and create templates, use templates within your views, setup and use the Django development server to serve static media files, *and* include images within your templates. We've covered quite a lot!
@@ -356,17 +363,16 @@ The steps involved in getting a static media file onto one of your pages are par
 The steps for serving media files are similar to those for serving static media.
 
 1. Place a file within your project's `media` directory. The `media` directory is specified by your project's `MEDIA_ROOT` variable. 
-2. Link to the media file in a template through the use of the `{{ MEDIA_URL }}` context variable. For example, referencing an uploaded image `cat.jpg` would have an `<img />` tag like `<img src="{{ MEDIA_URL}}cat.jpg" />`.
+2. Link to the media file in a template through the use of the `{{ MEDIA_URL }}` context variable. For example, referencing an uploaded image `cat.jpg` would have an `<img />` tag like `<img src="{{ MEDIA_URL}}cat.jpg" alt="Picture of a Cat."/>`.
 
 X> ### Exercises
-X>
 X> Give the following exercises a go to reinforce what you've learnt from this chapter.
 X> 
-X> * Convert the about page to use a template as well, using a template called `about.html`. In the new template's header, keep `Rango says...`, and on the line underneath, have the text `here is the about page.`.
-X> * Within the new `about.html` template, add a picture stored within your project's static files. You can just reuse the `rango.jpg` image you used in the index view!
-X> * On the about page, include a line that says `This tutorial has been put together by <your-name>`.
-X> * In your Django project directory, create a new directory called `media`, download a JPEG image of a cat and save it to the `media` directory as `cat.jpg`. 
-X> * In your **about page**, add in the `<img>` tag to display the picture of the cat, to ensure that your media is being served correctly. *Keep the static image of Rango in your index page* so that your about page has working examples of both static and media files.
+X> * Convert the about page to use a template too. Use a template called `about.html` for this purpose. Base the contents of this file on `index.html`. In the new template's `<h1>` element, keep `Rango says...` -- but on the line underneath, have the text `here is the about page.`.
+X> * Within the new `about.html` template, add a picture stored within your project's static files. You can just reuse the `rango.jpg` image you used in the index view! Make sure you keep the same `alt` text as the index page!
+X> * On the about page, include a line that says `This tutorial has been put together by <your-name>`. If you copied over from `index.html`, replacing `{{ boldmessage }}` would be the perfect place for this.
+X> * In your Django project directory, create a new directory called `media` (if you have not done so already). Download a JPEG image of a cat, and save it to the `media` directory as `cat.jpg`. 
+X> * In your `about.html` template, add in an `<img>` tag to display the picture of the cat to ensure that your media is being served correctly. *Keep the static image of Rango in your index page* so that your about page has working examples of both static and media files. The cat image should have alternative text of `Picture of a Cat`.
 
 T> ### Static and Media Files
 T> Remember, **static files, as the name implies, do not change.** These files form the core components of your website. **Media files are user-defined; and as such, they may change often!**
