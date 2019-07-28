@@ -226,23 +226,23 @@ Consequently, we need to create a new file called `urls.py` in the `rango` app d
 	from django.urls import path
 	from rango import views
 	
+	app_name = 'rango'
+	
 	urlpatterns = [
 	    path('', views.index, name='index'),
 	]
 
-This code imports the relevant Django machinery for URL mappings and the `views` module from `rango`. This allows us to call the function `url` and point to the `index` view for the mapping in `urlpatterns`. 
+This code imports the relevant Django machinery for URL mappings and the `views` module from `rango`. This allows us to call the function `url` and point to the `index` view for the mapping in `urlpatterns`.
 
 When we talk about URL strings, we assume that the host portion of a given URL has *already been stripped away*. The host portion of a URL denotes the host address or domain name that maps to the webserver, such as `http://127.0.0.1:8000` or `http://www.tangowithdjango.com`. Stripping the host portion away means that the Django machinery needs to only handle the remainder of the URL string. For example, given the URL `http://127.0.0.1:8000/rango/about/`, Django will handle the `/rango/about/` part of the URL string.
 
 The URL mapping we have created above calls Django's `path()` function, where the first parameter is the string to match. In this case, as we have used an empty string `''`, then Django will only find a match if there is nothing after  `http://127.0.0.1:8000/`.
-The second parameter tells Django what view to call if the pattern `''` is matched. In this case, `views.index()` will be called. The third and optional parameter is called `name`. It provides a convenient way to reference the view, and by naming our URL mappings we can employ *reverse URL matching*. That is we can reference the URL mapping by name rather than by the URL. Later we will explain and show why this is incredibly useful -- saving you time and hassle as your application becomes more complex.
+The second parameter tells Django what view to call if the pattern `''` is matched. In this case, `views.index()` will be called. The third and optional parameter is called `name`. It provides a convenient way to reference the view, and by naming our URL mappings we can employ *reverse URL matching*. That is we can reference the URL mapping by name rather than by the URL. [Later, we will explain and show why this is incredibly useful](#section-templates-relativeurls). It can save you time and hassle as your application becomes more complex. This will go hand-in-hand with the `app_name` variable we've also placed in the new `urls.py` module.
 
-
-Now, restart the Django development server and visit `http://127.0.0.1:8000/rango/`. If all went well, you should see the text `Rango says hey there partner!`. It should look just like the screenshot shown below.
+Now restart the Django development server and visit `http://127.0.0.1:8000/rango/`. If all went well, you should see the text `Rango says hey there partner!`. It should look just like the screenshot shown below.
 
 {id="fig-url-chain"}
 ![An illustration of a URL, represented as a chain, showing how different parts of the URL following the domain are the responsibility of different `url.py` files.](images/ch3-url-chain.png)
-
 
 {id="fig-ch3-hey-there"}
 ![A screenshot of a web browser displaying our first Django powered webpage. Hello, Rango!](images/ch3-hey-there.png)

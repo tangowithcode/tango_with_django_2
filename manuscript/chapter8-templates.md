@@ -7,7 +7,7 @@ Taken together, repetition and hard coding will result in a maintenance nightmar
 
 Luckily for us, the Django developers have already thought about how to solve such problems and provided solutions. In this chapter, we will use *template inheritance* to overcome the first problem, and the *URL template tag* to solve the second problem. We will start by addressing the latter problem first.
 
-## Using Relative URLs in Templates
+## Using Relative URLs in Templates {#section-templates-relativeurls}
 So far, we have been directly coding the URL of the page or view we want to
 show within the template, i.e. `<a href="/rango/about/">About</a>`. This kind of hard coding of URLs means that if we change our URL mappings in `urls.py`, then we will have to also change all of these URL references. The preferred way is to use the template tag `url` to look up the URL in the `urls.py` files and dynamically insert the URL path. 
 
