@@ -187,7 +187,7 @@ If you go to add in a new category via the admin interface you may encounter a p
 To solve the first problem, there are two possible solutions. The easiest solution would be to update our model so that the slug field allows blank entries, i.e.: 
 
 {lang="python",linenos=off}
-	slug = models.SlugField(blank=True) 
+	slug = models.SlugField(blank=True)
 
 However, this is less than desirable. A blank slug would probably not make any sense, and at that, you could define multiple blank slugs! How could we then identify what category a user is referring to? **A much better solution** would be to customise the admin interface so that it automatically pre-populates the slug field as you type in the category name. To do this, update `rango/admin.py` with the following code.
 
@@ -221,8 +221,8 @@ W> If you find yourself completely stuck, it is sometimes just more straightforw
 Now we need to figure out how to create a page for individual categories. This will allow us to then be able to see the pages associated with a category. To implement the category pages such that they can be accessed via `/rango/category/<category-name-slug>/`, we need to undertake the following steps.
 
 1. Import the `Page` model into `rango/views.py`.
-2. Create a new view in `rango/views.py` called `show_category()`. The `show_category()` view will take an additional parameter, `category_name_url`, which will store the encoded category name.
-	- We will need helper functions to encode and decode the `category_name_url`.
+2. Create a new view in `rango/views.py` called `show_category()`. The `show_category()` view will take an additional parameter, `category_name_slug`, which will store the encoded category name.
+	- We will need helper functions to encode and decode the `category_name_slug`.
 3.  Create a new template, `templates/rango/category.html`.
 4.  Update Rango's `urlpatterns` to map the new `category` view to a URL pattern in `rango/urls.py`.
 
@@ -401,7 +401,7 @@ What happens when you visit a category that does not exist? Try navigating a cat
 X> ## Exercises
 X> Reinforce what you've learnt in this chapter by trying out the following exercises.
 X> 
-X> * Update the population script to add some value to the `views` count for each page. Pick whatever integers you like -- as long as each page receives a number.
+X> * Update the population script to add some value to the `views` count for each page. Pick whatever integers you like -- as long as each page receives a number greater than zero.
 X> * Modify the index page to also include the top five most viewed pages.
 X> * Leading on from the exercise above, include a heading for the `Most Liked Categories` and `Most Viewed Pages`.
 X> * Include a link back to the index page from the category page.

@@ -118,8 +118,8 @@ Furthermore, it should be noted that the `ImageField` field has an `upload_to` a
 I> ### What about Inheriting to Extend?
 I> It may have been tempting to add the additional fields defined above by inheriting from the `User` model directly. However, because other applications may also want access to the `User` model, it not recommended to use inheritance, but to instead use a one-to-one relationship within your database.
 
-I> ### The Python Imaging Library (PIL)
-I> The Django `ImageField` field makes use of the *Python Imaging Library (PIL)*. If you have not done so already, install PIL via Pip with the command `pip install pillow==5.4.1`. If you don't have `jpeg` support enabled, you can also install PIL with the command `pip install pillow==5.4.1 --global-option="build_ext" --global-option="--disable-jpeg"`.
+I> ### Pillow
+I> The Django `ImageField` field makes use of [*Pillow*](https://pillow.readthedocs.io/en/stable/), a fork of the *Python Imaging Library (PIL)*. If you have not done so already, install Pillow via Pip with the command `pip install pillow==5.4.1`. If you don't have `jpeg` support enabled, you can also install Pillow with the command `pip install pillow==5.4.1 --global-option="build_ext" --global-option="--disable-jpeg"`.
 I>
 I> You can check what packages are installed in your (virtual) environment by issuing the command `pip list`.
 
