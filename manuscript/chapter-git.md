@@ -146,7 +146,7 @@ If you've already cloned your repository, it's good practice to get into the hab
 To perform a `git pull`, first navigate to your repository directory within your Command Prompt or terminal, then issue the command `git pull`. Check out the snippet below from a Bash terminal to see exactly what you need to do, and what output you should expect to see.
 
 {lang="text",linenos=off}
-	$ cd <workspace>
+	$ cd somerepository/
 	$ git pull
 	remote: Counting objects: 3, done.
 	remote: Compressing objects: 100% (2/2), done.
@@ -163,7 +163,7 @@ To perform a `git pull`, first navigate to your repository directory within your
 This example shows that a `README.md` file has been updated or created from the latest pull. 
 
 E> ### Getting an Error?
-E> If you receive `fatal: Not a git repository (or any of the parent directories): .git`, you're not in the correct directory. You need `cd` to your local workspace directory -- the one in which you cloned your repository to. The majority of Git commands only work when you're in a Git repository.
+E> If you receive `fatal: Not a git repository (or any of the parent directories): .git`, you're not in the correct directory. You need `cd` to your local repository directory -- the one in which you cloned your repository to. **The majority of Git commands only work when you're in a Git repository.**
 
 T> ### Pull before you Push!
 T> Always `git pull` on your local copy of your repository before you begin to work. **Always!**
