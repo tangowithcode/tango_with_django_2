@@ -62,26 +62,27 @@ Karen Little,
 **Nitin Tulswani,**
 [nolan-m](https://github.com/nolan-m),
 **Oleg Belausov,**
-[pawonfire](https://github.com/pawonfire),
-**[pdehaye](https://github.com/pdehaye),**
-Peter Mash,
-**[Pierre-Yves Mathieu](https://github.com/pywebdesign),**
-[Piotr Synowiec](https://holysheep.co/),
-**Praestgias,**
-[pzkpfwVI](https://github.com/pzkpfwVI),
-**[Ramdog](https://github.com/ramdog),**
-[Rezha Julio](https://github.com/kimiamania),
-**[rnevius](https://github.com/rnevius),**
-Sadegh Kh,
-**[Saex](https://github.com/SaeX),**
-[Saurabh Tandon](https://twitter.com/saurabhtand),
-**Serede Sixty Six,**
-Svante Kvarnstrom,
-**Tanmay Kansara,**
-Thomas Murphy,
-**[Thomas Whyyou](https://twitter.com/thomaswhyyou),**
-William Vincent, and
-**[Zhou](https://github.com/AugustLONG).**
+Olivia Foulds,
+**[pawonfire](https://github.com/pawonfire),**
+[pdehaye](https://github.com/pdehaye),
+**Peter Mash,**
+[Pierre-Yves Mathieu](https://github.com/pywebdesign),
+**[Piotr Synowiec](https://holysheep.co/),**
+Praestgias,
+**[pzkpfwVI](https://github.com/pzkpfwVI),**
+[Ramdog](https://github.com/ramdog),
+**[Rezha Julio](https://github.com/kimiamania),**
+[rnevius](https://github.com/rnevius),
+**Sadegh Kh,**
+[Saex](https://github.com/SaeX),
+**[Saurabh Tandon](https://twitter.com/saurabhtand),**
+Serede Sixty Six,
+**Svante Kvarnstrom,**
+Tanmay Kansara,
+**Thomas Murphy,**
+[Thomas Whyyou](https://twitter.com/thomaswhyyou),
+**William Vincent,** and
+[Zhou](https://github.com/AugustLONG).
 
 
 %% END ACKNOWLEDGEMENTS LIST
