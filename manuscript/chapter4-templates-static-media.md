@@ -352,7 +352,7 @@ Creating a template and integrating it within a Django view is a key concept for
 3. Add your view specific logic (if you have any) to the view. For example, this may involve extracting data from a database and storing it within a list.
 4. Within the view, construct a dictionary object which you can pass to the template engine as part of the [template's *context*](#section-templates-static-context).
 5. Make use of the  `render()` helper function to generate the rendered response. Ensure you reference the request, then the template file, followed by the context dictionary.
-6. If you haven't already done so, map the view to a URL by modifying your project's `urls.py` file and the application-specific `urls.py` file if you have one.
+6. Finally, map the view to a URL by modifying your project's `urls.py` file (or the application-specific `urls.py` file if you have one). This step is only required if you're creating a new view, or you are using an existing view that hasn't yet been mapped!
 
 The steps involved in getting a static media file onto one of your pages are part of another important process that you should be familiar with. Check out the steps below on how to do this.
 
