@@ -67,7 +67,7 @@ When you define a model, you need to specify the list of fields and their associ
 
 Django provides a [comprehensive series of built-in field types](https://docs.djangoproject.com/es/2.1/ref/models/fields/#model-field-types). Some of the most commonly used are detailed below.
 
-* `CharField`, a field for storing character data (e.g. strings). Specify `max_length` to provide a maximum number o characters the field can store.
+* `CharField`, a field for storing character data (e.g. strings). Specify `max_length` to provide a maximum number of characters that a `CharField` field can store.
 * `URLField`, much like a `CharField`, but designed for storing resource URLs. You may also specify a `max_length` parameter.
 * `IntegerField`, which stores integers.
 * `DateField`, which stores a Python `datetime.date` object.
