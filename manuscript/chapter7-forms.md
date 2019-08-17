@@ -212,7 +212,7 @@ Now let's try it out! Start or restart your Django development server, and then 
 I> ### Missing Categories?
 I> If you play around with this new functionality and add several different categories, remember that they will not always appear on the index page. This is because we coded up our index view to only show the *top five categories* in terms of the number of likes they have received. If you log into the admin interface, you should be able to view all the categories that you have entered. 
 I> 
-I> For confirmation that the category is being added is to update the `add_category()` method in `rango/views.py` and change the line  `form.save(commit=True)` to be `cat = form.save(commit=True)`. This will give you a reference to an instance of the category object created by the form. You can then print the category to console (e.g. `print(cat, cat.slug)` ).
+I> For confirmation that the category is being added is to update the `add_category()` method in `rango/views.py` and change the line  `form.save(commit=True)` to be `cat = form.save(commit=True)`. This will give you a reference to an instance of the created `Category` object. You can then `print` the category(e.g. `print(cat, cat.slug)` ).
 
 ### Cleaner Forms
 Recall that our `Page` model has a `url` attribute set to an instance of the `URLField` type. In a corresponding HTML form, Django would reasonably expect any text entered into a `url` field to be a correctly formatted, complete URL. However, users can find entering something like `http://www.url.com` to be cumbersome -- indeed, users [may not even know what forms a correct URL](https://support.google.com/webmasters/answer/76329?hl=en)!
