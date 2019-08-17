@@ -271,7 +271,7 @@ Next, we can add our new view, `show_category()`.
 Our new view follows the same basic steps as our `index()` view. We first define a context dictionary. Then, we attempt to extract the data from the models and add the relevant data to the context dictionary. We determine which category has been requested by using the value passed as parameter `category_name_slug` to the `show_category()` view function (in addition to the `request` parameter). If the category slug is found in the `Category` model, we can then pull out the associated pages, and add this to the context dictionary, `context_dict`. If the category requested was not found, we set the associated context dictionary values to `None`. Finally, we `render()` everything together, using a new `category.html` template.
 
 ### Category Template
-Now let's create our template for our new `show_category()` view. In `<workspace>/tango_with_django_project/templates/rango/` directory, create `category.html`. In the new file, add the following code.
+In your `<workspace>/tango_with_django_project/templates/rango/` directory, create a new template called `category.html`. In the new file, add the following code.
 
 {lang="html",linenos=on}
 	<!DOCTYPE html>
@@ -310,7 +310,7 @@ I>
 I> Placing conditional checks in your templates -- like `{% if category %}` in the example above -- also makes sense semantically. The outcome of the conditional check directly affects how the rendered page is presented to the user. Remember, presentational aspects of your Django apps should be encapsulated within templates.
 
 ### Parameterised URL Mapping
-Now let's have a look at how we pass the value of the `category_name_url` parameter to the `show_category()` function. To do so, we need to modify Rango's `urls.py` file and update the `urlpatterns` tuple as follows.
+Now let's have a look at how we pass the value of the `category_name_url` parameter to our function `show_category()` function. To do so, we need to modify Rango's `urls.py` file and update the `urlpatterns` tuple as follows.
 
 {lang="python",linenos=off}
 	urlpatterns = [
@@ -320,7 +320,7 @@ Now let's have a look at how we pass the value of the `category_name_url` parame
 	         views.show_category, name='show_category'),
 	]
 
-We have added a new mapping which contains a parameter, represented by `<slug:category_name_slug>`. This indicates to Django that we want to match a string which is a `slug`, and to assign it to variable `category_name_slug`. You will notice that this variable name is what we pass through to the view `show_category()`. If these two names do not match exactly, Django will get confused and raise an error. Instead of slugs, you can also extract out other variables like strings and integers. Refer to the [Django documentation on URL paths](https://docs.djangoproject.com/en/2.1/ref/urls/) for more details. If you need to parse more complicated expressions, you can use `re_path()` instead of `path()`. This will allow you to match all sorts of regular (and irregular) expressions. Luckily for us, Django provides matches for the most common patterns.
+A parameter, represented by `<slug:category_name_slug>`, is added to a new mapping. This indicates to Django that we want to match a string which is a `slug`, and to assign it to variable `category_name_slug`. You will notice that this variable name is what we pass through to the view `show_category()`. If these two names do not match exactly, Django will get confused and raise an error. Instead of slugs, you can also extract out other variables like strings and integers. Refer to the [Django documentation on URL paths](https://docs.djangoproject.com/en/2.1/ref/urls/) for more details. If you need to parse more complicated expressions, you can use `re_path()` instead of `path()`. This will allow you to match all sorts of regular (and irregular) expressions. Luckily for us, Django provides matches for the most common patterns.
 
 <!-->
 We have added in a rather complex entry that will invoke `view.show_category()` when the URL pattern `r'^category/(?P<category_name_slug>[\w\-]+)/$'` is matched. 
@@ -412,14 +412,14 @@ X> * Undertake [part three of official Django tutorial](https://docs.djangoproje
 
 T> ### Hints
 T> * When updating the population script, you'll essentially follow the same process as you went through in the [previous chapter's](#chapter-models-databases) exercises. You will need to update the data structures for each page, and also update the code that makes use of them.
-T>      * Update the three data structures containing pages for each category -- `python_pages`, `django_pages` and `other_pages`. Each page has a `title` and `url` -- they all now need a count of how many `views` they see, too.
+T>      * Update the `python_pages`, `django_pages` and `other_pages` data structures. Each page has a `title` and `url` -- they all now need a count of how many `views` they see, too.
 T>      * Look at how the `add_page()` function is defined in your population script. Does it allow for you to pass in a `views` count? Do you need to change anything in this function?
 T>      * Finally, update the line where the `add_page()` function is *called*. If you called the views count in the data structures `views`, and the dictionary that represents a page is called `p` in the context of where `add_page()` is called, how can you pass the views count into the function?
 T> * Remember to re-run the population script so that the database is updated with your new counts.
 T>      * You will need to edit both the `index` view and the `index.html` template to put the most viewed (i.e. popular pages) on the index page.
 T>      * Instead of accessing the `Category` model, you will have to ask the `Page` model for the most viewed pages.
 T>      * Remember to pass the list of pages through to the context.
-T>      * If you are not sure about the HTML template code to use, you can draw inspiration from the `category.html` template markup. The markup that you ned to write is essentially the same.
+T>      * If you are not sure about the HTML template code to use, you can draw inspiration from the `category.html` template markup. The markup that you need to write is essentially the same.
 
 T> ### Model Tips
 T> For more tips on working with models you can take a look through the following blog posts:

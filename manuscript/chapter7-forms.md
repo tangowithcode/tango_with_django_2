@@ -21,7 +21,7 @@ The basic steps involved in creating a form and handling user input is as follow
 5. Create or update a template to display the form.
 6. Add a `urlpattern` to map to the new view (if you created a new one).
 
-This workflow is a bit more complicated than those we have previously seen, and the views that we have to construct have a lot more complex as well. However, once you undertake the process a few times, it will be pretty clear how everything pieces together.
+This workflow is a bit more complicated than those we have previously seen, and the views that we have to construct are lot more complex, too. However, once you undertake the process a few times, it will be pretty clear how everything pieces together.
 
 ##Page and Category Forms
 Here, we will implement the necessary infrastructure that will allow users to add categories and pages to the database via forms.
@@ -137,7 +137,7 @@ I> - Check out the [w3schools page on `GET` vs. `POST`](http://www.w3schools.com
 
 Django's form handling machinery processes the data returned from a user's browser via an HTTP `POST` request. It not only handles the saving of form data into the chosen model but will also automatically generate any error messages for each form field (if any are required). This means that Django will not store any submitted forms with missing information that could potentially cause problems for your database's [referential integrity](https://en.wikipedia.org/wiki/Referential_integrity). For example, supplying no value in the `category` name field will return an error, as the field cannot be blank.
 
-You'll notice from the line in which we call `render()` that we refer to a new template called `add_category.html`. This will contain the relevant Django template code and HTML for the form and page.
+You'll notice from the line `render()` that we refer to a new template called `add_category.html`. This will contain the relevant Django template code and HTML for the form and page.
 
 ### Creating the *Add Category* Template
 Create the file `templates/rango/add_category.html`. Within the file, add the following HTML markup and Django template code.
@@ -212,7 +212,7 @@ Now let's try it out! Start or restart your Django development server, and then 
 I> ### Missing Categories?
 I> If you play around with this new functionality and add several different categories, remember that they will not always appear on the index page. This is because we coded up our index view to only show the *top five categories* in terms of the number of likes they have received. If you log into the admin interface, you should be able to view all the categories that you have entered. 
 I> 
-I> Another way to get some confirmation that the category is being added is to update the `add_category()` method in `rango/views.py` and change the line  `form.save(commit=True)` to be `cat = form.save(commit=True)`. This will give you a reference to an instance of the category object created by the form. You can then print the category to console (e.g. `print(cat, cat.slug)` ).
+I> For confirmation that the category is being added is to update the `add_category()` method in `rango/views.py` and change the line  `form.save(commit=True)` to be `cat = form.save(commit=True)`. This will give you a reference to an instance of the category object created by the form. You can then print the category to console (e.g. `print(cat, cat.slug)` ).
 
 ### Cleaner Forms
 Recall that our `Page` model has a `url` attribute set to an instance of the `URLField` type. In a corresponding HTML form, Django would reasonably expect any text entered into a `url` field to be a correctly formatted, complete URL. However, users can find entering something like `http://www.url.com` to be cumbersome -- indeed, users [may not even know what forms a correct URL](https://support.google.com/webmasters/answer/76329?hl=en)!
@@ -306,7 +306,7 @@ Note that in the example above, we need to *redirect* the user to the `show_cate
 	from django.shortcuts import redirect
 	from django.urls import reverse
 
-What happens here is that the `redirect()` function is called, which in turn calls the `reverse()` function. `reverse()` looks up URL names in your `urls.py` modules -- in this instance, `rango:show_category`. If a match is found against the name provided, the complete URL is returned. The added complication here is that the `show_category()` view takes an additional parameter `category_name_slug`. By providing this value in a dictionary as `kwargs` to the `reverse()` function, it has all of the information it needs to formulate a complete URL. This completed URL is then used as the parameter to the `redirect()` method, and the response is complete!
+Here, the `redirect()` function is called which in turn calls the `reverse()` function. `reverse()` looks up URL names in your `urls.py` modules -- in this instance, `rango:show_category`. If a match is found against the name provided, the complete URL is returned. The added complication here is that the `show_category()` view takes an additional parameter `category_name_slug`. By providing this value in a dictionary as `kwargs` to the `reverse()` function, it has all of the information it needs to formulate a complete URL. This completed URL is then used as the parameter to the `redirect()` method, and the response is complete!
 
 T> ### Hints
 T> To help you with the exercises above, the following hints may be of some use to you.
