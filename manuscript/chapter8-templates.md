@@ -39,7 +39,7 @@ Before you run off to update all the URLs in all your templates with relative UR
 T> ### URLs and Multiple Django Apps
 T> This book focuses on the development of a single Django app, Rango. However, you may find yourself working on a Django project with multiple apps being used at once. This means that you could literally have hundreds of potential URLs with which you may need to reference. This scenario begs the question: *how can we organise these URLs?* Two apps may have a view of the same name, meaning a potential conflict would exist. 
 T>
-T> [Django provides the ability to *namespace* URL configuration modules](https://docs.djangoproject.com/en/2.1/topics/http/urls/#url-namespaces) for each individual app that you employ in your project. As we did earlier in the book, simply adding an `app_name` variable to your app's `urls.py` module is enough. The example below specifies the namespace for the Rango app to be `rango`.
+T> [Django provides the ability to *namespace* URL configuration modules](https://docs.djangoproject.com/en/2.1/topics/http/urls/#url-namespaces) for each individual app that you employ in your project. As we did earlier, adding an `app_name` variable to your app's `urls.py` module is enough. The example below specifies the namespace for the Rango app to be `rango`.
 T>
 T> {lang="python",linenos=off}
 T> 	from django.conf.urls import url
