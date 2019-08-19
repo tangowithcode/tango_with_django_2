@@ -303,7 +303,9 @@ Create a directory `<Workspace>/tango_with_django_project/rango/templatetags`, a
 	def get_category_list():
 	    return {'categories': Category.objects.all()}
 
-From this code snippet, you can see a new method called `get_category_list()`. This method returns a list of categories -- but is mashed up with the template `rango/categories.html` (as can be seen from the `register.inclusion_tag()` decorator). You can now create this template file and add the following HTML markup:
+From this code snippet, you can see a new function called `get_category_list()`. This method returns a list of categories to whatever calls it. From the `register.inclusion_tag()` decorator above, you may notice it also refers to a new template, `rango/categories.html`. This new template is used by the Django template engine to render the list of categories you provide in the dictionary that is returned in the function. This rendered list can then be injected into the response of the view that initially called the template tag!
+
+Now would be a good time to create the new template, `categories.html`, and add the following HTML markup. Note the similarity in the name of the template with the existing `category.html` template. This is done by design to make sure you are kept on your toes!
 
 {lang="html",linenos=on}
 	<ul>
