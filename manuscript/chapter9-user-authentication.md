@@ -421,7 +421,7 @@ Django provides all of these functions and classes. As such, you'll need to impo
 
 {lang="python",linenos=off}
 	from django.contrib.auth import authenticate, login
-	from django.http HttpResponse
+	from django.http import HttpResponse
 	from django.urls import reverse
 	from django.shortcuts import redirect
 
