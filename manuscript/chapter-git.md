@@ -123,12 +123,10 @@ Remember, wildcards are a neat feature to use here. If you ever have a type of f
 
 I> ### `.gitignore` -- What else should I ignore?
 I> There are many kinds of files you could safely ignore from being committed and pushed to your Git repositories.
-I> Examples include temporary files, databases (that can easily be recreated) and operating system-specific files. Operating system-specific files include configurations for the appearance of the directory when viewed in a given file browser. Windows computers create `thumbs.db` files, while OS X creates `.DS_Store` files.
-I>
-I> When you create a new repository on GitHub, the service can offer to create a `.gitignore` file, based upon the languages you will use in your project, which can save you some time setting everything up.
+I> Examples include temporary files, databases (that can easily be recreated) and operating system-specific files. Operating system-specific files include configurations for the appearance of the directory when viewed in a given file browser. Windows computers create `thumbs.db` files, while macOS creates `.DS_Store` files.
 
 I> ### (Not) Committing your Database
-I> You should also take steps to ignore other binary-based files that will frequently change within your repository. As an example in this book, you'll want to consider ignoring the database (as we demonstrate above). Why? When working in a team, everyone's copy of the database is likey going to be different. Different team members may add sample data that will differ from others. If all team members were to continually push up different versions of the database, the chance of creating conflicts increases. This issue is also the reason why we encourage the development of a [population script](#section-models-population) to quickly fill a new database with sample data! The rule of thumb here is: don't commit a database to your project's repository. Do commit the necessary infrastructure to create the database from scratch, and as a bonus, provide the functionality to fill this blank database with sample data.
+I> You should also take steps to ignore other binary-based files that will frequently change within your repository. As an example in this book, you'll want to consider ignoring the database (as we demonstrate above). Why? When working in a team, everyone's copy of the database is likely going to be different. Different team members may add sample data that will differ from others. If all team members were to continually push up different versions of the database, the chance of creating conflicts increases. This issue is also the reason why we encourage the development of a [population script](#section-models-population) to quickly fill a new database with sample data! The rule of thumb here is: don't commit a database to your project's repository. Do commit the necessary infrastructure to create the database from scratch, and as a bonus, provide the functionality to fill this blank database with sample data.
 
 ## Basic Commands and Workflow {#section-git-workflow}
 With your repository cloned and ready to go on your local computer, you're ready to get to grips with the Git workflow. This section shows you the basic Git workflow, and the associated Git commands you can issue.
@@ -205,7 +203,7 @@ I> If you have [set up your `.gitignore` file correctly](#section-git-setup-twea
 	
 	no changes added to commit (use "git add" and/or "git commit -a")
 
-From this example above, we can see that there are three files listed -- `chapter-git.md`, `chapter-system-setup.md` and `images/screenshot_template.ai`. All paths are relative from your present working directory, hence the addition of `images/` for the last file -- it lives within an `images` subdirectory.
+The files `chapter-git.md`, `chapter-system-setup.md` and `images/screenshot_template.ai` are all listed in the example output shown above. All paths are relative from your present working directory, hence the addition of `images/` for the last file -- it lives within an `images` subdirectory.
 
 Reading the output of the `git status` command carefully, we can see that the files `chapter-git.md` and `chapter-system-setup.md` are already known to your Git repository, but have been *modified* from the previous commit. The output of the command is telling you that for these changes to be reflected in the next commit, you must `git add` these files. Files that have been deleted or moved concerning the previous commit will also appear here.
 
