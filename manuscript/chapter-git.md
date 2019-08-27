@@ -98,6 +98,7 @@ When using your Git repository as part of a team, any changes you make will be a
 
 Replace the example name and e-mail address with your own -- unless your name is John Doe!
 
+### The `.gitignore` File {#section-git-setup-gitignore}
 Git also provides you with the capability to stop -- or ignore -- particular files from being added to version control. For example, you may not wish a file containing unique keys to access web services from being added to version control. If the file were to be added to the remote repository, anyone could theoretically access the file by cloning the repository. With Git, files can be ignored by including them in the `.gitignore` file, which resides in the root of `<workspace>`. When adding files to version control, Git parses this file. If a file that is being added to version control is listed within `.gitignore`, the file is ignored. Each line of `.gitignore` should be a separate file entry.
 
 Check out the following example of a `.gitignore` file:
