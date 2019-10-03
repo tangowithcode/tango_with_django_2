@@ -424,7 +424,7 @@ X> * As you have changed your models, make the migrations for your Rango app. Af
 X> * Next update your population script so that the `Python` category has `128` views and `64` likes, the `Django` category has `64` views and `32` likes, and the `Other Frameworks` category has `32` views and `16` likes.
 X> * Delete and recreate your database, populating it with your updated population script.
 X> * Complete parts [two](https://docs.djangoproject.com/en/2.1/intro/tutorial02/) and [seven](https://docs.djangoproject.com/en/2.1/intro/tutorial07/) of the official Django tutorial. These sections will reinforce what you've learnt on handling databases in Django, and show you additional techniques to customising the Django admin interface. This knowledge will help you complete the final exercise below.
-X> * Customise the admin interface. Change it in such a way so that when you view the `Page` model, the table displays the `category`, the `name` of the page and the `url` -- just [like in the screenshot shown below](#fig-admin-completed). Complete the official Django tutorial or look at the tip below to complete this particular exercise.
+X> * Customise the admin interface. Change it in such a way so that when you view the `Page` model, the table displays the `category`, the `title` of the page, and the `url` -- just [like in the screenshot shown below](#fig-admin-completed). Complete the official Django tutorial or look at the tip below to complete this particular exercise.
 
 {id="fig-admin-completed"}
 ![The updated admin interface `Page` view, complete with columns for category and URL.](images/ch5-admin-completed.png)
