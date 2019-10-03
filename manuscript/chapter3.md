@@ -216,7 +216,7 @@ First, open the project's `urls.py` file which is located inside your project co
 	]
 
 
-You will see that the `urlpatterns` is a Python list, which is expected by the Django framework.  The added mapping looks for URL strings that match the patterns `rango/`. When a match is made the remainder of the URL string is then passed onto and handled by `rango.urls` through the use of the  `include()` function from within `django.conf.urls`.  
+You will see that the `urlpatterns` is a Python list, which is expected by the Django framework. The added mapping looks for URL strings that match the patterns `rango/`. When a match is made, the remainder of the URL string is then passed onto and handled by `rango.urls` through the use of the  `include()` function from within the `django.urls` package.
 
 Think of this as a chain that processes the URL string -- as illustrated in the [URL chain figure](#fig-url-chain). In this chain, the domain is stripped out and the remainder of the URL string (`rango/`) is passed on to `tango_with_django` project, where it finds a match and strips away `rango/`, leaving an empty string to be passed on to the app `rango` for it to handle.
 
