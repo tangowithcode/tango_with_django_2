@@ -401,7 +401,7 @@ What happens when you visit a category that does not exist? Try navigating a cat
 X> ## Exercises
 X> Reinforce what you've learnt in this chapter by trying out the following exercises.
 X> 
-X> * Update the population script to add some value to the `views` count for each page. Pick whatever integers you like -- as long as each page receives a number greater than zero.
+X> * Update the population script to add some value to the `views` count for each **page**. Pick whatever integers you want -- as long as each page receives a whole (integer) number greater than zero.
 X> * Modify the index page to also include the top five most viewed pages.
 X> * Leading on from the exercise above, include a heading for the `Most Liked Categories` and `Most Viewed Pages`.
 X> * Include a link back to the index page from the category page.
