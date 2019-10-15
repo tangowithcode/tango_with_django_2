@@ -402,7 +402,7 @@ X> ## Exercises
 X> Reinforce what you've learnt in this chapter by trying out the following exercises.
 X> 
 X> * Update the population script to add some value to the `views` count for each **page**. Pick whatever integers you want -- as long as each page receives a whole (integer) number greater than zero.
-X> * Modify the index page to also include the top five most viewed pages.
+X> * Modify the index page to also include the top five most viewed pages. When no pages are present, you should include a friendly message in place of a list, stating: `There are no pages present.`
 X> * Leading on from the exercise above, include a heading for the `Most Liked Categories` and `Most Viewed Pages`. These must be placed as second-level headers, using the `<h2>` tag. Place them above their respective list.
 X> * Include a link back to the index page from the category page.
 X> * Undertake [part three of official Django tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial03/) if you have not done so already to reinforce what you've learnt here.
