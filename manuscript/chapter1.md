@@ -1,5 +1,5 @@
 # Overview
-This book aims to provide you with a practical guide to web development using *Django 2* and *Python 3*. The book is designed primarily for students, providing a walkthrough of the steps involved in getting a web application up and running with Django.
+This book aims to provide you with a practical guide to web development using *Django 2* and *Python 3*. The book is designed primarily for students, providing a walkthrough of the steps involved in getting a web application up and running with Django. However, anyone who's starting off with web development will find this book to be beneficial.
 
 This book seeks to complement the [official Django Tutorials](https://docs.djangoproject.com/en/2.1/intro/tutorial01/) and many of the other excellent tutorials available online. By putting everything together in one place, this book fills in many of the gaps in the official Django documentation by providing an example-based, design-driven approach to learning the Django framework. Furthermore, this book provides an introduction to many of the aspects required to master web application development (such as HTML, CSS and JavaScript). 
 
@@ -15,15 +15,15 @@ This book seeks to complement the [official Django Tutorials](https://docs.djang
 ## What you will Learn
 In this book, we will be taking an example-based approach to web application development. In the process, we will show you how to design a web application called *Rango* ([see the Design Brief below](#overview-design-brief-label)), and take a step by step in setting up, developing and deploying the application. Along the way, we'll show you how to perform the following key tasks which are common to most software engineering and web-based projects.
 
-* How to  **configure your development environment** -- including how to use the terminal, your virtual environment, the `pip` installer, how to work with Git, and more.
+* How to  **configure your development environment** -- including how to use the terminal, your virtual environment, the `pip` installer, and how to work with Git.
 * How to  **set up a Django project** and **create a basic Django application**.
-* How to  **configure the Django project** to serve static media and other media files.
+* How to  **configure the Django project** to serve static media and user-uploaded media files (such as profile images).
 * How to  **work with Django's *Model-View-Template* design pattern**.
 * How to  **work with database models** and use the [*object-relational mapping (ORM)*](https://en.wikipedia.org/wiki/Object-relational_mapping) functionality provided by Django.
 * How to **create forms** that can utilise your database models to create **dynamically-generated webpages**.
 * How to use the **user authentication** services provided by Django.
 * How to incorporate **external services** into your Django application.
-* How to include **Cascading Styling Sheets (CSS)** and **JavaScript** within a web application.
+* How to include **Cascading Styling Sheets (CSS)** and **JavaScript** within a web application to aid in styling and providing it with additional functionality.
 * How to **apply CSS** to give your application a professional look and feel.
 * How to work with **cookies and sessions** with Django.
 * How to include more advanced functionality like **AJAX** into your application.
@@ -36,7 +36,7 @@ At the end of each chapter, we have also included several exercises designed to 
 X> ### Exercises
 X> In each chapter, we have added several exercises to test your knowledge and skill. Such exercises are denoted like this.
 X>
-X> *You will need to complete these exercises as the subsequent chapters are dependent on them.*
+X> **You will need to complete all of these exercises as subsequent chapters will assume that you have fully completed them.**
 
 T> ### Hints and Tips
 T> For each set of exercises, we will provide a series of hints and tips that will assist you if you need a push. If you get stuck however, you can always check out our solutions to all the exercises on our [*GitHub* repository](https://github.com/maxwelld90/tango_with_django_2_code).
@@ -55,7 +55,7 @@ Through the course of this book, we will use various technologies and external s
 * the [JQuery](https://jquery.com) library;
 * the [Twitter Bootstrap](https://getbootstrap.com/) framework;
 * the [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference); and
-* the [PythonAnywhere](https://www.pythonanywhere.com) hosting service;
+* the [PythonAnywhere](https://www.pythonanywhere.com) hosting service.
 
 We've selected these technologies and services as they are either fundamental to web development, and/or enable us to provide examples on how to integrate your web application with CSS toolkits like *Twitter Bootstrap*, external services like those provided by the *Microsoft Bing Search API* and deploy your application quickly and easily with *PythonAnywhere*. Let's get started!
 
@@ -63,7 +63,6 @@ We've selected these technologies and services as they are either fundamental to
 The focus of this book will be to develop an application called *Rango*. As we develop this application, it will cover the core components that need to be developed when building any web application. To see a fully-functional version of the application, you can visit our [How to Tango with Django website](http://www.tangowithdjango.com/).
 
 ### Design Brief
-
 Let's imagine that we would like to create a website called *Rango* that lets users browse through user-defined categories to access various web pages. In [Spanish, the word rango](https://www.vocabulary.com/dictionary/es/rango) is used to mean *"a league ranked by quality"* or *"a position in a social hierarchy"* -- so we can imagine that at some point, we will want to rank the web pages in Rango.
 
 * For the **main page** of the Rango website, your client would like visitors to be able to see:
@@ -92,7 +91,6 @@ X> Try these exercises out before moving on -- even if you aren't familiar with 
 {pagebreak}
 
 ### N-Tier Architecture
-
 The high-level architecture for most web applications is based around a *3-Tier architecture.* Rango will be a variant on this architecture as also interfaces with an external service.
 
 {id="fig-ntier"}
@@ -108,7 +106,7 @@ Given the different boxes within the high-level architecture, we need to start m
 For the most part, this book will focus on developing middleware. However, it should be evident from the [system architecture diagram](#fig-ntier) that we will have to interface with all the other components.
 
 ### Wireframes
-Wireframes are a great way to provide clients with some idea of what the application is going to look like and what features it will provide. They save a lot of time and can vary from hand-drawn sketches to exact mockups depending on the tools that you have at your disposal. For our Rango application, we'd like to make the index page of the site look like the [screenshot below](#fig-index-page). Our category page is also [shown below](#fig-cat-page).
+Wireframes are a great way to provide clients with some idea of what the application is going to look like, and what features it will provide. They can vary from hand-drawn sketches to exact mockups depending on the tools that you have at your disposal. For our Rango application, we'd like to make the index page of the site look like the [screenshot below](#fig-index-page). Our category page is also [shown below](#fig-cat-page).
 
 {id="fig-index-page"}
 ![The index page with a categories search bar on the left, also showing the top five pages and top five categories.](images/ch1-rango-index.png)
@@ -117,7 +115,7 @@ Wireframes are a great way to provide clients with some idea of what the applica
 ![The category page showing the pages in the category (along with the number of views for the category and each page).](images/ch1-rango-cat-page.png)
 
 ### Pages and URL Mappings
-From the specification, we have already identified two pages that our application will present to the user at different points in time. To access each page we will need to describe URL mappings. Think of a URL mapping as the text a user would have to enter into a browser's address bar to reach the given page. The basic URL mappings for Rango are shown below.
+From the specification, we have already identified two pages that our application will present to the user at different points in time. To access each page, we will need to describe URL mappings. Think of a URL mapping as the text a user would have to enter into a browser's address bar to access a given page. The basic URL mappings for Rango are shown below.
 
 * `/` **or** `/rango/` will point to the main / index page.
 * `/rango/about/` will point to the about page.
@@ -126,42 +124,44 @@ From the specification, we have already identified two pages that our applicatio
 	* `python-recipes`; or
 	* `code-and-compilers`.
 
-As we build our application, we will probably need to create other URL mappings. However, the ones listed above will get us started and give us an idea of the different pages. Also, as we progress through the book, we will flesh out how to construct these pages using the Django framework and use its [Model-View-Template](https://docs.djangoproject.com/en/2.1/) design pattern. However, now that we have a gist of the URL mappings and what the pages are going to look like, we need to define the data model that will house the data for our web application.
+As we build our application, we will probably need to create other URL mappings. However, the mappings listed above are enough for us to get started. As we progress through the book, we will flesh out how to construct all of these pages using the Django framework and use its [Model-View-Template](https://docs.djangoproject.com/en/2.1/) design pattern.
 
 ### Entity-Relationship Diagram {#overview-er}
-Given the specification, it should be clear that we have at least two entities: a *category* and a *page*. It should also be clear that a *category* can house many *pages*. We can formulate the following ER Diagram to describe this simple data model.
+Now that we have a gist of the URL mappings and what the pages are going to look like, we need to define the data model that will house the data for our web application. Given the specification, it should be clear that we have at least two entities: a *category* and a *page*. It should also be clear that a *category* can be associated with many *pages*. We can formulate the following ER Diagram to describe this simple data model.
 
 {id="fig-rango-erd"}
 ![The Entity Relationship Diagram of Rango's two main entities.](images/rango-erd.png)
 
-Note that this specification is rather vague. A single page could, in theory, exist in one or more categories. Working with this assumption, we could model the relationship between categories and pages as a [many-to-many relationship](https://en.wikipedia.org/wiki/Many-to-many_(data_model)). However, this approach introduces several complexities. We will make the simplifying assumption that *one category contains many pages, but one page is assigned to one category.* This does not preclude that the same page can be assigned to different categories -- but the page would have to be entered twice. While this is not ideal, it does reduce the complexity of the models.
+Note that this specification is rather vague. A single page could, in theory, exist in one or more categories. Working with this assumption, we could model the relationship between categories and pages as a [many-to-many relationship](https://en.wikipedia.org/wiki/Many-to-many_(data_model)). However, this approach introduces several complexities.
+
+We will make the simplifying assumption that **one category contains many pages, but one page is assigned to one category.** This does not preclude that the same page can be assigned to different categories -- but the page would have to be entered twice. While this is not ideal, it does reduce the complexity of the models.
 
 D> ### Take Note!
 D> Get into the habit of noting down any working assumptions that you make, just like the one-to-many relationship assumption that we assume above. You never know when they may come back to bite you later on! By noting them down, this means you can communicate it with your development team and make sure that the assumption is sensible, and that they are happy to proceed under such an assumption. 
 
-With this assumption, we can produce a series of tables that describe each entity in more detail. The tables contain information on what fields are contained within each entity.  We use Django `ModelField` types to define the type of each field (i.e. `IntegerField`, `CharField`, `URLField` or `ForeignKey`). Note that in Django *primary keys* are implicit such that Django adds an `id` to each Model, but we will talk more about that later in the Models and Database chapter.
+With this assumption, we can produce a series of tables that describe each entity in more detail. The tables contain information on what fields are contained within each entity.  We use Django `ModelField` types to define the type of each field (i.e. `IntegerField`, `CharField`, `URLField` or `ForeignKey`). Note that in Django *primary keys* are implicit such that Django adds an `id` to each Model, but we will talk more about that later in the [Models and Databases chapter](#chapter-models-databases).
 
 #### Category Model
 
-| Field   | Type            |
-|---------|-----------------|
-| `name`  | `CharField`     | 
-| `views` | `IntegerField`  |
-| `likes` | `IntegerField`  |
+| Field   | Data Type            |
+|---------|----------------------|
+| `name`  | `CharField`          | 
+| `views` | `IntegerField`       |
+| `likes` | `IntegerField`       |
 
 #### Page Model
 
-| Field      | Type           |
-|------------|----------------|
-| `category` | `ForeignKey`   | 
-| `title`    | `CharField`    |
-| `url`      | `URLField`     |
-| `views`    | `IntegerField` |
+| Field      | Data Type           |
+|------------|---------------------|
+| `category` | `ForeignKey`        | 
+| `title`    | `CharField`         |
+| `url`      | `URLField`          |
+| `views`    | `IntegerField`      |
 
 We will also have a model for the `User` so that they can register and login. We have not shown it here but shall introduce it later in the book when we discuss [user authentication](#chapter-user). In subsequent chapters, we will see how to instantiate these models in Django, and how we can use the built-in ORM to interact with the database.
 
 ## Summary
-These high-level design and specifications will serve as a useful reference point when building our web application. While we will be focusing on using specific technologies, these steps are common to most database-driven websites. It's a good idea to become familiar with reading and producing such specifications and designs so that you can communicate your designs and ideas with others. Here we will be focusing on using Django and the related technologies to implement this specification.
+These high-level design and specifications will serve as a useful reference point when building our web application. While we will be focusing on using specific technologies, these steps are common to most database-driven websites. It's a good idea to become familiar with reading and producing such specifications and designs so that you can communicate your designs and ideas with others. Here, we will be focusing on using Django and the related technologies to implement this specification.
 
 
 T> ### Cut and Paste Coding
@@ -179,7 +179,7 @@ T>
 T> {lang="text",linenos=off}
 T> 	david@seram:~ $ exit
 T>
-T> In the example above, the prompt `david@seram:~` tells us our username (`david`), computer name (`seram`) and our current directory (`~`, or our home directory). After the `$`, we have entered the command `exit`, which, when executed, will close the terminal. Refer to the [UNIX chapter for more information.](#chapter-unix)
+T> In the example above, the prompt `david@seram:~` tells us our username (`david`), computer name (`seram`) and our current directory (`~`, or our home directory). After the `$`, we have entered the command `exit`, which, when executed, will close the terminal. As such, the command that you would actually type here would simply be `exit`. Refer to the [UNIX chapter for more information.](#chapter-unix)
 T> 
 T> Whenever you see `>>>`, the following is a command that should be entered into the interactive Python interpreter. This is launched by issuing `$ python`. See what we did there? Once inside the Python interpreter, you can exit it by typing `quit()` or `exit()`.
 
