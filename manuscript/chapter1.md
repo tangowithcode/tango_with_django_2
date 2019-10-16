@@ -47,6 +47,7 @@ Through the course of this book, we will use various technologies and external s
 * the [Python](https://www.python.org) programming language;
 * the [Pip package manager](https://pip.pypa.io/en/stable/);
 * [Django](https://www.djangoproject.com);
+* [unit testing](https://en.wikipedia.org/wiki/Unit_testing);
 * the [Git](https://git-scm.com) version control system;
 * [GitHub](https://github.com);
 * [HTML](https://www.w3.org/html/);
@@ -57,7 +58,7 @@ Through the course of this book, we will use various technologies and external s
 * the [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference); and
 * the [PythonAnywhere](https://www.pythonanywhere.com) hosting service.
 
-We've selected these technologies and services as they are either fundamental to web development, and/or enable us to provide examples on how to integrate your web application with CSS toolkits like *Twitter Bootstrap*, external services like those provided by the *Microsoft Bing Search API* and deploy your application quickly and easily with *PythonAnywhere*. Let's get started!
+We've selected all of these technologies and services as they are either fundamental to web development, and/or enable us to provide examples on how to integrate your web application with CSS toolkits like *Twitter Bootstrap*, external services like those provided by the *Microsoft Bing Search API* and deploy your application quickly and easily with *PythonAnywhere*. Let's get started!
 
 ## Rango: Initial Design and Specification {#overview-design-brief-label}
 The focus of this book will be to develop an application called *Rango*. As we develop this application, it will cover the core components that need to be developed when building any web application. To see a fully-functional version of the application, you can visit our [How to Tango with Django website](http://www.tangowithdjango.com/).
@@ -141,7 +142,7 @@ D> Get into the habit of noting down any working assumptions that you make, just
 
 With this assumption, we can produce a series of tables that describe each entity in more detail. The tables contain information on what fields are contained within each entity.  We use Django `ModelField` types to define the type of each field (i.e. `IntegerField`, `CharField`, `URLField` or `ForeignKey`). Note that in Django *primary keys* are implicit such that Django adds an `id` to each Model, but we will talk more about that later in the [Models and Databases chapter](#chapter-models-databases).
 
-#### Category Model
+#### Category Model Fields and Data Types
 
 | Field   | Data Type            |
 |---------|----------------------|
@@ -149,7 +150,7 @@ With this assumption, we can produce a series of tables that describe each entit
 | `views` | `IntegerField`       |
 | `likes` | `IntegerField`       |
 
-#### Page Model
+#### Page Model Fields and Data Types
 
 | Field      | Data Type           |
 |------------|---------------------|
@@ -165,7 +166,6 @@ These high-level design and specifications will serve as a useful reference poin
 
 
 T> ### Cut and Paste Coding
-T>
 T> As you progress through the tutorial, you'll most likely be tempted to cut and paste the code from the book to your code editor.
 T> **However, it is better to type in the code.** We know that this is a hassle, but it will help you to remember the process and get a feel for the commands that you will be using again and again.
 T>
