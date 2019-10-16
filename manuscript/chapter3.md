@@ -59,10 +59,10 @@ This command will invoke the `django-admin.py` script, which will set up a new D
 
 You'll now notice within your workspace is a directory set to the name of your new project, `tango_with_django_project`. Within this newly created directory, you should see two items:
 
--   another directory with the same name as your project, `tango_with_django_project`; and
+-   `tango_with_django_project`, another *nested directory* with the same name as your main project directory (argh!); and
 -   a Python script called `manage.py`.
 
-For the purposes of this tutorial, we call this nested directory called `tango_with_django_project` the *project configuration directory*. Within this directory, you will find four Python scripts. We will discuss these scripts in detail later on, but for now, you should see:
+For the purposes of this tutorial, we call the `tango_with_django_project` nested directory the *project configuration directory*. Within this directory, you will find four Python scripts. We will discuss these scripts in detail later on, but for now, you should see:
 
 -   `__init__.py`, a blank Python script whose presence indicates to the Python interpreter that the directory is a Python package;
 -   `settings.py`, the place to store all of your Django project's settings;
