@@ -93,7 +93,7 @@ If no categories exist, a message is displayed instead indicating that no catego
 
 As the example also demonstrates Django's template language, all template commands are enclosed within the tags `{%` and `%}`, while variables whose values are to be placed on the page are referenced within `{{` and `}}` brackets. *Everything* within these tags and brackets is interpreted by the Django templating engine before sending a completed response back to the client.
 
-Now, save the template file and head over to your web browser. Refresh Rango's homepage at `http://127.0.0.1:8000/rango/`, and you show then see a list of categories underneath the page title and your bold message, just like in the [figure below](#fig-ch6-rango-categories-index).
+Now, save the template file and head over to your web browser. Refresh Rango's homepage at `http://127.0.0.1:8000/rango/`, and you show then see a list of categories underneath the page title and your bold message, just like in the [figure below](#fig-ch6-rango-categories-index). Well done, this is your first *data-driven webpage!*
 
 {id="fig-ch6-rango-categories-index"}
 ![The Rango homepage -- now dynamically generated -- showing a list of categories.](images/ch6-rango-categories-index.png)
@@ -141,7 +141,7 @@ Don't forget to add in the following `import` at the top of the module, either.
 {lang="python",linenos=off}
 	from django.template.defaultfilters import slugify
 
-The overriden `save()` method is relatively straightforward to understand. When called, the `slug` field is set by using the output of the `slugify()` function as the new field's value. Once set, the overriden `save()` method then calls the parent (or `super`) `save()` method defined in the base `django.db.models.Model` class. It is this call that performs the necessary logic to take your changes and the said changes to the correct database table.
+The overriden `save()` method is relatively straightforward to understand. When called, the `slug` field is set by using the output of the `slugify()` function as the new field's value. Once set, the overriden `save()` method then calls the parent (or `super`) `save()` method defined in the base `django.db.models.Model` class. It is this call that performs the necessary logic to take your changes and save the said changes to the correct database table.
 
 Now that the model has been updated, the changes must now be propagated to the database. However, since data already exists within the database from previous chapters, we need to consider the implications of the change. Essentially, for all the existing category names, we want to turn them into slugs (which is performed when the record is initially saved). When we update the models via the migration tool, it will add the `slug` field and provide the option of populating the field with a default value. Of course, we want a specific value for each entry -- so we will first need to perform the migration, and then re-run the population script. This is because the population script will explicitly call the `save()` method on each entry, triggering the `save()` as implemented above, and thus update the slug accordingly for each entry.
 
@@ -177,7 +177,7 @@ From there, you can then migrate the changes, and run the population script agai
 	$ python manage.py migrate
 	$ python populate_rango.py
 
-Now run the development server with the command `$ python manage.py runserver`, and inspect the data in the models with the admin interface. Remember that you can access the admin interface by pointing your browser at `http://127.0.0.1:8000/admin/`.
+Now run the development server with the command `$ python manage.py runserver`, and inspect the data in the models with the admin interface. Remember that the admin interface is reached by pointing your browser to `http://127.0.0.1:8000/admin/`.
 
 If you go to add in a new category via the admin interface you may encounter a problem -- or two!
 
@@ -268,7 +268,7 @@ Next, we can add our new view, `show_category()`.
 	    # Go render the response and return it to the client.
 	    return render(request, 'rango/category.html', context_dict)
 
-Our new view follows the same basic steps as our `index()` view. We first define a context dictionary. Then, we attempt to extract the data from the models and add the relevant data to the context dictionary. We determine which category has been requested by using the value passed as parameter `category_name_slug` to the `show_category()` view function (in addition to the `request` parameter).
+Our new view follows the same basic steps as our `index()` view. We first define a context dictionary. Then, we attempt to extract the data from the models and add the relevant data to the context dictionary. We determine which category has been requested by using the value passed `category_name_slug` to the `show_category()` view function (in addition to the `request` parameter).
 
 If the category slug is found in the `Category` model, we can then pull out the associated pages, and add this to the context dictionary, `context_dict`. If the category requested was not found, we set the associated context dictionary values to `None`. Finally, we `render()` everything together, using a new `category.html` template.
 
@@ -410,7 +410,7 @@ X> * Include a link back to the index page from the category page.
 X> * Undertake [part three of official Django tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial03/) if you have not done so already to reinforce what you've learnt here.
 
 {id="fig-ch6-exercises"}
-![The index page after you complete the exercises, showing the most liked categories and most viewed pages. Note that the ordering of the most viewed pages will vary, as you have the freedom to choose whatever counts you like!](images/ch6-exercises.png)
+![The index page after you complete the exercises. Your output may vary slightly.](images/ch6-exercises.png)
 
 T> ### Hints
 T> * When updating the population script, you'll essentially follow the same process as you went through in the [previous chapter's](#chapter-models-databases) exercises. You will need to update the data structures for each page, and also update the code that makes use of them.
@@ -430,6 +430,6 @@ T> 1. [Best Practices when working with models](http://steelkiwi.com/blog/best-p
 T> 2. [How to make your Django Models DRYer](https://medium.com/@raiderrobert/make-your-django-models-dryer-4b8d0f3453dd#.ozrdt3rsm) by Robert Roskam. In this post, you can see how you can use the `property` method of a class to reduce the amount of code needed when accessing related models.
 
 X> ### Test your Implementation
-X> Like in the previous chapter, we've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter6.py`. How does your implementation stack up against our tests? Remember that your implementation should have fully completed the exercises for all the tests to pass!
+X> Like in the previous chapter, we've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter6.py`. How does your implementation stack up against our tests? Remember that your implementation should have fully completed the exercises listed above for the tests to pass.
 X>
-X> Some of these tests may seem overly harsh -- but remember, this book is a specification for the product we want you to develop. If you don't develop software *exactly* as specified, it can produce undesirable results when your bit of code is plugged into a larger framework. By following specifications to the letter, you'll be learning a valuable lesson for a future development career!
+X> Some of these tests may seem overly harsh -- but remember, this book is a specification for the product we want you to develop. If you don't develop software *exactly* as specified, it can produce undesirable results when your bit of code is plugged into a larger framework. By following specifications to the letter, you'll be learning a valuable lesson that you can take forward in a future development career.
