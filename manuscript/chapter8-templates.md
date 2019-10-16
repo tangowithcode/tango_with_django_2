@@ -379,4 +379,4 @@ In this chapter, we showed how we can:
 - reduced the amount of boilerplate code by using template inheritance; and
 - avoid repetitive code appearing in views by creating custom templates tags.
 
-Taken together, your template code should be much cleaner and easier to maintain. Of course, Django templates offer a lot more functionality -- find out more by visiting the [Django documentation on templates](https://docs.djangoproject.com/en/2.1/ref/templates/).
+Taken together, your template code should be much cleaner and easier to maintain. Of course, Django templates offer a lot more functionality. Find out more by visiting the [Django documentation on templates](https://docs.djangoproject.com/en/2.1/ref/templates/).
