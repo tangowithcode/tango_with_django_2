@@ -127,7 +127,7 @@ Now that we've created our base template, we can add template tags to denote wha
 
 Recall that standard Django template commands are denoted by `{%` and `%}` tags. To start a block, the command is `{% block <NAME> %}`, where `<NAME>` is the name of the block you wish to create. You must also ensure that you close the block with the correct `{% endblock %}` command, again enclosed within Django template tags.
 
-You can also specify *default content* for your blocks, which will be used if no inheriting template defines the given block (see [further down](#section-templates-inheritance)). Specifying default content can be achieved by adding markup between `{% block %}` and `{% endblock %}` template commands, just like in the example below.
+You can also specify *default content* for your blocks, which will be used if no inheriting template defines the given block (see [further down](#section-templates-inheritance)). Specify default content by adding markup between `{% block %}` and `{% endblock %}` template commands, just like in the example below.
 
 {lang="html",linenos=off}
 	{% block body_block %}
@@ -223,7 +223,7 @@ The `extends` command takes one parameter -- the template that is to be extended
 W> ### Loading `staticfiles` and URLs
 W> You'll need to make sure you add `{% load staticfiles %}` to the top of **each template** that makes use of static media. If you don't, you'll get an error! Template inheritance *does not imply what template tags are available.* If you've programmed before, this works somewhat differently from object-orientated programming languages such as Java, where imports cascade down inheriting classes. Notice how we used the `url` template tag to refer to `rango/<category-name>/add_page/` URL pattern. The `category.slug` is passed through as a parameter to the `url` template tag and Django's template engine will produce the correct URL for us.
 
-Now that we inherit from `rango/base.html`, the `category.html` template is much cleaner extending the `title_block` and `body_block` blocks. `category.html` does not need to be a complete, valid HTML document because `base.html` fills in the blanks for you. Remember: all you are doing here is plugging in additional content to the base template to create the complete, rendered HTML document that is sent to the client's browser. This rendered HTML document will then conform to the necessary standards, such as providing the document type declaration on the first line.
+Now that we inherit from `rango/base.html`, the `category.html` template is much cleaner extending the `title_block` and `body_block` blocks. `category.html` does not need to be a complete, valid HTML document because `base.html` fills in the blanks for you. Remember: all you are doing here is plugging in additional content to the base template to create the complete, rendered HTML document that is sent to the client's browser. This rendered HTML document will then conform to the necessary standards, such as providing the [DTD](https://en.wikipedia.org/wiki/Document_type_declaration) on the first line.
 
 
 I> ### More about Templates 
@@ -303,7 +303,7 @@ Create a directory `<Workspace>/tango_with_django_project/rango/templatetags`, a
 	def get_category_list():
 	    return {'categories': Category.objects.all()}
 
-From this code snippet, you can see a new function called `get_category_list()`. This method returns a list of categories to whatever calls it. From the `register.inclusion_tag()` decorator above, you will see that `rango/categories.html` is referred to -- another new template. This new template is used by the Django template engine to render the list of categories you provide in the dictionary that is returned in the function. This rendered list can then be injected into the response of the view that initially called the template tag!
+There is a new method called `get_category_list()` in this snippet. This method returns a dictionary with one key/value pairing. `categories` represents a list of all the `Category` objects present in the database. From the `register.inclusion_tag()` decorator above, you will see that `rango/categories.html` is referred to -- another new template. This new template is used by the Django template engine to render the list of categories you provide in the dictionary that is returned in the function. This rendered list can then be injected into the response of the view that initially called the template tag!
 
 Now would be a good time to create the new template, `categories.html`, and add the following HTML markup. Note the similarity in the name of the template with the existing `category.html` template. This is done by design to make sure you are kept on your toes!
 
