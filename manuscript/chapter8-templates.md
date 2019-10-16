@@ -340,7 +340,7 @@ We can also *parameterise* the template tags we create, allowing for greater fle
 	    return {'categories': Category.objects.all(),
 	            'current_category': current_category}
 
-Note the inclusion of the `current_category` optional parameter to `get_category_list()`. If a parameter is not passed along, `None` is used instead (implying there is no currently selected category).
+Note the `current_category` parameter for `get_category_list()`. If a parameter is not passed along, `None` is used instead (implying there is no currently selected category).
 
 We can then update our `base.html` template which makes use of the custom template tag to pass in the current category -- but only if it exists.
 
