@@ -8,10 +8,12 @@ Before we start coding, it's really important that we set your development envir
 * your *Integrated Development Environment (IDE)*, if you choose to use one; and
 * a *Version Control System (VCS)* called *Git*.
 
+We also touch on the merits of *unit testing*, discussing how being able to test your implementation at different points can help keep you on track.
+
 If you already have Python 3 and Django 2 installed on your computer and are familiar with the technologies listed above, you can skip straight ahead to the [Django Basics chapter](#chapter-django-basics). If you are not familiar with some or all of the technologies listed, we provide an overview of each below. These go hand in hand with later [supplementary chapter](#chapter-system-setup) that provides a series of pointers on how to set the different components up, if you need help doing so.
 
 I> ### You Development Environment is Important!
-I> Setting up your development environment can be a tedious and frustrating process. It's not something that you would do every day. The pointers we provide in this chapter (and the [additional supplementary chapter](#chapter-system-setup)) should help you in getting everything to a working state. The effort you expend now in making sure everything works will ensure that development can proceed unhindered.
+I> Setting up your development environment can be a tedious and frustrating process. It's not something that you would do every day. The pointers we provide in this chapter (and the [additional supplementary chapter](#chapter-system-setup)) will help you in getting everything to a working state. The effort you expend now in making sure everything works will ensure that development can proceed unhindered, without you needing to go back and patch things up.
 I>
 I> From experience, we can also say with confidence that as you set your environment up, it's a good idea to note down the steps that you took. You will probably need that workflow again one day -- maybe you will purchase a new computer, or be asked to help a friend set their environment up, too. *Don't think short-term, think long-term!*
 
@@ -62,7 +64,9 @@ The penultimate line of the example above demonstrates how to switch your virtua
 ## The Python Package Manager
 Going hand in hand with virtual environments, we'll also be making use of the Python package manager, *pip*, to install several different Python software packages -- including Django -- to our development environment. Specifically, we'll need to install two packages: Django 2 and *Pillow*. Pillow is a Python package providing support for handling image files (e.g. `.jpg` and `.png` files), something we'll be doing later in this tutorial.
 
-A package manager, whether for Python, your [operating system](https://en.wikipedia.org/wiki/Advanced_Packaging_Tool) or [some other environment](https://docs.npmjs.com/cli/install), is a software tool that automates the process of installing, upgrading, configuring and removing *packages* -- that is, a package of software which you can use on your computer that provides some functionality. This is opposed to downloading, installing and maintaining software manually. Maintaining Python packages is pretty painful. Most packages often have *dependencies* -- additional packages that are required for your package to work! This can get very complex very quickly. A package manager handles all of this for you, along with issues such as conflicts regarding different versions of a package. Luckily, *pip* handles all this for you.
+A package manager, whether for Python, your [operating system](https://en.wikipedia.org/wiki/Advanced_Packaging_Tool) or [some other environment](https://docs.npmjs.com/cli/install), is a software tool that automates the process of installing, upgrading, configuring and removing *packages* -- that is, a package of software which you can use on your computer that provides some functionality. This is opposed to downloading, installing and maintaining software manually.
+
+Maintaining Python packages is pretty painful. Most packages often have *dependencies* -- additional packages that are required for your package to work! This can get very complex very quickly. A package manager handles all of this for you, along with issues such as conflicts regarding different versions of a package. Luckily, *pip* handles all this for you.
 
 Try and run the command `$ pip` to execute the package manager. Make sure you do this with your virtual environment `acivate`d. Globally, you may have to use the command `pip3`. If these don't work, you have a setup issue -- refer to our [`pip` setup guide](#section-system-setup-pip) for help.
 
@@ -116,19 +120,21 @@ X> - Download and set up an IDE like [PyCharm](https://www.jetbrains.com/pycharm
 X>
 X> As previously stated, we've made the code for the application available on our [GitHub repository](https://github.com/maxwelld90/tango_with_django_2_code).
 X>
-X> - If you spot any errors or problems, please let us know by making an [issue on GitHub](https://github.com/leifos/tango_with_django_2/issues).
+X> - If you spot any errors or problems in the book, please let us know by making an [issue on GitHub](https://github.com/leifos/tango_with_django_2/issues).
 X> - If you have any problems with the exercises, you can check out the repository to see how we completed them.
+X> - If you spot any errors or problems with the unit tests and/or sample solutions we provide, you can also let us know by raising an issue in the [relevant repository](https://github.com/maxwelld90/tango_with_django_2_code/issues).
 
 ## Testing your Implementation {#section-getting-ready-tests}
 As you work through your implementation of the requirements for the Rango app, we want you to have the confidence to know that *what you are coding up is correct.* We can't physically sit next to you, so we've gone and done the next best thing -- **we've implemented a series of different tests that you can run against your codebase to see what's correct, and what can be improved**.
 
-These are available from our sample codebase repository, [available on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/tree/master/progress_tests). The `progress_tests` directory on this repository contains a number of different Python modules, each containing a series of different test modules you can run against your Rango implementation. Note that they are for individual chapters -- for example, you should run the module `tests_chapter3.py` against your implementation *after* completion of Chapter 3, but before starting Chapter 4. Note that not every chapter will have tests at the end of it.
+These are available from our sample codebase repository, [available on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/tree/master/progress_tests). The `progress_tests` directory on this repository contains a number of different Python modules, each containing a series of different test modules you can run against your Rango implementation. Note that they are for individual chapters -- for example, you should run the module `tests_chapter3.py` against your implementation *after* completion of Chapter 3, but before starting Chapter 4. Note that not every chapter will have tests at the end of it -- some portions of the book are very difficult to write automated tests for without resorting to having to download sizable support libraries.
 
 W> ### Complete the Exercises!
 W> These tests assume that you complete all of the exercises for a chapter! If you don't do this, it's likely some tests will not pass.
 
 We check the basic functionality that should be working up to the point you are testing at. We also check what is returned from the server when a particular URL is accessed -- and if the response doesn't match *exactly* what we requested in the book, *the test will fail.* This might seem overly harsh, but we want to drill into your head that *you must satisfy requirements exactly as they are laid out -- no deviation is acceptable.* This also drills into your head the idea of *test-driven development,* something that we outline [at the start of the testing chapter](#chapter-testing).
 
+### Running the Unit Tests
 How do you run the tests, though? This step-by-step process demonstrates the basic process on what you have to do. We will assume that you want to run the tests for [Chapter 3, Django Basics](#chapter-django-basics).
 
 1. First, identify what chapter's tests you want to run.
@@ -146,3 +152,6 @@ X> When you have completed enough of the book to reach another round of tests, w
 
 T> ### Delete when Complete!
 T> When you have finished with the tests for a particular chapter, we **highly recommend** that you delete the module that you moved over to your `rango` directory. In the example above, we'd be looking to delete `tests_chapter3.py`. Once you have confirmed your solution passes the tests we provide, there's no need for the module anymore. Just delete it -- don't clutter your repository up with these modules!
+
+T> ### Test Updates
+T> Over time, we may release updates to the unit test files if an issue is raised, or we decide to add extra tests. You should keep an eye on the repository for any changes -- if you cloned it to your computer, you can simply `git pull` to retrieve updates.
