@@ -14,7 +14,7 @@ Q> In the world of Django, think of a *template* as the scaffolding that is requ
 ### Configuring the Templates Directory
 To get templates up and running with your Django app, you'll need to create two directories in which template files are stored.
 
-In your Django project's directory (e.g. `<workspace>/tango_with_django_project/`), create a new directory called `templates`. To clarify, this is the directory that contains your project's `manage.py` script! Within the new templates directory, you will then want to create further directory called `rango`. This means that the path `<workspace>/tango_with_django_project/templates/rango/` will be the location in which we will store templates associated with our `rango` application.
+In your Django project's directory (e.g. `<workspace>/tango_with_django_project/`), create a new directory called `templates`. To clarify, this is the directory that contains your project's `manage.py` script! Within the new templates directory, you will then want to create further directory called `rango`. This means that the path `<workspace>/tango_with_django_project/templates/rango/` is the location where we will store templates associated with our `rango` application.
 
 T> ### Keep your Templates Organised
 T> It's good practice to separate your templates into subdirectories for each app you have. This is why we've created a `rango` directory within our `templates` directory. If you package your app up to distribute to other developers, it'll be much easier to know which templates belong to which app!
@@ -74,7 +74,7 @@ I> If you included the three `print()` statements above to see what's going on, 
 {lang="python",linenos=off}
 	TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
-Here, we make use of `os.path.join()` to join (or *concatenate*) together the value of the `BASE_DIR` variable and the string `'templates'`. This concatenation yields `<workspace>/tango_with_django_project/templates/`. From here, we can then use our new `TEMPLATE_DIR` variable to replace the hard-coded path we defined earlier in `TEMPLATES`. Update the `DIRS` key/value pairing to look like the following.
+Here, we make use of the `os.path.join()` function to join together (or *concatenate*) the value of the `BASE_DIR` variable, and the string `'templates'`. Upon completion, this concatenation yields `<workspace>/tango_with_django_project/templates/`. From here, we can then use our new `TEMPLATE_DIR` variable to replace the hard-coded path we defined earlier in `TEMPLATES`. Update the `DIRS` key/value pairing to look like the following.
 
 {lang="python",linenos=off}
 	'DIRS': [TEMPLATE_DIR, ]
@@ -166,7 +166,7 @@ First of all, create a variable called `STATIC_DIR` at the top of `settings.py`,
 
 This results in the path `<workspace>/tango_with_django_project/static/`. We then need to create a new data structure called `STATICFILES_DIRS`. This is essentially a list of paths with which Django will expect to find static files that can be served. By default, this list does not exist -- **check** it doesn't before you create it. If you define it twice, you can start to confuse Django, and yourself.
 
-For this book, we're only going to be using one location to store our project's static files -- the path defined in `STATIC_DIR`. As such, we can simply set up `STATICFILES_DIRS` with the following.
+For this book, we're only going to be using a single location to store our project's static files -- the path defined in `STATIC_DIR`. As such, we can simply set up the list STATICFILES_DIRS` with the following.
 
 {lang="python",linenos=off}
 	STATICFILES_DIRS = [STATIC_DIR, ]
