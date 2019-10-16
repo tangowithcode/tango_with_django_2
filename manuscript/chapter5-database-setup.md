@@ -1,13 +1,15 @@
 # Models and Databases {#chapter-models-databases}
-Typically, web applications require a backend to store the dynamic content that appears on the app's webpages. For Rango, we need to store pages and categories that are created, along with other details. The most convenient way to do this is by employing the services of a relational database -- that use the *Structured Query Language (SQL)*. However, Django provides a convenient way in which to access data stored in databases by using an [*Object Relational Mapper (ORM)*](https://en.wikipedia.org/wiki/Object-relational_mapping). In essence, data stored within a database table is encapsulated via Django *models*. A model is a Python object that describes the database table's data. Instead of directly working on the database via SQL, Django provides methods that let you manipulate the data via the corresponding Python model object. Any commands that you issue to the ORM are automatically converted to the corresponding SQL statement on your behalf.
+Typically, web applications require a backend to store the dynamic content that appears on the app's webpages. For Rango, we need to store pages and categories that are created, along with other details. The most convenient way to do this is by employing the services of a relational database. These will likely use the *Structured Query Language (SQL)* to allow you to query the data store.
+
+However, Django provides a convenient way in which to access data stored in databases by using an [*Object Relational Mapper (ORM)*](https://en.wikipedia.org/wiki/Object-relational_mapping). In essence, data stored within a database table is encapsulated via Django *models*. A model is a Python object that describes the database table's data. Instead of directly working on the database via SQL, Django provides methods that let you manipulate the data via the corresponding Python model object. Any commands that you issue to the ORM are automatically converted to the corresponding SQL statement on your behalf.
 
 This chapter walks you through the basics of data management with Django and its ORM. You'll find it's incredibly easy to add, modify and delete data within your app's underlying database, and see how straightforward it is to get data from the database to the web browsers of your users.
 
 ## Rango's Requirements {#section-models-databases-requirements}
-Before we get started, let's go over the data requirements for the Rango app that we are developing. Full requirements for the application are [provided in detail earlier on](#overview-er) -- but to refresh your memory, let's quickly summarise our client's requirements.
+Before we get started, let's go over the data requirements for the Rango app that we are developing. Full requirements for the application are [provided in detail earlier on](#overview-er). Let's look at the database requirements again here.
 
-* Rango is essentially a *web page directory* -- a site containing links to other websites.
-* There are several different *webpage categories* with each category housing several links. [We assumed in the overview chapter](#overview-er) that this is a one-to-many relationship. Check out the [Entity Relationship diagram below](#fig-rango-erd-repeat).
+* Rango is essentially a *web page directory* -- it is a website that houses links to other, external websites.
+* There are several different *webpage categories* with each category housing none, one or many links. [We assumed in the overview chapter](#overview-er) that this is a one-to-many relationship. Check out the [Entity Relationship diagram below](#fig-rango-erd-repeat).
 * A category has a name, several visits, and several likes.
 * A page belongs to a particular category, has a title, a URL, and several views.
 
@@ -25,10 +27,10 @@ Before we can create any models, we need to set up our database to work with Dja
 	    }
 	}
 
-We can pretty much leave this as-is for our Rango app. You can see a `default` database that is powered by a lightweight database engine, [SQLite](https://www.sqlite.org/) (see the `ENGINE` option). The `NAME` entry for this database is the path to the database file, which is by default `db.sqlite3` in your project's root directory (i.e. `<workspace>/tango_with_django_project/`).
+We can pretty much leave this as-is for our Rango app. You can see a `default` database that is powered by a lightweight database engine, [SQLite](https://www.sqlite.org/) (see the `ENGINE` option). The `NAME` entry for this database is the path to the database file, which is by default `<workspace>/tango_with_django_project/db.sqlite3` -- or, in other words, the `db.sqlite3` file that lives in the root of your Django project.
 
 T> ### Don't `git push` your Database!
-T> If you are using Git, you might be tempted to add and commit the database file. This is not a good idea because if you are working on your app with other people, they are likely to change the database and this will cause endless conflicts.
+T> If you are using Git, you might be tempted to add and commit the database file. However, we don't think that this is a particularly good idea. What if you are working on your app with other people? It would be highly likely that they will change the database as they test features. Different versions of database files (which ultimately do not matter in development) **will** cause endless conflicts.
 T>
 T> Instead, add `db.sqlite3` to your `.gitignore` file so that it won't be added when you `git commit` and `git push`. You can also do this for other files like `*.pyc` and machine specific files. For more information on how to set your `.gitignore` file up, you can refer to our [Git familiarisation chapter](#section-git-setup-tweaks) in the appendices.
 
@@ -119,7 +121,7 @@ First of all, the database must be *initialised*. This means that creating the d
 		Applying auth.0009_alter_user_last_name_max_length... OK
 		Applying sessions.0001_initial... OK
 
-All apps that are installed in your Django project (check `INSTALLED_APPS` in `settings.py`) will update their database representations with this command. After this command is issued, you should then see a `db.sqlite3` file in your Django project's root.
+All apps installed in your Django project (check `INSTALLED_APPS` in `settings.py`) will be called to update their database representations when this command is issued. After this command is issued, you should then see a `db.sqlite3` file in your Django project's root.
 
 Next, create a superuser to manage the database. Run the following command.
 
@@ -193,7 +195,7 @@ This will start an instance of the Python interpreter and load in your project's
 	# Quit the Django shell.
 	>>> quit()
 
-In the example, we first import the model that we want to manipulate. We then print out all the existing categories. As our underlying `Category` table is empty, an empty list is returned. Then we create and save a `Category`, before printing out all the categories again. This second `print` then shows the new ``Category`` just added. Note the name `Test` appears in the second `print` -- this is the `__str__()` method at work!
+In the example, we first import the model that we want to manipulate. We then print out all the existing categories. As our underlying `Category` table is empty, an empty list is returned. Then we create and save a `Category`, before printing out all the categories again. This second `print` then shows the new ``Category`` just added. Note the name `Test` appears in the second `print` -- this is the output of the `__str__()`, and neatly demonstrates why including these methods is important!
 
 X> ### Complete the Official Tutorial
 X> The example above is only a very basic taster on database related activities you can perform in the Django shell. If you have not done so already, it's now a good time to complete [part two of the official Django Tutorial to learn more about interacting with models](https://docs.djangoproject.com/en/2.1/intro/tutorial02/). In addition, have a look at the [official Django documentation on the list of available commands](https://docs.djangoproject.com/en/2.1/ref/django-admin/#available-commands) for working with models.
@@ -226,7 +228,7 @@ To do this, open the file `rango/admin.py`. With an `include` statement already 
 
 Adding further classes which may be created in the future is as simple as adding another call to the `admin.site.register()` method, making sure that the model is `import`ed at the top of the module.
 
-With these changes saved, either reload the admin web pages or restart the Django development server and revisit the admin interface at `http://127.0.0.1:8000/admin/`. You will now see the `Category` and `Page` models, [as shown below](#fig-ch5-admin-second).
+With these changes saved, restart the Django development server and revisit the admin interface at `http://127.0.0.1:8000/admin/`. You will now see the `Category` and `Page` models, [as shown below](#fig-ch5-admin-second).
 
 {id="fig-ch5-admin-second"}
 ![The Django admin interface, complete with Rango models.](images/ch5-admin-second.png)
@@ -260,7 +262,7 @@ I> It should be noted that the example `admin.py` module for your Rango app is t
 ## Creating a Population Script {#section-models-population}
 Entering test data into your database tends to be a hassle. Many developers will add in some bogus test data by randomly hitting keys, like `wTFzmN00bz7`. Rather than do this, it is better to write a script to automatically populate the database with **realistic and credible data**. This is because when you go to demo or test your app, you'll need to be able to see some credible examples in the database. If you're working in a team, an automated script will mean each collaborator can simply run that script to initialise the database on their computer with the same sample data as you. It's therefore good practice to create what we call a *population script*. 
 
-To create a population script for Rango, start by creating a new Python module within your Django project's root directory (e.g. `<workspace>/tango_with_django_project/`). Create the new, blank `populate_rango.py` file and add the following code.
+To create a population script, create a new Python module with a name of `populate_rango.py`. Create this file in your Django project's root directory (e.g. `<workspace>/tango_with_django_project/`). When created, add the following code.
 
 {lang="python",linenos=on}
 	import os
@@ -383,7 +385,7 @@ When saved, you can then run your new populations script by changing the present
 	- Other Frameworks - Bottle
 	- Other Frameworks - Flask
 
-Next, verify that the population script populated the database. Restart the Django development server, navigate to the admin interface (at `http://127.0.0.1:8000/admin/`) and check that you have some new categories and pages. Do you see all the pages if you click `Pages`, like in the figure shown below?
+Next, verify that the population script actually did its job and populated the database. To do this, restart the Django development server, and navigate to the admin interface (at `http://127.0.0.1:8000/admin/`). Once there, check that you have some new categories and pages. Do you see all the pages if you click `Pages`, like in the figure shown below?
 
 {id="fig-admin-populated"}
 ![The Django admin interface, showing the `Page` model populated with the new population script. Success!](images/ch5-admin-populated.png)
@@ -394,7 +396,7 @@ While creating a population script may take time initially, you will save yourse
 Now that we've covered the core principles of dealing with Django's ORM, now is a good time to summarise the processes involved in setting everything up. We've split the core tasks into separate sections for you. Check this section out when you need to quickly refresh your mind of the different steps.
 
 ### Setting up your Database
-With a new Django project, you should first [tell Django about the database you intend to use](#section-models-database-telling) (i.e. configure `DATABASES` in `settings.py`). You can also register any models in the `admin.py` module of your app to make them accessible via the admin interface.
+With a new Django project, you should first [tell Django about the database you intend to use](#section-models-database-telling) (i.e. configure `DATABASES` in `settings.py`). You can also register any models in the `admin.py` module of your app to then make them accessible via the web-based admin interface.
 
 ### Adding a Model
 The workflow for adding models can be broken down into five steps.
@@ -417,13 +419,13 @@ When you encounter the need to refresh the database, you can go through the foll
 6. Finally, run your population script again to insert credible test data into your new database.
 
 X> ### Exercises
-X> Now that you've completed this chapter, try out these exercises to reinforce and practice what you have learnt. **Once again, note that the following chapters will have expected you to have completed these exercises! If you're stuck, there are some hints to help you complete the exercises below.**
+X> Now that you've completed this chapter, try out these exercises to reinforce and practice what you have learnt. **Once again, note that the following chapters will have expected you to have completed these exercises!**
 X>
 X> * Update the `Category` model to include the additional attributes `views` and `likes` where the `default` values for each are both zero (`0`).
 X> * As you have changed your models, make the migrations for your Rango app. After making migrations, commit the changes to the database.
 X> * Next update your population script so that the `Python` category has `128` views and `64` likes, the `Django` category has `64` views and `32` likes, and the `Other Frameworks` category has `32` views and `16` likes.
 X> * Delete and recreate your database, populating it with your updated population script.
-X> * Complete parts [two](https://docs.djangoproject.com/en/2.1/intro/tutorial02/) and [seven](https://docs.djangoproject.com/en/2.1/intro/tutorial07/) of the official Django tutorial. These sections will reinforce what you've learnt on handling databases in Django, and show you additional techniques to customising the Django admin interface. This knowledge will help you complete the final exercise below.
+X> * Complete parts [two](https://docs.djangoproject.com/en/2.1/intro/tutorial02/) and [seven](https://docs.djangoproject.com/en/2.1/intro/tutorial07/) of the official Django tutorial. The two sections will reinforce what you've learnt on handling databases in Django, and will also provide you with additional techniques to customising the Django admin interface. This knowledge will help you complete the final exercise below.
 X> * Customise the admin interface. Change it in such a way so that when you view the `Page` model, the table displays the `category`, the `title` of the page, and the `url` -- just [like in the screenshot shown below](#fig-admin-completed). **Make sure the three fields appear in that order, too.** Complete the official Django tutorial or look at the tip below to complete this particular exercise.
 
 {id="fig-admin-completed"}
@@ -443,7 +445,7 @@ T>      * Within your new `PageAdmin` class, add `list_display = ('title', 'cate
 T>      * Finally, register the `PageAdmin` class with Django's admin interface. You should modify the line `admin.site.register(Page)`. Change it to `admin.site.register(Page, PageAdmin)` in Rango's `admin.py` file.
 
 X> ### Test your Implementation
-X> Like in the previous chapter, we've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter5.py`. How does your implementation stack up against our tests? Remember that your implementation should have fully completed the exercises for all the tests to pass!
+X> Like in the previous chapter, we've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter5.py`. How does your implementation stack up against our tests?
 
 <!-- I> ### Tests
 I>
