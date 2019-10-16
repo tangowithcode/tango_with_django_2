@@ -401,7 +401,7 @@ What happens when you visit a category that does not exist? Try navigating a cat
 ![The links to Django pages. Note the mouse is hovering over the first link -- you can see the corresponding URL for that link at the bottom left of the Google Chrome window.](images/ch6-rango-links.png)
 
 X> ## Exercises
-X> Reinforce what you've learnt in this chapter by trying out the following exercises.
+X> Reinforce what you've learnt in this chapter!
 X> 
 X> * Update the population script to add some value to the `views` count for each **page**. Pick whatever integers you want -- as long as each page receives a whole (integer) number greater than zero.
 X> * Modify the index page to also include the top five most viewed pages. When no pages are present, you should include a friendly message in place of a list, stating: `There are no pages present.` This message should be bolded -- wrap it around `<strong>...</strong>` tags.
