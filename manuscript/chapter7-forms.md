@@ -130,7 +130,7 @@ The new `add_category()` view adds several key pieces of functionality for handl
 - if there are errors, redisplay the form with error messages.
 
 I> ### `GET` and `POST`
-I> What do we mean by `GET` and `POST`? They are two different types of *HTTP requests*.
+I> What do we mean by `GET` and `POST`? They are *HTTP requests*.
 I>
 I> - An HTTP `GET` is used to *request a representation of the specified resource.* In other words, we use a HTTP `GET` to retrieve a particular resource, whether it is a webpage, image or some other file.
 I> - In contrast, an HTTP `POST` *submits data from the client's web browser to be processed.* This type of request is used for example when submitting the contents of a HTML form.
