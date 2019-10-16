@@ -87,7 +87,7 @@ Django provides three types of fields for forging relationships between models i
 * `OneToOneField`, a field type that allows us to define a strict [one-to-one relationship](https://en.wikipedia.org/wiki/One-to-one_(data_model)); and
 * `ManyToManyField`, a field type which allows us to define a [many-to-many relationship](https://en.wikipedia.org/wiki/Many-to-many_(data_model)).
 
-From our model examples above, the field `category` in model `Page` is of type `ForeignKey`. This allows us to create a one-to-many relationship with model/table `Category`, which is specified as an argument to the field's constructor. When specifying the foreign key, we also need to include instructions to Django on how to handle the situation when the category that the page belongs to is deleted. `CASCADE` instructs Django to delete the pages associated with the category when the category is deleted. However, there are other settings which will provide Django with other instructions on how to handle this situation. See the [Django documentation on Foreign Keys]( https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.ForeignKey) for more details.
+From our model examples above, the field `category` in model `Page` is a `ForeignKey`. This allows us to create a one-to-many relationship with model/table `Category`, which is specified as an argument to the field's constructor. When specifying the foreign key, we also need to include instructions to Django on how to handle the situation when the category that the page belongs to is deleted. `CASCADE` instructs Django to delete the pages associated with the category when the category is deleted. However, there are other settings which will provide Django with other instructions on how to handle this situation. See the [Django documentation on Foreign Keys]( https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.ForeignKey) for more details.
 
 Finally, it is good practice to implement the `__str__()` method. Without this method implemented it will show as `<Category: Category object>` if you were to `print()` the object (perhaps in the Django shell, [as we discuss later in this chapter](#section-models-databases-shell)). This isn't very useful when debugging or accessing the object. How do you know what category is being shown? When including `__str__()` as defined above, you will see `<Category: Python>` (as an example) for the `Python` category. It is also helpful when we go to use the admin interface later because Django will display the string representation of the object, derived from `__str__()`.
 
@@ -262,7 +262,7 @@ I> It should be noted that the example `admin.py` module for your Rango app is t
 ## Creating a Population Script {#section-models-population}
 Entering test data into your database tends to be a hassle. Many developers will add in some bogus test data by randomly hitting keys, like `wTFzmN00bz7`. Rather than do this, it is better to write a script to automatically populate the database with **realistic and credible data**. This is because when you go to demo or test your app, you'll need to be able to see some credible examples in the database. If you're working in a team, an automated script will mean each collaborator can simply run that script to initialise the database on their computer with the same sample data as you. It's therefore good practice to create what we call a *population script*. 
 
-To create a population script, create a new Python module with a name of `populate_rango.py`. Create this file in your Django project's root directory (e.g. `<workspace>/tango_with_django_project/`). When created, add the following code.
+To create a population script, create a new file called `populate_rango.py`. Create this file in `<workspace>/tango_with_django_project/`, or in other words, your Django project's root directory. When the file has been created, add the following code carefully.
 
 {lang="python",linenos=on}
 	import os
@@ -385,7 +385,7 @@ When saved, you can then run your new populations script by changing the present
 	- Other Frameworks - Bottle
 	- Other Frameworks - Flask
 
-Next, verify that the population script actually did its job and populated the database. To do this, restart the Django development server, and navigate to the admin interface (at `http://127.0.0.1:8000/admin/`). Once there, check that you have some new categories and pages. Do you see all the pages if you click `Pages`, like in the figure shown below?
+Next, verify that the population script worked as it should have and populated the database. To do this, restart the Django development server, and navigate to the admin interface (at `http://127.0.0.1:8000/admin/`). Once there, check that you have some new categories and pages. Do you see all the pages if you click `Pages`, like in the figure shown below?
 
 {id="fig-admin-populated"}
 ![The Django admin interface, showing the `Page` model populated with the new population script. Success!](images/ch5-admin-populated.png)
