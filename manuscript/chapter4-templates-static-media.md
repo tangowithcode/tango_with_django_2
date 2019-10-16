@@ -74,7 +74,7 @@ I> If you included the three `print()` statements above to see what's going on, 
 {lang="python",linenos=off}
 	TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
-Here, we make use of the `os.path.join()` function to join together (or *concatenate*) the value of the `BASE_DIR` variable, and the string `'templates'`. Upon completion, this concatenation yields `<workspace>/tango_with_django_project/templates/`. From here, we can then use our new `TEMPLATE_DIR` variable to replace the hard-coded path we defined earlier in `TEMPLATES`. Update the `DIRS` key/value pairing to look like the following.
+Here, we make use of the `os.path.join()` function to join together (or *concatenate*) the value of the `BASE_DIR` variable, and the string `'templates'`. Upon completion, this concatenation yields `<workspace>/tango_with_django_project/templates/`. From here, we can then use our new `TEMPLATE_DIR` variable to replace the hard-coded path we defined earlier in `TEMPLATES`. Update the `DIRS` key/value pairing to look like the following code snippet.
 
 {lang="python",linenos=off}
 	'DIRS': [TEMPLATE_DIR, ]
