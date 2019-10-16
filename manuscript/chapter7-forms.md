@@ -21,7 +21,7 @@ The basic steps involved in creating a form and handling user input is as follow
 5. Create or update a template to display the form.
 6. Add a `urlpattern` to map to the new view (if you created a new one).
 
-This workflow is a bit more complicated than those we have previously seen, and the views that we have to construct are lot more complex, too. However, once you undertake the process a few times, it will be pretty clear how everything pieces together.
+This workflow is a bit more complicated than those we have previously seen, and the views that we have to construct are lot more complex, too. However, once you undertake the process a few times, it will become clearer how everything pieces together. Trust us.
 
 ##Page and Category Forms
 Here, we will implement the necessary infrastructure that will allow users to add categories and pages to the database via forms.
@@ -63,11 +63,11 @@ In `rango/forms.py` add the following code.
 	        
 	        # What fields do we want to include in our form?
 	        # This way we don't need every field in the model present.
-	        # Some fields may allow NULL values, so we may not want to include them.
+	        # Some fields may allow NULL values; we may not want to include them.
 	        # Here, we are hiding the foreign key.
 	        # we can either exclude the category field from the form,
 	        exclude = ('category',)
-	        # or specify the fields to include (i.e. not include the category field)
+	        # or specify the fields to include (don't include the category field).
 	        #fields = ('title', 'url', 'views')
 
 We need to specify which fields are included on the form, via `fields`, or specify which fields are to be excluded, via `exclude`.
@@ -76,7 +76,9 @@ Django provides us with several ways to customise the forms that are created on 
 
 You will also notice that we have included several `IntegerField` entries for the views and likes fields in each form. Note that we have set the widget to be hidden with the parameter setting `widget=forms.HiddenInput()`, and then set the value to zero with `initial=0`. This is one way to set the field to zero by default. Since the fields will be hidden, the user won't be able to enter a value for these fields.
 
-However, as you can see in the `PageForm`, even though we have a `hidden` field, we still need to include the field in the form. If in `fields` we excluded `views`, then the form would not contain that field (despite it being specified). This would mean that the form would not return the value zero for that field. This may raise an error depending on how the model has been set up. If in the model we specified that the `default=0` for these fields, then we can rely on the model to automatically populate the field with the default value -- and thus avoid a `not null` error. In this case, it would not be necessary to have these hidden fields. We have also included the field `slug` in the `CategoryForm`, and set it to use the `widget=forms.HiddenInput()`. However, rather than specifying an initial or default value, we have said the field is not required by the form. This is because our model will be responsible for populating the field when the `save()` method is called. Essentially, you need to be careful when you define your models and forms to make sure that the form is going to contain and pass on all the data that is required to populate your model correctly.
+However, even though we have a `hidden` field in the `PageForm`, we still need to include the field in the form. If in `fields` we excluded `views`, then the form would not contain that field (despite it being specified). This would mean that the form would not return the value zero for that field. This may raise an error depending on how the model has been set up. If in the model we specified that the `default=0` for these fields, then we can rely on the model to automatically populate the field with the default value -- and thus avoid a `not null` error. In this case, it would not be necessary to have these hidden fields. We have also included the field `slug` in the `CategoryForm`, and set it to use the `widget=forms.HiddenInput()`.
+
+However, rather than specifying an initial or default value, we have said the field is not required by the form. This is because our model will be responsible for populating the field when the `save()` method is called. Essentially, you need to be careful when you define your models and forms to make sure that the form is going to contain and pass on all the data that is required to populate your model correctly.
 
 Besides the `CharField` and `IntegerField` widgets, many more are available for use. As an example, Django provides `EmailField` (for e-mail address entry), `ChoiceField` (for radio input buttons), and `DateField` (for date/time entry). There are many other field types you can use, which perform error checking for you (e.g. *is the value provided a valid integer?*). 
 
@@ -137,7 +139,7 @@ I> - Check out the [w3schools page on `GET` vs. `POST`](http://www.w3schools.com
 
 Django's form handling machinery processes the data returned from a user's browser via an HTTP `POST` request. It not only handles the saving of form data into the chosen model but will also automatically generate any error messages for each form field (if any are required). This means that Django will not store any submitted forms with missing information that could potentially cause problems for your database's [referential integrity](https://en.wikipedia.org/wiki/Referential_integrity). For example, supplying no value in the `category` name field will return an error, as the field cannot be blank.
 
-You'll notice from the line `render()` that we refer to a new template called `add_category.html`. This will contain the relevant Django template code and HTML for the form and page.
+From the `render()` call, you'll see that we refer to `add_category.html` -- a new template. This will contain the relevant Django template code and HTML for the form and page.
 
 ### Creating the *Add Category* Template
 Create the file `templates/rango/add_category.html`. Within the file, add the following HTML markup and Django template code.
@@ -173,7 +175,7 @@ You can see that within the `<body>` of the HTML page, we placed a `<form>` elem
 - with the first controlling *hidden* form fields, and
 - the second controlling *visible* form fields. 
 
-The visible fields (those that will be displayed to the user) are controlled by the `fields` attribute within your `ModelForm` `Meta` class.  These loops produce HTML markup for each form element. For visible form fields, we also add in any errors that may be present with a particular field and help text that can be used to explain to the user what he or she needs to enter.
+The visible fields (those that will be displayed to the user) are controlled by the `fields` attribute within your `ModelForm` `Meta` class. These template loops produce the necessary HTML markup for each form element. For visible form fields, we also add in any errors that may be present with a particular field and help text that can be used to explain to the user what he or she needs to enter.
 
 I> ### Hidden Fields
 I> The need for hidden as well as visible form fields are necessitated by the fact that HTTP is a *stateless protocol.* You can't persist state between different HTTP requests that can make certain parts of web applications difficult to implement. To overcome this limitation, hidden HTML form fields were created which allow web applications to pass important information to a client (which cannot be seen on the rendered page) in an HTML form, only to be sent back to the originating server when the user submits the form.
@@ -267,7 +269,7 @@ A next logical step would be to allow users to add pages to a given category. To
 
 - Create a new view, `add_page()`.
 - Create a new template, `rango/add_page.html`.
-- Add a URL mapping between the URL `/rango/category/<category_name_slug>/add_page/` and the new view.
+- Create a mapping between `/rango/category/<category_name_slug>/add_page/` and the new view.
 - Update the category page/view to provide a link from the category add page functionality.
 
 To get you started, here is the code for the `add_page()` view function.
@@ -309,11 +311,11 @@ Note that in the example above, we need to *redirect* the user to the `show_cate
 Here, the `redirect()` function is called which in turn calls the `reverse()` function. `reverse()` looks up URL names in your `urls.py` modules -- in this instance, `rango:show_category`. If a match is found against the name provided, the complete URL is returned. The added complication here is that the `show_category()` view takes an additional parameter `category_name_slug`. By providing this value in a dictionary as `kwargs` to the `reverse()` function, it has all of the information it needs to formulate a complete URL. This completed URL is then used as the parameter to the `redirect()` method, and the response is complete!
 
 T> ### Hints
-T> To help you with the exercises above, the following hints may be of some use to you.
+T> To help you with the exercises above, the following hints may be of use.
 T>
 T> - In the `add_page.html` template, you can access the slug with ``{{ category.slug }}``. This is because the view passes the `category` object through to the template via the context dictionary.
 T> - Ensure that the link only appears when *the requested category exists* -- with or without pages. In terms of code, we mean that your template should have the following conditional: `{% if category %} .... {% else %} The specified category does not exist. {% endif %}`.
-T> - Update Rango's `category.html` template with a new hyperlink with a line break immediately following it: `<a href="/rango/category/{{category.slug}}/add_page/">Add Page</a> <br/>`.
+T> - Update Rango's `category.html` template with a new hyperlink, complete with a line break immediately following it: `<a href="/rango/category/{{category.slug}}/add_page/">Add Page</a> <br/>`.
 T> - Make sure that in your `add_page.html` template that the form posts to `/rango/category/{{ category.slug }}/add_page/`.
 T> - Update `rango/urls.py` with a URL mapping (`/rango/category/<category_name_slug>/add_page/`) to handle the above link. Provide a name of `add_page` to the new mapping.
 T> - You can avoid the repetition of `max_length` parameters through the use of an additional attribute in your `Category` model. This attribute could be used to store the value for `max_length`, and then be referenced where required.
