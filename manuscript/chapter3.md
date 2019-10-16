@@ -1,5 +1,5 @@
 # Django Basics {#chapter-django-basics}
-Let's get started with Django! In this chapter, we'll be giving you an overview of the creation process. You'll be setting up a new project and a new web application. By the end of this chapter, you will have a simple Django powered website up and running!
+Let's get started with Django! In this chapter, we'll be giving you an overview of the creation process. You'll be setting up a new project and a new web application. By the end of this chapter, you will have a simple Django powered website running!
 
 ## Testing Your Setup
 Let's start by checking that your Python and Django installations are correct for this tutorial. To do this, open a new terminal/Command Prompt window, and `activate` your `rangoenv` virtual environment.
@@ -55,7 +55,7 @@ I> 	       startproject tango_with_django_project
 I>
 I> as suggested on [StackOverflow](http://stackoverflow.com/questions/8112630/cant-create-django-project-using-command-prompt). Note that the path will likely vary on your own computer.
 
-This command will invoke the `django-admin.py` script, which will set up a new Django project called `tango_with_django_project` for you. Typically, we append `_project` to the end of our Django project directories so we know exactly what they contain -- but the naming convention is entirely up to you.
+This command will invoke the `django-admin.py` script, which will set up a new Django project called `tango_with_django_project` for you. Naming conventions dictate that we would typically append `_project` to the end of our Django project directories so we know exactly what they contain -- but naming this is really entirely up to you.
 
 You'll now notice within your workspace is a directory set to the name of your new project, `tango_with_django_project`. Within this newly created directory, you should see two items:
 
@@ -103,7 +103,7 @@ Executing this command will launch Python, and instruct Django to initiate its l
 
 In the output, you can see several things. First, there are no issues that stop the application from running. However, you will notice that a warning is raised -- `unapplied migration(s)`. We will talk about this in more detail when we set up our database, but for now we can ignore it. Third, and most importantly, you can see that a URL has been specified: `http://127.0.0.1:8000/`, which is the address that the Django development server is running at.
 
-Now open up your web browser and enter the URL mentioned above -- [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/). You should see a webpage similar to [the one shown below](#img-ch3-django-powered-page).
+Now open up your web browser and enter the URL mentioned above into your browser's address bar -- [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/). You should see a webpage similar to [the one shown below](#img-ch3-django-powered-page).
 
 {id="img-ch3-django-powered-page"}
 ![A screenshot of the initial Django page you will see when running the development server for the first time.](images/ch3-django-powered-page.png)
@@ -129,7 +129,7 @@ A Django project is a collection of *configurations* and *apps* that together ma
 
 A Django application exists to perform a particular task. You need to create specific apps that are responsible for providing your site with particular kinds of functionality. For example, we could imagine that a project might consist of several apps including a polling app, a registration app, and a specific content related app. In another project, we may wish to re-use the polling and registration apps, and so can include them in other projects. We will talk about this later. For now, we are going to create the app for the *Rango* app.
 
-To do this, from within your Django project directory (e.g. `<workspace>/tango_with_django_project`), run the following command.
+To achieve this, you need to make sure you're in your Django project's directory (e.g. `<workspace>/tango_with_django_project`). From there, run the following command.
 
 {lang="text",linenos=off}
     $ python manage.py startapp rango
@@ -211,12 +211,15 @@ First, open the project's `urls.py` file which is located inside your project co
 	urlpatterns = [
 	    path('', views.index, name='index'),
 	    path('rango/', include('rango.urls')),
-	    # The above maps any URLs starting with rango/ to be handled by the rango app.
+	    # The above maps any URLs starting with rango/ to be handled by rango.
 	    path('admin/', admin.site.urls),
 	]
 
 
 You will see that the `urlpatterns` is a Python list, which is expected by the Django framework. The added mapping looks for URL strings that match the patterns `rango/`. When a match is made, the remainder of the URL string is then passed onto and handled by `rango.urls` through the use of the  `include()` function from within the `django.urls` package.
+
+{id="fig-url-chain"}
+![An illustration of a URL, represented as a chain, showing how different parts of the URL following the domain are the responsibility of different `url.py` files.](images/ch3-url-chain.png)
 
 Think of this as a chain that processes the URL string -- as illustrated in the [URL chain figure](#fig-url-chain). In this chain, the domain is stripped out and the remainder of the URL string (`rango/`) is passed on to `tango_with_django` project, where it finds a match and strips away `rango/`, leaving an empty string to be passed on to the app `rango` for it to handle.
 
@@ -240,9 +243,6 @@ The URL mapping we have created above calls Django's `path()` function, where th
 The second parameter tells Django what view to call if the pattern `''` is matched. In this case, `views.index()` will be called. The third and optional parameter is called `name`. It provides a convenient way to reference the view, and by naming our URL mappings we can employ *reverse URL matching*. That is we can reference the URL mapping by name rather than by the URL. [Later, we will explain and show why this is incredibly useful](#section-templates-relativeurls). It can save you time and hassle as your application becomes more complex. This will go hand-in-hand with the `app_name` variable we've also placed in the new `urls.py` module.
 
 Now restart the Django development server and visit `http://127.0.0.1:8000/rango/`. If all went well, you should see the text `Rango says hey there partner!`. It should look just like the screenshot shown below.
-
-{id="fig-url-chain"}
-![An illustration of a URL, represented as a chain, showing how different parts of the URL following the domain are the responsibility of different `url.py` files.](images/ch3-url-chain.png)
 
 {id="fig-ch3-hey-there"}
 ![A screenshot of a web browser displaying our first Django powered webpage. Hello, Rango!](images/ch3-hey-there.png)
@@ -272,9 +272,9 @@ X>
 X> - Revise the procedure and make sure you follow how the URLs are mapped to views.
 X> - Create a new view method called `about` which returns the following `HttpResponse`: `'Rango says here is the about page.'`
 X> - Map this view to `/rango/about/`. For this step, you'll only need to edit the `urls.py` of the Rango app. Remember the `/rango/` part is handled by the projects `urls.py`.
-X> - Revise the `HttpResponse` in the `index` view to include a link to the about page.
+X> - Revise the `HttpResponse` in the `index` view to include a hyperlink (or *anchor*) to the about page.
 X> - Include a link back to the index page in the `about` view's response.
-X> - Now that you have started the book, follow us on Twitter [@tangowithdjango](https://twitter.com/tangowithdjango), and let us know how you are getting on!
+X> - Now that you have started the book, you can follow us on Twitter if you have it -- our handle is [@tangowithdjango](https://twitter.com/tangowithdjango). Let us know how you are getting on!
 
 I> ### Hints
 I> If you're struggling to get the exercises done, the following hints will provide you with some inspiration on how to progress.
