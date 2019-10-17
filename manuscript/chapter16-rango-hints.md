@@ -450,7 +450,7 @@ T> ### Mapping the `IndexView`
 T> When you create a class-based view for your old `index()` view, be wary that you will have mapped it in both Rango's `urls.py` module *and your project's `urls.py` module, too!*
 
 T> ### Passing URL parameters
-T> Some URL mappings in Rango have parameters. For example, you created such a mapping with the `category_name_slug` parameter for the view `show_category()` earlier on. You'll need to make sure that all of the methods within a class-based approach for one of these views contain not only the `self` and `request` parameters but the one or more URL parameters, too. In the example above, a `get()` method definition may look like the example below.
+T> Earlier on, you created a view `show_category()`. Aside from taking the obligatory `request` object, it also took a `category_name_slug` -- it was a *parameterised view*, with the parameter coming from the URL. For all views implemented like this, you'll need to make sure that their class-based equivalent not only contain `self` and `request` as parameters, but the one or more URL parameters, too. In the example above, a `get()` method definition may look like the example below.
 T>
 T> {lang="python",linenos=off}
 T> 	class ShowCategoryView(View):
