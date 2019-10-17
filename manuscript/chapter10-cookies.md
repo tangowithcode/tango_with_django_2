@@ -47,7 +47,7 @@ T> ### Caching Sessions
 T> If you want faster performance, you may want to consider a cached approach for storing session information. You can check out the [Django documentation for advice on cached sessions](https://docs.djangoproject.com/en/2.1/topics/http/sessions/#using-cached-sessions).
 
 ## A Cookie Tasting Session
-While all modern web browsers support cookies, certain cookies may get blocked depending on your browser's security level. (If you're using a computer on a corporate network, it may be that certain features in your browser are disabled. Query this with your network administrator.) Check that you've enabled support for cookies before continuing. It's likely however that everything is all ready for you to proceed.
+While all modern web browsers support cookies, certain cookies may get blocked depending on your browser's security level. Check that you've enabled support for cookies before continuing. However, it's likely you're ready to go.
 
 ### Testing Cookie Functionality
 To test out cookies, you can make use of some convenience methods provided by Django's `request` object. The three of particular interest to us are `set_test_cookie()`, `test_cookie_worked()` and `delete_test_cookie()`. In one view, you will need to set the test cookie. In another, you'll need to test that the cookie exists. Two different views are required for testing cookies because you need to wait to see if the client has accepted the cookie from the server.
@@ -186,7 +186,7 @@ Since all the cookies are stored server-side, we won't be changing the response 
 	    # Update/set the visits cookie
 	    request.session['visits'] = visits
 
-Now that we have updated the handler function, we can now update the `index()` view. To do this, you first remove the `response` parameter from the signature of `visitor_cookie_handler()` -- it should then look like `visitor_cookie_handler(request)`. You should then update your `context_dict` assignment for `visits` to `request.session['visits']`, ensuring that this is executed *after* the call to the `visitor_cookie_handler()` function.
+Now that we have updated the handler function, we can update the `index()` view. You first should remove the `response` parameter from the signature of `visitor_cookie_handler()` -- it should then look like `visitor_cookie_handler(request)`. You should then update your `context_dict` assignment for `visits` to `request.session['visits']`, ensuring that this is executed *after* the call to the `visitor_cookie_handler()` function.
 
 You should also ensure that all of these lines are executed *before* `render()` is called, or your changes won't be executed. The `index()` view should look like the code below. Notice that the order in which the methods are called is different because we no longer need to manipulate the cookies in the response.
 
