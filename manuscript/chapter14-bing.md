@@ -3,10 +3,10 @@ Now that most of the core functionality of Rango has been implemented (and it lo
 
 The search API that we will be using will be *Microsoft's Bing Search API*. However, you could just as readily use any available search API, such as those provided by [Webhose](https://webhose.io/) or [Yandex](https://yandex.com/support/search/robots/search-api.html).
 
-To use the Bing Search API, we will need to write a [wrapper](https://en.wikipedia.org/wiki/Adapter_pattern), which enables us to send a query and obtain the results from Bing's API -- all the while returning results to us in a convenient format that we can readily use in our code. However, before we can do so, we first need to set up a Microsoft Azure account to use the Bing Search API.
+To use the Bing Search API, we will need to write a [wrapper](https://en.wikipedia.org/wiki/Adapter_pattern), which enables us to send a query and obtain the results from Bing's API -- all the while returning results to us in a convenient format that we can readily use in our code. However, before we can do so, we first need to set up a Microsoft Azure account to be able to make use of the Bing Search API.
 
 ## The Bing Search API
-The [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference) provides you with the ability to embed search results from the Bing search engine within your own applications. Through a straightforward interface, you can request results from Bing's servers to be returned in either XML or JSON. The data returned can then be interpreted by an XML or JSON parser, with the results then, for example, rendered as part of a template within your application.
+The [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference) provides you with the ability to embed search results from the Bing search engine within your own applications. Through a straightforward interface, you can request results from Bing's servers to be returned in either XML or JSON. The data returned can then be interpreted by an XML or JSON parser, with the results then, for example, rendered as part of a template within your wider application.
 
 Although the Bing API can handle requests for different kinds of content, we'll be focusing on web search only for this tutorial, with JSON-formatted responses. To use the Bing Search API, you will need to sign up for an *API key*. The key currently provides subscribers with access to 3000 queries per month, which should be more than enough for our experimental purposes.
 
@@ -15,9 +15,9 @@ I> An [Application Programming Interface](http://en.wikipedia.org/wiki/Applicati
 
 
 ### Registering for a Bing API Key
-To obtain a Bing API key, you must first register for a Microsoft Azure account. The account provides you with access to a wide range of Microsoft services. If you already have a Microsoft account, you do not need to register you can log in. Otherwise, you can go online and create a free account with Microsoft at [`https://account.windowsazure.com`](https://account.windowsazure.com).
+To obtain a Bing API key, you must first register for a Microsoft Azure account. The account provides you with access to a wide range of Microsoft services. If you already have a Microsoft account, you do not need to register -- simply enter your details to login with your existing account details. Otherwise, you can go online and create a free account with Microsoft at [`https://account.windowsazure.com`](https://account.windowsazure.com).
 
-When your account has been created, log in and go to the portal. The link is at the top right of the page.
+When you have logged in, go to the portal. The link is at the top right of the page.
 
 Once the portal has loaded, you should see a list of options down the left-hand side of the viewport. Find the top option called `Create a resource` and click it. The right-hand side of the page will then be populated with more lists. From there, find the `AI + Machine Learning` option and select that. Scroll through the options on the subsequent menu that appears, and select the `Bing Search v7` option.
 
@@ -38,7 +38,7 @@ A new page will then load. Here, you should look for the `Keys` option under the
 ![The keys screen for the Bing Search API resource. Make sure you take a note of the `key 1` value! You will need them later on.](images/ch14-azure-keys.png)
 
 ## Adding Search Functionality {#sec-bing-pyfunc}
-With your keys in hand, it's now time to get coding. Below, we have provided the necessary code so that we can programmatically issue search queries to the Bing Search API. Create a file called `bing_search.py` inside your `rango` app directory -- the same directory with modules like `views.py` and `models.py`. Add the code shown below.
+With your keys in hand, it's now time to get coding. Below, we have provided the necessary code so that we can programmatically issue search queries to the Bing Search API. Create a file called `bing_search.py` inside your `rango` app directory -- the same directory with modules like `views.py` and `models.py`. Add the code to the module as shown below.
 
 I> ### The `requests` Package
 I> For this code to work, you'll need to add the `requests` package to Rango's environment. You can do this by running the command `$ pip install requests` in your terminal or Command Prompt. If you don't do this, the code won't work.
@@ -113,7 +113,7 @@ In the module(s) above, we have implemented two functions: one to retrieve your 
 ### `read_bing_key()` -- Reading the Bing Key {#section-bing-adding-key}
 The `read_bing_key()` function reads in your key from a file called `bing.key`, located in your Django project's root directory. Create a new text file now -- as named above, this will be called `bing.key`, and will live in the same directory as the one containing your existing `manage.py` and `populate_rango.py` modules. Putting your API key in a different file from the logic of handling API requests *separates your concerns.* We create this additional file because if you are putting your code into a public repository (on GitHub for example), you should take some precautions to avoid sharing your API key publicly.
 
-Take the value of `key 1` that you took from the Azure portal earlier, and paste it into your new `bing.key` file. **The key value itself should be the only contents of the file** -- nothing else should exist within it. **This file should NOT be committed to your GitHub repository.** To make sure that you do not accidentally commit it, update your [repository's `.gitignore` file](#section-git-setup-tweaks) to exclude any files with a `.key` extension, by adding the line `*.key`. This way, your key file will only be stored locally and will reduce the risk of individuals from acquiring and using your key without your knowledge. If you haven't created a `.gitignore` file yet, now would be a good time to [refer to the Git Crash Course](#section-git-setup-gitignore) chapter to see what this file does and how to create one!
+Take the value of `key 1` that you took from the Azure portal earlier, and paste it into your new `bing.key` file. **The key value itself should be the only contents of the file** -- nothing else should exist within it. **This file should NOT be committed to your GitHub repository.** To make sure that you do not accidentally commit it, update your [repository's `.gitignore` file](#section-git-setup-tweaks) to exclude any files with a `.key` extension, by adding the line `*.key`. This way, your key file will only be stored locally and will reduce the risk of individuals from acquiring and using your key without your knowledge. If you haven't created a `.gitignore` file yet, now would be a good time to [refer to the Git Crash Course](#section-git-setup-gitignore) chapter to see what this file does, and how you can go about creating one!
 
 T> ### Keep your Keys Safe!
 T> Keys to access APIs are exclusively yours to use. Keep them secret, keep them safe! Do not publish them online. If your app requires the use of an API key, then provide clear instructions describing how people can acquire their key, and what they should do with it.
@@ -151,7 +151,7 @@ T>
 T>		if __name__ == '__main__':
 T>		    main()
 T>
-T> When you run the module explicitly via `python bing_search.py`, the `bing_search` module is treated as the `__main__` module, and thus triggers `main()`. However, when the module is imported by another module, then `__name__` will not equal `__main__`, and thus the `main()` function not be called. This way you can `import` it with your application without having to call `main()`.
+T> When you run the module explicitly via `python bing_search.py`, the `bing_search` module is treated as the `__main__` module, and thus triggers `main()`. However, when the module is imported by another, then `__name__` will not equal `__main__`, and thus the `main()` function not be called. This way you can `import` it with your application without having to call `main()`.
 T>
 T> You'll also most likely want to make use of the built-in `input()` function to complete this exercise.
 
@@ -223,12 +223,12 @@ Let's first create a template called `rango/search.html`. Add the following HTML
 
 The template code above performs two key tasks.
 
-- In all scenarios, the template provides a search box and a search button within an HTML `<form>`. The `<form>` allows users to enter and submit their search queries.
+- In all scenarios, the template provides a search box and a search button within an HTML `<form>`. The `<form>` allows users to enter (into a field) and submit (with a button) their search queries.
 - If a `result_list` object is passed to the template's context when being rendered, the template assumes that the user has issued a query and is looking for results. As such, the template takes the `result_list` object and iterates through it, displaying each result contained within.
 	
 To style the HTML, we have made use of the Bootstrap [jumbotron](https://getbootstrap.com/docs/4.2/components/jumbotron/), [list groups](https://getbootstrap.com/docs/4.2/components/list-group/), and [forms](https://getbootstrap.com/docs/4.2/components/forms/) components.
 
-To render the title and summary correctly, we have used the built-in `safe` and `escape` template tags to inform the template that the `result.title` and `result.summary` should be rendered as is (i.e. as HTML). This is because some results can be returned from Bing complete with HTML tags (i.e. `<strong>` or `<b>` to bold the surrounded terms).
+To render the title and summary correctly, we have used the built-in `safe` and `escape` template tags to inform the template that `result.title` and `result.summary` should both be rendered as-is (i.e. as HTML). This is because some results can be returned from Bing complete with HTML tags (i.e. `<strong>` or `<b>` to bold the surrounded terms).
 
 ### Adding the View
 With our template defined, we can now code up the associated view. We'll be calling this view `search()`, and as usual this will be located within Rango's `views.py` module. Matching up with the assumptions made in our template defined above, the `search()` view assumes that with a `POST` request, users will be expecting to see results -- with a basic form only being displayed with a `GET` request.
@@ -256,7 +256,7 @@ As is standard for adding new functionality to your app, you'll also need to do 
 
 - Add a new URL mapping between your `search()` view and the `/rango/search/` URL. To make sure it works with everything above, give it a `name` of `search`. Remember, this should go into Rango's `urls.py` module.
 - You must also update the `base.html` navigation bar (at the top of the template) to include a link to the search page. Remember to use the `url` template tag to reference the link (`{% url 'rango:search' %}`). This link should be available to anyone, regardless of whether they are logged into Rango or not.
-- Again, check that your `bing.key` is in your project's root directory (`<workspace>/tango_with_django_project`, alongside `manage.py`).
+- Again, check that your `bing.key` is in your project's root directory (i.e. in the directory that contains `manage.py`).
 
 Once you have completed the preceding three steps, you should now be able to navigate to your Rango app in your browser and search! The result should look something like [what you see below](#fig-bing-rango).
 
@@ -266,7 +266,7 @@ Once you have completed the preceding three steps, you should now be able to nav
 Well done! You have successfully added search to Rango and thus learnt how to integrate your app with an external API. Integrating other APIs is broadly the same -- you may find that some provide their Python wrappers so you can literally `import` a module and query the API using Python commands.
 
 X> ### Search Box Exercise
-X> One last little exercise. You may have noticed that when you issue a query, the query disappears when the results are shown. This is not very user-friendly, because research has shown that people like to *reformulate* their queries (or in different words, *tweak* their original query). Your exercise here is to figure out how to update the view and template so that the user's query is displayed within the search box when results are returned.
+X> You may have noticed that when you issue a query, the query disappears when the results are shown. This is not very user-friendly, because research has shown that people like to *reformulate* their queries (or in different words, *tweak* their original query). Your exercise here is to figure out how to update the view and template so that the user's query is displayed within the search box when results are returned.
 
 T> ### Hint
-T> You need to think about how to provide an `input` text field with a predetermined, default `value`. You know the query -- that's available to you in your `search()` view as the `query` variable. How can you make it display in the `query` `input` field?
+T> You need to think about how to provide an `input` text field with a predetermined, default `value`. You know the query -- that's available to you in your `search()` view as the `query` variable. How can you make the query display in the `query` `input` field? What attribute does the `input` tag have that allows you to specify an initial value?
