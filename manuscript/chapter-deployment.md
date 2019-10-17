@@ -81,7 +81,7 @@ T> In this instance, [skip to cloning your repository first](#sec-deploy-cloning
 I> ### Waiting to Download...
 I> Since you're on a shared host, downloading and installing these packages will take considerably longer than doing so on your own computer. Don't worry if you think it's crashed -- give it time!
 
-Once installed, check if Django has been installed correctly. You can do this with the command `which django-admin.py`. You should receive output similar to the following example.
+Once installed, check if Django has been installed correctly. You can do this with the command `which django-admin.py`. You should receive output similar to the following.
 
 {lang="text",linenos=off}    
 	/home/rangodemo2019/.virtualenvs/rangoenv/bin/django-admin.py
@@ -92,7 +92,7 @@ I> PythonAnywhere also provides instructions on how to set up virtual environmen
 ### Virtual Environment Switching
 Moving between virtual environments can be done pretty easily. PythonAnywhere should have this covered for you. Below, we provide you with a quick tutorial on how to switch between virtual environments.
 
-At your terminal, you can launch into an existing virtual environment with the `workon` command. For example, to load up the `rangoenv` environment, enter the following command.
+You can launch into an existing virtual environment with the `workon` command. For example, load up the `rangoenv` environment with the following command.
 
 {lang="text",linenos=off}
 	~ $ workon rangoenv
