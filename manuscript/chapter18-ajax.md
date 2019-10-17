@@ -32,7 +32,7 @@ To permit registered users of Rango to *like* categories, we'll progress through
 	- Add in a *like* button, complete with an `id="like"`. There'll only be one of these buttons on the page, so using an `id` is fine.
 	- We'll add in a template tag to display the number of likes the category has received. This count will be placed inside a tag with an `id` of `like_count`. This sets the template up to display likes for a given category.
 2. We'll create a new view called `LikeCategoryView`. This view will examine the request, and pick out the `category_id` passed to it. The category being referred to will then have its `likes` field incremented by one.
-	- Of course, we'll need to create a new URL mapping for this view, too. This should be named `/rango/like_category/` -- with the `category_id` passed as a querystring. A complete URL would look something like `/rango/like_category/?category_id=1`, for liking the category with ID `1`.
+	- Of course, we'll need to create a new URL mapping for this view, too. This should be named `/rango/like_category/` -- with the `category_id` passed as a querystring. As an example, a complete URL would look something like `/rango/like_category/?category_id=1`, for liking the category with ID `1`.
 	- We'll make use of a `GET` request to implement this functionality.
 	- A key point regarding this view will be that it *does not return a complete HTML page* -- but simply the number of likes that the category now has. This means our response *does not* need to inherit from Rango's `base.html` template!
 3. For the actual AJAX code, we'll add some JavaScript/JQuery code to `rango-ajax.js` to complete the link between the client (displaying likes and providing the option to increment the count) and the server (incrementing the count in the database).
@@ -69,7 +69,7 @@ Once this has been added, a user who is logged into Rango should see a page simi
 ![The result of the update to the `category.html` template. Note the `Like Category` button, with the number of likes next to it -- all directly underneath the category title. If you view the same page when you are not logged in, the button will not be visible.](images/ajax-like-button.png)
 
 ### Creating the Like Category View
-With the basics now laid out in Rango's `category.html`, let's turn our attention server-side and focus on implementing the view that will handle incoming requests for liking categories. Recall that in our overview, we stated that we'd make use a `GET` request for liking categories, and URLs of the form `/rango/like_category/?category_id=1`. From these two requirements, our class-based view need only implement the `get()` method, with this method pulling the `category_id` querystring from the `GET` object.
+With the basics now laid out in Rango's `category.html`, let's turn our attention server-side and focus on implementing the view that will handle incoming requests for liking categories. Recall that in our overview, we stated that we'd make use of a `GET` request for liking categories. These requests would be serviced with URLs of the form `/rango/like_category/?category_id=1`. From these two requirements, our class-based view need only implement the `get()` method, with this method pulling the `category_id` querystring from the `GET` object.
 
 Our implementation is shown below. Remember, this code would live inside Rango's `views.py` module.
 
@@ -90,9 +90,9 @@ Our implementation is shown below. Remember, this code would live inside Rango's
 	    
 	    return HttpResponse(category.likes)
 
-Upon examination of the code above, you can see that we are only allowing users who are logged in to access this view -- hence the `@method_decorator(login_required)` decorator. We also implement some rudimentary error handling. If the user provides a category ID that does not exist, or the category ID supplied cannot be converted to an integer, `-1` is returned in the response. Otherwise, the `likes` attribute for the given category is incremented by one, with the updated value being returned.
+Upon examination of the code above, you can see that we are only allowing users who are logged in to access this view -- hence the `@method_decorator(login_required)` decorator. We also implement some rudimentary error handling. If the user provides a category ID that does not exist, or the category ID supplied cannot be converted to an integer, `-1` is returned in the response. Otherwise, the `likes` attribute for the given category is incremented by one. The updated value is then returned by itself.
 
-You should have all of the necessary `import` statements required for this to work -- but double-check that the following is present. This was used right back at the beginning of the tutorial, and you may have taken it out when cleaning up your code.
+You should have all of the necessary `import` statements required for this to work -- but double-check that the following is present. This one was used right back at the beginning of the book -- you may have taken it out when cleaning up your code in previous chapters. You definitely need it now!
 
 {lang="python",linenos=off}
 	from django.http import HttpResponse
@@ -124,24 +124,26 @@ To implement AJAX functionality, open up the blank `rango-ajax.js` file, located
 
 This JavaScript/JQuery code will be fired once the page has been loaded, and then binds code to an event handler on the `Like Category` button (identified by the unique identifier `like_btn`). When the user clicks this button, the `category_id` is extracted from the button `data-categoryid` attribute. If you look closely at the template code we defined earlier in this chapter, the `data-categoryid` attribute is populated by the Django templating engine with the unique ID of the category when the page is rendered server-side! Once the `category_id` has been obtained, we then call `$.get()`.
 
-`$.get()` is a JQuery function that handles AJAX `GET` requests. We first specify the URL that we want to reach (hard-coded in this instance, which is undesirable!), with a dictionary-like object then passed as the second argument. This is the `data` parameter, from which a querystring is constructed with the key/value pairs supplied. This would mean the final request would look similar to `GET /rango/like_category/?category_id=<category_id_var>`, where `<category_id_var>` is replaced with the ID of the category.
+`$.get()` is a JQuery function that handles AJAX `GET` requests. We first specify the URL that we want to reach (hard-coded in this instance, which is undesirable!), with a dictionary-like object then passed as the second argument. This is `data`, from which a querystring is constructed with the key/value pairs supplied. This would mean the final request would look similar to `GET /rango/like_category/?category_id=<category_id_var>`, where `<category_id_var>` is replaced with the ID of the category.
 
-The final argument we supply is a further anonymous function, this time taking a `data` parameter. This is called when the server responds from the request, with `data` containing the server's response. In our case, this will contain the number of likes that the given category now has associated with it. Within the function, we then simply replace the existing inner HTML of the `<strong>` tag (identified by `like_count`) with the updated value from the server -- and hide the button (identified by `like_btn`).
+The final argument we supply is a further anonymous function, this time taking a `data` parameter. This is called when the server responds from the request, with `data` containing the server's response. In our case, this will contain the number of likes that the given category now has associated with it. Within the function, we simply replace the existing HTML of the `<strong>` tag (identified by `like_count`) with the updated value from the server -- and hide the button (`like_btn`).
 
 T> ### Remember, `$.get()` is Asynchronous!
 T> This can take a while to get your head around, but this is worth repeating -- the call to the server is *asynchronous*. JQuery fires off the request to the server, but it doesn't hang around waiting for the server to respond. It could take several seconds, or minutes if the request takes a while! In the meantime, the browser focuses on other inputs from the user.
 T>
 T> Once the request comes back from the server, the browser and JQuery jump back into action, calling the anonymous function we provided in the code above. In short, this anonymous function is called when the response comes through, *not immediately when the user clicks the `Like Category` button.*
 T>
-T> If the browser waited for the response to come back, it would appear to crash! It wouldn't be able to accept any further input from the user until the response comes back. This is highly undesirable. What if the server doesn't respond, or takes substantially longer to respond than you design for? This is why designing asynchronous systems is such a challenge and is one reason why using JQuery is such a bonus -- can take care of most of the issues for you!
+T> If the browser waited for the response to come back, it would appear to crash! It wouldn't be able to accept any further input from the user until the response comes back. This is highly undesirable. What if the server doesn't respond, or takes substantially longer to respond than you design for? This is why designing asynchronous systems is such a challenge and is one reason why using JQuery is such a bonus -- the library can take care of almost all of the issues for you!
 
-With this code implemented, try everything out! Make sure you are logged into Rango, and like the category. You should see the `Like Category` button disappear, and the count of the number of likes increases. To double-check everything, check the output of your development server. You should see a request to `/rango/like_category/` -- as shown in [the screenshot below](#fig-ajax-terminal). This is proof that the request was passed to the server.
+With this code implemented, try everything out! Make sure you are logged into Rango, and like the category. You should see the `Like Category` button disappear, and the count of the number of likes increase. To double-check, check the development server log. You'll see a request to `/rango/like_category/` -- as shown in [the screenshot below](#fig-ajax-terminal). This is proof that the request was passed to the server.
 
 {id="fig-ajax-terminal"}
 ![Output of the Django development server, showing the AJAX request going through (highlighted in red). The request shows that the `category_id` being passed was set to `1` -- and from the log above (which shows the initial category page load), we can see that the request was for the `Python` category.](images/ajax-terminal.png)
 
 ##Adding Inline Category Suggestions
-With a simple AJAX example implemented, let's try something more complex. Let's imagine a scenario where Rango has been populated with dozens of categories. If a user wishes to find one specific category, they would currently need to examine a long list of categories. That's annoying! A faster way to allow users to find the category they are looking for would be to provide a suggestion component. Users can start typing in the name of the category they are searching for, and Rango would respond with a list of suggested categories that the user can then select from. In essence, this feature would provide a form of *filtering* to allow the user to narrow down the options available to him or her.
+With a simple AJAX example implemented, let's try something more complex. Let's imagine a scenario where Rango has been populated with dozens of categories. If a user wishes to find one specific category, they would currently need to examine a long list of categories. That's annoying!
+
+A faster way to allow users to find the category they are looking for would be to provide a suggestion component. Users can start typing in the name of the category they are searching for, and Rango would respond with a list of suggested categories that the user can then select from. In essence, this feature would provide a form of *filtering* to allow the user to narrow down the options available to him or her.
 
 We can, of course, achieve this with AJAX. Whenever the user types in a letter from their keyboard, we can send a request off to the Django server, and ask it to return a list of potential filtered down category matches. This list of categories can then be rendered within the loaded page. To ensure this functionality is present across the Rango app, we'll be looking to implement it on the left-hand category listing section.
 
@@ -151,7 +153,7 @@ To implement this, we'll need to undertake the following steps.
 1. First, we'll need to create a parameterised function called `get_category_list()`. This function will take two parameters, namely `max_results` (defaulting to `0`), and `starts_with` (defaulting to an empty string, `''`). The function will return a list of categories that match what the user is looking for.
 	- `max_results` will limit how many results to return. If `0` is specified, no limit is placed on how many categories are returned.
 	- `starts_with` will represent what the user has supplied so far. Imagine if the user is looking for `python`, a potential string being passed here could be `pyt` -- meaning that the user has supplied the first three characters of what they are looking for.
-2. Second, a further view will need to be created. We'll call this `CategorySuggestionView`. This will again be class-based and will be accessed through the URL mapping `/rango/suggest/` (with a name of `suggest`). This view will take the user's suggestion, and will return a list of the top eight suggestions for what the user has provided.
+2. A further view will need to be created. We'll call this `CategorySuggestionView`. This will again be class-based and will be accessed through the URL mapping `/rango/suggest/` (with a name of `suggest`). This view will take the user's suggestion, and will return a list of the top eight suggestions for what the user has provided.
 	- We will assume that this achieved through an HTTP `GET` request.
 	- We will check if the querystring provided to the view is empty. If it contains something, we'll call `get_category_list()` to get the top eight results for the supplied string.
 	- The results from `get_category_list()` will be munged together in an existing template, `categories.html`. This is what we used to display the category listing on the left-hand side of Rango's pages, through the custom template tag we implemented earlier.
@@ -159,7 +161,7 @@ To implement this, we'll need to undertake the following steps.
 T> ### Notice the Pattern
 T> Like in the first example where we implemented the ability to like a category, we will once again be implementing a further view here. **AJAX requests need their views as a means to communicate with the server.** It's just the same as a standard, synchronous request!
 
-With the URL mapping, view and template then in place, we will need to alter Rango's `base.html` template to provide a search box, which will allow users to enter their request. After that, we'll then need to implement some further JavaScript/JQuery to glue the client-side and server-side functionality together.
+With the URL mapping, view and template then in place, we will need to alter Rango's `base.html` template to provide a search box, which will allow users to enter their request. After that, we'll then implement some further JavaScript/JQuery to glue the client-side and server-side functionality together.
 
 ### Preparing the Base Template
 Let's tweak Rango's `base.html` template first. We'll modify the block of code responsible for rendering the sidebar. Find the definition of the `sidebar_block` block, and update the surrounding `<div>` element to include an `id`, like in the example below.
@@ -264,7 +266,7 @@ If you tested your server-side functionality and are happy with it, now it's tim
 
 This code binds a `keypress` event (when a user presses a key on their keyboard/smartphone screen) when the `search-input` element is focused. In other words, when the user types a letter into the search box, the code is fired. The value of the input box (`$(this).val()`) is then extracted, and passed to an AJAX `GET` request. We wrap the string provided up by the user in a dictionary-like object, again to help construct the correct URL and querystring.
 
-Once the server responds, the anonymous function is called, with `data` containing the response -- or list of categories that match the user's query. This list is then simply placed inside the `categories-listing` `<div>` element we updated earlier -- replacing any existing content within the `<div>`. Job done. Have a look at the screenshots below to see the new functionality in action.
+Once the server responds, the anonymous function is called, with `data` containing the response -- or list of categories that match the user's query. This list is then simply placed inside the `categories-listing` `<div>` element we updated earlier -- replacing any existing content within the `<div>`. Have a look at the screenshots below to see the new functionality in action.
 	
 {id="fig-exercises-suggestion"}
 ![An example of the inline category suggestions. Notice how the suggestions populate and change as the user types each character.](images/exercises-suggestion.png)
