@@ -40,11 +40,7 @@ To implement functionality to track page links, have a go at the following steps
     [Django reverse function](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#django.urls.reverse) for more on `reverse`.
 2. Update Rango's `urls.py` URL mappings to incorporate the new view to use the URL `/rango/goto/`. The mapping should also be given the name `goto`.
 3. Then you can update Rango's `category.html` template so that instead of providing a direct link to each page, you link to the new `goto_url()` view.
-    - Remember to use the `url` template tag instead of hard-coding the URL `/rango/goto/?page_id=x`, as shown in the example below.
-    
-{lang="python",linenos=off}
-	<a href="{% url 'rango:goto' %}?page_id={{page.id}}">
-    
+    - Remember to use the `url` template tag instead of hard-coding the URL! `{% url 'rango:goto' %}?page_id={{page.id}}` should set you up nicely.
     - Update the `category.html` template to also report the number of views that individual pages receive. Remember, watch out for grammar -- use the singular for one view, and plural for more than one!
 4. Our final step involves updating the `show_category()` view. As we are now incrementing the `views` counter for each page when the corresponding link is clicked, how can you update the ORM query to return a list of pages, ordered by the number of clicks they have received? This should be in *descending* order, with the page boasting the largest number of clicks being ranked first.
 
