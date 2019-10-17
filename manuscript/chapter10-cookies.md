@@ -186,7 +186,7 @@ Since all the cookies are stored server-side, we won't be changing the response 
 	    # Update/set the visits cookie
 	    request.session['visits'] = visits
 
-Now that we have updated the handler function, we can update the `index()` view. You first should remove the `response` parameter from the `visitor_cookie_handler()` function definition. After editing, the definition should look like `visitor_cookie_handler(request)`. You should then update your `context_dict` assignment for `visits` to `request.session['visits']`, ensuring that this is executed *after* the call to the `visitor_cookie_handler()` function.
+Now that we have updated the handler function, we can update the `index()` view. You first should remove the `response` parameter from the `visitor_cookie_handler()` function definition. After editing, without `response`, the definition should look like `visitor_cookie_handler(request)`. You should then update your `context_dict` assignment for `visits` to `request.session['visits']`, ensuring that this is executed *after* the call to the `visitor_cookie_handler()` function.
 
 You should also ensure that all of these lines are executed *before* `render()` is called, or your changes won't be executed. The `index()` view should look like the code below. Notice that the order in which the methods are called is different because we no longer need to manipulate the cookies in the response.
 
