@@ -9,7 +9,7 @@ First, we need to install `django-registration-redux` version `2.2` into your de
 {lang="text",linenos=off}
 	$ pip install -U django-registration-redux==2.2
 
-With the package installed, we need to tell Django that we will be using the `registration` app that comes within the `django-registration-redux` Python package. Open up your project's `settings.py` file, and update the `INSTALLED_APPS` list to include the `registration` package. An example `INSTALLED_APPS` list is shown below.
+With the package installed, we next need to tell the Django framework that we will be using the `registration` app that comes within the `django-registration-redux` Python package. Open up your project's `settings.py` file, and update the `INSTALLED_APPS` list to include the `registration` package. An example `INSTALLED_APPS` list is shown below.
 
 {lang="python",linenos=off}
 	INSTALLED_APPS = [
@@ -42,12 +42,12 @@ While you are in the `settings.py` module, you can also add the following variab
 
 Remember, we can specify URL mapping names instead of absolute URLs to make our configuration more versatile. Have a look at the section below to see where the value for `LOGIN_URL` comes from. The value for `LOGIN_REDIRECT_URL` simply points to the Rango homepage; we redirect users here after successfully logging in.
 
-In your *project's* `urls.py` module (i.e. `<Workspace>/tango_with_django_project/urls.py`), you can now update the `urlpatterns` list so that it includes a reference to the `registration` package:
+In your *project's* `urls.py` module (`<Workspace>/tango_with_django_project/urls.py`), you can now update the `urlpatterns` list so that it includes a reference to the `registration` package:
 
 {lang="python",linenos=off}
 	path('accounts/', include('registration.backends.simple.urls')),
 
-The `django-registration-redux` package provides several different registration backends that you can use, depending on your needs. For example, you may want a two-step process where the user is sent a confirmation email and a verification link. Here we will just be using the simple one-step registration process where a user sets up their account by entering in a username, email, and password -- and from there is automatically logged in.
+The `django-registration-redux` package provides different registration backends that you can use, depending on your needs. For example, you may want a two-step process where the user is sent a confirmation email and a verification link. Here we will just be using the simple one-step registration process where a user sets up their account by entering in a username, email, and password -- and from there is automatically logged in.
 
 ## Functionality and URL mapping {#section-redux-urls}
 The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backends.simple.urls`, it provides key mappings, as shown in the table below. For each URL, prepend `/accounts/`. For example, for the Login URL, your resultant URL will be `/accounts/login/`.
@@ -62,7 +62,7 @@ The Django Registration Redux package provides the machinery for numerous functi
 | Password Change          | `.../password/change/`            | `auth_password_change`      |
 | Change Complete          | `.../password/change/done/`       | `auth_password_change_done` |
 
-All too good to be true! While the functionality is provided for you, the `django-registration-redux` package unfortunately does not provide templates for each of the required pages. This makes sense, as templates tend to be application-specific. As such, we'll need to create templates for each view.
+All too good to be true! While all of this different functionality is provided for you, the `django-registration-redux` package unfortunately does not provide templates for each of the required pages. This makes sense, as templates tend to be application-specific. As such, we'll need to create templates for each view.
 
 ## Setting up the Templates
 In the [Django Registration Redux Quick Start Guide](https://django-registration-redux.readthedocs.org/en/latest/quickstart.html), an overview of what templates are required is provided. However, it is not immediately clear what goes within each template. Rather than try and work it out from the code, we can take a look at a set of [templates written by Anders Hofstee](https://github.com/macdhuibh/django-registration-templates) to quickly get the gist of what we need to code up.
@@ -78,7 +78,7 @@ I>
 I> This behaviour is the same as forms we created in prior chapters, where corresponding views had a conditional switch for processing data from a `POST` request, or rendering a blank form for a `GET` request.
 
 ### Login Template {#section-redux-templates-login}
-In the `templates/registration` directory, create the file `login.html`. This will house the template used by the `registration` `auth_login` view. Add the following code to the template.
+In the `templates/registration` directory, create the file `login.html`. This will house the template used by the `registration` `auth_login` view. Add the following markup and template code to the template.
 
 {lang="html",linenos=off}
 	{% extends 'rango/base.html %}
@@ -164,14 +164,14 @@ In `templates/registration` directory, create the file `registration_closed.html
 	{% endblock %}
 
 ### Try out the Registration Process
-With the basic forms created, we can now attempt to register using the `django-registration-redux` package. First, we will need to migrate our database using the `$ python manage.py migrate` command, followed by `$ python manage.py makemigrations`. After these steps, visit the registration page at <http://127.0.0.1:8000/accounts/register/>.
+With the basic forms created, we can now attempt to register a new user account using the `django-registration-redux` package. First, we will need to migrate our database using the `$ python manage.py migrate` command, followed by `$ python manage.py makemigrations`. After these steps, visit the registration page at <http://127.0.0.1:8000/accounts/register/>.
 
 {id="fig-ch11-redux-registration"}
 ![A screenshot of the updated registration page using `django-registration-redux`.](images/ch11-redux-registration.png)
 
 As seen in the [figure above](#fig-ch11-redux-registration), note how the registration form contains two fields for the new user's password. This is standard in pretty much every website nowadays and provides a means for validating the password entered by the user. Try registering, but enter different passwords.
 
-Notice how the `registration` app is handling all of the logic for you, and also redirects you to Rango's homepage on a successful registration, as per the `LOGIN_REDIRECT_URL` setting specified in your project's `settings.py` module.
+Notice how the `registration` app is handling all of the logic for you. The app is also able to redirect you to Rango's homepage on a successful registration, as it is intructed to by the `LOGIN_REDIRECT_URL` setting specified in your project's `settings.py` module.
 
 ### Refactoring your Existing Project
 Now that you are happy with the `registration` code, we will need to update our existing `rango` codebase to point to the new `django-registration-redux` URLs.
@@ -188,14 +188,14 @@ Next, open your project's `settings.py` module. You should have updated this ear
 
 Notice that for the logout hyperlink we have included an additional component to the URL, namely `?next={% url 'rango:index' %}`. This is provided so when the user logs out, it will redirect them straight to the Rango index page. If we exclude it, then they will be directed to the logout page that we created earlier, telling them that they have been successfully logged out. We include this to demonstrate some of the advanced functionality of the `django-registration-redux` package.
 
-Finally, you need to decommission existing user authentication code that you wrote in previous chapters. This will entail removing the `register()`, `user_login()` and `user_logout()` views from Rango's `views.py` module, the corresponding URL mappings from Rango's `urls.py` module, and templates from the `templates/rango/` directory. If you do not want to delete this code, simply comment them out. Remember, too, that there will be some redundant `import` statements at the top of `views.py`!
+Finally, you need to decommission existing user authentication code that you wrote in previous chapters. This will entail removing the `register()`, `user_login()` and `user_logout()` views from Rango's `views.py` module, the corresponding URL mappings from Rango's `urls.py` module, and templates from the `templates/rango/` directory. If you do not want to delete this code, simply comment them out. Remember, too, that there will be some redundant `import` statements at the top of Rango's `views.py` module!
 
 X> ### Exercise
 X> - Using the `django-registration-redux` package, provide users of your Rango app with the ability to change their password.
 X> - Add a link to Rango's `base.html` template that directs users to the new password changing functionality. Make sure only those who are logged in can view the link.
 
 T> ### Hints
-T> To help you with the exercises above, the following hints may be of some use to you.
+T> To help you with the exercises above, the following hints may be of some use.
 T>
 T> - Have a look at [Anders Hofstee's Templates](https://github.com/macdhuibh/django-registration-templates/tree/master/registration) to get yourself started. In particular, looking at this repository will be very helpful in figuring out what to call the two new templates you require for this exercise.
 T> - Refer to the [table we provided earlier in this chapter](#section-redux-urls) to figure out what URLs and name mappings are required for this exercise.
