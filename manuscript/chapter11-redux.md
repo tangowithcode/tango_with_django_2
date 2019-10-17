@@ -9,7 +9,7 @@ First, we need to install `django-registration-redux` version `2.2` into your de
 {lang="text",linenos=off}
 	$ pip install -U django-registration-redux==2.2
 
-With the package installed, we next need to tell the Django framework that we will be using the `registration` app that comes within the `django-registration-redux` Python package. Open up your project's `settings.py` file, and update the `INSTALLED_APPS` list to include the `registration` package. An example `INSTALLED_APPS` list is shown below.
+With the package installed, we next need to tell the Django framework that we will be using the `registration` app that comes within the `django-registration-redux` Python package. Open up your project's `settings.py` module, and scroll until you find the `INSTALLED_APPS` list. Update it to include the `registration` package, like in the `INSTALLED_APPS` list shown below.
 
 {lang="python",linenos=off}
 	INSTALLED_APPS = [
