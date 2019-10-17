@@ -7,7 +7,7 @@ According to the [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/t
 
 - **Writing tests will save you time.** Even a slight change in a complex system can cause failures in places that you simply wouldn't think of.
 - **Tests don't just identify problems, they prevent them.** Tests show where the code is not meeting expectations.
-- **Test make your code more attractive.** *"Code without tests is broken by design"* - Jacob Kaplan-Moss, one of Django's original developers.
+- **Test make your code more attractive.** *"Code without tests is broken by design"* -- Jacob Kaplan-Moss, one of Django's original developers.
 - **Tests help teams work together.** You want to be a team player, right? Then write tests. Writing tests will make sure your team doesn't inadvertently break your code, or you don't break the code of your team members!
 
 In addition to these reasons, the [Python Guide](http://docs.python-guide.org/en/latest/writing/tests/) lists several general rules that you should try to follow when writing tests. Below are some of the main rules.
@@ -129,7 +129,7 @@ Looking at the code above, the Django `TestCase` class has access to a `client` 
 
 Recall that when you run tests, a new database is created, which by default is not populated. This is true for each test method -- and explains why the categories you create in the two `CategoryMethodTests` tests are not visible to the test in `IndexViewTests`.
 
-Now let's check the `index` view when categories *are* present. We can add a helper function for us to achieve this. This simple function doesn't live within a class - just place it in the `test.py` module.
+Now let's check the `index` view when categories *are* present. We can add a helper function for us to achieve this. This simple function doesn't live within a class -- just place it in the `test.py` module.
 
 {lang="python",linenos=off}
 	def add_category(name, views=0, likes=0):
