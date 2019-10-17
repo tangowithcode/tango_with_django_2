@@ -17,8 +17,8 @@ Download the HTML source for our modified dashboard layout to a file called `boo
 
 Below is a list of all the different modifications we made to the original dashboard HTML source.
 
-- First, we replaced all references of `../../` to be `http://getbootstrap.com/docs/4.2/`. The two sets of dots indicates that we want to look back two directory levels back where we currently are in the filesystem (see our [UNIX Crash Course](#section-unix-terminal)). This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
-- We changed `dashboard.css` to the absolute URL to access this stylesheet and removes any doubt as to what version of the file we are referring to.
+- We replaced all references of `../../` to be `http://getbootstrap.com/docs/4.2/`. The two sets of dots indicates that we want to look back two directory levels back where we currently are in the filesystem (see our [UNIX Crash Course](#section-unix-terminal)). This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
+- Then, we changed `dashboard.css` to the absolute URL to access this stylesheet and removes any doubt as to what version of the file we are referring to.
 - We took out the search form from the *navigation bar* at the top of the page.
 - We stripped out all the non-essential demo content from the original HTML page, and replaced it with the Rango `body_block` code -- most importantly including the start and end statements for the `body_block` (`{% block body_block %}{% endblock %}`).
 - We set the `<title>` element of the page to fit with what we worked on earlier: `<title>{% block title_block %}How to Tango with Django!{% endblock %}</title>`
