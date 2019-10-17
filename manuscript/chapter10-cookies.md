@@ -186,7 +186,7 @@ Since all the cookies are stored server-side, we won't be changing the response 
 	    # Update/set the visits cookie
 	    request.session['visits'] = visits
 
-Now that we have updated the handler function, we can update the `index()` view. You first should remove the `response` parameter from the signature of `visitor_cookie_handler()` -- it should then look like `visitor_cookie_handler(request)`. You should then update your `context_dict` assignment for `visits` to `request.session['visits']`, ensuring that this is executed *after* the call to the `visitor_cookie_handler()` function.
+Now that we have updated the handler function, we can update the `index()` view. You first should remove the `response` parameter from the definition of the `visitor_cookie_handler()` helper function. After editing, the definition should look like `visitor_cookie_handler(request)`. You should then update your `context_dict` assignment for `visits` to `request.session['visits']`, ensuring that this is executed *after* the call to the `visitor_cookie_handler()` function.
 
 You should also ensure that all of these lines are executed *before* `render()` is called, or your changes won't be executed. The `index()` view should look like the code below. Notice that the order in which the methods are called is different because we no longer need to manipulate the cookies in the response.
 
@@ -221,9 +221,9 @@ When using cookies, you can use Django's session framework to set cookies as eit
 -   **browser-length** sessions expire when the user closes his or her browser; and
 -   **persistent sessions** can last over several browser instances -- expiring at a time of your choice. This could be half an hour, or even as far as a month in the future.
 
-By default, browser-length sessions are disabled. You can enable them by modifying your Django project's `settings.py` module. Add the variable `SESSION_EXPIRE_AT_BROWSER_CLOSE`, setting it to `True`.
+By default, browser-length sessions are disabled. You can enable them by modifying your Django project's `settings.py` module. Add the new, boolean variable `SESSION_EXPIRE_AT_BROWSER_CLOSE`, setting it to `True`.
 
-Alternatively, persistent sessions are enabled by default, with `SESSION_EXPIRE_AT_BROWSER_CLOSE` either set to `False`, or not being present in your project's `settings.py` file. Persistent sessions have an additional setting, `SESSION_COOKIE_AGE`, which allows you to specify how long the cookie can live for. This value should be an integer, representing the number of seconds the cookie can live for. For example, specifying a value of `1209600` will mean your website's cookies expire after a two week (14 day) period.
+Alternatively, persistent sessions are enabled by default, with the settings variable `SESSION_EXPIRE_AT_BROWSER_CLOSE` either set to `False`, or not being present in your project's `settings.py` file (defaulting to `False`). Persistent sessions have an additional setting, `SESSION_COOKIE_AGE`, which allows you to specify how long the cookie can live for. This value should be an integer, representing the number of seconds the cookie can live for. For example, specifying a value of `1209600` will mean your website's cookies expire after a two week (14 day) period.
 
 Check out the available settings you can use on the [official Django documentation on cookies](https://docs.djangoproject.com/en/2.1/ref/settings/#session-cookie-age) for more details. You can also check out [Eli Bendersky's blog](http://eli.thegreenplace.net/2011/06/24/django-sessions-part-i-cookies/) for an excellent tutorial on cookies and Django.
 
