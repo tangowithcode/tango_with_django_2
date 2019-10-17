@@ -1,5 +1,5 @@
 #Making Rango Tango Exercises {#chapter-ex}
-So far, we have added in several key pieces of functionality to Rango. We've been building the app up in a manner that hopefully gets you familiar with using the Django framework and to learn how to construct the various parts of a web application.
+So far, we have added in several key pieces of functionality to Rango. We've been building the app up in a manner that hopefully gets you familiar with using the Django framework and to learn how to construct the various parts of a modern web application.
 
 However, Rango at the moment is not very cohesive or interactive. In this chapter, we challenge you to improve the app and its user experience further by bringing together some of the functionality we have implemented along with some new features. To make Rango more coherent, integrated and interactive, let's look at implementing the following functionality.
 
@@ -12,14 +12,14 @@ We'll also be wanting to collect likes for different categories, as this is also
 
 In addition to these new features, we'll be working to provide further services to registered users of Rango. Specifically, we'll be working to:
 
-- allow users registering to the site to again specify a profile image and website (if you worked through the chapter on `django-registration-redux`, this functionality will have been lost);
+- allow users registering to the site to again specify a profile image and website (if you worked through the [chapter on `django-registration-redux`](#chapter-redux), this functionality will have been lost);
 - let users view and edit their profile; and
 - let users who are logged in view a list of other users and their profiles.
 
 I> ### Note
 I> As we have alluded to above, we won't be working through all of these tasks in this chapter. The AJAX-related tasks (as well as a definition of what AJAX is!) will be left to the [AJAX in Django](#chapter-ajax) later on, while others will be left to you to complete as additional exercises.
 
-Before we start to add this additional functionality, we will make a *todo* list to plan our workflow for each task. Breaking tasks down into smaller sub-tasks will greatly simplify the implementation process. We'll then be attacking each main activity with a clear plan. In this chapter, we'll be providing you with the workflow for a number of the above tasks. From what you have learnt so far, you should now be able to fill in the gaps and implement most of it on your own (except for those requiring AJAX).
+Before we start to add this additional functionality, we will make a *todo* list to plan our workflow for each task. Breaking tasks down into smaller sub-tasks will greatly simplify the implementation process. We'll then be attacking each main activity with a clear plan. In this chapter, we'll be providing you with the workflow for a number of the above tasks. From what you have learnt so far, you should now be able to fill in the gaps and implement most of it on your own (except for those requiring AJAX, where we'll talk about that in more detail in a [later chapter](#chapter-ajax)).
 
 We've included hints, tips and code snippets to help you along. Of course, if you get stuck, you can always check out [our implementation for the exercises on GitHub](https://github.com/maxwelld90/tango_with_django_2_code). Let's get started with tracking page clicks!
 
@@ -31,7 +31,7 @@ This is what happens in many contemporary social media platforms, as an example 
 To implement functionality to track page links, have a go at the following steps.
 
 1. First, create a new view called `goto_url()`. This should be mapped to the URL `/rango/goto/`, with a URL mapping name of `goto`.
-    - The `goto_url()` view will examine the HTTP `GET` request parameters, and pull out the `page_id` that is passed along with the request. The HTTP `GET` request will take the form of something along the lines of `/rango/goto/?page_id=1`. This means that we want to redirect the user to a `Page` model instance with an `id` of `1`.
+    - The `goto_url()` view will examine the HTTP `GET` request parameters, and pull out the `page_id` that is passed along with the request. The HTTP `GET` request will take the form of something like `/rango/goto/?page_id=1`. This means that we want to redirect the user to a `Page` model instance with an `id` of `1`.
     - In the view, `get()` the `Page` with an `id` of `page_id` (from the `GET` request).
     - For that particular `Page` instance, increment the `views` field count by one, and then `save()` the changes you have made.
     - After incrementing the `views` field, redirect the user to the page instance's `url` value using the handy `redirect()` function, available at `django.shortcuts`.
@@ -42,8 +42,8 @@ To implement functionality to track page links, have a go at the following steps
 3. Then you can update Rango's `category.html` template so that instead of providing a direct link to each page, you link to the new `goto_url()` view.
     - Remember to use the `url` template tag instead of hard-coding the URL `/rango/goto/?page_id=x`, as shown in the example below.
     
-    {lang="python",linenos=off}
-    	<a href="{% url 'rango:goto' %}?page_id={{page.id}}">
+{lang="python",linenos=off}
+	<a href="{% url 'rango:goto' %}?page_id={{page.id}}">
     
     - Update the `category.html` template to also report the number of views that individual pages receive. Remember, watch out for grammar -- use the singular for one view, and plural for more than one!
 4. Our final step involves updating the `show_category()` view. As we are now incrementing the `views` counter for each page when the corresponding link is clicked, how can you update the ORM query to return a list of pages, ordered by the number of clicks they have received? This should be in *descending* order, with the page boasting the largest number of clicks being ranked first.
@@ -98,8 +98,8 @@ If you have swapped over to the `django-registration-redux` package [as we worke
 
 To add the `UserProfile` registration functionality, you need to undertake the following steps.
 
-1. First, create a `profile_registration.html` template, which will display the `UserProfileForm`. This will need to be placed within the `rango` templates directory. Although it makes sense to place it in the `registration` directory, it is Rango specific; as such, it should live in the `rango` directory.
-2. Create a new `register_profile()` view in Rango's `views.py` to capture the `UserProfile` details.
+1. First, create a `profile_registration.html` template, which will display the elements comprised from the `UserProfileForm`. This will need to be placed within the `rango` templates directory. Although it makes sense to place it in the `registration` directory, it is Rango specific; as such, it should live in the `rango` directory.
+2. Create a new `register_profile()` view in Rango's `views.py` to capture details required by a `UserProfile` instance.
 4. Finally, change where you redirect newly-registered users. We'll have to provide you with some code to show you how to do this. You can find that in the [next chapter](#section-hints-profiles).
 
 It would also be useful to let users inspect and edit their profiles once they have been created. To do this, undertake the following steps.
