@@ -22,10 +22,10 @@ The PythonAnywhere web interface contains a *dashboard* which in turn provides a
 Other components exist, such as *Notebooks*, but we won't be using them here -- we'll be working primarily with the *consoles* and *web app* components. The [PythonAnywhere Wiki](https://www.pythonanywhere.com/wiki/) provides a series of detailed explanations on how to use the other components if you are interested in finding out more.
 
 {#pa-interface}
-![The PythonAnywhere dashboard, showing the main components you can use. We're logged in as `rangodemo2019` here. You can see links to Consoles, Files, Notebooks (that we don't use here), and web apps.](images/ch-deploy-pa-interface.png)
+![The PythonAnywhere dashboard, showing the main components you can use. We're logged in as `rangodemo2019` here. You can see links to Consoles, Files, Notebooks (that we don't use here), and web apps (or the settings for web apps).](images/ch-deploy-pa-interface.png)
 
 ## Creating a Virtual Environment
-As part of its standard default Bash environment, PythonAnywhere comes with Python 2.7+ and several pre-installed Python Packages (including *Django *). But, since we are using a different setup, we need to set up the Python 3 version manually through the creation of a virtual environment.
+As part of its standard default Bash environment, PythonAnywhere comes with Python 2.7+ and several pre-installed Python Packages (including *Django*). Since we are using a different setup, we need to set up the Python 3 version manually through the creation of a virtual environment.
 
 First, open a Bash console. By clicking `$ Bash` from under the `New console` header. If you run `python --version` then you will see that the Python is 2.7+. To set up our Python 3.7+ environment, we'll need to issue the following command.
 
@@ -47,7 +47,7 @@ First, open a Bash console. By clicking `$ Bash` from under the `New console` he
 	virtualenvwrapper.user_scripts creating
 	    /home/rangodemo2019/.virtualenvs/rangoenv/bin/get_env_details
 
-Above we have used Python 3.7, but you can check which version of Python you are using, and use that instead. Remember that `rangodemo2019` will be replaced with your username. The process of creating the virtual environment will take a little while to complete (as you are using a host shared with many others). After the environment has been created, you will be presented with a slightly different prompt.
+Above we have used Python 3.7, but you can check which version of Python you are using, and use that instead. Remember that `rangodemo2019` will be replaced with your username. The process of creating the virtual environment will take a little while to complete (as you are using a host shared with many others). After the environment has been created, you will be presented with a slightly different prompt. Exciting stuff!
 
 {lang="text",linenos=off}
 	(rangoenv) ~ $
@@ -66,7 +66,7 @@ To see what packages are already installed, enter `pip list`. Now we can customi
 	$ pip install requests
 	$ pip install coverage
 
-If you decided to use the [optional Bcrypt password hasher](#sec-user-passwordhash), you'll also need to install Bcrypt.
+If you decided to use the [optional Bcrypt password hasher](#sec-user-passwordhash), you'll also need to install the Bcrypt library.
 
 {lang="text",linenos=off}
 	$ pip install bcrypt
@@ -81,7 +81,7 @@ T> In this instance, [skip to cloning your repository first](#sec-deploy-cloning
 I> ### Waiting to Download...
 I> Since you're on a shared host, downloading and installing these packages will take considerably longer than doing so on your own computer. Don't worry if you think it's crashed -- give it time!
 
-Once installed, check if Django has been installed with the command `which django-admin.py`. You should receive output similar to the following example.
+Once installed, check if Django has been installed correctly. You can do this with the command `which django-admin.py`. You should receive output similar to the following example.
 
 {lang="text",linenos=off}    
 	/home/rangodemo2019/.virtualenvs/rangoenv/bin/django-admin.py
@@ -136,7 +136,7 @@ You'll see the following output showing that the cloning of the repository was s
 ### Setting Up the Database
 With your repository cloned, you must then prepare your database. If you have the database committed to the repository, delete this copy. We'll start from scratch. We'll also be making use of the `populate_rango.py` module that we created earlier in the book to populate the database with sample data. As we'll be running the module, you must ensure that you are using the `rangoenv` virtual environment (i.e. you see `(rangoenv)` as part of your prompt -- if not, invoke `workon rangoenv`).
 
-From your home directory (denoted by the `~` in your prompt), you want to navigate to the directory containing your `manage.py` and `populate_rango.py` scripts. Following the instructions we provided earlier in the book, this would be located at `~/tango_with_django_project/` -- the directory that you just cloned. If you chose to follow a different structure, navigate to the location where these files are stored.
+From your home directory (denoted by the `~` in your prompt), you want to navigate to the directory containing your `manage.py` and `populate_rango.py` scripts. Following the instructions we provided earlier, this would be at `~/tango_with_django_project/` -- the directory that you just cloned. If you chose to follow a different structure, navigate to the location where these files are stored.
 
 T> ### How do I navigate?
 T> In a Bash terminal, you can change the directory with the `cd` command, followed by the path you wish to change to. In this instance, you would issue the command `cd ~/tango_with_django_project/`.
@@ -299,7 +299,15 @@ If you find yourself confused with an issue, you can view the log files on the P
 - `error.log`, which logs any error messages produced by your web application; and
 - `server.log`, providing log details for the UNIX processes running your application.
 
-Note that the names for each log file are prepended with your subdomain. For example, `access.log` for us will have the complete name `rangodemo2019.pythonanywhere.com.access.log`.
+Note that the names for each log file are prepended with your subdomain. For example...
+
+{lang="text",linenos=off}
+	access.log
+
+would have the complete filename
+
+{lang="text",linenos=off}
+	rangodemo2019.pythonanywhere.com.access.log.
 
 When debugging, you may find it useful to delete or move the log files so that you don't have to scroll through a huge list of previous attempts. If the files are moved or deleted, they will be recreated automatically when a new request or error arises. The most recent issue appears at the bottom of the file, and it will provide you with the clues you need to solve it. Remember, you can always paste the error message into your search engine to see what others have done to solve the problem. We are sure that you won't be the first person to encounter the problem you are facing!
 
