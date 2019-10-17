@@ -4,7 +4,7 @@ In this chapter, we will be styling Rango using the *Twitter Bootstrap 4* toolki
 I> ### Cascading Style Sheets
 I> If you are not familiar with CSS, have a look at the [CSS crash course](#chapter-css). We provide a quick guide on the basics of using Cascading Style Sheets.
 
-Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/). The website provides you with sample code and examples of the different components that the toolkit provides, and provides you with examples and documentation on how to style them by adding in the appropriate markup and/or code. Besides this, the website also provides several [complete example layouts](http://getbootstrap.com/examples/) from which we can base our design for Rango on.
+Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/). The website provides you with sample code and examples of the different components that the toolkit provides, and provides you with examples and documentation on how to style them by adding in the appropriate markup and/or code. Besides this, the website also provides several [complete example layouts](http://getbootstrap.com/examples/) from which we can base our styled design for Rango on.
 
 To style Rango, we have identified that the [dashboard layout](https://getbootstrap.com/docs/4.2/examples/dashboard/) more or less meets our needs. The layout provides us with a menu bar at the top, a sidebar (which we will use to show categories), and a main content pane in which we can display page-specific information. You can see the example layout in [the figure below](#fig-bootstrap-dashboard).
 
@@ -13,19 +13,19 @@ To style Rango, we have identified that the [dashboard layout](https://getbootst
 
 To tailor the dashboard HTML source to our Rango app, we need to make several modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd-bootstrap-base), but for completeness is also shown below.
 
-Download the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `<Workspace>/tango_with_django_project/templates/rango/` directory.
+Download the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `<Workspace>/tango_with_django_project/templates/rango/` templates directory.
 
 Below is a list of all the different modifications we made to the original dashboard HTML source.
 
-- First, we replaced all references of `../../` (which symbolises to go look two directories back from where we are currently) to be `http://getbootstrap.com/docs/4.2/`. This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
+- First, we replaced all references of `../../` to be `http://getbootstrap.com/docs/4.2/`. The two sets of dots indicates that we want to look back two directory levels back where we currently are in the filesystem (see our [UNIX Crash Course](#section-unix-terminal)). This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
 - We changed `dashboard.css` to the absolute URL to access this stylesheet and removes any doubt as to what version of the file we are referring to.
 - We took out the search form from the *navigation bar* at the top of the page.
-- We stripped out all the non-essential content from the original HTML page, and replaced it with the Rango `body_block` code `{% block body_block %}{% endblock %}`.
+- We stripped out all the non-essential demo content from the original HTML page, and replaced it with the Rango `body_block` code -- most importantly including the start and end statements for the `body_block` (`{% block body_block %}{% endblock %}`).
 - We set the `<title>` element of the page to fit with what we worked on earlier: `<title>{% block title_block %}How to Tango with Django!{% endblock %}</title>`
 - We changed `project name` to be `Rango`.
 - We added the links to the index page, login page, register page and so forth to the navigation bar at the top.
-- We added in a side block from earlier in the tutorial, `{% block sidebar_block %}{% endblock %}`
-- Finally, we added in `{% load staticfiles %}`  and `{% load rango_template_tags %}` after the `DOCTYPE` tag to ensure all the necessary imports are present and correct.
+- We added in a side block from earlier in the tutorial, by adding in a block once more -- `{% block sidebar_block %}{% endblock %}`
+- Finally, we added in two Django templating language `load` statements (`{% load staticfiles %}` and `{% load rango_template_tags %}`) after the `DOCTYPE` declaration tag to ensure all the necessary imports are present and correct.
 
 We appreciate that this all seems rather hacky -- and to some extent it is -- but the main point of this exercise is to provide a consistent style to the application and learn by experimenting with the CSS. Taking an off-the-shelf example gets us up and running quickly so we can focus on adapting it for use with Rango.
 
@@ -202,7 +202,9 @@ This doesn't visually appear to change the look and feel, but it informs the too
 -->
 
 ### Sidebar Categories
-One thing that we could improve is the way that the categories on the sidebar to the left appear. They look pretty basic at the moment, so let's make them look nicer! If we first take a look at the HTML source code for the example [Bootstrap dashboard page](https://getbootstrap.com/docs/4.2/examples/dashboard/), we notice that a few [*classes*](https://www.w3schools.com/cssref/sel_class.asp) have been added to the `<ul>` *(unordered list)* and `<li>` *(list item)* tags to denote that they are navigation items (`nav-item`) and navigation links (`nav-link`) respectively. Let's apply these classes to our `rango/categories.html` template. Refactor the file to look like the example below. Note that the logic and basic structure stays the same -- we just add classes and some supplementary tags to make things look nicer.
+One thing that we could improve is the way that the categories on the sidebar to the left appear. They look pretty basic at the moment, so let's make them look nicer! If we first take a look at the HTML source code for the example [Bootstrap dashboard page](https://getbootstrap.com/docs/4.2/examples/dashboard/), we notice that a few [*classes*](https://www.w3schools.com/cssref/sel_class.asp) have been added to the `<ul>` *(unordered list)* and `<li>` *(list item)* tags to denote that they are navigation items (`nav-item`) and navigation links (`nav-link`) respectively.
+
+Let's apply these classes to our `rango/categories.html` template. Refactor the file to look like the example below. Note that the logic and basic structure stays the same -- we just add classes and some supplementary tags to make things look nicer.
 
 {lang="html",linenos=on}
 	<ul class="nav flex-column">
@@ -230,7 +232,7 @@ One thing that we could improve is the way that the categories on the sidebar to
 Rather than using `<strong>` to show what category page has been selected, we have added the `active` class to the currently shown category. We can also add in a `feather-icon` using the `<span data-feather="archive">` tag. Here, we chose the `archive` icon, but there are loads of icons you can choose from instead. Have a look at the [Feather Icons website](https://feathericons.com/) for a list.
 
 ### The Index Page
-For the index page, it would be nice to show the top categories and top pages in two separate columns, with the title kept at the top. This would be a much better use of screen real estate!
+For the index page, it would be nice to show the top categories and top pages in two separate columns, with the title kept at the top. This would be a much better use of your screen's real estate!
 
 If we go back to the Bootstrap examples, we can see that [Jumbotron](https://getbootstrap.com/docs/4.2/examples/jumbotron/) example provides a neat header element that we can put our title message in. To use that, we update our `index.html` template to incorporate the following, replacing the existing header message markup (including the existing `<h1>` tag and corresponding `<div>` immediately underneath).
  
@@ -310,7 +312,7 @@ After you have successfully added the jumbotron, we can move on to the two-colum
  
 Once you have updated the template, reload the page -- it should look a lot better now, but the way the list items are presented is not the best. Once again, it looks pretty basic. Surely we can make it look even better!
 
-Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how the links look. We can do this quite easily by changing the two `<ul>` elements to `<ul class="list-group">` and each of the `<li>` elements that we just added to `<li class="list-group-item">`. Once you have completed these steps, reload the index page. How does it look now? It should similar to [the figure below](#fig-bootstrap-styled-index).
+Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how the hyperlinks are presented. We can do this quite easily by changing the two `<ul>` elements to `<ul class="list-group">` and each of the `<li>` elements that we just added to `<li class="list-group-item">`. Once you have completed these steps, reload the index page. How does it look now? It should similar to [the figure below](#fig-bootstrap-styled-index).
 
 {id="fig-bootstrap-styled-index"}
 ![The updated Rango index page, after applying both the jumbotron and two-column layout. How much better does it look now?](images/ch12-bootstrap-styled-index.png)
@@ -398,7 +400,7 @@ X> ### Category Form Style Exercise
 X> Create a similar template for the *Add Category* template, located at `rango/add_category.html`.
 
 ###The Registration Template
-Finally, let's tweak the registration template. Open the `templates/registration/registration_form.html` template. Once you have the file open, we can update the markup inside the `body_block` as follows. Make sure you keep the existing jumbotron you added earlier as part of an exercise!
+Finally, let's tweak the registration template. Open the registration form template, located at `templates/registration/registration_form.html`. Once you have the file open, we can update the markup inside the `body_block` as follows. Make sure you keep the existing jumbotron you added earlier as part of an exercise!
 
 {lang="python",linenos=off}
 	<div class="container">
@@ -442,7 +444,7 @@ Finally, let's tweak the registration template. Open the `templates/registration
 	</div>
 	</div>
 
-Once again, we have manually transformed the form created by the `{{ form.as_p }}` method call, and added the various bootstrap classes to the manual form.
+Once again, we have transformed the form created by the `{{ form.as_p }}` method call, and added the various bootstrap classes to the manual form.
 
 W> ### Bootstrap, HTML and Django Kludge
 W> This is not the best solution -- we have kind of mushed things together.
