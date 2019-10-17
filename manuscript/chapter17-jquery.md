@@ -62,7 +62,7 @@ You should, of course, remove the `alert()` function call once you have seen it 
 I> ### Select and Act Pattern
 I> JQuery requires you to think in a more *functional* programming style, as opposed to typical JavaScript which is written in a more *procedural* way. For all JQuery commands, they follow a similar pattern: **Select and Act**. Select an element, and then perform some kind of action on/with the element.
 
-### On Click
+### Acting on Mouse Clicks
 In the previous example, we executed the `alert()` function call when the page had been loaded, and everything was ready to go. This is based upon an *event* being fired internally within the browser -- but what about trying different events? In this section, we'll work on a more concrete example making use of user interactions.
 
 The goal of this simple exercise will be to add a button to Rango's `about.html` template and show you how events are bound to different elements of a page. When the user clicks the button, a popup alert appears. We will, of course, need to work with the `about.html` template and the new `rango-jquery.js` static JavaScript file.
@@ -75,7 +75,7 @@ Within the `about.html` template, let's first add a button that achieves what we
 	    Click me - I run on vanilla JavaScript!
 	</button>
 
-With this code in place, navigate to the about page in your browser. You should see a blue button underneath your image. Click it, and you will be greeted with a popup box with the message `You clicked the button using inline JavaScript.`. What happens with this markup is we use the `onclick` attribute that is present for HTML elements -- and add some simple JavaScript code within it. This binds the code you provide to the event for when a user clicks on the element within the DOM -- in this case, the `button`. When the user clicks, the code is executed. [HTML has heaps of different attributes](https://www.w3schools.com/tags/ref_eventattributes.asp) used for assigning code to different events.
+With this code in place, navigate to the about page in your browser. You should see a blue button underneath your image. Click it, and you will be greeted with a popup box with the message `'You clicked the button using inline JavaScript.'`. What happens with this markup is we use the `onclick` attribute that is present for HTML elements -- and add some simple JavaScript code within it. This binds the code you provide to the event for when a user clicks on the element within the DOM -- in this case, the `button`. When the user clicks, the code is executed. [HTML has heaps of different attributes](https://www.w3schools.com/tags/ref_eventattributes.asp) used for assigning code to different events.
 
 However, is embedding code within a template a neat solution? We argue no. By incorporating code within your markup, you are adding code *inline.* This violates the principle of separation of concerns. Templates should contain presentational aspects only. Code should be placed in a separate location, such as the `rango-jquery.js` file.
 
@@ -101,7 +101,7 @@ Reload the page, and try things out. Hopefully, you will see that when you click
 
 Like the JQuery code that we tried earlier on, our code sample above starts by selecting the `document` object and includes a function that is only executed when the page has been loaded (i.e. `ready()`). Within this anonymous function, we then *select* the `about-btn` element (by a unique identifier, as instructed to by prepending the ID with a `#`). A further anonymous function is bound to the event when the element with ID `about-btn` is *clicked* (`click()`) -- and this function contains a further call to the `alert()` function that displays a popup box to the user.
 
-For more complex functions, this approach is much more desirable as the JavaScript/JQuery code is maintained in a separate file to the template. Here, we programmatically assign the event to a handler at *runtime,* rather than *statically* within the HTML markup. Therefore, this achieves separation of concerns between the JavaScript/JQuery code and the HTML markup.
+For more complex functions, this approach is much more desirable. Why? The JavaScript/JQuery code is maintained in a separate file to the template. Here, we programmatically assign the event to a handler at *runtime,* rather than *statically* within the HTML markup. Therefore, this achieves separation of concerns between the JavaScript/JQuery code and the HTML markup.
 
 T> ### Keep things Separated
 T> [Separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) is a design principle that is good to keep in mind. In terms of web apps, the HTML is responsible for the page content. CSS is used to style the presentation of the content. Finally, JavaScript is responsible for how the user can interact with the content -- as well as programmatically manipulating the page's content and style.
@@ -170,7 +170,7 @@ Once you have added this new element, jump to the `rango-jquery.js` file and add
 	    $("#msg").html(msgStr)
 	});
 
-When the element that matches the selection of `#about-btn` (i.e. your second button) is clicked, we first get the HTML markup inside the element selected by `#msg` by using the `html()` function call. As this is then simply a string, we append ` ooo, fancy!` to the end, and then set the `html()` of the `msg` element to the new value, stored within `msgStr`.
+When the element that matches the selection of `#about-btn` (i.e. your second button) is clicked, we first get the HTML markup inside the element selected by `#msg` by using the `html()` function call. As this is then simply a string, we append `' ooo, fancy!'` to the end, and then set the `html()` of the `msg` element to the new value, stored within `msgStr`.
 
 ## Debugging Hints
 One thing that often throws beginners is how to figure out what is going wrong with your JavaScript code! You'll most likely encounter an error, but your browser is very good at hiding the error! This is by design -- would a typical user want to be greeted with heaps of JavaScript errors? We highly doubt it!
