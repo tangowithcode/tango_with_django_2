@@ -172,7 +172,9 @@ This text-wrapping application was explained in the [text colours section](#sect
 
 {lang="html",linenos=off}
 	<div>
-	    This is some text wrapped within a block-level element. <span class="red">This text is wrapped within an inline element!</span> But this text isn't.
+	    This is some text wrapped within a block-level element.
+	    <span class="red">This text is wrapped within an inline element!</span>
+	    But this text isn't.
 	</div>
 
 Refer back to the [nested blocks figure above](#image-css-nesting-blocks) to refresh your mind about what you can and cannot nest before you move on.

@@ -114,7 +114,7 @@ Check out the following example of a `.gitignore` file:
 In this example `.gitignore` file, there are six entries -- one on each line. We detail each of the entries below.
 
 - The first entry prompts Git to ignore any file with an extension of `.pyc` -- the wildcard `*` denoting *anything.* A `.pyc` file is a [bytecode representation of a Python module](https://stackoverflow.com/a/2998228), something that Python creates for modules to speed up execution. These can be safely ignored when committing to version control.
-- The second entry, `.DS_Store`, is a hidden file created by macOS systems. These files contain custom attributes that you unknowingly set when browsing through your filesystem using the Finder app. Custom attributes may, for example, represent the position of icons, or the view that you use to show your files in a given directory.
+- The second entry, `.DS_Store`, is a hidden file created by macOS systems. These files contain custom attributes that you set when browsing through your filesystem using the Finder. Custom attributes may, for example, represent the position of icons, or the view that you use to show your files in a given directory.
 - The third entry represents any directory of the name `__pycache__`. This directory is new to Python 3, and is where the [bytecode representation](https://stackoverflow.com/a/16869074) of your modules live. Again, these directories can be safely ignored.
 - `db.sqlite3` is your database. Read the note below for a detailed explanation on why this should always be excluded from your repository.
 - `*.key` is the fifth entry. This represents any file with the extension `key`, a convention we use where files with this extension contain sensitive information -- like keys for API authentication. These should never be committed -- doing so would be the equivalent of publicly sharing your password!
@@ -289,7 +289,7 @@ Rolling back your workspace to a previous commit involves two steps: determining
 
 From this list, you can choose a commit to rollback to. For the selected commit, you must take the commit hash -- the long string of letters and numbers. To demonstrate, the top (or `HEAD`) commit hash in the example output above is `88f41317640a2b62c2c63ca8d755feb9f17cf16e`. You can select this in your terminal and copy it to your computer's clipboard.
 
-With your commit hash selected, you can now rollback your workspace to the previous revision. You can do this with the `git checkout` command. The following example command would rollback to the commit with hash `88f41317640a2b62c2c63ca8d755feb9f17cf16e`.
+With your commit hash selected, you can now rollback your workspace to the previous revision. You can do this with the `git checkout` command. The following example command would rollback to the commit with the aforementioned hash.
 
 {lang="text",linenos=off}
     $ git checkout 88f41317640a2b62c2c63ca8d755feb9f17cf16e .
