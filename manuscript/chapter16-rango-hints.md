@@ -450,7 +450,7 @@ T> ### Mapping the `IndexView`
 T> When you create a class-based view for your old `index()` view, be wary that you will have mapped it in both Rango's `urls.py` module *and your project's `urls.py` module, too!*
 
 T> ### Passing URL parameters
-T> Some URL mappings in Rango have parameters. For example, you created such a mapping with the `category_name_slug` parameter for the `show_category()` view. You'll need to make sure that all of the methods within a class-based approach for one of these views contain not only the `self` and `request` parameters but the one or more URL parameters, too. In the example above, a `get()` method definition may look like the example below.
+T> Some URL mappings in Rango have parameters. For example, you created such a mapping with the `category_name_slug` parameter for the view `show_category()` earlier on. You'll need to make sure that all of the methods within a class-based approach for one of these views contain not only the `self` and `request` parameters but the one or more URL parameters, too. In the example above, a `get()` method definition may look like the example below.
 T>
 T> {lang="python",linenos=off}
 T> 	class ShowCategoryView(View):
@@ -604,7 +604,7 @@ We then need to map our new `ProfileView` to a URL. This involves editing Rango'
 {lang="python",linenos=off}
 	path('profile/<username>/', views.ProfileView.as_view(), name='profile'),
 
-Note the inclusion of a `username` variable which is matched to anything after `/profile/`. This means that the URL `/rango/profile/maxwelld90/` would have a `username` of `maxwelld90`. This is in turn passed to the `get()` or `post()` methods in our class-based view as parameter `username`. This is how we are able to determine what user has been requested.
+Note the inclusion of a `username` variable -- this matches to anything after `/profile/`. This means that the URL `/rango/profile/maxwelld90/` would have a `username` of `maxwelld90`. This is in turn passed to the `get()` or `post()` methods in our class-based view as parameter `username`. This is how we are able to determine what user has been requested.
 
 ### Tweaking the Base Template
 Everything should be now working as expected -- but how can users access the new functionality? We can provide a link by modifying Rango's `base.html` template. Find the series of `<li>` elements that you created earlier in the book that comprise the navigation bar. Add a new link to allow users to jump to their `Profile` -- ensuring that this link is *only visible when a user is logged in (authenticated).* If that is the case, what template conditional statement does the following link need to be placed within?
