@@ -225,6 +225,7 @@ X> - Update the `Page` model to set this value on creation to the current date a
 X> - Update the `GotoView` to update the field when the page is clicked.
 X>
 X> Once you have completed these tasks, implement some tests.
+X> 
 X> - Add in a test to ensure that `last_visit` is not in the future.
 X> - Add in a test to ensure that `last_visit` is updated when a page is requested.
 
