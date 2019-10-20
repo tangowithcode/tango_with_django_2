@@ -195,7 +195,7 @@ By default, when you install software for Python, it is installed *system-wide*.
 
 The solution to this is to use a *virtual environment*. Using a virtual environment, each different piece of software that you wish to run can be given its environment, and by definition, its set of installed dependencies. If you have `ProjectA` requiring Django 1.11 and `ProjectB` requiring Django 2.1, you could create a virtual environment for each with their packages installed.
 
-The four basic commands one would use to manipulate virtual environments are listed below.
+The five basic commands one would use to manipulate virtual environments are listed below.
 
 * `mkvirtualenv <name>` creates and activates a new virtual environment of name `<name>`.
 * `workon <name>` switches on a virtual environment of name `<name>`.
