@@ -25,7 +25,7 @@ W>
 W> One of the classic examples of the disagreement between browsers in terms of interpreting standards is Microsoft's *Internet Explorer*. If you want to know more, have a [look here](https://www.456bereastreet.com/archive/200612/internet_explorer_and_the_css_box_model/). Thankfully, Microsoft's modern browser, *Edge*, is much more standards-compliant.
 
 ## Including Stylesheets
-Including stylesheets in your webpages is a relatively straightforward process, and involves including a `<link>` tag within your HTML's `<head>`. Check out the minimal HTML markup sample below for the attributes required within a `<link>` tag.
+Including stylesheets in your webpages is a relatively straightforward process, and involves including a `<link>` tag within your page's `<head>` tag. Check out the minimal HTML markup sample below for the attributes required within a `<link>` tag.
 
 {lang="html",linenos=off}
 	<!DOCTYPE html>
@@ -46,7 +46,7 @@ As can be seen from above, there are at minimum three attributes that you must s
 -   `type`, in which you should specify the [MIME type](http://en.wikipedia.org/wiki/Internet_media_type) for CSS; and
 -   `href`, the attribute which you should point to the URL of the stylesheet you wish to include.
 
-With this tag added, your stylesheet should be included with your HTML page, and the styles within the stylesheet applied to elements within the page. It should be noted that CSS stylesheets are considered as a form of [static media](#section-templates-static-static), meaning you should place them within your project's `static` directory.
+With this tag added, your stylesheet should be included with your HTML page, and the styles within the stylesheet applied to elements within the page. You should be aware that CSS stylesheets are considered as a form of [static media](#section-templates-static-static), meaning you should place them within your project's `static` directory.
 
 I> ### Inline CSS
 I> You can also add CSS to your HTML documents *inline*, meaning that the CSS is included as part of your HTML page. However, this isn't generally advised because it removes the abstraction between presentational semantics (CSS) and content (HTML).
@@ -81,7 +81,7 @@ The value you specify for `font-family` can be a *list* of possible fonts -- and
 	    font-family: 'Arial', 'Helvetica', sans-serif;
 	}
 
-In 1996, Microsoft started the [core fonts for the web](http://en.wikipedia.org/wiki/Core_fonts_for_the_Web) initiative to guarantee a particular set of fonts to be present on all computers. However, you can today use pretty much any font you like -- check out [Google Fonts](http://www.google.com/fonts) for examples of the fonts that you can use and [this W3Schools article](https://www.w3schools.com/howto/howto_google_fonts.asp) on how to use such fonts.
+In 1996, Microsoft started the [core fonts for the web](http://en.wikipedia.org/wiki/Core_fonts_for_the_Web) initiative to guarantee a particular set of fonts to be present on all computers. However, you can today use pretty much any font you like -- check out [Google Fonts](http://www.google.com/fonts) for examples of fonts that you can use, and [this W3Schools article](https://www.w3schools.com/howto/howto_google_fonts.asp) on how to use such fonts. Always make sure you comply with licencing agreements when using fonts!
 
 ## Colours and Backgrounds
 Colours are important in defining the look and feel of your website. You can change the colour of any element within your webpage, ranging from background colours to borders and text. In this book, we make use of words and *hexadecimal colour codes* to choose the colours we want. As you can see from the list of basic colours shown in the [figure below](#image-css-colours), you can supply either a *hexadecimal* or *RGB (red-green-blue)* value for the colour you want to use. You can also [specify words to describe your colours](https://www.w3schools.com/colors/colors_names.asp), such as `green`, `yellow` or `blue`.
@@ -112,7 +112,10 @@ To change the colour of text within an element, you must apply the `color` prope
 	    color: #FF0000;
 	}
 
-You can alter the presentation of a small portion of text within your webpage by wrapping the text within `<span>` tags. Assign a class or unique identifier to the element, and from there you can simply reference the `<span>` tag in your stylesheet while applying the `color` property.
+You can alter the presentation of a small portion of text within your webpage by wrapping the text within `<span>` tags. Assign a class or unique identifier to the element, and from there you can simply reference the `<span>` tag in your stylesheet while applying the `color` property. In the example markup below, the text `fire engine` would appear in red, using the `red` class defined above.
+
+{lang="html",linenos=off}
+	I saw a police car, <span class="red">fire engine</span> and ambulance drive past me.
 
 ### Borders
 You can change the colour of an element's *borders*, too. We'll discuss what borders are discussed as part of the [CSS box model](#section-css-box). For now, we'll show you how to apply colours to them to make everything look pretty.
@@ -145,17 +148,17 @@ Of course, specifying a colour isn't the only way to change your backgrounds. Yo
 	    background-color: #000000;
 	}
 
-The example above makes use of `filename.png` as the background image for the element with the identifier `some-unique-element`. The path to your image is specified *relative to the path of your CSS stylesheet*. Our example above uses the [double dot notation to specify the relative path](http://programmers.stackexchange.com/a/186719) to the image. We also apply a black background colour to fill the gaps left by our background image -- it may not fill the entire size of the element.
+The example above makes use of `filename.png` as the background image for the element with the identifier `some-unique-element`. The path to your image is specified *relative to the path of your CSS stylesheet, not the webpage itself*. Our example above uses the [double dot notation to specify the relative path](http://programmers.stackexchange.com/a/186719) to the image. We also apply a black background colour to fill the gaps left by our background image -- it may not fill the entire size of the element.
 
 I> ### Background Image Positioning
-I> By default, background images default to the top-left corner of the relevant element and are repeated on both the horizontal and vertical axes. You can customise this functionality by altering [how the image is repeated](https://www.w3schools.com/cssref/pr_background-repeat.asp) with the `background-image` property. You can also specify [where the image is placed](https://www.w3schools.com/cssref/pr_background-position.asp) by default with the `background-position` property.
+I> By default, background images default to the top-left corner of the relevant element and are repeated on both the horizontal and vertical axes. You can customise this functionality by altering [how the image is repeated](https://www.w3schools.com/cssref/pr_background-repeat.asp) with the `background-image` property. You can also specify [where the image is placed](https://www.w3schools.com/cssref/pr_background-position.asp) with the `background-position` property.
 
 ## Containers, Block-Level and Inline Elements
 Throughout the crash course thus far, we've introduced you to the `<span>` element but have neglected to tell you what it is. All will become clear in this section as we explain *inline* and *block-level* elements.
 
 A `<span>` is considered to be a so-called *container element*. Along with a `<div>` tag, these elements are themselves meaningless and are provided only for you to *contain* and *separate* your page's content in a logical manner. For example, you may use a `<div>` to contain markup related to a navigation bar, with another `<div>` to contain markup related to the footer of your webpage. Alternatively, you could use the `<nav>` and `<footer>` container elements! As containers themselves are meaningless, styles are usually applied to help control the presentational semantics of your webpage.
 
-Containers come in two flavours: *block-level elements* and *inline elements*. Check out the [figure below](#image-css-nesting-blocks) for an illustration of the two kinds in action, and read on for a short description of each.
+Containers come in two kinds: *block-level elements* and *inline elements*. Check out the [figure below](#image-css-nesting-blocks) for an illustration of the two kinds in action, and read on for a short description of each.
 
 {#image-css-nesting-blocks}
 ![Diagram demonstrating how block-level elements and inline elements are rendered by default. With block-level elements as green, note how a line break is taken between each element. Conversely, inline elements can appear on the same line beside each other. You can also nest block-level and inline elements within each other, but block-level elements cannot be nested within an inline element.](images/css-nesting-blocks.png)
@@ -180,12 +183,12 @@ This text-wrapping application was explained in the [text colours section](#sect
 Refer back to the [nested blocks figure above](#image-css-nesting-blocks) to refresh your mind about what you can and cannot nest before you move on.
 
 I> ### The CSS `display` Property
-I> The [`display` property of CSS](https://www.w3schools.com/cssref/pr_class_display.asp) allows you to change the behaviour of a container. For example, `display: block;` can be set on a `<span>` element to change it to block-level!
+I> The [`display` property of CSS](https://www.w3schools.com/cssref/pr_class_display.asp) allows you to change the behaviour of a container. For example, `display: block;` can be set on a `<span>` element to change it to `block` level. By default, it would behave as an `inline` element.
 
 ## Basic Positioning
 An important concept that we have not yet covered in this CSS crash course regards the positioning of elements within your webpage. Most of the time, you'll be satisfied with inline elements appearing alongside each other, and block-level elements appearing underneath each other. These elements are said to be *positioned statically*.
 
-However, there will be scenarios where you require a little bit more control on where everything goes. In this section, we'll briefly cover three important techniques for positioning elements within your webpage: *floats*, *relative positioning* and *absolute positioning*.
+However, there will be scenarios where you require a little bit more control on where everything goes. In this section, we'll briefly cover three important techniques for positioning elements on your webpage: *floats*, *relative positioning* and *absolute positioning*.
 
 ### Floats
 CSS *floats* are one of the most straightforward techniques for positioning elements within your webpage. Using floats allows us to position elements to the left or right of a particular container -- or page.
@@ -403,7 +406,7 @@ Like with relative positioning, this has no overall effect on the positioning of
 {id="fig-css-ex11"}
 ![](images/css-ex11.png)
 
-Wow, what happened here? Our red element is now positioned outside of our container! You'll note that if you run this code within your web browser window, the red element appears in the top left-hand corner of the viewport. Therefore, this means that our `top`, `bottom`, `left` and `right` properties take on a slightly different meaning when absolute positioning is concerned.
+Wow, what happened here? Our red element is now positioned outside of our container! You'll note that if you run this code within your web browser window, the red element appears in the top left-hand corner of the viewport. This therefore means that when applying `top`, `bottom`, `left` and `right` properties to an element with `absolute` positioning, it is positioned absolutely **within the viewport** -- with *(0,0)* at the top left.
 
 As our container element's position is by default set to `position: static`, the red and yellow elements are moving to the top left and bottom right of our screen respectively. Let's now modify our `.yellow` class to move the yellow `<span>` to 5 pixels from the bottom right-hand corner of our page. The `.yellow` class now looks like the example below.
 
@@ -421,7 +424,7 @@ This produces the following result.
 {id="fig-css-ex12"}
 ![](images/css-ex12.png)
 
-But what if we don't want our elements to be positioned absolutely with respect to the entire page? More often than not, we'll be looking to adjusting the positioning of our elements with respect to a container. If we recall our definition for absolute positioning, we will note that absolute positions are calculated *relative to the first parent element that has a position value other than static.* As our container is the only parent for our two `<span>` elements, the container to which the absolutely positioned elements is therefore the `<body>` of our HTML page. We can fix this by adding `position: relative` to our `.container` class, just like in the example below.
+But what if we don't want our elements to be positioned absolutely with respect to the entire page? More often than not, we'll be looking to adjusting the positioning of our elements with respect to a container. If we recall our definition for absolute positioning, we will note that absolute positions are calculated *relative to the first parent element that has a position value other than static.* As our container is the only parent for our two `<span>` elements, the container to which the absolutely positioned elements is therefore the `<body>` of our HTML page. We can change this by adding `position: relative` to our `.container` class, just like in the example below.
 
 {lang="css",linenos=off}
 	.container {
