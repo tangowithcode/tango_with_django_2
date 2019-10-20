@@ -1,8 +1,5 @@
 #A CSS Crash Course {#chapter-css}
-In web development, we use *Cascading Style Sheets (CSS)* to describe the presentation of an HTML document (i.e. its look and feel). Each element within an HTML document can be *styled*. The CSS for a given HTML element describes how it is to be rendered on screen. This is done by ascribing *values* to the different *properties* associated with an element. For example, the `font-size` property could be set to `24pt` to make any text contained within the specified HTML element to appear at 24pt. We could also set the `text-align` property to a value of `right` to make text appear within the HTML element on the right-hand side.
-
-I> ### This Chapter
-I> It's worth noting that this chapter is supplementary material to the main tutorial. We use the Twitter [Bootstrap CSS toolkit](#chapter-bootstrap) to do most of the styling for us in a later chapter of the tutorial -- this crash course serves as a very basic introduction to what is going on under the hood of Bootstrap!
+In web development, we use *Cascading Style Sheets (CSS)* to describe the presentation of an HTML document (i.e. its look and feel). Each element within an HTML document can be *styled*. The CSS for a given HTML element describes how it is to be rendered on screen. This is done by ascribing *values* to the different *properties* associated with an element to change its appearance. In this chapter, we'll be introducing you to the basics of CSS -- and how you can manipulate the elements that appear on your webpages. Consider the material in this chapter supplementary to the main book; we use the Twitter [Bootstrap CSS toolkit](#chapter-bootstrap) to do most of the styling for us in an [earlier chapter](#chapter-bootstrap).
 
 I> ### CSS Properties
 I> There are many, many different CSS properties that you can use in your stylesheets. Each provides different functionality. Check out the [W3C website](https://www.w3.org/Style/CSS/all-properties.en.html) for a huge list of available properties. [pageresource.com](http://www.pageresource.com/dhtml/cssprops.htm) also has a neat list of properties, with descriptions of what each one does. Check out Section css-course-reading-label for a more comprehensive set of links.
@@ -17,7 +14,7 @@ CSS works by following a *select and apply pattern*. For a specified element, a 
 With all of these properties applied, the resultant page render can be seen in the browser as shown in the figure below.
 
 {#image-css-render}
-![Illustration demonstrating the rendered output of the sample HTML markup and CSS stylesheet shown. Pay particular attention to the CSS example -- the colours are used to demonstrate the syntax used to define styles and the property/value pairings associated with them.](images/css-render.png)
+![](images/css-render.png)
 
 W> ### What you see is what you *(may or may not)* get
 W> Due to the nature of web development, *what you see isn't necessarily what you'll get*. This is because different browsers have their way of interpreting [web standards](http://en.wikipedia.org/wiki/Web_standards) and so the pages may be rendered differently. Unfortunately, this quirk can lead to plenty of frustration, but today's modern browsers (or developers) are much more in agreement as to how different components of a page should be rendered compared to those of the past. Thank goodness!
