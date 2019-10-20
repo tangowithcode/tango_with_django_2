@@ -21,7 +21,7 @@ Using a version control system makes your life easier in *all* of the above case
 We missed one final (and important) argument for using version control. With ever more complex problems to solve, your software projects will undoubtedly contain a large number of files containing source code. It'll also be likely that you *aren't working alone on the project; your project will probably have more than one contributor.* In this scenario, it can become difficult to avoid conflicts when working on files. 
 
 ## How Git Works
-Essentially, Git comprises of four separate storage locations: your **workspace**, the **local index**, the **local repository** and the **remote repository**. As the name may suggest, the remote repository is stored on some remote server and is the only location stored on a computer other than your own. This means that there are two copies of the repository -- your local copy, and the remote copy. Having two copies is one of the main selling points of Git over other version control systems. You can make changes to your local repository when you may not have Internet access, and then apply any changes to the remote repository at a later stage. Only once changes are made to the remote repository can other contributors see your changes.
+Essentially, Git is comprised of four separate storage locations: your **workspace**, the **local index**, the **local repository** and the **remote repository**. As the name may suggest, the remote repository is stored on some remote server and is the only location stored on a computer other than your own. This means that there are two copies of the repository -- your local copy, and the remote copy. Having two copies is one of the main selling points of Git over other version control systems. You can make changes to your local repository when you may not have Internet access, and then apply any changes to the remote repository at a later stage. Only once changes are made to the remote repository can other contributors see your changes.
 
 D> ### What is a Repository?
 D> We keep repeating the word *repository*, but what do we mean by that? When considering version control, a repository is a data structure which contains metadata (a set of data that describes other data, hence *meta*) concerning the files which you are storing within the version control system. The kind of metadata that is stored can include aspects such as the historical changes that have taken place within a given file so that you have a record of all changes that take place.
@@ -77,7 +77,7 @@ If all is successful, you'll see some text like the example shown below.
 	Receiving objects: 100% (354/354), 1.11 MiB | 1.78 MiB/s, done.
 	Resolving deltas: 100% (217/217), done.
 
-If the output lines end with `done`, everything should have worked. Check your filesystem to see if the directory has been created.
+If the output lines end with `done`, everything should have worked. Check your filesystem to see if the directory has been created by running `$ ls` -- is the directory now listed?
 
 T> ### Not using GitHub?
 T> Many websites provide Git repositories -- some free, some paid. While this chapter uses GitHub, you are free to use whatever service you wish. Other providers include [Atlassian Bitbucket](https://bitbucket.org/) and [Unfuddle](https://unfuddle.com/). You will have to change the URL from which you clone your repository if you use a service other than GitHub.
@@ -165,9 +165,7 @@ E> ### Getting an Error?
 E> If you receive `fatal: Not a git repository (or any of the parent directories): .git`, you're not in the correct directory. You need `cd` to your local repository directory -- the one in which you cloned your repository to. **The majority of Git commands only work when you're in a Git repository.**
 
 T> ### Pull before you Push!
-T> Always `git pull` on your local copy of your repository before you begin to work. **Always!**
-T>
-T> Before you are about to push, do another pull.
+T> Always `git pull` on your local copy of your repository before you begin to work. **Always!** Before you are about to `push`, do another `pull` to ensure you have the latest changes.
 T>
 T> Remember to talk to your team to coordinate your activity so you are not working on the same files, or use [*branching*](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging) to keep things separate. Branching will then at some point involve merging back to a single branch.
 
@@ -176,7 +174,7 @@ Once your workspace has been cloned or updated with the latest changes, it's tim
 
 When you modify your repository in any way, you need to keep Git up-to-date of any changes you make -- this does not take place automatically. Telling Git what has changed allows you to keep your local index updated. The list of files stored within the local index is then used to perform your next *commit*, which we'll be discussing in the next step. To keep Git informed, several Git commands let you update the local index. Three of the commands are near identical to those that were discussed in the [Unix Crash Course](#section-unix-commands) (e.g. `cp`, `mv`), save for the addition of a `git` prefix.
 
-* The first command `git add` allows you to request Git to add a particular file to the next commit for you. A common newcomer mistake is to assume that `git add` is used for adding new files to your repository only -- *this is not the case. You must tell Git what modified files you wish to commit, too.* The command is invoked by typing `git add <filename>`, where `<filename>` is the name of the file you wish to add to your next commit. Multiple files and directories can be added with the command `git add .` -- [**but be careful with this**](http://stackoverflow.com/a/16969786).
+* The first command `git add` allows you to request Git to add a particular file to *staging* for the next commit. For any file that you wish to include in version control -- whether it is new or updated, you must `git add` it. The command is invoked by typing `git add <filename>`, where `<filename>` is the name of the file you wish to add to your next commit. Multiple files and directories can be added with the command `git add .` -- [**but be careful with this**](http://stackoverflow.com/a/16969786).
 * `git mv` performs the same function as the Unix `mv` command -- it moves files. The only difference between the two is that `git mv` updates the local index for you before moving the file. Specify the filename with the syntax `git mv <current_filename> <new_filename>`. For example, with this command, you can move files to a different directory within your repository. This will be reflected in your next commit. The command is also used to rename files -- from the current filename to the new.
 * `git cp` allows you to make a copy of a file or directory while adding references to the new files into the local index for you. The syntax is the same as `git mv` above where the filename or directory name is specified thus: `git cp <current_filename> <copied_filename>`.
 * The command `git rm` adds a file or directory delete request into the local index. While the `git rm` command does not delete the file straight away, the requested file or directory is removed from your filesystem and the Git repository upon the next commit. The syntax is similar to the `git add` command, where a filename can be specified thus: `git rm <filename>`. Note that you can add a large number of requests to your local index in one go, rather than removing each file manually. For example, `git rm -rf media/` creates delete requests in your local index for the `media/` directory. The `r` switch enables Git to *recursively* remove each file within the `media/` directory, while `f` allows Git to *forcibly* remove the files. Check out the [Wikipedia page](http://en.wikipedia.org/wiki/Rm_(Unix)) on the `rm` command for more information.
@@ -267,7 +265,7 @@ This section presents a solution to a coder's worst nightmare: what if you find 
 W> ### Changes may be Lost!
 W> You should be aware that this guide will rollback your workspace to a previous iteration. Any uncommitted changes that you have made will be lost, with a very slim chance of recovery! Be wary. If you are having a problem with only one file, you could always view the different versions of the files for comparison. Have a look [at this Stack Overflow page](http://stackoverflow.com/a/3338145) to see how to do that.
 
-Rolling back your workspace to a previous commit involves two steps: determining which commit to rollback to, and performing the rollback. To determine what commit to rollback to, you can make use of the `git log` command. Issuing this command within your workspace directory will provide a list of recent commits that you made, your name and the date at which you made the commit. Additionally, the message that is stored with each commit is displayed. This is where it is highly beneficial to supply commit messages that provide enough information to explain what is going on. Check out the following output from a `git log` invocation below to see for yourself.
+Rolling back your workspace to a previous commit involves two steps: determining which commit to rollback to, and performing the rollback. To determine what commit to rollback to, you can make use of the `git log` command. Issuing this command within your workspace directory will provide a list of recent commits that you made, your name and the date at which you made the commit. Additionally, the message that is stored with each commit is displayed. **This is why it is highly beneficial to supply commit messages that provide enough information to explain what you do at each commit!** Check out the following output from a `git log` invocation below to see for yourself.
 
 {lang="text",linenos=off}
     commit 88f41317640a2b62c2c63ca8d755feb9f17cf16e                 <- Commit hash
@@ -287,7 +285,7 @@ Rolling back your workspace to a previous commit involves two steps: determining
     Date:   Mon Jul 1 03:56:53 2019 -0700
         Initial commit
 
-From this list, you can choose a commit to rollback to. For the selected commit, you must take the commit hash -- the long string of letters and numbers. To demonstrate, the top (or `HEAD`) commit hash in the example output above is `88f41317640a2b62c2c63ca8d755feb9f17cf16e`. You can select this in your terminal and copy it to your computer's clipboard.
+From this list, you can choose a commit to rollback to. For the commit you want to rollback to, you must take the commit hash -- the long string of letters and numbers. To demonstrate, the top (or `HEAD`) commit hash in the example output above is `88f41317640a2b62c2c63ca8d755feb9f17cf16e`. You can select this in your terminal and copy it to your computer's clipboard.
 
 With your commit hash selected, you can now rollback your workspace to the previous revision. You can do this with the `git checkout` command. The following example command would rollback to the commit with the aforementioned hash.
 
