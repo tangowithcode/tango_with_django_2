@@ -182,4 +182,4 @@ T>
 T> In the example above, the prompt `david@seram:~` tells us our username (`david`), computer name (`seram`) and our current directory (`~`, or our home directory). After the `$`, we have entered the command `exit`, which, when executed, will close the terminal. As such, the command that you would actually type here would simply be `exit`. Refer to the [UNIX chapter for more information.](#chapter-unix)
 T> 
 T> Whenever you see `>>>`, the following is a command that should be entered into the interactive Python interpreter. This is launched by issuing `$ python`. See what we did there? Once inside the Python interpreter, you can exit it by typing `quit()` or `exit()`.
-
+T>

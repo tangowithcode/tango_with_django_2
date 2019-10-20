@@ -71,24 +71,25 @@ Once this has been added, a user who is logged into Rango should see a page simi
 ### Creating the Like Category View
 With the basics now laid out in Rango's `category.html`, let's turn our attention server-side and focus on implementing the view that will handle incoming requests for liking categories. Recall that in our overview, we stated that we'd make use of a `GET` request for liking categories. These requests would be serviced with URLs of the form `/rango/like_category/?category_id=1`. From these two requirements, our class-based view need only implement the `get()` method, with this method pulling the `category_id` querystring from the `GET` object.
 
-Our implementation is shown below. Remember, this code would live inside Rango's `views.py` module.
+Our implementation, shown below, would live inside Rango's `views.py` module.
 
 {lang="python",linenos=off}
-	@method_decorator(login_required)
-	def get(self, request):
-	    category_id = request.GET['category_id']
+	class LikeCategoryView(View):
+	    @method_decorator(login_required)
+	    def get(self, request):
+	        category_id = request.GET['category_id']
+	        
+	        try:
+	            category = Category.objects.get(id=int(category_id))
+	        except Category.DoesNotExist:
+	            return HttpResponse(-1)
+	        except ValueError:
+	            return HttpResponse(-1)
 	    
-	    try:
-	        category = Category.objects.get(id=int(category_id))
-	    except Category.DoesNotExist:
-	        return HttpResponse(-1)
-	    except ValueError:
-	        return HttpResponse(-1)
+	        category.likes = category.likes + 1
+	        category.save()
 	    
-	    category.likes = category.likes + 1
-	    category.save()
-	    
-	    return HttpResponse(category.likes)
+	        return HttpResponse(category.likes)
 
 Upon examination of the code above, you can see that we are only allowing users who are logged in to access this view -- hence the `@method_decorator(login_required)` decorator. We also implement some rudimentary error handling. If the user provides a category ID that does not exist, or the category ID supplied cannot be converted to an integer, `-1` is returned in the response. Otherwise, the `likes` attribute for the given category is incremented by one. The updated value is then returned by itself.
 
@@ -154,7 +155,7 @@ To implement this, we'll need to undertake the following steps.
 	- `max_results` will limit how many results to return. If `0` is specified, no limit is placed on how many categories are returned.
 	- `starts_with` will represent what the user has supplied so far. Imagine if the user is looking for `python`, a potential string being passed here could be `pyt` -- meaning that the user has supplied the first three characters of what they are looking for.
 2. A further view will need to be created. We'll call this `CategorySuggestionView`. This will again be class-based and will be accessed through the URL mapping `/rango/suggest/` (with a name of `suggest`). This view will take the user's suggestion, and will return a list of the top eight suggestions for what the user has provided.
-	- We will assume that this achieved through an HTTP `GET` request.
+	- We will assume that this is achieved through an HTTP `GET` request.
 	- We will check if the querystring provided to the view is empty. If it contains something, we'll call `get_category_list()` to get the top eight results for the supplied string.
 	- The results from `get_category_list()` will be munged together in an existing template, `categories.html`. This is what we used to display the category listing on the left-hand side of Rango's pages, through the custom template tag we implemented earlier.
 

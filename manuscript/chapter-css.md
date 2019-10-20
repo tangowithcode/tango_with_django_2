@@ -72,7 +72,7 @@ W> ### Ensure `id`s are Unique
 W> Try to use id selectors sparingly. [Ask yourself:](http://net.tutsplus.com/tutorials/html-css-techniques/the-30-css-selectors-you-must-memorize/) *do I need to apply an identifier to this element in order to target it?* If you need to apply a given set of styles to more than one element, the answer will always be **no**. In cases like this, you should use a class or element selector.
 
 ## Fonts
-Due to the huge number available, using fonts has historically been a pitfall when it comes to web development. Picture this scenario: a web developer has installed and uses a particular font on his or her webpage. The font is pretty arcane -- so the probability of the font is present on other computers is relatively small. A user who visits the developer's webpage subsequently sees the page rendered incorrectly as the font is not present on their system. CSS tackles this particular issue with the `font-family` property.
+Due to the huge number available, using fonts has historically been a pitfall when it comes to web development. Picture this scenario: a web developer has installed and uses a particular font on his or her webpage. The font is pretty arcane -- so the probability that the font is present on other computers is relatively small. A user who visits the developer's webpage subsequently sees the page rendered incorrectly as the font is not present on their system. CSS tackles this particular issue with the `font-family` property.
 
 The value you specify for `font-family` can be a *list* of possible fonts -- and the first one your computer or other device has installed is the font that is used to render the webpage. Text within the specified HTML element subsequently has the selected font applied. The example CSS shown below applies *Arial* if the font exists. If it doesn't, it looks for *Helvetica*. If that font doesn't exist, any available [sans-serif font](http://en.wikipedia.org/wiki/Sans-serif) is applied.
 
@@ -87,7 +87,7 @@ In 1996, Microsoft started the [core fonts for the web](http://en.wikipedia.org/
 Colours are important in defining the look and feel of your website. You can change the colour of any element within your webpage, ranging from background colours to borders and text. In this book, we make use of words and *hexadecimal colour codes* to choose the colours we want. As you can see from the list of basic colours shown in the [figure below](#image-css-colours), you can supply either a *hexadecimal* or *RGB (red-green-blue)* value for the colour you want to use. You can also [specify words to describe your colours](https://www.w3schools.com/colors/colors_names.asp), such as `green`, `yellow` or `blue`.
 
 W> ### Pick Colours Sensibly
-W> Take great care when picking colours to use on your webpages. If you select colours that don't contrast well, people simply won't be to read your text! There are many websites available that can help you pick out a good colour scheme -- try [colorcombos.com](http://www.colorcombos.com/) for starters.
+W> Take great care when picking colours to use on your webpages. If you select colours that don't contrast well, people simply won't be able to read your text! There are many websites available that can help you pick out a good colour scheme -- try [colorcombos.com](http://www.colorcombos.com/) for starters.
 W>
 W> There are even online tools that can check your website to make sure your design complies with accessibility standards. Check [this website](http://colorsafe.co/) for example.
 
@@ -277,7 +277,7 @@ Let's explain how this works. Consider our previous example where two `<span>` e
 	    border: 1px solid black;
 	}
 
-This produces the following result -- just as we would expect. Note that we have artificially increased the `height` of our `container` element to 150 pixels. This will allow us more room with which to play.
+This produces the following result -- just as we would expect. Note that we have artificially increased the `height` of our `container` element to 200 pixels. This will allow us more room with which to play.
 
 {id="fig-css-ex5"}
 ![](images/css-ex5.png)
@@ -463,7 +463,7 @@ Note that we also apply `float: right` to our `.red` element. This is to demonst
 ## The Box Model {#section-css-box}
 When using CSS, you're never too far away from using *padding*, *borders* and *margins*. These properties are some of the most fundamental styling techniques which you can apply to the elements within your webpages. They are incredibly important and are all related to what we call the *CSS box model.*
 
-Each element that you create on a webpage can be considered as a box. The [CSS box model](http://www.w3.org/TR/CSS2/box.html) is defined by the [W3C](http://www.w3.org/) as a formal means of describing the elements or boxes that you create, and how they are rendered in your web browser's viewport. Each element or box consists of *four separate areas*, all of which are illustrated in the [figure below](#image-css-box-model). The areas -- listed from inside to outside -- are the *content area*, the *padding area*, the *border area* and the *margin area*.
+Think of each element that you create on a webpage as having a surrounding box. The [CSS box model](http://www.w3.org/TR/CSS2/box.html) is defined by the [W3C](http://www.w3.org/) as a formal means of describing the elements or boxes that you create, and how they are rendered in your web browser's viewport. Each element or box consists of *four separate areas*, all of which are illustrated in the [figure below](#image-css-box-model). The surrounding box of an element can be split into three divisions, and these are (from inside to outside): the *padding area*, the *border area* and the *margin area*. The actual element itself (whether it be text or an image sits in the middle as the *content area*).
 
 {#image-css-box-model}
 ![An illustration demonstrating the CSS box model, complete with legend showing the four areas of the model.](images/css-box-model.png)
@@ -483,7 +483,7 @@ T> ### Borders and Padding
 T> If you find yourself working with elements that have a `border` and/or `padding`, working out precise widths can be hard. In a scenario where the widths are crucial, you might want to explore the [`box-sizing` property](https://www.w3schools.com/css/css3_box-sizing.asp) to better control widths and heights. Read the linked W3CSchools article for more information. This property has saved us on numerous occasions!
 
 ## Styling Lists
-Lists are everywhere. Whether you're reading a list of learning outcomes for a course or a reading a list of times for the train, you know what a list looks like and appreciate its simplicity. If you have a list of items on a webpage, why not use an HTML list? Using lists within your webpages promotes good HTML document structure, allowing text-based browsers, screen readers and other browsers that do not support CSS to render your page sensibly.
+Lists are everywhere. Whether you're reading a list of learning outcomes for a course, or reading a list of times for the train, you know what a list looks like and appreciate its simplicity. If you have a list of items on a webpage, why not use an HTML list? Using lists within your webpages promotes good HTML document structure, allowing text-based browsers, screen readers and other browsers that do not support CSS to render your page sensibly.
 
 Lists however by default do not look particularly appealing to end-users. Take the following HTML list that we'll be styling as we go along trying out different things.
 
@@ -630,7 +630,7 @@ It's worth pointing out where the *Cascading* in *Cascading Style Sheets* comes 
 ![Illustration demonstrating the *cascading* in *Cascading Style Sheets* at work. Take note of the `font-size` property in our `h1` style -- it is overridden from the default value. The cascading styles produce the resultant style, shown on the right of the illustration.](images/css-cascading.png)
 
 ## Additional Reading
-What we've discussed in this section is by no means a definitive guide to CSS. There are [300-page books](https://www.amazon.co.uk/CSS-Definitive-Guide-Visual-Presentation/dp/1449393195/) devoted to CSS alone! What we have provided you with here is a very brief introduction showing you the very basics of what CSS is and how you can use it.
+What we've discussed in this section is by no means a definitive guide to CSS. There are [books devoted to CSS alone that span over 300 pages!](https://www.amazon.co.uk/CSS-Definitive-Guide-Visual-Presentation/dp/1449393195/) devoted to CSS alone! What we have provided you with here is a very brief introduction showing you the very basics of what CSS is and how you can use it.
 
 As you develop your web applications, you'll undoubtedly run into issues and frustrating problems with styling web content. This is part of the learning experience, and you still have a bit to learn. We strongly recommend that you invest some time trying out several online tutorials about CSS. There are so many resources freely available online, that there isn't any need to buy a book (unless you want to).
 

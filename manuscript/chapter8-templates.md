@@ -78,7 +78,7 @@ Instead of spending (or wasting!) large amounts of time copying and pasting your
 The basic approach to using inheritance in templates is as follows.
 
 1.  Identify the reoccurring parts of each page that are repeated across your application (i.e. header bar, sidebar, footer, content pane). Sometimes, it can help to draw, on paper, the basic structure of your different pages to help you spot what components are used in common.
-2.  In a *base template*, provide the skeleton structure of a basic page, along with any common content (i.e. the copyright notice that goes in the footer, the logo and title that appears in the section). Then, define a several *blocks* which are subject to change depending on which page the user is viewing.
+2.  In a *base template*, provide the skeleton structure of a basic page, along with any common content (i.e. the copyright notice that goes in the footer, the logo and title that appears in the section). Then define several *blocks* which are subject to change depending on which page the user is viewing.
 3.  Create specific templates for your app's pages -- all of which inherit from the base template -- and specify the contents of each block.
 
 

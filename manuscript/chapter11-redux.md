@@ -50,7 +50,7 @@ In your *project's* `urls.py` module (`<Workspace>/tango_with_django_project/url
 The `django-registration-redux` package provides different registration backends that you can use, depending on your needs. For example, you may want a two-step process where the user is sent a confirmation email and a verification link. Here we will just be using the simple one-step registration process where a user sets up their account by entering in a username, email, and password -- and from there is automatically logged in.
 
 ## Functionality and URL mapping {#section-redux-urls}
-The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backends.simple.urls`, it provides key mappings, as shown in the table below. For each URL, prepend `/accounts/`. For example, for the Login URL, your resultant URL will be `/accounts/login/`.
+The Django Registration Redux package provides the machinery for numerous functions. In the `registration.backends.simple.urls`, it provides key mappings, as shown in the table below. For each URL, start with `/accounts/`. For example, for the Login URL, your resultant URL will be `/accounts/login/`.
 
 | **Activity**             | **URL**                           | **Mapping Name**            |
 |--------------------------|-----------------------------------|-----------------------------|

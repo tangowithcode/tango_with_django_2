@@ -269,7 +269,7 @@ T> 	    </body>
 T> 	
 T> 	</html>
 T>
-T> **Don't update the `base.html` template here -- this is merely a demonstration to show you how the `{% static %}` template function works. You'll be adding CSS and JavaScript later on in this tutorial.**
+T> **Don't update the `index.html` template here -- this is merely a demonstration to show you how the `{% static %}` template function works. You'll be adding CSS and JavaScript later on in this tutorial.**
 T>
 T> Static files you reference will obviously need to be present within your `static` directory. If a requested file is not present or you have referenced it incorrectly, the console output provided by Django's development server will show a [`HTTP 404` error](https://en.wikipedia.org/wiki/HTTP_404). Try referencing a non-existent file and see what happens. Looking at the output snippet below, notice how the last entry's HTTP status code is `404`.
 T>

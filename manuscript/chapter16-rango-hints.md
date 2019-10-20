@@ -194,7 +194,7 @@ Once everything has been completed, you should have a category page that looks s
 ## Creating a `UserProfile` Instance {#section-hints-profiles}
 This section provides one solution for creating Rango `UserProfile` accounts in conjunction with the `django-registration-redux` package. Recall that the standard `django.contrib.auth.models.User` model contains several standard fields related to user accounts, such as a `username` and `password`. However, we chose to implement an additional `UserProfile` model within Rango to store additional information such as a user's website URL, and a profile image. Here, we'll go through the steps required to implement this functionality. The steps that we'll work on are listed below, and each corresponds to a subsection below.
 
-1. We first will create a new `profile_registration.html` template that will our pre-existing `UserProfileForm` Django form.
+1. We first will create a new `profile_registration.html` template that will be our pre-existing `UserProfileForm` Django form.
 2. We'll then work on creating a new `register_profile()` view to capture the details for a new `UserProfile` instance.
 3. After that, the standard procedure applies. We'll first map the new view to a new URL -- in this instance, the URL will be `/rango/register_profile/`. Even though this details with user accounts, it is *Rango specific*, so it makes sense to place it within the `/rango/` URL pattern.
 4. We'll then need to write some code for the `django-registration-redux` package to tell it to redirect to a different place when a `User` object has been created -- or in other words, redirect the user to the new `/rango/registrer_profile/` URL.
@@ -244,7 +244,7 @@ To start, create a new template in `templates/rango/` called `profile_registrati
 	    </div>
 	{% endblock %}
 
-Much like the man of the `django-registartion-redux` forms that we created previously (with an example [here](#section-redux-templates-login)), this template inherits from Rango's `base.html` template. Recall that this template incorporates the basic layout for our Rango app. We also create an HTML `<form>` within the `body_block` block. This will be populated with fields from the `form` objects that we'll be passing to the template from the corresponding view -- we'll work on this next. You should also be aware of the new URL mapping that we use, `register_profile`. We'll be defining this in the third step.
+Like the `django-registration-redux` forms that we created previously (with an example [here](#section-redux-templates-login)), this template inherits from Rango's `base.html` template. Recall that this template incorporates the basic layout for our Rango app. We also create an HTML `<form>` within the `body_block` block. This will be populated with fields from the `form` objects that we'll be passing to the template from the corresponding view -- we'll work on this next. You should also be aware of the new URL mapping that we use, `register_profile`. We'll be defining this in the third step.
 
 W> ### Don't Forget `multipart/form-data`!
 W> When creating your form, don't forget to include the `enctype="multipart/form-data"` attribute in the `<form>` tag. We need to set this to [instruct the web browser and server that no character encoding should be used](https://stackoverflow.com/questions/4526273/what-does-enctype-multipart-form-data-mean). Why? Here, we could be performing *file uploads* (a user profile image). If you don't include this attribute, uploading images with this form will not work.
@@ -295,7 +295,7 @@ T>
 T> See the [Django Documentation for more details about Authentication](https://docs.djangoproject.com/en/2.1/topics/auth/default/).
 
 ### Mapping the `register_profile()` View to a URL
-Now that our template and corresponding view have been implemented, a seasoned Djangoer should now be thinking: *map it!* We need to map out new view to a URL so that users can access the newly created content. Opening up Rango's `urls.py` module and adding the following line to the `urlpatterns` list will achieve this.
+Now that our template and corresponding view have been implemented, a seasoned Djangoer should now be thinking: *map it!* We need to map our new view to a URL so that users can access the newly created content. Opening up Rango's `urls.py` module and adding the following line to the `urlpatterns` list will achieve this.
 
 {lang="python",linenos=off}
 	path('register_profile/', views.register_profile, name='register_profile'),
@@ -383,7 +383,7 @@ As our existing `import` statement simply imports Rango's `views.py`, we must sp
 	    ...
 	    
 	    #Updated path that point to the new about class-based view.
-	    path('about/', views.AboutView.as_view(), name='about')
+	    path('about/', AboutView.as_view(), name='about')
 	    
 	    ...
 	]
@@ -524,7 +524,7 @@ Note that in the template, we make use of a few variables (namely `selecteduser`
 - `userprofile` represents a Rango `UserProfile` instance of the associated `User` that we want to display; and
 - `form` represents a `UserProfileForm` instance that is used to display the necessary fields to allow a user to edit his or her profile (i.e. website and/or profile image), with the website field pre-populated where necessary.
 
-We'll be making sure that this template is passed the required variables to its context in the next section.
+We'll be making sure that this template is given the required variables to its context in the next section.
 
 The template block of interest here is, of course, the `body_block` block. At the top, we display the selected user's profile image, set to dimensions of 300x300 pixels. We also provide `alt` text to display if the image cannot be located.
 
@@ -607,7 +607,7 @@ We then need to map our new `ProfileView` to a URL. This involves editing Rango'
 Note the inclusion of a `username` variable -- this matches to anything after `/profile/`. This means that the URL `/rango/profile/maxwelld90/` would have a `username` of `maxwelld90`. This is in turn passed to the `get()` or `post()` methods in our class-based view as parameter `username`. This is how we are able to determine what user has been requested.
 
 ### Tweaking the Base Template
-Everything should be now working as expected -- but how can users access the new functionality? We can provide a link by modifying Rango's `base.html` template. Find the series of `<li>` elements that you created earlier in the book that comprise the navigation bar. Add a new link to allow users to jump to their `Profile` -- ensuring that this link is *only visible when a user is logged in (authenticated).* If that is the case, what template conditional statement does the following link need to be placed within?
+Everything should now be working as expected -- but how can users access the new functionality? We can provide a link by modifying Rango's `base.html` template. Find the series of `<li>` elements that you created earlier in the book that comprise the navigation bar. Add a new link to allow users to jump to their `Profile` -- ensuring that this link is *only visible when a user is logged in (authenticated).* If that is the case, what template conditional statement does the following link need to be placed within?
 
 {lang="html",linenos=off}
 	<li class="nav-item">
@@ -669,7 +669,7 @@ As mentioned previously, this template is pretty straightforward compared to wha
 ### Creating the View
 With our template created, we can now create the corresponding view that selects all users from the `UserProfile` model. We also assume that the current user must be logged in to view the other users of Rango, as stated above.
 
-The following simple class-based view should satisfy these requirements nicely. Again, this is a straightforward view -- selecting all of the `UserProfile` instances via an ORM query is perhaps the trickiest part here. Remember, the list must have a name of `userprofile_list` in the context dictionary to match up with our template defined above.
+The following simple class-based view should satisfy these requirements nicely. Again, this is a straightforward view -- selecting all of the `UserProfile` instances via an ORM query is perhaps the trickiest part here. Remember, the list must have a name of `userprofile_list` in the context dictionary to match up with our template defined above. This code would live in `views.py`.
 
 {lang="python",linenos=off}
 	class ListProfilesView(View):

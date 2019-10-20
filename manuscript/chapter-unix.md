@@ -76,7 +76,7 @@ From your home directory, let's now try out another command to see what files an
     sibu:~ david$ ls
     code
 
-This shows us that there's something present our home directory called `code`, as we would expect. We can obtain more detailed information by adding a `l` switch to the end of the `ls` command -- with `l` standing for *list*.
+This shows us that there is something present in our home directory called `code`, as we would expect. We can obtain more detailed information by adding a `l` switch to the end of the `ls` command -- with `l` standing for *list*.
 
 {lang="text",linenos=off}
     sibu:~ david$ ls -l

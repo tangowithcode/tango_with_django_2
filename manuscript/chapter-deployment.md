@@ -5,7 +5,7 @@ I> ### Are you using Git?
 I> You can do this chapter independently as we have already implemented Rango and it is [available from GitHub](https://github.com/maxwelld90/tango_with_django_2_code). If you haven't used Git/GitHub before, you can check out our [chapter on using Git](#chapter-git).
 
 ## Creating a PythonAnywhere Account
-First, [sign up for a Beginner PythonAnywhere account](https://www.pythonanywhere.com/?affiliate_id=000116e3). We recommend that you take the seven-step tour to get familiar with the PythonAnywhere interface. If your application takes off and becomes popular, you'll always have the ability to upgrade your account at a later date to gain more storage space and CPU time along with several other benefits, such as hosting specific domains and the ability to SSH in, for example.
+First, [sign up for a Beginner PythonAnywhere account](https://www.pythonanywhere.com/?affiliate_id=000116e3). We recommend that you take the seven-step tour to get familiar with the PythonAnywhere interface. If your application takes off and becomes popular, you'll always have the ability to upgrade your account at a later date to gain more storage space and CPU time along with several other benefits, such as hosting specific domains and the ability to [SSH](https://en.wikipedia.org/wiki/Secure_Shell) in, for example.
 
 Once your account has been created and you have confirmed your email, you will have your little slice of the World Wide Web at `http://<username>.pythonanywhere.com`, where `<username>` is your PythonAnywhere username. It is from this URL that your hosted application will be available.
 
@@ -154,7 +154,7 @@ Once you have changed directory, issue the following commands. These should be s
 You should know exactly what all of these commands do. Of course, the final command will require some interaction on your part to create an administrator's account for your Django project.
 
 ## Setting up your Web Application
-Now that the database is set up, we need to configure the PythonAnywhere [*NGINX*](https://www.nginx.com/resources/wiki/) webserver to serve up your application. To do this, navigate back to your PythonAnywhere dashboard, fine the *Web apps* section, and click the *Open Web tab* button. On the left of the page that appears, click *Add a new web app.*
+Now that the database is set up, we need to configure the PythonAnywhere [*NGINX*](https://www.nginx.com/resources/wiki/) webserver to serve up your application. To do this, navigate back to your PythonAnywhere dashboard, find the *Web apps* section, and click the *Open Web tab* button. On the left of the page that appears, click *Add a new web app.*
 
 A popup box will then appear. Follow the instructions on-screen, and when the time comes, select the *manual configuration* option and complete the wizard. Make sure you select the same Python version as the one you selected earlier. Click *Next*, and PythonAnywhere will then set up your web app, redirecting you to an updated *Web app* page, complete with a green button to reload the app.
 
@@ -218,7 +218,7 @@ The script adds your project's directory to the `PYTHONPATH` for the Python inst
 When you have completed the WSGI configuration, click the green *Save* button at the top of the webpage. Before we can (re)load the application, we need to set a few security parameters (see the [Django Documentation for a Security Deployment Checklist](https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/)).
 
 ### Allowing your Hostname
-Django provides a useful security feature which will only accept requests from particular, *allowed* hosts. By only allowing specified domains to be served by your web server, this reduces the chance that your app could be part [HTTP Host Header attack](https://www.acunetix.com/blog/articles/automated-detection-of-host-header-attacks/). If you were to load and view your application now, you would encounter a `DisallowedHost` exception stopping your app from loading.
+Django provides a useful feature which will only accept requests from *allowed* hosts. By only allowing specified domains to be served by your web server, this reduces the chance that your app could be part of a [HTTP Host Header attack](https://www.acunetix.com/blog/articles/automated-detection-of-host-header-attacks/). If you were to load and view your application now, you would encounter a `DisallowedHost` exception stopping your app from loading.
 
 This is a simple problem to fix and involves a change in your project's `settings.py` module. First, work out your app's URL on PythonAnywhere. For a basic account, this will be `rangodemo2019.pythonanywhere.com`, where `rangodemo2019` is replaced with your PythonAnywhere username. It's a good idea to edit this file locally (on your computer), then `git add`, `git commit` and `git push` your changes to your Git repository, before downloading the changes to your PythonAnywhere account. Alternatively, you can edit the file directly on PythonAnywhere by editing the file in the web interface's files component -- or using a text editor in the terminal, like `nano` or `vi`.
 
@@ -242,7 +242,7 @@ I> ### Bad Gateway Errors
 I> During deployment sometimes you might receive `HTTP 502 - Bad Gateway` errors instead of your application. Try reloading your application again, and then waiting a little longer. If the problem persists, try reloading again. If the problem persists, [check out your log files](#section-deploy-logfiles) to see if any errors are occurring before contacting the PythonAnywhere support.
 
 ### Setting the Secret Key
-It is wise not to commit your secret key your git repository -- and instead load the key in from a separate, uncommitted file. To do this, open your project's `settings.py` file and either change the secret key that you are using in production (a hacky solution), or load it from a file, as we demonstrate with the example below.
+It is wise not to commit your secret key to your git repository -- and instead load the key in from a separate, uncommitted file. To do this, open your project's `settings.py` file and either change the secret key that you are using in production (a hacky solution), or load it from a file, as we demonstrate with the example below.
 
 {lang="python",linenos=off}
 	key = None
@@ -257,7 +257,7 @@ This sets `SECRET_KEY` to the contents of the `secret.key` file, located in your
 While you are adding secret keys, also [add your search API key](#section-bing-adding-key) to the file `bing.key`. This will ensure that the search functionality in Rango is enabled. You'll again want to keep this file outside of your repository.
 
 ### Turning off `DEBUG` Mode
-Next, you need to turn off the debug mode. If you leave debug mode on, you can providing hackers with sensitive information about your web application when they get it to crash through the helpful error messages that will have undoubtedly helped you during development.
+Next, you need to turn off debug mode. If you leave debug mode on, your deployment can provide malicious users with sensitive information about your web application when they get it to crash through the helpful error messages that will have undoubtedly helped you during development.
 
 Therefore, we highly recommend that you instruct Django that it is now running on a production server. To do this, open your project's `settings.py` file and change `DEBUG = True` to `DEBUG = False`. This disables [Django's debug mode](https://docs.djangoproject.com/en/2.1/ref/settings/#debug), and removes explicit error messages. However, you can still view Python stack traces to debug any exceptions that are raised as people use your app. These are provided in the server logs, as we will [discuss later](#section-deploy-logfiles).
 

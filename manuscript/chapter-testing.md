@@ -1,5 +1,5 @@
 # Automated Testing {#chapter-testing}
-If you're new to software development, it would be a good thing to get into the habit of writing and developing tests for the code you write. A lot of software engineering is about writing and developing tests and test suites To ensure the developed software is robust. Of course, most of the time, we are too busy trying to build things to bother about making sure that they work -- or too arrogant to believe that what we create would fail!
+If you're new to software development, it would be a good thing to get into the habit of writing and developing tests for the code you write. A lot of software engineering is about writing and developing tests and test suites to ensure the developed software is robust. Of course, most of the time, we are too busy trying to build things to bother about making sure that they work -- or too arrogant to believe that what we create would fail!
 
 However, trust us. **Through our experiences writing code in both industrial and academic settings, writing tests have saved us. On multiple occasions.** They are a vital part of a software engineer's toolbox, and provide you with confidence that the software you write does what you think it will!
 
@@ -37,7 +37,7 @@ Django comes complete with a suite of tools to test the apps that you build. You
 	OK
 	Destroying test database for alias 'default'...
 
-This command will run through all tests that have been created for the Rango app. However, at the moment, nothing much happens. This is because the `tests.py` that lives inside the `rango` app directory is pretty much blank; save for a single `import` statement. Every time you create a new Django app, this nearly-blank `tests.py` module is created for you to encourage you to write tests!
+This command will run through all tests that have been created for the Rango app. However, at the moment, nothing much happens. This is because the `tests.py` that lives inside the `rango` app directory is pretty much blank, except for a single `import` statement. Every time you create a new Django app, this nearly-blank `tests.py` module is created for you to encourage you to write tests!
 
 From the output shown above, you might also notice that a database called `default` is referred to. When you run tests, a temporary database is constructed, which your tests can populate and perform operations on. This way your testing is *performed independently* of your live database, satisfying one of the rules we listed above.
 
@@ -177,7 +177,7 @@ We don't explicitly cover how to set these tests up here, but you should refer t
 If you really want us to include examples of how to run tests this way, let us know!
 
 ## Examining Testing Coverage
-One further point of discussion about testing is *coverage.* Code coverage measures how much of your codebase has been tested. You can install an additional package called `coverage` (issue the command `$ pip install coverage` within your environment) that automatically analyses how much code coverage you have of your tests. Once `coverage` is installed, run the following command at your terminal or Command Prompt.
+One further point of discussion about testing is *coverage.* Code coverage measures how much of your codebase has been tested. You can install an additional package called `coverage` (`$pip install coverage`) that can automatically analyse how much of your codebase that has been covered by tests. Once `coverage` is installed, run the following command at your terminal or Command Prompt.
 
 {lang="text",linenos=off}
 	$ coverage run --source='.' manage.py test rango

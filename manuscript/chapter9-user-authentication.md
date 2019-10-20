@@ -116,7 +116,7 @@ For the two fields `website` and `picture`, we have set `blank=True` for both. T
 Furthermore, it should be noted that the `ImageField` field has an `upload_to` attribute. The value of this attribute is conjoined with the project's `MEDIA_ROOT` setting to provide a path with which uploaded profile images will be stored. For example, a `MEDIA_ROOT` of `<workspace>/tango_with_django_project/media/` and `upload_to` attribute of `profile_images` will result in all profile images being stored in the directory `<workspace>/tango_with_django_project/media/profile_images/`. Recall that in the [chapter on templates and media files](#chapter-templates-static) we set up the media root there. 
 
 I> ### What about Inheriting to Extend?
-I> It may have been tempting to add the additional fields defined above by inheriting from the `User` model directly. However, because other applications may also want access to the `User` model, it not recommended to use inheritance, but to instead use a one-to-one relationship within your database.
+I> It may have been tempting to add the additional fields defined above by inheriting from the `User` model directly. However, because other applications may also want access to the `User` model, it is not recommended to use inheritance -- but rather to instead use a one-to-one relationship within your database.
 
 I> ### Pillow
 I> The Django `ImageField` field makes use of [*Pillow*](https://pillow.readthedocs.io/en/stable/), a fork of the *Python Imaging Library (PIL)*. If you have not done so already, install Pillow via Pip with the command `pip install pillow==5.4.1`. If you don't have `jpeg` support enabled, you can also install Pillow with the command `pip install pillow==5.4.1 --global-option="build_ext" --global-option="--disable-jpeg"`.
@@ -483,7 +483,7 @@ This line can then be replaced with the following code.
 	    hey there partner!
 	{% endif %}
 
-As you can see, we have used Django's template language to check if the user is authenticated with `{% if user.is_authenticated %}`. If a user is logged in, then Django gives us access to the `user` object. We can tell from this object if the user is logged in (authenticated). If he or she is logged in, we can also obtain details about him or her. In the example about, the user's username will be presented to them if logged in -- otherwise the generic `hey there partner!` message will be shown.
+As you can see, we have used Django's template language to check if the user is authenticated with `{% if user.is_authenticated %}`. If a user is logged in, then Django gives us access to the `user` object. We can tell from this object if the user is logged in (authenticated). If he or she is logged in, we can also obtain details about him or her. In the example above, the user's username will be presented to them if logged in -- otherwise the generic `hey there partner!` message will be shown.
 
 ### Demo
 Start the Django development server and attempt to login to the application. The [figure below](#fig-ch9-user-login) shows a screenshot of the login page as it should look.
@@ -494,9 +494,9 @@ Start the Django development server and attempt to login to the application. The
 With this completed, user logins should now be working. To test everything out, try starting Django's development server and attempt to register a new account. After successful registration, you should then be able to login with the details you just provided. Check the `index()` view -- when you log in, do you see it greeting you with your username?
 
 ## Restricting Access
-Now that users can login to Rango, we can now go about restricting access to particular parts of the application as per the specification. This means that only registered users will be able to create categories and and add new pages to existing categories. With Django, there are several ways in which we can achieve this goal.
+Now that users can login to Rango, we can now go about restricting access to particular parts of the application as per the specification. This means that only registered users will be able to create categories and add new pages to existing categories. With Django, there are several ways in which we can achieve this goal.
 
-- In the template, we could use the `{% if user.authenticated %}` template tag to modify how the page is rendered (shown already).
+- In the template, we could use the `{% if user.is_authenticated %}` template tag to modify how the page is rendered (shown already).
 - In the view, we could directly examine the `request` object and check if the user is authenticated.
 - Or, we could use a *decorator* function `@login_required` provided by Django that checks if the user is authenticated.
 
@@ -596,7 +596,7 @@ Finally, we can add a further link to our `base.html` template.
     </ul>
 
 ## Tidying up the `base.html` Hyperlinks
-Now that all the machinery for logging a user out has been completed, we can add some finishing touches. Providing a link to log out as we did above is good, but is it smart? If a user is not logged in, what would the point be of providing a link to logout? Conversely, if a user is already logged in, would it be sensible to provide a link to login? Perhaps not -- you can make the argument that the links in that are presented to the user in `base.html` will change *depending on their circumstances.* We need to do some more work to make sure our Rango app satisfies the requirements we set off with.
+Now that all the machinery for logging a user out has been completed, we can add some finishing touches. Providing a link to log out as we did above is good, but is it smart? If a user is not logged in, what would the point be of providing a link to logout? Conversely, if a user is already logged in, would it be sensible to provide a link to login? Perhaps not -- you can make the argument that the links presented to the user in `base.html` should change *depending on their circumstances.* We need to do some more work to make sure our Rango app satisfies the requirements we set off with.
 
 Let's modify the links in the `base.html` template. We will employ the `user` object in the template's context to determine what links we want to show to a particular user. Find your growing list of links at the bottom of the page, and replace it with the following code. Feel free to copy and paste things around here, because all you are doing here is adding in some conditional statements, and moving existing links around.
 

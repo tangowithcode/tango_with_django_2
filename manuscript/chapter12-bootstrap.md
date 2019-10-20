@@ -4,12 +4,12 @@ In this chapter, we will be styling Rango using the *Twitter Bootstrap 4* toolki
 I> ### Cascading Style Sheets
 I> If you are not familiar with CSS, have a look at the [CSS crash course](#chapter-css). We provide a quick guide on the basics of using Cascading Style Sheets.
 
-Now take a look at the [Bootstrap 4.0 website](http://getbootstrap.com/). The website provides you with sample code and examples of the different components that the toolkit provides, and provides you with examples and documentation on how to style them by adding in the appropriate markup and/or code. Besides this, the website also provides several [complete example layouts](http://getbootstrap.com/examples/) from which we can base our styled design for Rango on.
+Now take a look at the [Bootstrap 4.0 website](https://getbootstrap.com/). The website provides you with sample code and examples of the different components that the toolkit provides, and provides you with examples and documentation on how to style them by adding in the appropriate markup and/or code. Besides this, the website also provides several [complete example layouts](https://getbootstrap.com/examples/) from which we can base our styled design for Rango on.
 
 To style Rango, we have identified that the [dashboard layout](https://getbootstrap.com/docs/4.2/examples/dashboard/) more or less meets our needs. The layout provides us with a menu bar at the top, a sidebar (which we will use to show categories), and a main content pane in which we can display page-specific information. You can see the example layout in [the figure below](#fig-bootstrap-dashboard).
 
 {id="fig-bootstrap-dashboard"}
-![Version 4 of the Bootstrap dashboard layout, as taken from the Twitter Bootstrap examples website. This is the layout we will be working within this chapter.](images/ch12-bootstrap-dashboard.png)
+![Version 4 of the Bootstrap dashboard layout, as taken from the Twitter Bootstrap examples website. This is the layout we will be working with during this chapter.](images/ch12-bootstrap-dashboard.png)
 
 To tailor the dashboard HTML source to our Rango app, we need to make several modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd-bootstrap-base), but for completeness is also shown below.
 
@@ -17,7 +17,7 @@ Download the HTML source for our modified dashboard layout to a file called `boo
 
 Below is a list of all the different modifications we made to the original dashboard HTML source.
 
-- We replaced all references of `../../` to be `http://getbootstrap.com/docs/4.2/`. The two sets of dots indicates that we want to look back two directory levels back where we currently are in the filesystem (see our [UNIX Crash Course](#section-unix-terminal)). This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
+- We replaced all references of `../../` to be `https://getbootstrap.com/docs/4.2/`. The two sets of dots indicates that we want to look back two directory levels back where we currently are in the filesystem (see our [UNIX Crash Course](#section-unix-terminal)). This ensures that we use external files (such as stylesheets and JavaScript files) that are part of Bootstrap 4.2.
 - Then, we changed `dashboard.css` to the absolute URL to access this stylesheet and removes any doubt as to what version of the file we are referring to.
 - We took out the search form from the *navigation bar* at the top of the page.
 - We stripped out all the non-essential demo content from the original HTML page, and replaced it with the Rango `body_block` code -- most importantly including the start and end statements for the `body_block` (`{% block body_block %}{% endblock %}`).
@@ -33,7 +33,7 @@ We appreciate that this all seems rather hacky -- and to some extent it is -- bu
 ## The Template
 
 W> ### Copying and Pasting
-W> In the introductory chapter, we said not the copy and paste -- but this is an exception. 
+W> In the introductory chapter, we said not to copy and paste -- but this is an exception. 
 W> However if you directly cut and paste you will end up bringing additional text you do not want. To get started quickly, go to our GitHub page and get the [base template](http://bit.ly/twd-bootstrap-base) shown below.
 W> 
 W> If you don't understand what the specific Bootstrap classes do, check out the [Bootstrap documentation](https://getbootstrap.com/docs/4.3/getting-started/introduction/) to improve your understanding.
@@ -153,10 +153,10 @@ I> ### Working Offline?
 I> Rather than including external references to the `css` and `js` files, you could download all the associated files and store them in your project's `static` directory. We recommend storing CSS files in `static/css/`, with JavaScript files in `static/js/`. If you do this, you will need to update the `bootstrap_base.html` to point to the correct files locally using the `{% static '...' %}` template function.
 
 ## Quick Style Change
-To give Rango a much-needed facelift, we need to update our base template to make use of the new `base_bootstrap.html` template. It's now ready to go! There are many ways to do this, with one option being to rename `base.html` to `base_bootstrap.html` in all your other templates. However, a quicker solution would be to do the following.
+To give Rango a much-needed facelift, we need to update our base template to make use of the new `bootstrap-base.html` template. It's now ready to go! There are many ways to do this, with one option being to rename `base.html` to `bootstrap-base.html` in all your other templates. However, a quicker solution would be to do the following.
 
 1. Rename the `base.html` template in `templates/rango/` to `base-old.html`.
-2. Rename the `base_bootstrap.html` template in `templates/rango/` to `base.html`.
+2. Rename the `bootstrap-base.html` template in `templates/rango/` to `base.html`.
 
 This ensures you keep a copy of your old `base.html` template and switch the active template that all other Rango templates inherit from to the Bootstrapped version.
 
@@ -166,7 +166,7 @@ T> If you are using Git, it would be prudent to use the `git mv` commands in you
 Now reload Rango in your browser. You should see a screen that looks similar [to the one below](#fig-bootstrap-initial).
 
 {id="fig-bootstrap-initial"}
-![Rango, after switching `base_bootstrap.html` to be the template from which other templates inherit. Looks nice! Note that here, we are logged in with a username of `david`.](images/ch12-bootstrap-initial.png)
+![Rango, after switching `bootstrap-base.html` to be the template from which other templates inherit. Looks nice! Note that here, we are logged in with a username of `david`.](images/ch12-bootstrap-initial.png)
 
 Have a look through the different pages of your app. Since they all inherit from `base.html`, they will all now employ the Bootstrap dashboard layout. However, they aren't perfect yet! In the remainder of this chapter, we will go through several changes to the templates, and use various Bootstrap components to improve the look and feel of Rango further. But to remind yourself of what Rango looked like before, compare and contrast to [the figure below](#fig-bootstrap-initial-nostyling)!
 
@@ -312,7 +312,7 @@ After you have successfully added the jumbotron, we can move on to the two-colum
  
 Once you have updated the template, reload the page -- it should look a lot better now, but the way the list items are presented is not the best. Once again, it looks pretty basic. Surely we can make it look even better!
 
-Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how the hyperlinks are presented. We can do this quite easily by changing the two `<ul>` elements to `<ul class="list-group">` and each of the `<li>` elements that we just added to `<li class="list-group-item">`. Once you have completed these steps, reload the index page. How does it look now? It should similar to [the figure below](#fig-bootstrap-styled-index).
+Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com/docs/4.2/components/list-group/) to improve how the hyperlinks are presented. We can do this quite easily by changing the two `<ul>` elements to `<ul class="list-group">` and each of the `<li>` elements that we just added to `<li class="list-group-item">`. Once you have completed these steps, reload the index page. How does it look now? It should look similar to [the figure below](#fig-bootstrap-styled-index).
 
 {id="fig-bootstrap-styled-index"}
 ![The updated Rango index page, after applying both the jumbotron and two-column layout. How much better does it look now?](images/ch12-bootstrap-styled-index.png)

@@ -106,7 +106,7 @@ I> To find out more about anti-patterns in Python, then check out the [Little Bo
 I> It is an awesome resource that will help you to improve your python code.
 
 I> ### Reading `bing.key`
-I> In function `read_bing_key()`, you may be a bit unsure as to why we attempt to read the `bing.key` file from a different location if the first attempt fails. This block of code is present to make future exercise that little bit easier for you.
+I> In function `read_bing_key()`, you may be a bit unsure as to why we attempt to read the `bing.key` file from a different location if the first attempt fails. This block of code is present to make future exercises that little bit easier for you.
 
 In the module(s) above, we have implemented two functions: one to retrieve your Bing API key from a local file, and another to issue a query to the Bing search engine. Below, we discuss how both of the functions work.
 
