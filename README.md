@@ -1,2 +1,8 @@
-# tango_with_django_2
-How to Tango With Django 2 in Python 3
+# Tango with Django 2 Book Repository
+This repository contains the source for the book *Tango with Django 2*. This is the fourth edition of Tango with Django which has now been heavily revised and upgraded to make use of *Django 2.x* using *Python 3.x*. The book was first launched in October 2013 by Dr. Leif Azzopardi and Dr. David Maxwell while both were teaching web development at the University of Glasgow. The book has been used as the course text ever since, with literally thousands of undergraduate and postgraduate students using it over the years. Previous editions of the book are freely available at: [www.tangowithdjango.com](https://www.tangowithdjango.com) which has been used by over two million visitors! 
+
+We store the source Markdown here. If you have an issue with the book (whether it be a typo, disagreement with a statement that we make, or just a suggestion), please let us know here by [raising an issue](https://github.com/leifos/tango_with_django_2/issues).
+
+We also have implemented a model implementation of what the book walks you through, complete with gotchas to catch out students copying and pasting. This implementation is housed in a [different repository](https://github.com/maxwelld90/tango_with_django_2_code). That repository also houses a [number of tests](https://github.com/maxwelld90/tango_with_django_2_code/tree/master/progress_tests) that you can use to check your implementation as you go through the book, chapter-by-chapter.
+
+**Note:** please don't steal this. If you like it, [go to Leanpub](https://leanpub.com/tangowithdjango2/) and support the authors who have literally put thousands of hours of their free time into making this book for you to use.
