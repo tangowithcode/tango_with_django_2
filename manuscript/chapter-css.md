@@ -110,7 +110,9 @@ To change the colour of text within an element, you must apply the `color` prope
 You can alter the presentation of a small portion of text within your webpage by wrapping the text within `<span>` tags. Assign a class or unique identifier to the element, and from there you can simply reference the `<span>` tag in your stylesheet while applying the `color` property. In the example markup below, the text `fire engine` would appear in red, using the `red` class defined above.
 
 {lang="html",linenos=off}
-	I saw a police car, <span class="red">fire engine</span> and ambulance drive past me.
+	<span>
+	    I saw a police car and <span class="red">fire engine</span> drive past me.
+	</span>
 
 ### Borders
 You can change the colour of an element's *borders*, too. We'll discuss what borders are discussed as part of the [CSS box model](#section-css-box). For now, we'll show you how to apply colours to them to make everything look pretty.
