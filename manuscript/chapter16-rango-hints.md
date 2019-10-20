@@ -214,7 +214,7 @@ Order here is important as the way we implement the new `register_profile()` vie
 ### Creating a Profile Registration Template
 First, let's focus on creating a simple template that will provide the necessary HTML markup for displaying the `UserProfileForm` form fields. As we mentioned previously, we'll be keeping the `django-registration-redux` forms separate from the new profile registration form -- this new template will belong in the `rango` `templates` directory. Remember, we're not dealing with built-in Django models here -- we are dealing with the creation of an instance of a custom-made model.
 
-To start, create a new template in `templates/rango/` called `profile_registration.html`. Within this new template, add in the following HTML markup and Django template code. 
+Create a new template in `templates/rango/` called `profile_registration.html`. Within this new template, add in the following HTML markup and Django template code. 
 
 {lang="html",linenos=on}
 	{% extends 'rango/base.html' %}

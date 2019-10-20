@@ -204,7 +204,7 @@ I> If you have [set up your `.gitignore` file correctly](#section-git-setup-twea
 	
 	no changes added to commit (use "git add" and/or "git commit -a")
 
-The files `chapter-git.md`, `chapter-system-setup.md` and `images/screenshot_template.ai` are all listed in the example output shown above. All paths are relative from your present working directory, hence the addition of `images/` for the last file -- it lives within an `images` subdirectory.
+Files `chapter-git.md`, `chapter-system-setup.md` and `images/screenshot_template.ai` are all listed in the example output shown above. All paths are relative from your present working directory, hence the addition of `images/` for the last file -- it lives within an `images` subdirectory.
 
 Reading the output of the `git status` command carefully, we can see that the files `chapter-git.md` and `chapter-system-setup.md` are already known to your Git repository, but have been *modified* from the previous commit. The output of the command is telling you that for these changes to be reflected in the next commit, you must `git add` these files. Files that have been deleted or moved concerning the previous commit will also appear here.
 

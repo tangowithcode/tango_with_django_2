@@ -151,7 +151,7 @@ T>
 T>		if __name__ == '__main__':
 T>		    main()
 T>
-T> When you run the module explicitly via `python bing_search.py`, the `bing_search` module is treated as the `__main__` module, and thus triggers `main()`. However, when the module is imported by another, then `__name__` will not equal `__main__`, and thus the `main()` function not be called. This way you can `import` it with your application without having to call `main()`.
+T> When you run the module via `python bing_search.py`, the `bing_search` module is treated as the `__main__` module, and thus triggers `main()`. However, when the module is imported by another, then `__name__` will not equal `__main__`, and thus the `main()` function not be called. This way you can `import` it with your application without having to call `main()`.
 T>
 T> You'll also most likely want to make use of the built-in `input()` function to complete this exercise.
 

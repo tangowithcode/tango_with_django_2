@@ -366,7 +366,7 @@ I> This helper method can remove a lot of repetitive code for us. Rather than do
 I>
 I> The `get_or_create()` method returns a tuple of `(object, created)`. The first element `object` is a reference to the model instance that the `get_or_create()` method creates if the database entry was not found. The entry is created using the parameters you pass to the method -- just like `category`, `title`, `url` and `views` in the example above. If the entry already exists in the database, the method simply returns the model instance corresponding to the entry. `created` is a boolean value; `True` is returned if `get_or_create()` had to create a model instance.
 I>
-I> This explanation means that the `[0]` at the end of our call to the `get_or_create()` returns the object reference only. Like most other programming language data structures, Python tuples use [zero-based numbering](http://en.wikipedia.org/wiki/Zero-based_numbering).
+I> This explanation means that the `[0]` after `get_or_create()` returns the object reference only. Like most other programming language data structures, Python tuples use [zero-based numbering](http://en.wikipedia.org/wiki/Zero-based_numbering).
 I> 
 I> You can check out the [official Django documentation](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#get-or-create) for more information on the handy `get_or_create()` method. We'll be using this extensively throughout the rest of the tutorial.
 

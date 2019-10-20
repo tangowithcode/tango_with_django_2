@@ -35,7 +35,7 @@ To permit registered users of Rango to *like* categories, we'll progress through
 	- Of course, we'll need to create a new URL mapping for this view, too. This should be named `/rango/like_category/` -- with the `category_id` passed as a querystring. As an example, a complete URL would look something like `/rango/like_category/?category_id=1`, for liking the category with ID `1`.
 	- We'll make use of a `GET` request to implement this functionality.
 	- A key point regarding this view will be that it *does not return a complete HTML page* -- but simply the number of likes that the category now has. This means our response *does not* need to inherit from Rango's `base.html` template!
-3. For the actual AJAX code, we'll add some JavaScript/JQuery code to `rango-ajax.js` to complete the link between the client (displaying likes and providing the option to increment the count) and the server (incrementing the count in the database).
+3. For the AJAX code, we'll add some JavaScript/JQuery code to `rango-ajax.js` to complete the link between the client (displaying likes and providing the option to increment the count) and the server (incrementing the count in the database).
 
 To graphically demonstrate what we are looking to achieve here, check out the [diagram below](#fig-ajax-workflow).
 

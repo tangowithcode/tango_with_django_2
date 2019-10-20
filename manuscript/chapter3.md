@@ -281,7 +281,7 @@ I> If you're struggling to get the exercises done, the following hints will prov
 I> 
 I> - In your `views.py`, create a function called `def about(request)`, and have the function return a `HttpResponse()`. Within this `HttpResponse()`, insert the message that you want to return.
 I> - The expression to use for matching the second view is `'about/'`. This means that in `rango/urls.py`, you would add in a new `path` mapping to the `about()` view.
-I> - Within the `index()` view, you will want to include an HTML [*hyperlink*](https://en.wikipedia.org/wiki/Hyperlink) to provide a link to the about page -- something like `<a href='/rango/about/'>About</a>` will suffice. 
+I> - Within the `index()` view, you will want to include an HTML [*hyperlink*](https://en.wikipedia.org/wiki/Hyperlink) to provide a link to the about page -- an `a` tag with an `href` attribute (`<a href='/rango/about/'>About</a>`) will suffice. 
 I> - The same will also be added to the `about()` view, although this time it will point to `/rango/`, the homepage -- not `/rango/about/`. An example would look like: `<a href='/rango/'>Index</a>`.
 I>
 I> - If you haven't done so already, now's a good time to head off and complete part one of the official [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial01/).
