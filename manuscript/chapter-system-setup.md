@@ -310,7 +310,7 @@ When developing code, it's highly recommended that you house your codebase withi
 
 To use Git, we recommend that you use the command-line tool to interact with your repositories. This is done through the `git` command. On Windows, you'll need to [download Git from the Git website](https://git-scm.com/download/win). If using macOS or Linux, the [Git website also has downloadable installers for you to use](https://git-scm.com/downloads). However, why not get into the habit of using a package manager to install the software? This is generally the recommended way for downloading and using software developed on the UNIX design principles (including macOS).
 
-For example, installing Git is as simple as typing `$ sudo apt-get install git`. Let the software download, and the `apt` package manager takes care of the rest. If you installed MacPorts on your macOS installation as described above, Git will already be present for you as it is part of the Apple XCode Command Line Developer Tools.
+For example, installing Git is as simple as typing `$ sudo apt install git`. Let the software download, and the `apt` package manager takes care of the rest. If you installed MacPorts on your macOS installation as described above, Git will already be present for you as it is part of the Apple XCode Command Line Developer Tools.
 
 Once installed, typing `git` will show the commands you can use, as shown in the example below.
 
