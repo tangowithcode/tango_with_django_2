@@ -10,7 +10,7 @@ In this chapter, we'll be introducing you to the basics of JavaScript while usin
 - providing several small examples to show you how everything works.
 
 ## Including JQuery
-To include JQuery (or any other JavaScript file), you need to tell the *client.* At the end of the day, the web browser will be the part of the chain that utilises the JavaScript code to provide additional functionality to the user. Thinking about Rango, how can we do this? We will need to modify our *templates,* as when fully rendered, these are the files that are sent back to the client when something is requested.
+To include JQuery (or any other JavaScript file), you need to tell the *client* where to find JQuery. At the end of the day, the web browser will be the part of the chain that utilises the JavaScript code to provide additional functionality to the user. Thinking about Rango, how can we do this? We will need to modify our *templates,* as when fully rendered, these are the files that are sent back to the client when something is requested.
 
 In Rango's `base.html` template, let's make sure we have referenced JQuery. If you completed the [Bootstrap chapter](#chapter-bootstrap) earlier on in the tutorial, you may have noticed that Bootstrap uses JQuery! To make sure nothing breaks, we'll stick with the version that Bootstrap uses -- version 3.3.1. At the bottom of your `base.html` template (before the close of the `<body>` tag), look for the following line.
 
@@ -194,4 +194,5 @@ This chapter has provided a very rudimentary guide to using JQuery, and how you 
 
 T> ### Performing a Hard Refresh
 T> When working with `static` files -- especially JavaScript (that changes often when you are developing) -- you may find that your changes don't filter down to your browser, even though you saved the file!
-T> Browsers are developed to try and reduce the bandwidth used as much as possible. This means that browser caches -- which are where files that make up a webpage are locally stored -- may not be updated with changes to your static files if you update them often. The solution to this problem is to either clear your browser's cache or to perform a [*hard refresh*](https://refreshyourcache.com/en/cache/). The command you issue depends on your browser and operating system. Windows systems should work with CTRL+F5, with Macs using CMD+SHIFT+R.
+T>
+T> Browsers are developed to try and reduce used bandwidth as much as possible. If you request a page multiple times, it is likely that after the initial request, the content you see will be stored in a *browser cache* on your computer. This means that when developing your project (and changing things rapidly), content may not be refreshed with the most up-to-date implementation. The solution to this problem is to either clear your browser's cache, or to perform a [*hard refresh*](https://refreshyourcache.com/en/cache/). The command you issue depends on your browser and operating system. Windows systems should work with CTRL+F5, with Macs using CMD+SHIFT+R.
