@@ -109,7 +109,7 @@ You can then leave the virtual environment using the `deactivate` command. Your 
 	~ $
 
 ### Cloning your Git Repository {#sec-deploy-cloning}
-Now that your virtual environment for Rango is all set up, you can now clone your Git repository to obtain a copy of your project's files. Clone your repository by issuing the following command from your home directory.
+Now that your virtual environment for Rango is all set up, you can now clone your Git repository to obtain a copy of your project's files. On PythonAnywhere, clone your repository by issuing the following command from your home directory.
 
 {lang="text",linenos=off}
 	$ git clone https://github.com/<OWNER>/<REPO_NAME>
@@ -185,7 +185,7 @@ The *[Web Server Gateway Interface](http://en.wikipedia.org/wiki/Web_Server_Gate
 
 To configure the WSGI script, navigate to the *Web* tab in PythonAnywhere's interface. Under the *Code* header, you can see a link to the WSGI configuration file in the Code section: e.g. `/var/www/rangodemo2019_pythonanywhere_com_wsgi.py`. Of course, the `rangodemo2019` part will have your username instead.
 
-The people at PythonAnywhere have set up a sample WSGI file for us with several possible configurations. For your web application, you'll need to configure the Django section of the file by clicking on the link to open a simple editor. The example below demonstrates a possible configuration for your application.
+The people at PythonAnywhere have set up a sample WSGI file for us with several possible configurations. For your web application, you'll need to configure the Django section of the file by clicking on the link to open a simple editor. The example below can be used as the WSGI configuration for your application.
 
 {lang="python",linenos=off}
 	import os
