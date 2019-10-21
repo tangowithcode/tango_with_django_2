@@ -139,7 +139,7 @@ I> - Check out the [w3schools page on `GET` vs. `POST`](http://www.w3schools.com
 
 Django's form handling machinery processes the data returned from a user's browser via an HTTP `POST` request. It not only handles the saving of form data into the chosen model but will also automatically generate any error messages for each form field (if any are required). This means that Django will not store any submitted forms with missing information that could potentially cause problems for your database's [referential integrity](https://en.wikipedia.org/wiki/Referential_integrity). For example, supplying no value in the `category` name field will return an error, as the field cannot be blank.
 
-From the `render()` call, you'll see that we refer to `add_category.html` -- a new template. This will contain the relevant Django template code and HTML for the form and page.
+From the `render()` call, you'll see that we refer to `add_category.html` -- a new template (we define this below!). This will contain the relevant Django template code and HTML for the form and page.
 
 ### Creating the *Add Category* Template
 Create the file `templates/rango/add_category.html`. Within the file, add the following HTML markup and Django template code.
