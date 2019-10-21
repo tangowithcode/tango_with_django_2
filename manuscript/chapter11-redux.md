@@ -4,7 +4,7 @@ In a [previous chapter](#chapter-user), we added in login and registration funct
 This will mean we will need to refactor our code to remove the login and registration functionality we previously created. From there, we will then work through setting up and configuring Rango and our wider `tango_with_django_project` codebase to make use of the `django-registration-redux` application. This chapter also will provide you with some experience of using external Django apps and will show you how easy it is to plug them into your project.
 
 ## Setting up Django Registration Redux
-First, we need to install `django-registration-redux` version `2.2` into your development environment using `pip`. Issue the following command at your terminal/Command Prompt.
+First, we need to install `django-registration-redux` version `2.2` into your development environment using `pip`. Issue the following command at your terminal/Command Prompt. Ensure your virtual environment is activated!
 
 {lang="text",linenos=off}
 	$ pip install -U django-registration-redux==2.2
@@ -81,7 +81,7 @@ I> This behaviour is the same as forms we created in prior chapters, where corre
 In the `templates/registration` directory, create the file `login.html`. This will house the template used by the `registration` `auth_login` view. Add the following markup and template code to the template.
 
 {lang="html",linenos=off}
-	{% extends 'rango/base.html %}
+	{% extends 'rango/base.html' %}
 	
 	{% block title_block %}
 	    Login
@@ -129,7 +129,7 @@ In the `templates/registration` directory, create the file `logout.html`. This t
 In `templates/registration` directory, create the file `registration_form.html`. This will house the template used to render a registration form. Add the following code to the new template.
 
 {lang="html",linenos=off}
-	{% extends 'rango/base.html %}
+	{% extends 'rango/base.html' %}
 	
 	{% block title_block %}
 	    Register
@@ -151,7 +151,7 @@ In `templates/registration` directory, create the file `registration_form.html`.
 In `templates/registration` directory, create the file `registration_closed.html`. This template will be rendered if a potential user attempts to register when registration is closed. Add the following code to the new file.
 
 {lang="html",linenos=off}
-	{% extends 'rango/base.html %}
+	{% extends 'rango/base.html' %}
 	
 	{% block title_block %}
 	    Registration Closed
