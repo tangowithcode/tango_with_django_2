@@ -119,7 +119,7 @@ T> ### Keep your Keys Safe!
 T> Keys to access APIs are exclusively yours to use. Keep them secret, keep them safe! Do not publish them online. If your app requires the use of an API key, then provide clear instructions describing how people can acquire their key, and what they should do with it.
 
 ### `run_query()` -- Executing the Query
-The `run_query()` function takes a query as a string, and by default returns the top ten results from Bing in a list that contains a dictionary of the result items (including the `title`, a `link`, and a `summary`). 
+The `run_query()` function takes a query as a string (via `search_terms`), and by default returns the top ten results from Bing in a list that contains a dictionary of the result items (including the `title`, a `link`, and a `summary`). 
 
 To summarise though, the logic of the `run_query()` function can be broadly split into six main tasks.
 
