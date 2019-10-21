@@ -176,7 +176,7 @@ Let's first create a template called `rango/search.html`. Add the following HTML
 	{% block body_block %}
 	    <div class="jumbotron p-4">
 	        <div class="container">
-	            <h1 class="jumotron-heading">Search with Rango</h1>
+	            <h1 class="jumbotron-heading">Search with Rango</h1>
 	        </div>
 	    </div>
 	    <div>

@@ -227,7 +227,7 @@ Create a new template in `templates/rango/` called `profile_registration.html`. 
 	{% block body_block %}
 	    <div class="jumbotron p-4">
 	        <div class="container">
-	            <h1 class="jumotron-heading">Register for Rango - Step 2</h1>
+	            <h1 class="jumbotron-heading">Register for Rango - Step 2</h1>
 	        </div>
 	    </div>
 	    
@@ -488,7 +488,7 @@ First, let's work on creating a simple template for displaying a user's profile.
 	{% block body_block %}
 	    <div class="jumbotron p-4">
 	        <div class="container">
-	            <h1 class="jumotron-heading">{{ selecteduser.username }}'s Profile</h1>
+	            <h1 class="jumbotron-heading">{{ selecteduser.username }}'s Profile</h1>
 	        </div>
 	    </div>
 	    
@@ -636,7 +636,7 @@ You know the drill by now. Create a new template! Once again, this belongs to Ra
 	{% block body_block %}
 	    <div class="jumbotron p-4">
 	        <div class="container">
-	            <h1 class="jumotron-heading">User Profiles</h1>
+	            <h1 class="jumbotron-heading">User Profiles</h1>
 	        </div>
 	    </div>
 	    
