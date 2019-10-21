@@ -427,7 +427,7 @@ Django provides all of these functions and classes. As such, you'll need to impo
 	from django.urls import reverse
 	from django.shortcuts import redirect
 
-You should already have the `response()` helper function `import` present in Rango's `views.py` module from earlier on -- check to see that you are not repeating yourself! The `HttpResponse` `import` should also be present from earlier in the tutorial, too.
+You will find that some of these `import` statements are already present in Rango's `views.py` module from earlier on -- check to see that you are not repeating yourself! For example, `HttpResponse` should be present from earlier.
 
 ### Creating a *Login* Template
 With our new view created, we'll need to create a new template, `login.html` allowing users to enter their credentials. While we know that the template will live in the `templates/rango/` directory, we'll leave you to figure out the name of the file. Look at the code example above to work out the name based upon the code for the new `user_login()` view. In your new template file, add the following code.
