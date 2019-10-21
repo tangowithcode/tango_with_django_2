@@ -8,7 +8,7 @@ According to the [Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/t
 - **Writing tests will save you time.** Even a slight change in a complex system can cause failures in places that you simply wouldn't think of.
 - **Tests don't just identify problems, they prevent them.** Tests show where the code is not meeting expectations.
 - **Test make your code more attractive.** *"Code without tests is broken by design"* -- Jacob Kaplan-Moss, one of Django's original developers.
-- **Tests help teams work together.** You want to be a team player, right? Then write tests. Writing tests will make sure your team doesn't inadvertently break your code, or you don't break the code of your team members!
+- **Tests help teams work together.** Writing tests will make sure your team doesn't inadvertently break your code, or you don't break the code of your team members!
 
 In addition to these reasons, the [Python Guide](http://docs.python-guide.org/en/latest/writing/tests/) lists several general rules that you should try to follow when writing tests. Below are some of the main rules.
 
