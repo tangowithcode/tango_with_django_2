@@ -315,7 +315,7 @@ T> To help you with the exercises above, the following hints may be of use.
 T>
 T> - In the `add_page.html` template, you can access the slug with ``{{ category.slug }}``. This is because the view passes the `category` object through to the template via the context dictionary.
 T> - Ensure that the link only appears when *the requested category exists* -- with or without pages. In terms of code, we mean that your template should have the following conditional: `{% if category %} .... {% else %} The specified category does not exist. {% endif %}`.
-T> - Update Rango's `category.html` template with a new hyperlink, complete with a line break immediately following it: `<a href="/rango/category/{{category.slug}}/add_page/">Add Page</a> <br/>`.
+T> - Update Rango's `category.html` template with a new hyperlink, complete with a line break immediately following it: `<a href="/rango/category/{{ category.slug }}/add_page/">Add Page</a> <br/>`.
 T> - **Make sure that in your `add_page.html` template that the form posts to `/rango/category/{{ category.slug }}/add_page/`.** When submitting a form requesting the creation of a new page, it is important to tell Django (via the URL) what category the new page should belong to!
-T> - Update `rango/urls.py` with a URL mapping (`/rango/category/<category_name_slug>/add_page/`) to handle the above link. Provide a name of `add_page` to the new mapping.
+T> - Update `rango/urls.py` with a URL mapping (`/rango/category/<slug:category_name_slug>/add_page/`) to handle the above link. Provide a name of `add_page` to the new mapping.
 T> - You can avoid the repetition of `max_length` parameters through the use of an additional attribute in your `Category` model. This attribute could be used to store the value for `max_length`, and then be referenced where required.
