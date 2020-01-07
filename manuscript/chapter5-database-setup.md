@@ -370,7 +370,7 @@ I> This explanation means that the `[0]` after `get_or_create()` returns the obj
 I> 
 I> You can check out the [official Django documentation](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#get-or-create) for more information on the handy `get_or_create()` method. We'll be using this extensively throughout the rest of the tutorial.
 
-When saved, you can then run your new populations script by changing the present working directory in a terminal to the Django project's root. It's then a simple case of executing the command ``$ python populate_rango.py``. You should then see output similar to that shown below -- the order in which categories are added may vary depending upon how your computer is set up.
+When saved, you can then run your new populations script by changing the present working directory in a terminal to the Django project's root. It's then a simple case of executing the command ``$ python populate_rango.py``. You should then see an output to the command similar to that shown below. The order in which categories are added may vary; don't worry about that -- as long as they are all listed!
 
 {lang="text",linenos=off}
 	$ python populate_rango.py
