@@ -274,6 +274,9 @@ By now, this sequence of actions should be pretty straightforward for you to imp
 	    context_dict = {'form': form}
 	    return render(request, 'rango/profile_registration.html', context_dict)
 
+I> ### Use of `redirect()`
+I> The eagle-eyed reader will note that when we call `redirect()` in the code snippet above, we don't call `reverse()` within. That's a fair comment to make, but did you know that this code is still perfectly valid? If you [read the Django documentation](https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/#redirect), you'll see that one of the possible three different types of input we can pass to `redirect()` is a URL view name -- or, in other words, the name we give a URL mapping. The `redirect()` function calls `reverse()` for us!
+
 Remember to check that you also have the relevant `import` statements at the top of the `views.py` module. You should have them all by now from previous chapters, but nevertheless it's good to check!
 
 {lang="python",linenos=off}
