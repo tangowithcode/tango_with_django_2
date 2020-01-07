@@ -1,7 +1,7 @@
 #Working with Templates {#chapter-templates-extra}
 So far, we've created several HTML templates for different pages within our Rango application. As you created each additional template, you may have noticed that a lot of the HTML code is repeated. Does that feel a bit strange, or wasteful?
 
-It should! Anytime you repeat similar code, you are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don't_repeat_yourself) -- which states: **DO NOT REPEAT YOURSELF!** You might have also noticed that the way we have been referring to different pages using *hard-coded* URL paths. This is bad practice -- names will invariably change.
+It should! Anytime you repeat similar code, you are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don't_repeat_yourself) -- which states: **DO NOT REPEAT YOURSELF!** You might have also noticed that in some instances, we have referred to different pages with *hard-coded* URL paths. This is bad practice, as names will invariably change over time.
 
 Taken together, repetition and hard coding will result in a maintenance nightmare. If we want to make a change to the general site structure or change a URL path, you will have to modify *all* the templates which contain either the structure we want to change -- or the URL. This might be tractable if your site has a few pages. However, what if your site had hundreds of pages? How long would it take to update everything? How likely would it be that you will make a mistake somewhere?
 
@@ -231,7 +231,7 @@ I> Here we have shown how we can minimise the repetition of structure HTML in ou
 I>
 I> Templates can also be used to minimise code within your application's views. For example, if you wanted to include the same database driven content on each page of your application, you could construct a template that calls a specific view to handle the repeating portion of your app's pages. This then saves you from having to call the Django ORM functions that gather the required data for the template in every view that renders it.
 I>
-I> If you haven't already done so, now would be a good time to read through the official [Django documentation on templates](https://docs.djangoproject.com/en/2.1/topics/templates/).
+I> If you haven't already done so, it now would be a good time to read through the official [Django documentation on templates](https://docs.djangoproject.com/en/2.1/topics/templates/).
 
 
 X> ### Exercises
