@@ -312,7 +312,7 @@ I>
 I> Placing conditional checks in your templates -- like `{% if category %}` in the example above -- also makes sense semantically. The outcome of the conditional check directly affects how the rendered page is presented to the user. Remember, presentational aspects of your Django apps should be encapsulated within templates.
 
 ### Parameterised URL Mapping
-Now let's have a look at how we pass the value of the `category_name_url` parameter to our function `show_category()` function. To do so, we need to modify Rango's `urls.py` file and update the `urlpatterns` tuple as follows.
+Now let's have a look at how we pass the value of the `category_name_url` parameter to our function `show_category()` function. To do so, we need to modify Rango's `urls.py` file (remember, the file located at `<workspace>/tango_with_django_project/rango/`), and update the `urlpatterns` tuple as follows.
 
 {lang="python",linenos=off}
 	urlpatterns = [
@@ -426,7 +426,7 @@ T>      * If you are not sure about the HTML template code to use, you can draw 
 T> ### Model Tips
 T> For more tips on working with models you can take a look through the following blog posts:
 T> 
-T> 1. [Best Practices when working with models](http://steelkiwi.com/blog/best-practices-working-django-models-python/) by Kostantin Moiseenko. In this post, you will find a series of tips and tricks when working with models.
+T> 1. [Best Practices when working with models](http://steelkiwi.com/blog/best-practices-working-django-models-python/) by Alexander Stepanov. In this post, you will find a series of tips and tricks when working with models.
 T> 2. [How to make your Django Models DRYer](https://medium.com/@raiderrobert/make-your-django-models-dryer-4b8d0f3453dd#.ozrdt3rsm) by Robert Roskam. In this post, you can see how you can use the `property` method of a class to reduce the amount of code needed when accessing related models.
 
 X> ### Test your Implementation

@@ -237,7 +237,7 @@ In scenarios where user input may not be entirely correct, we can *override* the
 	            url = 'http://' + url
 	            cleaned_data['url'] = url
 	            
-	            return cleaned_data
+	        return cleaned_data
 
 Within the `clean()` method, a simple pattern is observed which you can replicate in your own Django form handling code.
 
