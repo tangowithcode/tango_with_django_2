@@ -304,10 +304,10 @@ Now find a blank spot in `settings.py`, and add two more variables. The variable
 	MEDIA_ROOT = MEDIA_DIR
 	MEDIA_URL = '/media/'
 
-W> ### Once again, don't Forget the Slashes!
-W> Like the `STATIC_URL` variable, ensure that `MEDIA_URL` ends with a forward slash (i.e. `/media/`, not `/media`). The extra slash at the end ensures that the root of the URL (e.g. `/media/`) is separated from the content uploaded by your app's users.
+W> ### Once again, don't Forget the Forward Slashes!
+W> Like the `STATIC_URL` variable, ensure that `MEDIA_URL` ends with a forward slash. Make sure you use something like `/media/`, not `/media`. The extra slash at the end ensures that the root of the URL (e.g. `/media/`) is separated from the filenames of content uploaded by your app's users.
 
-The two variables tell Django where to look in your filesystem for media files (`MEDIA_ROOT`) that have been uploaded/stored, and what URL to serve them from (`MEDIA_URL`). With the configuration defined above, the uploaded file `cat.jpg` will, for example, be available to access on your Django development server through the URL `http://localhost:8000/media/cat.jpg`.
+The two variables tell Django where to look in your filesystem for media files (`MEDIA_ROOT`) that have been uploaded and stored, and what URL to serve them from (`MEDIA_URL`). With the configuration we defined above, a user uploading the file `sample.pdf` will, for example, be then made available on your Django development server through the URL `http://localhost:8000/media/sample.pdf`.
 
 When we come to working with templates [later on in this book](#chapter-mtv), it'll be handy for us to obtain a reference to the `MEDIA_URL` path when we need to reference uploaded content. Django provides a [*template context processor*](https://docs.djangoproject.com/en/2.1/ref/templates/api/#django-template-context-processors-media) that'll make it easy for us to do. While we don't strictly need this set up now, it's a good time to add it in.
 
@@ -323,7 +323,15 @@ To do this, find the `TEMPLATES` list that resides within your project's `settin
 	],
 
 ### Tweaking your URLs
-The final step for setting up the serving of media in a development environment is to tell Django to serve static content from `MEDIA_URL`. This can be achieved by opening your **project's** `urls.py` module, and modifying it by appending a call to the `static()` function to your project's `urlpatterns` list. Remember, your **project's** `urls.py` module is the one that lives within the `tango_with_django_project` directory!
+The final step for setting up the serving of media in a development environment is to tell Django to serve static content from `MEDIA_URL`. This can be achieved by opening your **project's** `urls.py` module. Remember, your **project's** `urls.py` module is the one that lives within the `tango_with_django_project/tango_with_django_project` directory -- __**not**__ the `rango/urls.py` module!
+
+In the `urls.py` module, begin by adding the following `import` statements at the top. If you find that one of these lines already exists, you don't need to enter it again.
+
+{lang="python",linenos=off}
+	from django.conf import settings
+	from django.conf.urls.static import static
+
+Once you have the imports, you need to modify the `urlpatterns` list underneath. Modify it by appending a call to the `static()` function that you just imported, complete with the settings telling the function where the files are stored on your filesystem (`MEDIA_URL`), and what URL they should be served from (`MEDIA_URL`).
 
 {lang="python",linenos=off}
 	urlpatterns = [
@@ -331,13 +339,7 @@ The final step for setting up the serving of media in a development environment 
 	    ...
 	] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-You'll also need to add the following `import` statements at the top of the `urls.py` module.
-
-{lang="python",linenos=off}
-	from django.conf import settings
-	from django.conf.urls.static import static
-
-Once this is complete, you should be able to serve content from the `media` directory of your project from the `/media/` URL.
+Once these changes have been made, you should be able to serve content from the `media` directory of your project from the `/media/` URL.
 
 X> ### Create the `media` Directory
 X> Did you create the `media` directory within the `tango_with_django_project` directory? It should be a the same level as the `static` directory and the `manage.py` module.
@@ -372,7 +374,7 @@ X> * Convert the about page to use a template too. Use a template called `about.
 X> * Within the new `about.html` template, add a picture stored within your project's static files. You can just reuse the `rango.jpg` image you used in the index view! Make sure you keep the same `alt` text as the index page!
 X> * On the about page, include a line that says `This tutorial has been put together by <your-name>`. If you copied over from `index.html`, replacing `{{ boldmessage }}` would be the perfect place for this.
 X> * In your Django project directory, create a new directory called `media` (if you have not done so already). Download a JPEG image of a cat, and save it to the `media` directory as `cat.jpg`. 
-X> * In your `about.html` template, add in an `<img>` tag to display the picture of the cat to ensure that your media is being served correctly. *Keep the static image of Rango in your index page* so that your about page has working examples of both static and media files. The cat image should have alternative text of `Picture of a Cat`. **This means you should have an image of both Rango (from `static`) and a cat (from `media`) in your rendered about page.**
+X> * In your `about.html` template, add in an `<img>` tag to display the picture of the cat to ensure that your media is being served correctly. *Keep the static image of Rango in your index page* so that your about page has working examples of both static and media files. The cat image should have alternative text of `Picture of a Cat`. **This means you should have an image of both Rango (from `static`) and a cat (from `media`) in your rendered about page.** You don't need to do anything to the `about()` view -- you only need to modify the `about.html` template to accomplish this task.
 
 T> ### Static and Media Files
 T> Remember, **static files, as the name implies, do not change.** These files form the core components of your website. **Media files are user-defined; and as such, they may change often!**
