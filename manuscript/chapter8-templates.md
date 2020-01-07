@@ -1,7 +1,7 @@
 #Working with Templates {#chapter-templates-extra}
 So far, we've created several HTML templates for different pages within our Rango application. As you created each additional template, you may have noticed that a lot of the HTML code is repeated. Does that feel a bit strange, or wasteful?
 
-It should! Anytime you repeat similar code, you are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don't_repeat_yourself) -- which states: **DO NOT REPEAT YOURSELF!** You might have also noticed that in some instances, we have referred to different pages with *hard-coded* URL paths. This is bad practice, as names will invariably change over time.
+It should! Anytime you repeat similar code, you are violating the [DRY Principle](https://en.wikipedia.org/wiki/Don't_repeat_yourself) -- which states: **DO NOT REPEAT YOURSELF!** You might have noticed that in the templates we have written so far, we have referred to different pages with *hard-coded* URL paths. This is bad practice, as paths will invariably change over time.
 
 Taken together, repetition and hard coding will result in a maintenance nightmare. If we want to make a change to the general site structure or change a URL path, you will have to modify *all* the templates which contain either the structure we want to change -- or the URL. This might be tractable if your site has a few pages. However, what if your site had hundreds of pages? How long would it take to update everything? How likely would it be that you will make a mistake somewhere?
 
