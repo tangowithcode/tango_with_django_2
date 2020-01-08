@@ -321,3 +321,6 @@ T> - Update `rango/urls.py` with a URL mapping (`/rango/category/<slug:category_
 T> - You can avoid the repetition of `max_length` parameters through the use of an additional attribute in your `Category` model. This attribute could be used to store the value for `max_length`, and then be referenced where required.
 T>
 T> If all else fails and you still find yourself stuck, you can check out our [model solution on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/commit/7d2fb194f93342268da3bb4aa1c49384f03e0454).
+
+X> ### Test your Implementation
+X> We've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter7.py`. How does your implementation stack up against our tests? Remember that your implementation should have fully completed the exercises listed above for the tests to pass.

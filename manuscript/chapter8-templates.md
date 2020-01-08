@@ -378,6 +378,9 @@ In the template, we check to see if the category being displayed is the same as 
 
 Be aware that this solution works because in every step previously that deals with categories, we have called the category variable that is placed in the template dictionary `category`. If you don't understand what we mean, look at your code for the views `show_category()` and `add_page()`, for instance. Check: *what keys are placed in the context dictionary in those views?*
 
+X> ### Test your Implementation
+X> We've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter8.py`. How does your implementation stack up against our tests? Remember that your implementation should have fully completed the exercises listed above for the tests to pass.
+
 ## Summary
 In this chapter, we showed how we can:
 
