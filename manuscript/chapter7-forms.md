@@ -203,7 +203,7 @@ Ordering doesn't necessarily matter in this instance. However, take a look at th
 As a final step, we can put a link on the index page so that users can then easily navigate to the page that allows them to add categories. Edit the template `rango/index.html`, and add the following HTML hyperlink in the `<div>` element with the *About* link.
 
 {lang="html",linenos=off}
-	<a href="/rango/add_category/">Add New Category</a><br />
+	<a href="/rango/add_category/">Add a New Category</a><br />
 
 ### Demo
 Now let's try it out! Start or restart your Django development server, and then point your web browser to Rango at `http://127.0.0.1:8000/rango/`. Use your new link to jump to the Add Category page, and try adding a category. The [figure below](#fig-ch7-add-cat) shows screenshots of the *Add Category* and *Index* pages. In the screenshots, we add the category *Assembly*.
