@@ -14,25 +14,25 @@ show within the template, i.e. `<a href="/rango/about/">About</a>`. This kind of
 It's pretty simple to include relative URLs in your templates. To refer to the *About* page, we would insert the following line into our templates:
 
 {lang="html",linenos=off}
-	<a href="{% url 'rango:about' %}">About</a>
+    <a href="{% url 'rango:about' %}">About</a>
 
 The Django template engine will look up any `urls.py` module for a URL pattern with the attribute `name` set to `about` (`name='about'`) for the app with `app_name` set to `rango`, and then perform a reverse lookup on the URL. This means if we change the URL mappings in `urls.py`, we don't need to go through each template that refer to them.
 
 One can also reference a URL pattern without a specified name, by referencing the view directly as shown below.
 
 {lang="html",linenos=off}
-	<a href="{% url 'rango.views.about' %}">About</a>
+    <a href="{% url 'rango.views.about' %}">About</a>
 
 In this example, we must ensure that the app `rango` has the view `about`, contained within its `views.py` module. In your app's `index.html` template, you will notice that you have a parameterised URL pattern (the `show_category()` URL/view takes the `category.slug` as a parameter). To handle this, you can pass the `url` template tag the name of the URL/view and the slug within the template, as follows:
 
 {lang="html",linenos=off}
-	{% for category in categories %}
-	    <li>
-	        <a href="{% url 'rango:show_category' category.slug %}">
-	            {{ category.name }}
-	        </a>
-	    </li>
-	{% endfor %}
+    {% for category in categories %}
+        <li>
+            <a href="{% url 'rango:show_category' category.slug %}">
+                {{ category.name }}
+            </a>
+        </li>
+    {% endfor %}
 
 Before you run off to update all the URLs in all your templates with relative URLs, we need to restructure and refactor our templates by using inheritance to remove excessive repetition.
 
@@ -86,18 +86,18 @@ The basic approach to using inheritance in templates is as follows.
 Given the templates that we have created so far, it should be pretty obvious that we have been repeating a fair bit of HTML code. Below, we have abstracted away any page-specific details to show the skeleton structure that we have been repeating within each template.
 
 {lang="html",linenos=on}
-	<!DOCTYPE html>
-	{% load staticfiles %}
-	
-	<html>
-	    <head lang="en">
-	        <meta charset="UTF-8" />
-	        <title>Rango</title>
-	    </head>
-	    <body>
-	        <!-- Page specific content goes here -->
-	    </body>
-	</html>
+    <!DOCTYPE html>
+    {% load staticfiles %}
+    
+    <html>
+        <head lang="en">
+            <meta charset="UTF-8" />
+            <title>Rango</title>
+        </head>
+        <body>
+            <!-- Page specific content goes here -->
+        </body>
+    </html>
 
 For the time being, let's make this simple HTML page our app's base template. Save this markup in Rango's `base.html` template.
 
@@ -110,19 +110,19 @@ W> Not having a [document type declaration](https://en.wikipedia.org/wiki/Docume
 Now that we've created our base template, we can add template tags to denote what parts of the template can be overridden by templates that inherit from it. To do this, we will be using the `block` tag. For example, we can add a `body_block` to the base template in `base.html` as follows:
 
 {lang="html",linenos=on}
-	<!DOCTYPE html>
-	{% load staticfiles %}
-	
-	<html>
-	    <head lang="en">
-	        <meta charset="UTF-8" />
-	        <title>Rango</title>
-	    </head>
-	    <body>
-	        {% block body_block %}
-	        {% endblock %}
-	    </body>
-	</html>
+    <!DOCTYPE html>
+    {% load staticfiles %}
+    
+    <html>
+        <head lang="en">
+            <meta charset="UTF-8" />
+            <title>Rango</title>
+        </head>
+        <body>
+            {% block body_block %}
+            {% endblock %}
+        </body>
+    </html>
 
 
 Recall that standard Django template commands are denoted by `{%` and `%}` tags. To start a block, the command is `{% block <NAME> %}`, where `<NAME>` is the name of the block you wish to create. You must also ensure that you close the block with the correct `{% endblock %}` command, again enclosed within Django template tags.
@@ -130,9 +130,9 @@ Recall that standard Django template commands are denoted by `{%` and `%}` tags.
 You can also specify *default content* for your blocks, which will be used if no inheriting template defines the given block (see [further down](#section-templates-inheritance)). Specify default content by adding markup between `{% block %}` and `{% endblock %}` template commands, just like in the example below.
 
 {lang="html",linenos=off}
-	{% block body_block %}
-	    This is body_block's default content.
-	{% endblock %}
+    {% block body_block %}
+        This is body_block's default content.
+    {% endblock %}
 
 When we create templates for each page, we will inherit from `rango/base.html` and override the contents of `body_block`. However, you can place as many blocks in your templates as you so desire. For example, you could create a block for the page title, a block for the footer, a block for the sidebar, and more. Blocks are a really powerful feature of Django's templating system, and you can learn more about them check on [Django's official documentation on templates](https://docs.djangoproject.com/en/2.1/topics/templates/).
 
@@ -146,33 +146,33 @@ I> *Thinking hurts, but it is better than doing lots of grunt work!*
 Now that you have an understanding of blocks within Django templates, let's take the opportunity to abstract our base template a little bit further. Reopen the `rango/base.html` template and modify it to look like the following.
 
 {lang="html",linenos=on}
-	<!DOCTYPE html>
-	{% load staticfiles %}
-	
-	<html>
-	    <head>
-	        <title>
-	            Rango - 
-	            {% block title_block %} 
-	               How to Tango with Django!
-	            {% endblock %}
-	        </title>
-	    </head>
-	    <body>
-	        <div>
-	            {% block body_block %}
-	            {% endblock %}
-	        </div>
-	        <hr />
-	        <div>
-	            <ul>
-	              <li><a href="{% url 'rango:add_category' %}">Add New Category</a></li>
-	              <li><a href="{% url 'rango:about' %}">About</a></li>
-	              <li><a href="{% url 'rango:index' %}">Index</a></li>
-	            </ul>
-	        </div>
-	    </body>
-	</html>
+    <!DOCTYPE html>
+    {% load staticfiles %}
+    
+    <html>
+        <head>
+            <title>
+                Rango - 
+                {% block title_block %} 
+                   How to Tango with Django!
+                {% endblock %}
+            </title>
+        </head>
+        <body>
+            <div>
+                {% block body_block %}
+                {% endblock %}
+            </div>
+            <hr />
+            <div>
+                <ul>
+                  <li><a href="{% url 'rango:add_category' %}">Add New Category</a></li>
+                  <li><a href="{% url 'rango:about' %}">About</a></li>
+                  <li><a href="{% url 'rango:index' %}">Index</a></li>
+                </ul>
+            </div>
+        </body>
+    </html>
 
 From the example above, we have introduced two new features into the base template.
 
@@ -185,40 +185,40 @@ Now that we've created a base template with blocks, we can now update all the te
 You can achieve this by first removing all the repeated HTML code, leaving only the HTML and template tags/commands specific to the page. Then at the beginning of the template add the following line of code:
 
 {lang="html",linenos=off}
-	{% extends 'rango/base.html' %}
+    {% extends 'rango/base.html' %}
 
 The `extends` command takes one parameter -- the template that is to be extended/inherited from (i.e. `rango/base.html`). The parameter you supply to the `extends` command should be relative from your project's `templates` directory. For example, all templates we use for Rango should extend from `rango/base.html`, not `base.html`. We can then further modify the `category.html` template so it looks like the following complete example.
 
 {lang="html",linenos=on}
-	{% extends 'rango/base.html' %}
-	{% load staticfiles %}
-	
-	{% block title_block %}
-	    {% if category %}
-	        {{ category.name }}
-	    {% else %}
-	        Unknown Category
-	    {% endif %}
-	{% endblock %}
-	
-	{% block body_block %}
-	    {% if category %}
-	        <h1>{{ category.name }}</h1>
-	        
-	        {% if pages %}
-	            <ul>
-	            {% for page in pages %}
-	                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-	            {% endfor %}
-	            </ul>
-	        {% else %}
-	            <strong>No pages currently in category.</strong>
-	        {% endif %}
-	        <a href="{% url 'rango:add_page' category.slug %}">Add a Page</a>
-	    {% else %}
-	        The specified category does not exist!
-	    {% endif %}
-	{% endblock %}
+    {% extends 'rango/base.html' %}
+    {% load staticfiles %}
+    
+    {% block title_block %}
+        {% if category %}
+            {{ category.name }}
+        {% else %}
+            Unknown Category
+        {% endif %}
+    {% endblock %}
+    
+    {% block body_block %}
+        {% if category %}
+            <h1>{{ category.name }}</h1>
+            
+            {% if pages %}
+                <ul>
+                {% for page in pages %}
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <strong>No pages currently in category.</strong>
+            {% endif %}
+            <a href="{% url 'rango:add_page' category.slug %}">Add a Page</a>
+        {% else %}
+            The specified category does not exist!
+        {% endif %}
+    {% endblock %}
 
 W> ### Loading `staticfiles` and URLs
 W> You'll need to make sure you add `{% load staticfiles %}` to the top of **each template** that makes use of static media. If you don't, you'll get an error! Template inheritance *does not imply what template tags are available.* If you've programmed before, this works somewhat differently from object-orientated programming languages such as Java, where imports cascade down inheriting classes. Notice how we used the `url` template tag to refer to `rango/<category-name>/add_page/` URL pattern. The `category.slug` is passed through as a parameter to the `url` template tag and Django's template engine will produce the correct URL for us.
@@ -241,12 +241,18 @@ X> - Update all other previously defined templates in the Rango app to extend fr
 X> - While you're at it, make sure you remove the links from our `index.html` template. We don't need them anymore! This is because we moved them into `base.html` earlier. You can also remove the link to Rango's homepage within the `about.html` template. 
 X> - When you refactor `index.html` and `about.html`, keep the images that are served up from the static files and media server.
 X> - Update all references to Rango URLs by using the `url` template tag. You can also do this in your `views.py` module too -- check out the [`reverse()` helper function](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#reverse). Don't forget to update the URLs provided in the `action` attributes of your `<form>` elements!
-
+X> - Make sure all of your new templates employ a `{% block title_block %}` within the HTML `<title>` tag. Remember to use the `'Rango - '` in `base.html`. For your other pages, use the following titles. If you use our tests at the end of each chapter, these changes will be important.
+X> 	* In `about.html`, use the title `About Rango`.
+X> 	* In `add_category.html`, use the title `Add a Category`.
+X> 	* In `add_page.html`, use the title `Add a Page`.
+X> 	* In `category.html`, use the category's `name` -- and if a non-existent category is supplied, use `Unknown Category`. You'll need to write a basic conditional check (i.e. `{% if ... %}` here.
+X> 	* Finally, in `index.html`, use the title `Homepage`.
 
 T> ### Hints
 T> - Start refactoring the `about.html` template first.
 T> - Update the `title_block` then the `body_block` in each template.
 T> - Have the development server running and check the page as you work on it. Don't change the whole page to find it doesn't work. Changing things incrementally and testing those changes as you go is a much safer solution.
+T> - To check if a category exists in your templates, remember you can simply use the conditional statement `{% if category %}` -- so long as the `category` object is passed by that name in your template context!
 T> - To reference the links to category pages, you can use the following template code, paying particular attention to the Django template `{% url %}` command.
 T>
 T> {lang="html",linenos=off}
@@ -294,38 +300,38 @@ However, this is a pretty nasty solution because we will need to include the sam
 Create a directory `<Workspace>/tango_with_django_project/rango/templatetags`, and create two new modules within it. One must be called `__init__.py`, and this will be kept blank. Name the second module `rango_template_tags.py`. Add the following code to `rango_template_tags.py`.
 
 {lang="python",linenos=on}
-	from django import template
-	from rango.models import Category
-	
-	register = template.Library()
-	
-	@register.inclusion_tag('rango/categories.html')
-	def get_category_list():
-	    return {'categories': Category.objects.all()}
+    from django import template
+    from rango.models import Category
+    
+    register = template.Library()
+    
+    @register.inclusion_tag('rango/categories.html')
+    def get_category_list():
+        return {'categories': Category.objects.all()}
 
 There is a new method called `get_category_list()` in this snippet. This method returns a dictionary with one key/value pairing. `categories` represents a list of all the `Category` objects present in the database. From the `register.inclusion_tag()` decorator above, you will see that `rango/categories.html` is referred to -- another new template. This new template is used by the Django template engine to render the list of categories you provide in the dictionary that is returned in the function. This rendered list can then be injected into the response of the view that initially called the template tag!
 
 Now would be a good time to create the new template, `categories.html`, and add the following HTML markup. Note the similarity in the name of the template with the existing `category.html` template. This is done by design to make sure you are kept on your toes!
 
 {lang="html",linenos=on}
-	<ul>
-	{% if categories %}
-	    {% for c in categories %}
-	        <li><a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a></li>
-	    {% endfor %}
-	{% else %}
-	    <li><strong>There are no categories present.</strong></li>
-	{% endif %}
-	</ul>
+    <ul>
+    {% if categories %}
+        {% for c in categories %}
+            <li><a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a></li>
+        {% endfor %}
+    {% else %}
+        <li><strong>There are no categories present.</strong></li>
+    {% endif %}
+    </ul>
 
 To use the template tag in your `base.html` template, first load the custom template tag by including the command `{% load rango_template_tags %}` at the top of the `base.html` template. Put it underneath the `{% load staticfiles %}` line -- but remember, **don't put it at the *very* top!** You can then create a new block to represent the sidebar -- and we can call our new template tag with the following code. Put this code between the `<div>` containing the `body_block` and the `<hr />` tag that separates the main content of your page from your app's navigation links.
 
 {lang="html",linenos=off}
-	<div>
-	    {% block sidebar_block %}
-	        {% get_category_list %}
-	    {% endblock %}
-	</div>
+    <div>
+        {% block sidebar_block %}
+            {% get_category_list %}
+        {% endblock %}
+    </div>
 
 Try it out. Now all pages that inherit from `base.html` will also include the list of categories (which we will move to the side later on). 
 
@@ -336,37 +342,37 @@ T> You'll need to restart the Django development server (or ensure it restarted 
 We can also *parameterise* the template tags we create, allowing for greater flexibility. As an example, we'll use parameterisation to highlight which category we are looking at when visiting its page. Adding in a parameter is easy -- we can update the `get_category_list()` method as follows.
 
 {lang="python",linenos=off}
-	def get_category_list(current_category=None):
-	    return {'categories': Category.objects.all(),
-	            'current_category': current_category}
+    def get_category_list(current_category=None):
+        return {'categories': Category.objects.all(),
+                'current_category': current_category}
 
 Note the `current_category` parameter for `get_category_list()`. If a parameter is not passed along, `None` is used instead (implying there is no currently selected category).
 
 We can then update our `base.html` template which makes use of the custom template tag to pass in the current category -- but only if it exists.
 
 {lang="html",linenos=off}
-	<div>
-	    {% block sidebar_block %}
-	        {% get_category_list category %}
-	    {% endblock %}
-	</div>
+    <div>
+        {% block sidebar_block %}
+            {% get_category_list category %}
+        {% endblock %}
+    </div>
 
 We can also now update the `categories.html` template, too.
 
 {lang="html",linenos=off}
-	{% for c in categories %}
-	    {% if c == current_category %}
-	        <li>
-	        <strong>
-	              <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
-	        </strong>
-	        </li>
-	    {% else  %}
-	        <li>
-	            <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
-	        </li>
-	    {% endif %}
-	{% endfor %}
+    {% for c in categories %}
+        {% if c == current_category %}
+            <li>
+            <strong>
+                  <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
+            </strong>
+            </li>
+        {% else  %}
+            <li>
+                <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
 
 In the template, we check to see if the category being displayed is the same as the category being passed through during the `for` loop (i.e. `c == current_category`). If so, we highlight the category name by making it **bold** through use of the `<strong>` tag.
 
