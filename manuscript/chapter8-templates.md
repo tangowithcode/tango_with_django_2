@@ -241,18 +241,18 @@ X> - Update all other previously defined templates in the Rango app to extend fr
 X> - While you're at it, make sure you remove the links from our `index.html` template. We don't need them anymore! This is because we moved them into `base.html` earlier. You can also remove the link to Rango's homepage within the `about.html` template. 
 X> - When you refactor `index.html` and `about.html`, keep the images that are served up from the static files and media server.
 X> - Update all references to Rango URLs by using the `url` template tag. You can also do this in your `views.py` module too -- check out the [`reverse()` helper function](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#reverse). Don't forget to update the URLs provided in the `action` attributes of your `<form>` elements!
-X> - Make sure all of your new templates employ a `{% block title_block %}` within the HTML `<title>` tag. Remember to use the `'Rango - '` in `base.html`. For your other pages, use the following titles. If you use our tests at the end of each chapter, these changes will be important.
+X> - Make sure all of your new templates employ a `{% block title_block %}` within the HTML `<title>` tag. Remember to use the `'Rango - '` in `base.html`, which will mean all titles are prepended with `'Rango - '`. For inheriting templates, use the following titles. If you use our tests at the end of each chapter, these changes will be important.
 X> 	* In `about.html`, use the title `About Rango`.
 X> 	* In `add_category.html`, use the title `Add a Category`.
 X> 	* In `add_page.html`, use the title `Add a Page`.
-X> 	* In `category.html`, use the category's `name` -- and if a non-existent category is supplied, use `Unknown Category`. You'll need to write a basic conditional check (i.e. `{% if ... %}` here.
+X> 	* In `category.html`, use the category's `name` -- and if a non-existent category is supplied, use `Unknown Category`. You'll need to write a basic conditional check (i.e. `{% if ... %}`) here.
 X> 	* Finally, in `index.html`, use the title `Homepage`.
 
 T> ### Hints
 T> - Start refactoring the `about.html` template first.
 T> - Update the `title_block` then the `body_block` in each template.
-T> - Have the development server running and check the page as you work on it. Don't change the whole page to find it doesn't work. Changing things incrementally and testing those changes as you go is a much safer solution.
 T> - To check if a category exists in your templates, remember you can simply use the conditional statement `{% if category %}` -- so long as the `category` object is passed by that name in your template context!
+T> - Have the development server running and check the page as you work on it. Don't change the whole page to find it doesn't work. Changing things incrementally and testing those changes as you go is a much safer solution.
 T> - To reference the links to category pages, you can use the following template code, paying particular attention to the Django template `{% url %}` command.
 T>
 T> {lang="html",linenos=off}
