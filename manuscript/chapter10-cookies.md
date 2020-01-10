@@ -255,6 +255,9 @@ X> Now you've read through this chapter and tried out the code, give these exerc
 X> 
 X> - Check that your cookies are server-side. Clear the browser's cache and cookies, then check to make sure you can't see the `last_visit` and `visits` variables in the browser. Note you will still see the `sessionid` cookie. Django uses this cookie to look up the session in the database where it stores all the server-side cookies about that session.
 X> - Update the *About* page view and template telling the visitors how many times they have visited the site. Remember to call our helper function `visitor_cookie_handler()` before you attempt to get the `visits` cookie from the `request.session` dictionary, otherwise if the cookie is not set it will raise an error. Ensure that you have `Visits: ` preceding the count.
-X> - Remove the visitor presentation logic from the `index()` view. You do however want to keep the call to the `visitor_cookie_handler()` function to increment the counter if required!
+X> - Remove the visitor presentation logic from the `index()` view, and the associated template, `index.html`. You *do* however want to keep the call to the `visitor_cookie_handler()` function to increment the counter (or initialise it!) if required!
+
+X> ### Test your Implementation
+X> We've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter10.py`. How does your implementation stack up against our tests? Remember to complete the exercises above to ensure that all of the tests will pass.
 
 [^1]: The latest version of the HTTP standard HTTP 1.1 supports the ability for multiple requests to be sent in one TCP network connection. This provides huge improvements in performance, especially over high-latency network connections (such as via a traditional dial-up modem and satellite). This is referred to as *HTTP pipelining*, and you can read more about this technique on [Wikipedia](http://en.wikipedia.org/wiki/HTTP_pipelining).
