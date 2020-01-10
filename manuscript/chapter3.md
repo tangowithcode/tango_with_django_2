@@ -165,9 +165,9 @@ Verify that Django picked up your new app by running the development server agai
 ## Creating a View
 With our Rango app created, let's now create a simple view. Views handle a *request* that comes from the client, *executes some code*, and provides a *response* to the client. To fulfil the request, it may contact other services or query for data from other sources. The job of a view is to collate and package the data required to handle the request, as we outlined above. For our first view, given a request, the view will simply send some text back to the client. For the time being, we won't concern ourselves about using models (i.e. getting data from other sources) or templates (i.e. which help us package our responses nicely).
 
-In your editor, open the file `views.py`, located within your newly created `rango` app directory. Remove the comment `# Create your views here.` so that you now have a blank file.
+In your editor, open the file `views.py`, located within your newly created `rango` app directory. Remove the comment `# Create your views here.`, but keep the `from django.shortcuts import render` line -- you'll use it later on!
 
-You can now add in the following code.
+You can now add in the following code underneath the aforementioned `import` statement.
 
 {lang="python",linenos=off}
 	from django.http import HttpResponse
@@ -184,11 +184,14 @@ Breaking down the three lines of code, we observe the following points about cre
 
 With the view created, you're only part of the way to allowing a user to access it. For a user to see your view, you must map a [Uniform Resource Locator (URL)](http://en.wikipedia.org/wiki/Uniform_resource_locator) to the view.
 
-To create an initial mapping, open `urls.py` located in your project configuration directory (i.e. `<workspace>/tango_with_django_project/tango_with_django_project` -- the second `tango_with_django_project` directory!) and add the following lines of code to the `urlpatterns` list:
+To create an initial mapping, open `urls.py` located in your project configuration directory (i.e. `<workspace>/tango_with_django_project/tango_with_django_project` -- the second `tango_with_django_project` directory!) and add the following import to the top of the file -- underneath `from django.urls import path`.
 
 {lang="python", linenos=off}
 	from rango import views
-	
+
+Next, change the `urlpatterns` list to look like the example below.
+
+{lang="python", linenos=off}
 	urlpatterns = [
 	    path('', views.index, name='index'),
 	    path('admin/', admin.site.urls),
