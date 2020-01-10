@@ -430,7 +430,7 @@ Django provides all of these functions and classes. As such, you'll need to impo
 You will find that some of these `import` statements are already present in Rango's `views.py` module from earlier on -- check to see that you are not repeating yourself! For example, `HttpResponse` should be present from earlier.
 
 ### Creating a *Login* Template
-With our new view created, we'll need to create a new template, `login.html` allowing users to enter their credentials. While we know that the template will live in the `templates/rango/` directory, we'll leave you to figure out the name of the file. Look at the code example above to work out the name based upon the code for the new `user_login()` view. In your new template file, add the following code.
+With our new view created, we'll need to create a new template, `login.html`. It will allow users to enter their credentials. While we know that the template will live in the `templates/rango/` directory, we'll leave you to figure out the name of the file. Look at the code example above to work out the name based upon the code for the new `user_login()` view. In your new template file, add the following code.
 
 {lang="html",linenos=off}
 	{% extends 'rango/base.html' %}
@@ -627,5 +627,8 @@ Many web applications however take the concepts of user authentication further. 
 X> ### Exercises
 X> For now, work on the following two exercises to reinforce what you've learnt in this chapter.
 X>
-X> - Customise the application so that only registered users can add categories and pages, while unregistered can only view or use the categories and pages. Remember, you'll need to update your template code around the links in `base.html` -- as well as the `Add Page` link in `category.html`!
-X> - Keep your templating knowledge fresh by converting the restricted page view to use a template. Call the template `restricted.html`, and ensure that it too extends from Rango's `base.html` template.
+X> - Customise the application so that only registered users can add categories and pages, while those unregistered can only view or use the categories and pages. Remember, you'll need to update your template code around the links in `base.html` -- as well as the `Add Page` link in `category.html`!
+X> - Keep your templating knowledge fresh by converting the restricted page view to use a template. Call the template `restricted.html`, and ensure that it too extends from Rango's `base.html` template. Make sure you give this page a title block value of `Restricted Page`.
+
+X> ### Test your Implementation
+X> We've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter9.py`. How does your implementation stack up against our tests? The tests in this chapter are rather extensive! Remember that your implementation should have fully completed the exercises listed above for the tests to pass.
