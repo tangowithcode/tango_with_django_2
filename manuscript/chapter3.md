@@ -202,13 +202,12 @@ This maps the basic URL to the `index` view in the `rango` app. Run the developm
 ## Mapping URLs
 Rather than directly mapping URLs from the project to the app, we can make our app more modular (and thus re-usable) by changing how we route the incoming URL to a view. To do this, we first need to modify the project's `urls.py` and have it point to the app to handle any specific Rango app requests. We then need to specify how Rango deals with such requests.
 
-First, open the project's `urls.py` file which is located inside your project configuration directory. As a relative path from your workspace directory, this would be the file `<workspace>/tango_with_django_project/tango_with_django_project/urls.py`. Update the `urlpatterns` list as shown in the example below.
+First, open the project's `urls.py` file which is located inside your project configuration directory. As a relative path from your workspace directory, this would be the file `<workspace>/tango_with_django_project/tango_with_django_project/urls.py`. Update module to look like the example below.
 
 {lang="python",linenos=off}
 	from django.contrib import admin
 	from django.urls import path
 	from django.urls import include
-	
 	from rango import views
 	
 	urlpatterns = [
@@ -274,8 +273,8 @@ X> Now that you have got Django and your new app up and running, try out the fol
 X> 
 X> - Revise the procedure and make sure you follow how the URLs are mapped to views.
 X> - Create a new view method called `about` which returns the following `HttpResponse`: `'Rango says here is the about page.'`
-X> - Map this view to `/rango/about/`. For this step, you'll only need to edit the `urls.py` of the Rango app. Remember the `/rango/` part is handled by the projects `urls.py`.
-X> - Revise the `HttpResponse` in the `index` view to include a hyperlink (or *anchor*) to the about page.
+X> - Map this view to `/rango/about/`. For this step, you'll only need to edit the `urls.py` of the Rango app. Remember the `/rango/` part is handled by the projects `urls.py`. This new mapping will have a `name` of `about`.
+X> - Revise the `HttpResponse` in the `index` view to include a hyperlink (or *anchor*) to the about page. **This is part of the response -- meaning that it also lives within the same string that says `Rango says hey there partner!`.**
 X> - Include a link back to the index page in the `about` view's response.
 X> - Now that you have started the book, you can follow us on Twitter if you have it -- our handle is [@tangowithdjango](https://twitter.com/tangowithdjango). Let us know how you are getting on!
 
