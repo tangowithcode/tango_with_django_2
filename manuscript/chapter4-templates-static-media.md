@@ -113,7 +113,7 @@ From this HTML code, it should be clear that a simple HTML page is going to be g
 
 To use this template, we need to reconfigure the `index()` view that we created earlier. Instead of dispatching a simple response, we will change the view to dispatch our template.
 
-In `rango/views.py`, check to see if the following `import` statement exists at the top of the file. Django should have added it for you when you created the Rango app. If it is not present, add it.
+In `rango/views.py`, check to see if the following `import` statement exists at the top of the file. Django should have added it for you when you created the Rango app. If it is not present, add it, but you should have kept it from earlier.
 
 {lang="python",linenos=off}
 	from django.shortcuts import render
@@ -166,7 +166,7 @@ First of all, create a variable called `STATIC_DIR` at the top of `settings.py`,
 
 This results in the path `<workspace>/tango_with_django_project/static/`. We then need to create a new data structure called `STATICFILES_DIRS`. This is essentially a list of paths with which Django will expect to find static files that can be served. By default, this list does not exist -- **check** it doesn't before you create it. If you define it twice, you can start to confuse Django, and yourself.
 
-For this book, we're only going to be using a single location to store our project's static files -- the path defined in `STATIC_DIR`. As such, we can simply set up the list STATICFILES_DIRS` with the following.
+For this book, we're only going to be using a single location to store our project's static files -- the path defined in `STATIC_DIR`. As such, we can simply set up the list `STATICFILES_DIRS` with the following.
 
 {lang="python",linenos=off}
 	STATICFILES_DIRS = [STATIC_DIR, ]
@@ -370,11 +370,13 @@ The steps for serving media files are similar to those for serving static media.
 X> ### Exercises
 X> Give the following exercises a go to reinforce what you've learnt from this chapter.
 X> 
-X> * Convert the about page to use a template too. Use a template called `about.html` for this purpose. Base the contents of this file on `index.html`. In the new template's `<h1>` element, keep `Rango says...` -- but on the line underneath, have the text `here is the about page.`.
+X> * Convert the about page to use a template too. Use a template called `about.html` for this purpose. Base the contents of this file on `index.html`. In the new template's `<h1>` element, keep `Rango says...` -- but on the line underneath, have the text `'here is the about page.'`.
+X> * Remember to update the `about()` view in `views.py`! Do you think you need a context dictionary for this view?
+X> * Your new `about.html` must include a link back to the index page. If you copied your existing `index.html` template, a small change is required to achieve this.
 X> * Within the new `about.html` template, add a picture stored within your project's static files. You can just reuse the `rango.jpg` image you used in the index view! Make sure you keep the same `alt` text as the index page!
 X> * On the about page, include a line that says `This tutorial has been put together by <your-name>`. If you copied over from `index.html`, replacing `{{ boldmessage }}` would be the perfect place for this.
 X> * In your Django project directory, create a new directory called `media` (if you have not done so already). Download a JPEG image of a cat, and save it to the `media` directory as `cat.jpg`. 
-X> * In your `about.html` template, add in an `<img>` tag to display the picture of the cat to ensure that your media is being served correctly. **Keep the static image of Rango in your index page** so that your about page has working examples of both static and media files. The cat image should have alternative text of `Picture of a Cat`. **This means you should have an image of both Rango (from `static`) and a cat (from `media`) in your rendered about page.** You don't need to touch the `about()` view -- only `about.html` needs to be modified for this task.
+X> * In your `about.html` template, add in an `<img>` tag to display the picture of the cat to ensure that your media is being served correctly. **Keep the static image of Rango in your index page** so that your about page has working examples of both static and media files. The cat image should have alternative text of `Picture of a Cat`. **This means you should have an image of both Rango (from `static`) and a cat (from `media`) in your rendered about page.** You don't need to touch the `about()` view -- only `about.html` needs to be modified for this final task.
 
 T> ### Static and Media Files
 T> Remember, **static files, as the name implies, do not change.** These files form the core components of your website. **Media files are user-defined; and as such, they may change often!**

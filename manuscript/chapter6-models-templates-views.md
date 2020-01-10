@@ -39,14 +39,14 @@ Here we will complete steps two and step three, where we need to modify the view
 	    context_dict['categories'] = category_list
 	    
 	    # Render the response and send it back!
-	    return render(request, 'rango/index.html', context_dict)
+	    return render(request, 'rango/index.html', context=context_dict)
 
 Here, the expression `Category.objects.order_by('-likes')[:5]` queries the `Category` model to retrieve the top five categories. You can see that it uses the `order_by()` method to sort by the number of `likes` in descending order. The `-` in `-likes` denotes that we would like them in *descending* order (if we removed the `-` then the results would be returned in *ascending* order). Since a list of `Category` objects will be returned, we used Python's [list operators](https://www.quackit.com/python/reference/python_3_list_methods.cfm) to take the first five objects from the list (`[:5]`) to return a subset of `Category` objects.
 
 With the query complete, we passed a reference to the list (stored as variable `category_list`) to the dictionary, `context_dict`. This dictionary is then passed as part of the context for the template engine in the `render()` call. Note that above, we still include our `boldmessage` in the `context_dict` -- this is still required for the existing template to work! This means our context dictionary now contains two key/value pairs: `boldmessage`, representing our `Crunchy, creamy, cookie, candy, cupcake!` message, and `categories`, representing our top five categories that have been extracted from the database.
 
 W> ###Warning
-W> For this to work, you will have had to complete the exercises in the previous chapter where you need to add the field `likes` to the `Category` model. Like we have said already, we assume you complete all exercises as you progress through this book.
+W> For this to work, you will have had to complete the exercises in the previous chapter where you need to add the field `likes` to the `Category` model. Like we have said already, we assume that you complete all exercises as you progress through this book.
 
 ### Modifying the Index Template
 With the view updated, we can complete the fourth step and update the template `rango/index.html`, located within your project's `templates` directory. Change the HTML and Django template code so that it looks like the example shown below. Note that the major changes start at line 15.
@@ -221,7 +221,7 @@ W> If you find yourself completely stuck, it is sometimes just more straightforw
 Now we need to figure out how to create a page for individual categories. This will allow us to then be able to see the pages associated with a category. To implement the category pages so that they can be accessed using the URL pattern `/rango/category/<category-name-slug>/`, we need to undertake the following steps.
 
 1. Import the `Page` model into `rango/views.py`.
-2. Create a new view in `rango/views.py` called `show_category()`. The `show_category()` view will take an additional parameter, `category_name_slug`, which will store the encoded category name.
+2. Create a new view in `rango/views.py` called `show_category()`. The `show_category()` view will take a second parameter, `category_name_slug`, which will store the encoded category name.
 	- We will need helper functions to encode and decode `category_name_slug`.
 3.  Create a new template, `templates/rango/category.html`.
 4.  Update Rango's `urlpatterns` to map the new `category` view to a URL pattern in `rango/urls.py`.
@@ -266,7 +266,7 @@ Next, we can add our new view, `show_category()`.
 	        context_dict['pages'] = None
 	    
 	    # Go render the response and return it to the client.
-	    return render(request, 'rango/category.html', context_dict)
+	    return render(request, 'rango/category.html', context=context_dict)
 
 Our new view follows the same basic steps as our `index()` view. We first define a context dictionary. Then, we attempt to extract the data from the models and add the relevant data to the context dictionary. We determine which category has been requested by using the value passed `category_name_slug` to the `show_category()` view function (in addition to the `request` parameter).
 
@@ -374,7 +374,7 @@ Our new view is set up and ready to go -- but we need to do one more thing. Our 
 	            {% for category in categories %}
 	            <!-- The following line is changed to add an HTML hyperlink -->
 	            <li>
-	            <a href="/rango/category/{{ category.slug }}/">{{ category.name }}</a>
+	            <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
 	            </li>
 	            {% endfor %}
 	        </ul>
@@ -393,7 +393,7 @@ Our new view is set up and ready to go -- but we need to do one more thing. Our 
 Again, we used the HTML tag `<ul>` to define an unordered list. Within the list, we create a series of list elements (`<li>`), each of which in turn contains an HTML hyperlink (`<a>`). The hyperlink has an `href` attribute, which we use to specify the target URL defined by `/rango/category/{{ category.slug }}` which, for example, would turn into `/rango/category/other-frameworks/` for the category `Other Frameworks`.
 
 ### Demo
-Let's try everything out now by visiting the Rango homepage. You should see *up to* five categories on the index page. The categories should now be links. Clicking on `Django` should then take you to the `Django` category page, as shown in the [figure below](#fig-ch6-rango-links). If you see a list of links like `Official Django Tutorial`, then you've successfully set up the new page. 
+Let's try everything out now by visiting the Rango homepage. You should see *up to* five categories on the index page (although the population script only creates three -- you can test this by adding up to six categories in the admin interface). The categories should now be links. Clicking on `Django` should then take you to the `Django` category page, as shown in the [figure below](#fig-ch6-rango-links). If you see a list of links like `Official Django Tutorial`, then you've successfully set up the new page. 
 
 What happens when you visit a category that does not exist? Try navigating a category which doesn't exist, like `/rango/category/computers/`. Do this by typing the address manually into your browser's address bar. You should see a message telling you that the specified category does not exist. Look at your template's logic and work through it to understand what is going on.
 
@@ -404,7 +404,7 @@ X> ## Exercises
 X> Reinforce what you've learnt in this chapter!
 X> 
 X> * Update the population script to add some value to the `views` count for each **page**. Pick whatever integers you want -- as long as each page receives a whole (integer) number greater than zero.
-X> * Modify the index page to also include the top five most viewed pages. When no pages are present, you should include a friendly message in place of a list, stating: `There are no pages present.` This message should be bolded -- wrap it around `<strong>...</strong>` tags.
+X> * Modify the index page to also include the top five most viewed pages. When no pages are present, you should include a friendly message in place of a list, stating: `There are no pages present.` This message should be bolded -- wrap it around `<strong>...</strong>` tags. The entire top five pages block should then be wrapped in its own `<div>...</div>` tag.
 X> * Leading on from the exercise above, include a heading for the `Most Liked Categories` and `Most Viewed Pages`. These must be placed as second-level headers, using the `<h2>` tag. Place each of the headers above their respective list.
 X> * Include a link back to the index page from the category page.
 X> * Undertake [part three of official Django tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial03/) if you have not done so already to reinforce what you've learnt here.
@@ -417,11 +417,11 @@ T> * When updating the population script, you'll essentially follow the same pro
 T>      * Update the `python_pages`, `django_pages` and `other_pages` data structures. Each page has a `title` and `url` -- they all now need a count of how many `views` they see, too.
 T>      * Look at how the `add_page()` function is defined in your population script. Does it allow for you to pass in a `views` count? Do you need to change anything in this function?
 T>      * Finally, update the line where the `add_page()` function is *called*. If you called the views count in the data structures `views`, and the dictionary that represents a page is called `p` in the context of where `add_page()` is called, how can you pass the views count into the function?
-T> * Remember to re-run the population script so that the database is updated with your new counts.
-T>      * You will need to edit both the `index` view and the `index.html` template to put the most viewed (i.e. popular pages) on the index page.
+T>      * Remember to re-run the population script so that the database is updated with your new counts.
+T> * You will need to edit both the `index` view and the `index.html` template to put the most viewed (i.e. popular pages) on the index page.
 T>      * Instead of accessing the `Category` model, you will have to ask the `Page` model for the most viewed pages.
 T>      * Remember to pass the list of pages through to the context.
-T>      * If you are not sure about the HTML template code to use, you can draw inspiration from the `category.html` template markup. The markup that you need to write is essentially the same.
+T>      * If you are not sure about the HTML template code to use, you can draw inspiration from the `category.html` template markup. The markup that you need to write is essentially the same. However, remember a `Page` `url` is just that -- it's the entire URL!
 
 T> ### Model Tips
 T> For more tips on working with models you can take a look through the following blog posts:

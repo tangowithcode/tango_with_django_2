@@ -283,8 +283,8 @@ To create a population script, create a new file called `populate_rango.py`. Cre
 	    python_pages = [
 	        {'title': 'Official Python Tutorial',
 	         'url':'http://docs.python.org/3/tutorial/'},
-	        {'title':'How to Think like a Computer Scientist',
-	         'url':'http://www.greenteapress.com/thinkpython/'},
+	        {'title':'How to Think Like a Computer Scientist',
+	         'url':'http://www.greenteapress.com/thinkpython'},
 	        {'title':'Learn Python in 10 Minutes',
 	         'url':'http://www.korokithakis.net/tutorials/python/'} ]
 	    
@@ -319,7 +319,7 @@ To create a population script, create a new file called `populate_rango.py`. Cre
 	    # Print out the categories we have added.
 	    for c in Category.objects.all():
 	        for p in Page.objects.filter(category=c):
-	            print('- {0} - {1}'.format(str(c), str(p)))
+	            print(f'- {c}: {p}')
 	
 	def add_page(cat, title, url, views=0):
 	    p = Page.objects.get_or_create(category=cat, title=title)[0]
@@ -434,12 +434,12 @@ X> * Customise the admin interface. Change it in such a way so that when you vie
 T> ### Exercise Hints
 T> If you require some help or inspiration to complete these exercises done, here are some hints.
 T> 
-T> * Modify the `Category` model by adding two `IntegerField`s: `views` and `likes`.
+T> * Modify the `Category` model by adding two `IntegerField`s: `views` and `likes`. Both should have a parameter `default` set to `0`.
 T> * In your population script, you can then modify the `add_cat()` function to take the values of the  `views` and `likes`.
-T>      * You'll need to add two parameters to the definition of `add_cat()` so that `views` and `likes` values can be passed to the function, as well as a `name` for the category.
+T>      * You'll need to add two parameters to the definition of `add_cat()` so that `views` and `likes` values can be passed to the function, as well as a `name` for the category. Give them default values of `0` (i.e. `views=0`).
 T>      * You can then use these parameters to set the `views` and `likes` fields within the new `Category` model instance you create within the `add_cat()` function. The model instance is assigned to variable `c` in the population script, as defined earlier in this chapter. As an example, you can access the `likes` field using the notation `c.likes`. Don't forget to `save()` the instance!
 T>      * You then need to update the `cats` dictionary in the `populate()` function of your population script. Look at the dictionary. Each [key/value pairing](https://www.tutorialspoint.com/python/python_dictionary.htm) represents the *name* of the category as the key, and an additional dictionary containing additional information relating to the category as the *value*. You'll want to modify this dictionary to include `views` and `likes` for each category.
-T>      * The final step involves you modifying how you call the `add_cat()` function. You now have three parameters to pass (`name`, `views` and `likes`); your code currently provides only the `name`. You need to add the additional two fields to the function call. If you aren't sure how the `for` loop works over dictionaries, check out [this online Python tutorial](https://www.tutorialspoint.com/python/python_dictionary.htm). From here, you can figure out how to access the `views` and `likes` values from your dictionary.
+T>      * The final step involves you modifying how you call the `add_cat()` function. You now have three parameters to pass (`name`, `views` and `likes`); your code currently provides only the `name`. You need to add the additional two parameters to the function call. If you aren't sure how the `for` loop works over dictionaries, check out [this online Python tutorial](https://www.tutorialspoint.com/python/python_dictionary.htm). From here, you can figure out how to access the `views` and `likes` values from your dictionary (hint: `cat_data`).
 T> * After your population script has been updated, you can move on to customising the admin interface. You will need to edit `rango/admin.py` and create a `PageAdmin` class that inherits from `admin.ModelAdmin`. 
 T>      * Within your new `PageAdmin` class, add `list_display = ('title', 'category', 'url')`.
 T>      * Finally, register the `PageAdmin` class with Django's admin interface. You should modify the line `admin.site.register(Page)`. Change it to `admin.site.register(Page, PageAdmin)` in Rango's `admin.py` file.
