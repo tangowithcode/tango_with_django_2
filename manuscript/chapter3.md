@@ -165,7 +165,10 @@ Verify that Django picked up your new app by running the development server agai
 ## Creating a View
 With our Rango app created, let's now create a simple view. Views handle a *request* that comes from the client, *executes some code*, and provides a *response* to the client. To fulfil the request, it may contact other services or query for data from other sources. The job of a view is to collate and package the data required to handle the request, as we outlined above. For our first view, given a request, the view will simply send some text back to the client. For the time being, we won't concern ourselves about using models (i.e. getting data from other sources) or templates (i.e. which help us package our responses nicely).
 
-In your editor, open the file `views.py`, located within your newly created `rango` app directory. Remove the comment `# Create your views here.`, but keep the `from django.shortcuts import render` line -- you'll use it later on!
+In your editor, open the file `views.py`, located within your newly created `rango` app directory. Remove the comment `# Create your views here.`, but keep the following line line -- you'll use it later on!
+
+{lang="python",linenos=off}
+	from django.shortcuts import render
 
 You can now add in the following code underneath the aforementioned `import` statement.
 
