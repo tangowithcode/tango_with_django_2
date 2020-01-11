@@ -39,7 +39,7 @@ Before you run off to update all the URLs in all your templates with relative UR
 T> ### URLs and Multiple Django Apps
 T> This book focuses on the development of a single Django app, Rango. However, you may find yourself working on a Django project with multiple apps being used at once. This means that you could literally have hundreds of potential URLs with which you may need to reference. This scenario begs the question: *how can we organise these URLs?* Two apps may have a view of the same name, meaning a potential conflict would exist. 
 T>
-T> [Django provides the ability to *namespace* URL configuration modules](https://docs.djangoproject.com/en/2.1/topics/http/urls/#url-namespaces) for each individual app that you employ in your project. As we did earlier, adding an `app_name` variable to your app's `urls.py` module is enough. The example below specifies the namespace for the Rango app to be `rango`.
+T> [Django provides the ability to *namespace* URL configuration modules](https://docs.djangoproject.com/en/2.1/topics/http/urls/#url-namespaces) for each individual app that you employ in your project. **As we did earlier**, adding an `app_name` variable to your app's `urls.py` module is enough. The example below specifies the namespace for the Rango app to be `rango`.
 T>
 T> {lang="python",linenos=off}
 T> 	from django.conf.urls import url
@@ -160,13 +160,13 @@ Now that you have an understanding of blocks within Django templates, let's take
         </head>
         <body>
             <div>
-                {% block body_block %}
-                {% endblock %}
+            {% block body_block %}
+            {% endblock %}
             </div>
             <hr />
             <div>
                 <ul>
-                  <li><a href="{% url 'rango:add_category' %}">Add New Category</a></li>
+                  <li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
                   <li><a href="{% url 'rango:about' %}">About</a></li>
                   <li><a href="{% url 'rango:index' %}">Index</a></li>
                 </ul>
@@ -203,20 +203,20 @@ The `extends` command takes one parameter -- the template that is to be extended
     
     {% block body_block %}
         {% if category %}
-            <h1>{{ category.name }}</h1>
-            
-            {% if pages %}
-                <ul>
-                {% for page in pages %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <strong>No pages currently in category.</strong>
-            {% endif %}
-            <a href="{% url 'rango:add_page' category.slug %}">Add a Page</a>
+        <h1>{{ category.name }}</h1>
+        {% if pages %}
+        <ul>
+            {% for page in pages %}
+            <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+            {% endfor %}
+        </ul>
         {% else %}
-            The specified category does not exist!
+        <strong>No pages currently in category.</strong>
+        {% endif %}
+
+        <a href="{% url 'rango:add_page' category.slug %}">Add Page</a> <br />
+        {% else %}
+        The specified category does not exist.
         {% endif %}
     {% endblock %}
 
@@ -238,7 +238,7 @@ X> ### Exercises
 X> Now that you've worked through the first part of this chapter, there are several exercises that you can work through to reinforce what you've learnt regarding Django and templating.
 X>
 X> - Update all other previously defined templates in the Rango app to extend from the new `base.html` template. Follow the same process as we demonstrated above. Once completed, your templates should all inherit from `base.html`. 
-X> - While you're at it, make sure you remove the links from our `index.html` template. We don't need them anymore! This is because we moved them into `base.html` earlier. You can also remove the link to Rango's homepage within the `about.html` template. 
+X> - While you're at it, make sure you remove the links from our `index.html` template. We don't need them anymore! This is because we moved them into `base.html` earlier. You can also remove the link to Rango's homepage within the `about.html` template.
 X> - When you refactor `index.html` and `about.html`, keep the images that are served up from the static files and media server.
 X> - Update all references to Rango URLs by using the `url` template tag. You can also do this in your `views.py` module too -- check out the [`reverse()` helper function](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#reverse). Don't forget to update the URLs provided in the `action` attributes of your `<form>` elements!
 X> - Make sure all of your new templates employ a `{% block title_block %}` within the HTML `<title>` tag. Remember to use the `'Rango - '` in `base.html`, which will mean all titles are prepended with `'Rango - '`. For inheriting templates, use the following titles. If you use our tests at the end of each chapter, these changes will be important.
@@ -256,7 +256,9 @@ T> - Have the development server running and check the page as you work on it. D
 T> - To reference the links to category pages, you can use the following template code, paying particular attention to the Django template `{% url %}` command.
 T>
 T> {lang="html",linenos=off}
-T> 		<a href="{% url 'show_category' category.slug %}">{{ category.name }}</a>
+T> 	    <a href="{% url 'rango:show_category' category.slug %}">
+T> 	        {{ category.name }}
+T> 	    </a>
 
 <!-->
 ![A class diagram demonstrating how your templates should inherit from
@@ -357,26 +359,26 @@ We can then update our `base.html` template which makes use of the custom templa
         {% endblock %}
     </div>
 
-We can also now update the `categories.html` template, too.
+We can now also update the `categories.html` template, too. This block of code lives inside the existing `{% if categories %}` conditional check; it doesn't replace the entire template.
 
 {lang="html",linenos=off}
     {% for c in categories %}
         {% if c == current_category %}
-            <li>
-            <strong>
-                  <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
-            </strong>
-            </li>
-        {% else  %}
-            <li>
+        <li>
+        <strong>
                 <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
-            </li>
+        </strong>
+        </li>
+        {% else  %}
+        <li>
+            <a href="{% url 'rango:show_category' c.slug %}">{{ c.name }}</a>
+        </li>
         {% endif %}
     {% endfor %}
 
 In the template, we check to see if the category being displayed is the same as the category being passed through during the `for` loop (i.e. `c == current_category`). If so, we highlight the category name by making it **bold** through use of the `<strong>` tag.
 
-Be aware that this solution works because in every step previously that deals with categories, we have called the category variable that is placed in the template dictionary `category`. If you don't understand what we mean, look at your code for the views `show_category()` and `add_page()`, for instance. Check: *what keys are placed in the context dictionary in those views?*
+Be aware that this solution works because in every step previously that deals with categories, we have called the category variable that is placed in the template dictionary `category`. If you don't understand what we mean, look at your code for the views `show_category()` and `add_page()`, for instance. Check: *what keys are placed in the context dictionary in those views?* Consistency makes for an easier implementation.
 
 X> ### Test your Implementation
 X> We've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter8.py`. How does your implementation stack up against our tests? Remember that your implementation should have fully completed the exercises listed above for the tests to pass.
