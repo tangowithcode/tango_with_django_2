@@ -14,7 +14,7 @@ Q> In the world of Django, think of a *template* as the scaffolding that is requ
 ### Configuring the Templates Directory
 To get templates up and running with your Django app, you'll need to create two directories in which template files are stored.
 
-In your Django project's directory (e.g. `<workspace>/tango_with_django_project/`), create a new directory called `templates`. To clarify, this is the directory that contains your project's `manage.py` script! Within the new templates directory, you will then want to create further directory called `rango`. This means that the path `<workspace>/tango_with_django_project/templates/rango/` is the location where we will store templates associated with our `rango` application.
+In your Django project's directory (e.g. `<workspace>/tango_with_django_project/`), create a new directory called `templates`. To clarify, this should be at the same level as your project's `manage.py` script. Within the new templates directory, you will then want to create further directory called `rango`. This means that the path `<workspace>/tango_with_django_project/templates/rango/` is the location where we will store templates associated with our `rango` application.
 
 T> ### Keep your Templates Organised
 T> It's good practice to separate your templates into subdirectories for each app you have. This is why we've created a `rango` directory within our `templates` directory. If you package your app up to distribute to other developers, it'll be much easier to know which templates belong to which app!
@@ -373,7 +373,7 @@ X>
 X> * Convert the about page to use a template too. Use a template called `about.html` for this purpose. Base the contents of this file on `index.html`. In the new template's `<h1>` element, keep `Rango says...` -- but on the line underneath, have the text `'here is the about page.'`.
 X> * Remember to update the `about()` view in `views.py`! Do you think you need a context dictionary for this view?
 X> * Your new `about.html` must include a link back to the index page. If you copied your existing `index.html` template, a small change is required to achieve this.
-X> * Within the new `about.html` template, add a picture stored within your project's static files. You can just reuse the `rango.jpg` image you used in the index view! Make sure you keep the same `alt` text as the index page!
+X> * Within the new `about.html` template, add a picture stored within your project's static files. Plese reuse the `rango.jpg` image you used in the `index()` view. Make sure you keep the same `alt` text as before!
 X> * On the about page, include a line that says `This tutorial has been put together by <your-name>`. If you copied over from `index.html`, replacing `{{ boldmessage }}` would be the perfect place for this.
 X> * In your Django project directory, create a new directory called `media` (if you have not done so already). Download a JPEG image of a cat, and save it to the `media` directory as `cat.jpg`. 
 X> * In your `about.html` template, add in an `<img>` tag to display the picture of the cat to ensure that your media is being served correctly. **Keep the static image of Rango in your index page** so that your about page has working examples of both static and media files. The cat image should have alternative text of `Picture of a Cat`. **This means you should have an image of both Rango (from `static`) and a cat (from `media`) in your rendered about page.** You don't need to touch the `about()` view -- only `about.html` needs to be modified for this final task.
