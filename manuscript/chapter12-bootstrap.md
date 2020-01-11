@@ -87,10 +87,13 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 	        href="{% url 'rango:restricted' %}">Restricted</a></li>
 	    <li class="nav-item">
 	        <a class="nav-link" 
+	        href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
+	    <li class="nav-item">
+	        <a class="nav-link" 
 	        href="{% url 'rango:add_category' %}">Add Category</a></li>
 	    <li class="nav-item">
 	        <a class="nav-link" 
-	        href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
+	        href="{% url 'auth_password_change' %}">Change Password</a></li>
 	    {% else %}
 	    <li class="nav-item">
 	        <a class="nav-link" 
@@ -118,7 +121,7 @@ W> If you don't understand what the specific Bootstrap classes do, check out the
 	    {% endblock %}
 	    <footer>
 	        <p class="float-right"><a href="#">Back to top</a></p>
-	        <p>&copy; 2019 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; 
+	        <p>&copy; 2020 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; 
 	            <a href="#">Terms</a></p>
 	    </footer>
 	    </main>
@@ -241,13 +244,13 @@ If we go back to the Bootstrap examples, we can see that [Jumbotron](https://get
 	    <div class="container">
 	        <h1 class="jumbotron-heading">Rango says...</h1>
 	        <div>
-	        <h2 class="h2">
-	            {% if user.is_authenticated %}
+	            <h2 class="h2">
+	             {% if user.is_authenticated %}
 	                howdy {{ user.username }}!
 	            {% else %}
 	                hey there partner!
 	            {% endif %}
-	        </h2>
+	            </h2>
 	        <strong>{{ boldmessage }}</strong>
 	        </div>
 	    </div>
@@ -272,12 +275,12 @@ After you have successfully added the jumbotron, we can move on to the two-colum
 	                    <p class="card-text">
 	                    {% if categories %}
 	                    <ul>
-	                        {% for category in categories %}
+	                    {% for category in categories %}
 	                        <li>
 	                        <a href="{% url 'rango:show_category' category.slug %}">
 	                        {{ category.name }}</a>
 	                        </li>
-	                        {% endfor %}
+	                    {% endfor %}
 	                    </ul>
 	                    {% else %}
 	                    <strong>There are no categories present.</strong>
@@ -294,11 +297,11 @@ After you have successfully added the jumbotron, we can move on to the two-colum
 	                    <p class="card-text">
 	                    {% if pages %}
 	                    <ul>
-	                        {% for page in pages %}
+	                    {% for page in pages %}
 	                        <li>
 	                        <a href="{{ page.url }}">{{ page.title }}</a>
 	                        </li>
-	                        {% endfor %}
+	                    {% endfor %}
 	                    </ul>
 	                    {% else %}
 	                    <strong>There are no pages present.</strong>
@@ -318,15 +321,9 @@ Let's use the [list group styles provided by Bootstrap](https://getbootstrap.com
 ![The updated Rango index page, after applying both the jumbotron and two-column layout. How much better does it look now?](images/ch12-bootstrap-styled-index.png)
 
 ### The Login Page
-Now that the index page has been styled, let's turn our attention to Rango's login page. On the Bootstrap website, there is a demonstration [login form](https://getbootstrap.com/docs/4.2/examples/sign-in/). If you take a look at the source, you'll notice that there are several classes that we need to include to get a basic login form to work using Bootstrap. To do this, we can start by replacing the `body_block` in the `registration/login.html` template with the following code.
+Now that the index page has been styled, let's turn our attention to Rango's login page. On the Bootstrap website, there is a demonstration [login form](https://getbootstrap.com/docs/4.2/examples/sign-in/). If you take a look at the source, you'll notice that there are several classes that we need to include to get a basic login form to work using Bootstrap. To do this, we can start by replacing the markup in `body_block` after your jumbotron header in the `registration/login.html` template with the following.
 
 {lang="html",linenos=off}
-	{% block body_block %}
-	<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css"
-		rel="stylesheet">
-	<div class="jumbotron p-4">
-		<h1 class="jumbotron-heading">Login</h1>
-	</div>
 	<div class="container">
 	<form class="form-signin" role="form" method="post" action=".">
 		{% csrf_token %}
@@ -340,7 +337,6 @@ Now that the index page has been styled, let's turn our attention to Rango's log
 			value="Submit">Sign in</button>
 	</form>
 	</div>
-	{% endblock %}
 
 Besides adding in a link to the bootstrap `signin.css` and a series of changes to the classes associated with elements, we have removed the code that automatically generates the login form (`{{ form.as_p }}`). Instead, we took the elements from the generated `<form>`, and importantly the `name` of the form elements. We then associated the names with the new elements we added above. To find out what the `name`s were, we ran Rango, navigated to the login page, and then inspected the source to see what HTML was produced by the `{{ form.as_p }}` call. 
 
@@ -356,14 +352,13 @@ You can apply similar changes to `add_cagegory.html` and `add_page.html` templat
 	{% extends "rango/base.html" %}
 	{% block title %}Add Page{% endblock %}
 	{% block body_block %}
-	    {% if category %}
-	    <div class="jumbotron p-4">
-	        <div class="container">
-	        <h1 class="jumbotron-heading">Add Page to {{category.name}}</h1>
-	        </div>
-	    </div>
+	<div class="jumbotron p-4">
 	    <div class="container">
-	        <div class="row">
+	    <h1 class="jumbotron-heading">Add a Page to {{category.name}}</h1>
+	    </div>
+	</div>
+	<div class="container">
+	    <div class="row">
 	        <form role="form" id="page_form" method="post" 
 	              action="{% url 'rango:add_page' category.slug %}">
 	        {% csrf_token %}
@@ -372,28 +367,18 @@ You can apply similar changes to `add_cagegory.html` and `add_page.html` templat
 	        {% endfor %}
 	        {% for field in form.visible_fields %}
 	            {{ field.errors }}
-	            {{ field.help_text }}<br/>
-	            {{ field }}<br/>
+	            {{ field.help_text }}<br />
+	            {{ field }}<br />
 	            <div class="p-2"></div>
 	        {% endfor %}
-	        <br/>
-	        <button class="btn btn-primary" type="submit" name="submit">
-	            Add Page
-	        </button>
-	        <div class="p-5"></div>
+	            <br />
+	            <button class="btn btn-primary" type="submit" name="submit">
+	                Add Page
+	            </button>
+	            <div class="p-5"></div>
 	        </form>
-	        </div>
 	    </div>
-	    {% else %}
-	    <div class="jumbotron p-4">
-	        <div class="container">
-	            <h1 class="jumbotron-heading">Add a Page</h1>
-	        </div>
-	    </div>
-	    <div>
-	        The specified category does not exist.
-	    </div>
-	    {% endif %}
+	</div>
 	{% endblock %}
 
 X> ### Category Form Style Exercise
@@ -408,7 +393,7 @@ Finally, let's tweak the registration template. Open the registration form templ
 	    <div class="form-group" >
 	    <form role="form"  method="post" action=".">
 	        {% csrf_token %}
-	        <div class="form-group" >
+	        <div class="form-group">
 	        <p class="required"><label class="required" for="id_username">
 	            Username:</label>
 	        <input class="form-control" id="id_username" maxlength="30"
