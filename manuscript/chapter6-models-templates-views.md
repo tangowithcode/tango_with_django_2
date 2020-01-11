@@ -374,7 +374,7 @@ Our new view is set up and ready to go -- but we need to do one more thing. Our 
 	            {% for category in categories %}
 	            <!-- The following line is changed to add an HTML hyperlink -->
 	            <li>
-	            <a href="/rango/category/{{ category.slug }}">{{ category.name }}</a>
+	            <a href="/rango/category/{{ category.slug }}/">{{ category.name }}</a>
 	            </li>
 	            {% endfor %}
 	        </ul>
@@ -390,7 +390,7 @@ Our new view is set up and ready to go -- but we need to do one more thing. Our 
 	    </body>
 	</html>
 
-Again, we used the HTML tag `<ul>` to define an unordered list. Within the list, we create a series of list elements (`<li>`), each of which in turn contains an HTML hyperlink (`<a>`). The hyperlink has an `href` attribute, which we use to specify the target URL defined by `/rango/category/{{ category.slug }}` which, for example, would turn into `/rango/category/other-frameworks/` for the category `Other Frameworks`.
+Again, we used the HTML tag `<ul>` to define an unordered list. Within the list, we create a series of list elements (`<li>`), each of which in turn contains an HTML hyperlink (`<a>`). The hyperlink has an `href` attribute, which we use to specify the target URL defined by `/rango/category/{{ category.slug }}/` which, for example, would turn into `/rango/category/other-frameworks/` for the category `Other Frameworks`.
 
 ### Demo
 Let's try everything out now by visiting the Rango homepage. You should see *up to* five categories on the index page (although the population script only creates three -- you can test this by adding up to six categories in the admin interface). The categories should now be links. Clicking on `Django` should then take you to the `Django` category page, as shown in the [figure below](#fig-ch6-rango-links). If you see a list of links like `Official Django Tutorial`, then you've successfully set up the new page. 
