@@ -303,7 +303,7 @@ In your `<workspace>/tango_with_django_project/templates/rango/` directory, crea
 	            <strong>No pages currently in category.</strong>
 	            {% endif %}
 	        {% else %}
-	            The specified category does not exist!
+	            The specified category does not exist.
 	        {% endif %}
 	        </div>
 	    </body>
@@ -362,7 +362,7 @@ Our new view is set up and ready to go -- but we need to do one more thing. Our 
 
 Locate the template code `{% for category in categories %}`, and adjust the `<li>` element to match the example below.
 
-{lang="html",linenos=on}
+{lang="html",linenos=off}
 	<ul>
 	    {% for category in categories %}
 	    <li>
