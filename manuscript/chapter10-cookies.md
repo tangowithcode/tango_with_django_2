@@ -128,7 +128,7 @@ Next, update the `index()` view to call the `cookie_handler_function()` helper f
 	    context_dict['pages'] = page_list
 	    
 	    # Obtain our Response object early so we can add cookie information.
-	    response = render(request, 'rango/index.html', context_dict)
+	    response = render(request, 'rango/index.html', context=context_dict)
 	
 	    # Call the helper function to handle the cookies
 	    visitor_cookie_handler(request, response)
@@ -203,8 +203,7 @@ You should also ensure that all of these lines are executed *before* `render()` 
 	    visitor_cookie_handler(request)
 	    context_dict['visits'] = request.session['visits']
 	    
-	    response = render(request, 'rango/index.html', context_dict)
-	    
+	    response = render(request, 'rango/index.html', context=context_dict)
 	    return response
 
 Before you restart the Django development server, delete the existing client-side cookies to start afresh. **Mixing up cookies from a previous implementation can result in strange, frustrating behaviours.**
@@ -255,7 +254,7 @@ X> Now you've read through this chapter and tried out the code, give these exerc
 X> 
 X> - Check that your cookies are server-side. Clear the browser's cache and cookies, then check to make sure you can't see the `last_visit` and `visits` variables in the browser. Note you will still see the `sessionid` cookie. Django uses this cookie to look up the session in the database where it stores all the server-side cookies about that session.
 X> - Update the *About* page view and template telling the visitors how many times they have visited the site. Remember to call our helper function `visitor_cookie_handler()` before you attempt to get the `visits` cookie from the `request.session` dictionary, otherwise if the cookie is not set it will raise an error. Ensure that you have `Visits: ` preceding the count.
-X> - Remove the visitor presentation logic from the `index()` view, and the associated template, `index.html`. You *do* however want to keep the call to the `visitor_cookie_handler()` function to increment the counter (or initialise it!) if required!
+X> - Remove the visitor presentation logic from the `index()` view, and the associated template, `index.html`. You *do* however want to keep the call to the `visitor_cookie_handler()` function to increment the counter (or initialise it) if required!
 
 X> ### Test your Implementation
 X> We've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter10.py`. How does your implementation stack up against our tests? Remember to complete the exercises above to ensure that all of the tests will pass.

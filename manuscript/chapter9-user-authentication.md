@@ -171,12 +171,12 @@ In `rango/forms.py`, let's create our two classes which inherit from `forms.Mode
 	    
 	    class Meta:
 	        model = User
-	        fields = ('username', 'email', 'password')
+	        fields = ('username', 'email', 'password',)
 	    
 	class UserProfileForm(forms.ModelForm):
 	    class Meta:
 	        model = UserProfile
-	        fields = ('website', 'picture')
+	        fields = ('website', 'picture',)
 
 You'll notice that within both classes, we added a nested `Meta` class. As [the name of the nested class suggests](https://www.lexico.com/en/definition/meta), anything within a nested `Meta` class describes additional properties about the particular class to which it belongs. Each `Meta` class must supply a `model` field. In the case of the `UserForm` class the associated model is the `User` model. You also need to specify the `fields` or the fields to `exclude` to indicate which fields associated with the model should be present (or not) on the completed, rendered form.
 
@@ -210,8 +210,8 @@ Once you've done that, add the following new view, `register()`.
 	    if request.method == 'POST':
 	        # Attempt to grab information from the raw form information.	
 	        # Note that we make use of both UserForm and UserProfileForm.
-	        user_form = UserForm(data=request.POST)
-	        profile_form = UserProfileForm(data=request.POST)
+	        user_form = UserForm(request.POST)
+	        profile_form = UserProfileForm(request.POST)
 	        
 	        # If the two forms are valid...
 	        if user_form.is_valid() and profile_form.is_valid():
@@ -240,7 +240,7 @@ Once you've done that, add the following new view, `register()`.
 	            profile.save()
 	            
 	            # Update our variable to indicate that the template
-                # registration was successful.
+	            # registration was successful.
 	            registered = True
 	        else:
 	            # Invalid form or forms - mistakes or something else?
@@ -255,9 +255,9 @@ Once you've done that, add the following new view, `register()`.
 	    # Render the template depending on the context.
 	    return render(request,
 	                  'rango/register.html',
-	                  {'user_form': user_form,
-                       'profile_form': profile_form, 
-	                   'registered': registered})
+	                  context = {'user_form': user_form,
+	                             'profile_form': profile_form, 
+	                             'registered': registered})
 
 While the view looks pretty complicated, it's actually very similar to how we implemented the [add category](#section-forms-addcategory) and [add page](#section-forms-addpage) views. However, the key difference here is that we have to handle two distinct `ModelForm` instances -- one for the `User` model, and one for the `UserProfile` model. We also need to handle a user's profile image, if he or she chooses to upload one.
 
@@ -277,25 +277,25 @@ Now we need to make the template that will be used by the new `register()` view.
 	{% endblock %}
 	
 	{% block body_block %}
-	    <h1>Register for Rango</h1>
-	    {% if registered %}
-	        Rango says: <strong>thank you for registering!</strong>
-	        <a href="{% url 'rango:index' %}">Return to the homepage.</a><br />
-	    {% else %}
-	        Rango says: <strong>register here!</strong><br />
-	        <form id="user_form" method="post" action="{% url 'rango:register' %}"
-	              enctype="multipart/form-data">
-	        
-	        {% csrf_token %}
-	        
-	        <!-- Display each form  -->
-	        {{ user_form.as_p }}
-	        {{ profile_form.as_p }}
-	        
-	        <!-- Provide a button to click to submit the form. -->
-	        <input type="submit" name="submit" value="Register" />
-	    </form>
-	    {% endif %}
+	<h1>Register for Rango</h1>
+	{% if registered %}
+	Rango says: <strong>thank you for registering!</strong>
+	<a href="{% url 'rango:index' %}">Return to the homepage.</a><br />
+	{% else %}
+	Rango says: <strong>register here!</strong><br />
+	<form id="user_form" method="post" action="{% url 'rango:register' %}"
+	      enctype="multipart/form-data">
+	    
+	    {% csrf_token %}
+	    
+	    <!-- Display each form  -->
+	    {{ user_form.as_p }}
+	    {{ profile_form.as_p }}
+	    
+	    <!-- Provide a button to click to submit the form. -->
+	    <input type="submit" name="submit" value="Register" />
+	</form>
+	{% endif %}
 	{% endblock %}
 
 I> ### Using the `url` Template Tag
@@ -336,7 +336,7 @@ Finally, we can add a link pointing to our new registration URL by modifying the
 
 {lang="html",linenos=off}
 	<ul>
-	    <li><a href="{% url 'rango:add_category' %}">Add New Category</a></li>
+	    <li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
 	    <li><a href="{% url 'rango:about' %}">About</a></li>	
 	    <li><a href="{% url 'rango:index' %}">Index</a></li>
 	    <li><a href="{% url 'rango:register' %}">Sign Up</a></li>
@@ -395,7 +395,7 @@ First, open up Rango's views module at `rango/views.py` and create a new view ca
 	                return HttpResponse("Your Rango account is disabled.")
 	        else:
 	            # Bad login details were provided. So we can't log the user in.
-	            print("Invalid login details: {0}, {1}".format(username, password))
+	            print(f"Invalid login details: {username}, {password}")
 	            return HttpResponse("Invalid login details supplied.")
 	        
 	    # The request is not a HTTP POST, so display the login form.
@@ -417,7 +417,7 @@ However, if an invalid form is sent (since the user did not add both a username 
 
 You'll also notice that we make use of the helper function `redirect()`. We used this back in the [chapter on creating forms](#section-forms-addpage), and it simply tells the client's browser to redirect to the URL that you provide as an argument. Note that this will return a HTTP status code of `302`, which denotes a redirect, as opposed to an status code of `200` (success). See the [Django documentation on redirection](https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/#redirect) to learn more.
 
-Finally, we use another Django method called `reverse` to obtain the URL of the Rango application. This looks up the URL patterns in Rango's `urls.py` module to find a URL called `rango:index`, and substitutes in the corresponding pattern. This means that if we subsequently change the URL mapping, our new view won't break.
+Finally, we use `reverse()` again to obtain the URL of the Rango application. This looks up the URL patterns in Rango's `urls.py` module to find a URL called `rango:index`, and substitutes in the corresponding pattern. This means that if we subsequently change the URL mapping, our new view won't break.
 
 Django provides all of these functions and classes. As such, you'll need to import them. The following `import` statements must now be added to the top of `rango/views.py`.
 
@@ -441,15 +441,15 @@ With our new view created, we'll need to create a new template, `login.html`. It
 	{% endblock %}
 	
 	{% block body_block %}
-	    <h1>Login to Rango</h1>
-	    <form id="login_form" method="post" action="{% url 'rango:login' %}">
-	        {% csrf_token %}
-	        Username: <input type="text" name="username" value="" size="50" />
-	        <br />
-	        Password: <input type="password" name="password" value="" size="50" />
-	        <br />
-	        <input type="submit" value="submit" />
-	    </form>
+	<h1>Login to Rango</h1>
+	<form id="login_form" method="post" action="{% url 'rango:login' %}">
+	    {% csrf_token %}
+	    Username: <input type="text" name="username" value="" size="50" />
+	    <br />
+	    Password: <input type="password" name="password" value="" size="50" />
+	    <br />
+	    <input type="submit" value="submit" />
+	</form>
 	{% endblock %}
 
 Ensure that you match up the input `name` attributes to those that you specified in the `user_login()` view. For example, `username` matches to the username, and `password` matches to the user's password. Don't forget the `{% csrf_token %}`, either!
@@ -608,8 +608,8 @@ Let's modify the links in the `base.html` template. We will employ the `user` ob
 	    <li><a href="{% url 'rango:logout' %}">Logout</a></li>
 	{% else %}
 	    <!-- Show these links when the user is NOT logged in -->
-	    <li><a href="{% url 'rango:login' %}">Login</a></li>
 	    <li><a href="{% url 'rango:register' %}">Sign Up</a></li>
+	    <li><a href="{% url 'rango:login' %}">Login</a></li>
 	{% endif %}
 	    <!-- Outside the conditional statements, ALWAYS show -->
 	    <li><a href="{% url 'rango:add_category' %}">Add New Category</a></li>
@@ -627,7 +627,7 @@ Many web applications however take the concepts of user authentication further. 
 X> ### Exercises
 X> For now, work on the following two exercises to reinforce what you've learnt in this chapter.
 X>
-X> - Customise the application so that only registered users can add categories and pages, while those unregistered can only view or use the categories and pages. Remember, you'll need to update your template code around the links in `base.html` -- as well as the `Add Page` link in `category.html`!
+X> - Customise Rango so that only registered users can add categories and pages, while those unregistered can only view or use the categories and pages. Remember, you'll need to add some code to `views.py`, and you'll also need to update your template code around the links in `base.html` -- as well as the `Add Page` link in `category.html`!
 X> - Keep your templating knowledge fresh by converting the restricted page view to use a template. Call the template `restricted.html`, and ensure that it too extends from Rango's `base.html` template. Make sure you give this page a title block value of `Restricted Page`.
 
 X> ### Test your Implementation
