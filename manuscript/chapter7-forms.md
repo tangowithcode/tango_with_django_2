@@ -104,11 +104,9 @@ With our `CategoryForm` class now defined, we're now ready to create a new view 
 	        if form.is_valid():
 	            # Save the new category to the database.
 	            form.save(commit=True)
-	            # Now that the category is saved
-	            # We could give a confirmation message
-	            # But since the most recent category added is on the index page
-	            # Then we can direct the user back to the index page.
-	            return index(request)
+	            # Now that the category is saved, we could confirm this.
+	            # For now, just redirect the user back to the index view.
+	            return redirect('/rango/')
 	        else:
 	            # The supplied form contained errors -
 	            # just print them to the terminal.
@@ -118,15 +116,16 @@ With our `CategoryForm` class now defined, we're now ready to create a new view 
 	    # Render the form with error messages (if any).
 	    return render(request, 'rango/add_category.html', {'form': form})
 
-You'll need to add the following `import` at the top of the module, too.
+You'll need to add the following two `import` statements at the top of the module, too.
 
 {lang="python",linenos=off}
 	from rango.forms import CategoryForm
+	from django.shortcuts import redirect
 
 The new `add_category()` view adds several key pieces of functionality for handling forms. First, we create a CategoryForm(), then we check if the HTTP request was a `POST` (did the user submit data via the form?).  We can then handle the `POST` request through the same URL. The `add_category()` view function can handle three different scenarios:
 
 - showing a new, blank form for adding a category;
-- saving form data provided by the user to the associated model, and rendering the Rango homepage; and
+- saving form data provided by the user to the associated model, and *redirecting* to the Rango homepage; and
 - if there are errors, redisplay the form with error messages.
 
 I> ### `GET` and `POST`
@@ -214,7 +213,7 @@ Now let's try it out! Start or restart your Django development server, and then 
 I> ### Missing Categories?
 I> If you play around with this new functionality and add several different categories, remember that they will not always appear on the index page. This is because we coded up our index view to only show the *top five categories* in terms of the number of likes they have received. If you log into the admin interface, you should be able to view all the categories that you have entered. 
 I> 
-I> For confirmation that the category is being added is to update the `add_category()` method in `rango/views.py` and change the line  `form.save(commit=True)` to be `cat = form.save(commit=True)`. This will give you a reference to an instance of the created `Category` object. You can then `print` the category(e.g. `print(cat, cat.slug)` ).
+I> For confirmation that the category is being added, you can update the `add_category()` method in `rango/views.py` and change the line  `form.save(commit=True)` to be `cat = form.save(commit=True)`. This will give you a reference to an instance of the created `Category` object. You can then `print` the category(e.g. `print(cat, cat.slug)` ).
 
 ### Cleaner Forms
 Recall that our `Page` model has a `url` attribute set to an instance of the `URLField` type. In a corresponding HTML form, Django would reasonably expect any text entered into a `url` field to be a correctly formatted, complete URL. However, users can find entering something like `http://www.url.com` to be cumbersome -- indeed, users [may not even know what forms a correct URL](https://support.google.com/webmasters/answer/76329?hl=en)!
@@ -234,7 +233,7 @@ In scenarios where user input may not be entirely correct, we can *override* the
 	        # If url is not empty and doesn't start with 'http://', 
 	        # then prepend 'http://'.
 	        if url and not url.startswith('http://'):
-	            url = 'http://' + url
+	            url = f'http://{url}'
 	            cleaned_data['url'] = url
 	            
 	        return cleaned_data
@@ -259,8 +258,7 @@ X> Now that you've worked through the chapter, consider the following questions,
 X> 
 X> - What would happen if you don't enter in a category name on the add category form?
 X> - What happens when you try to add a category that already exists?
-X> - What happens when you visit a category that does not exist? A hint for a potential solution to solving this problem can be found below.
-X> - In the [section above where we implemented our `ModelForm` classes](#section-forms-pagecategory-modelform), we repeated the `max_length` values for fields that we had previously defined in [the models chapter](#chapter-models-databases). This is bad practice as we are *repeating ourselves!* How can you refactor your code so that you are *not* repeating the `max_length` values?
+X> - In the [section above where we implemented our `ModelForm` classes](#section-forms-pagecategory-modelform), we repeated the `max_length` values for fields that we had previously defined in [the models chapter](#chapter-models-databases). This is bad practice as we are *repeating ourselves!* How can you refactor your code so that you are *not* repeating the same `max_length` values?
 X> - If you have not done so already undertake [part four of the official Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial04/) to reinforce what you have learnt here.
 X> - Now, implement functionality to let users add pages to each category. See below for the instructions (and hints!).
 
@@ -283,9 +281,15 @@ To get you started, here is the code for the `add_page()` view function.
 	    except Category.DoesNotExist:
 	        category = None
 	    
+	    # You cannot add a page to a Category that does not exist...
+	    if category is None:
+	        return redirect('/rango/')
+	    
 	    form = PageForm()
+	    
 	    if request.method == 'POST':
 	        form = PageForm(request.POST)
+	        
 	        if form.is_valid():
 	            if category:
 	                page = form.save(commit=False)
@@ -299,10 +303,10 @@ To get you started, here is the code for the `add_page()` view function.
 	        else:
 	            print(form.errors)
 	    
-	    context_dict = {'form':form, 'category': category}
-	    return render(request, 'rango/add_page.html', context_dict)
+	    context_dict = {'form': form, 'category': category}
+	    return render(request, 'rango/add_page.html', context=context_dict)
 
-Note that in the example above, we need to *redirect* the user to the `show_category()` view once the page has been created. This involves the use of the `redirect()` and `reverse()` helper functions to redirect the user and to lookup the appropriate URL, respectively. The following imports at the top of Rango's `views.py` module will therefore be required for this code to work.
+Note that in the example above, we need to *redirect* the user to the `show_category()` view once the page has been created. This involves the use of the `redirect()` and `reverse()` helper functions to redirect the user and to lookup the appropriate URL, respectively. The following imports at the top of Rango's `views.py` module will therefore be required for this code to work -- but you should have `redirect` from earlier.
 
 {lang="python",linenos=off}
 	from django.shortcuts import redirect
@@ -310,15 +314,19 @@ Note that in the example above, we need to *redirect* the user to the `show_cate
 
 Here, the `redirect()` function is called which in turn calls the `reverse()` function. `reverse()` looks up URL names in your `urls.py` modules -- in this instance, `rango:show_category`. If a match is found against the name provided, the complete URL is returned. The added complication here is that the `show_category()` view takes an additional parameter `category_name_slug`. By providing this value in a dictionary as `kwargs` to the `reverse()` function, it has all of the information it needs to formulate a complete URL. This completed URL is then used as the parameter to the `redirect()` method, and the response is complete!
 
+**Note also from the new view that when attempting to add a new page to a category that does not exist, we simply redirect the user back to the index page.** This removes the need for you to implement something to cover this scenario in your template. Your template needs to only focus on displaying a form.
+
+I> ### More on `reverse()`
+I> This is our first exposure to the `reverse()` helper function. It's an incredibly useful and powerful function, and we'll be using it extensively in the [next chapter](#chapter-templates-extra) of the book to make our views more maintainable.
+
 T> ### Hints
 T> To help you with the exercises above, the following hints may be of use.
 T>
 T> - In the `add_page.html` template, you can access the slug with ``{{ category.slug }}``. This is because the view passes the `category` object through to the template via the context dictionary.
-T> - Ensure that the link only appears when *the requested category exists* -- with or without pages. In terms of code, we mean that your template should have the following conditional: `{% if category %} .... {% else %} The specified category does not exist. {% endif %}`.
-T> - Update Rango's `category.html` template with a new hyperlink, complete with a line break immediately following it: `<a href="/rango/category/{{ category.slug }}/add_page/">Add Page</a> <br/>`.
-T> - **Make sure that in your `add_page.html` template that the form posts to `/rango/category/{{ category.slug }}/add_page/`.** When submitting a form requesting the creation of a new page, it is important to tell Django (via the URL) what category the new page should belong to! A potential solution to this can be found [here](https://github.com/maxwelld90/tango_with_django_2_code/blob/1f5cdf0634320dc14527d082215fc45e713f2e80/tango_with_django_project/templates/rango/add_page.html).
+T> - Update Rango's `category.html` template with a new hyperlink, complete with a line break immediately following it: `<a href="/rango/category/{{ category.slug }}/add_page/">Add Page</a> <br/>`. Ensure that the link only appears when *the requested category exists* -- with or without pages. In terms of code, we mean that your template should have the following conditional: `{% if category %} .... {% else %}The specified category does not exist.{% endif %}`.
+T> - **Make sure that in your `add_page.html`, the `<form>` posts to `/rango/category/{{ category.slug }}/add_page/`.** When submitting a form requesting the creation of a new page, it is important to tell Django (via the URL) what category the new page should belong to! A potential solution to this can be found [here](https://github.com/maxwelld90/tango_with_django_2_code/blob/1f5cdf0634320dc14527d082215fc45e713f2e80/tango_with_django_project/templates/rango/add_page.html).
 T> - Update `rango/urls.py` with a URL mapping (`/rango/category/<slug:category_name_slug>/add_page/`) to handle the above link. Provide a name of `add_page` to the new mapping.
-T> - You can avoid the repetition of `max_length` parameters through the use of an additional attribute in your `Category` model. This attribute could be used to store the value for `max_length`, and then be referenced where required.
+T> - You can avoid the repetition of `max_length` parameters through the use of an additional attribute in your `Category` model. This attribute could be used to store the value for `max_length`, and then be referenced where required. For example, you can then include them in your forms by using the notation `Category.NAME_MAX_LENGTH`. [Check out our model solution online](https://github.com/maxwelld90/tango_with_django_2_code/commit/a8c71c01d2fb34f900ac13433c7d7a3c3f17082b) to see how we did it.
 T>
 T> If all else fails and you still find yourself stuck, you can check out our [model solution on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/commit/7d2fb194f93342268da3bb4aa1c49384f03e0454).
 
