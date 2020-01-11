@@ -53,43 +53,48 @@ With the view updated, we can complete the fourth step and update the template `
 
 {lang="html",linenos=on}
 	<!DOCTYPE html>
+	
 	{% load staticfiles %}
+	
 	<html>
-	<head>
-	    <title>Rango</title>
-	</head>
-	
-	<body>
-	    <h1>Rango says...</h1>
-	    <div>
-	        hey there partner! <br/>
-	        <strong>{{ boldmessage }}</strong>
-	    </div>
-	
-	    <div>
-	    {% if categories %}
-	        <ul>
-	        {% for category in categories %}
-	            <li>{{ category.name }}</li>
-	        {% endfor %}
-	        </ul>
-	    {% else %}
-	        <strong>There are no categories present.</strong>
-	    {% endif %}	
-	    </div>
 	    
-	    <div>
-	        <a href="/rango/about/">About Rango</a><br />
-	        <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> 
-	    </div>
-	</body>
+	    <head>
+	        <title>Rango</title>
+	    </head>
+	    
+	    <body>
+	        <h1>Rango says...</h1>
+	        <div>
+	            hey there partner! <br/>
+	            <strong>{{ boldmessage }}</strong>
+	        </div>
+	        
+	        <div>
+	        {% if categories %}
+	            <ul>
+	            {% for category in categories %}
+	                <li>{{ category.name }}</li>
+	            {% endfor %}
+	            </ul>
+	       {% else %}
+	            <strong>There are no categories present.</strong>
+	        {% endif %}	
+	        </div>
+	        
+	        <div>
+	            <a href="/rango/about/">About Rango</a><br />
+	            <img src="{% static "images/rango.jpg" %}"
+	                 alt="Picture of Rango" /> 
+	        </div>
+	    </body>
+	    
 	</html>
 
 Here, we make use of Django's template language to present the data using `if` and `for` control statements. Within the `<body>` of the page, we test to see if `categories` -- the name of the context variable containing our list of (a maximum of) five categories -- actually contains any categories (`{% if categories %}`).
 
 If so, we proceed to construct an unordered HTML list (within the `<ul>` tags). The `for` loop (`{% for category in categories %}`) then iterates through the list of results, and outputs each category's name (`{{ category.name }})` within an `<li>` element to denote that it is a *list element.*
 
-If no categories exist, a message is displayed instead indicating that no categories are present -- `There are no categories present.`. As this is wrapped in a `<strong>` element, it will appear in **bold**.
+If no categories exist, a message is displayed instead indicating that no categories are present -- `'There are no categories present.'`. As this is wrapped in a `<strong>` element, it will appear in **bold**.
 
 As the example also demonstrates Django's template language, all template commands are enclosed within the tags `{%` and `%}`, while variables whose values are to be placed on the page are referenced within `{{` and `}}` brackets. *Everything* within these tags and brackets is interpreted by the Django templating engine before sending a completed response back to the client.
 

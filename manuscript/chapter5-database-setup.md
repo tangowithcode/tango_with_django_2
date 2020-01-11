@@ -345,7 +345,7 @@ T> We've provided explanations below to help you learn from our code!
 T>
 T> You should also note that when you see line numbers alongside the code. We've included these to make copying and pasting a laborious chore -- why not just type it out yourself and think about each line instead?
 
-While this looks like a lot of code, what is going on is essentially a series of function calls to two small functions, `add_page()` and `add_cat()`, both defined towards the end of the module. Reading through the code, we find that execution starts at the *bottom* of the module -- look at lines 75 and 76. This is because, above this point, we define functions; these are not executed *unless* we call them. When the interpreter hits [`if __name__ == '__main__'`](http://stackoverflow.com/a/419185), we call and begin execution of the `populate()` function.
+While this looks like a lot of code, what is going on is essentially a series of function calls to two small functions, `add_page()` and `add_cat()`, both defined towards the end of the module. Reading through the code, we find that execution starts at the *bottom* of the module -- look at lines 71 and 72. This is because, above this point, we define functions; these are not executed *unless* we call them. When the interpreter hits [`if __name__ == '__main__'`](http://stackoverflow.com/a/419185), we call and begin execution of the `populate()` function.
 
 T> ### What does `__name__ == '__main__'` Represent?
 T> The `__name__ == '__main__'` trick is a useful one that allows a Python module to act as either a reusable module or a standalone Python script. Consider a reusable module as one that can be imported into other modules (e.g. through an `import` statement), while a standalone Python script would be executed from a terminal/Command Prompt by entering `python module.py`.
@@ -376,14 +376,14 @@ When saved, you can then run your new populations script by changing the present
 	$ python populate_rango.py
 	
 	Starting Rango population script...
-	- Python - Official Python Tutorial
-	- Python - How to Think like a Computer Scientist
-	- Python - Learn Python in 10 Minutes
-	- Django - Official Django Tutorial
-	- Django - Django Rocks
-	- Django - How to Tango with Django
-	- Other Frameworks - Bottle
-	- Other Frameworks - Flask
+	- Python: Official Python Tutorial
+	- Python: How to Think like a Computer Scientist
+	- Python: Learn Python in 10 Minutes
+	- Django: Official Django Tutorial
+	- Django: Django Rocks
+	- Django: How to Tango with Django
+	- Other Frameworks: Bottle
+	- Other Frameworks: Flask
 
 Next, verify that the population script worked as it should have and populated the database. To do this, restart the Django development server, and navigate to the admin interface (at `http://127.0.0.1:8000/admin/`). Once there, check that you have some new categories and pages. Do you see all the pages if you click `Pages`, like in the figure shown below?
 
@@ -438,7 +438,7 @@ T> * Modify the `Category` model by adding two `IntegerField`s: `views` and `lik
 T> * In your population script, you can then modify the `add_cat()` function to take the values of the  `views` and `likes`.
 T>      * You'll need to add two parameters to the definition of `add_cat()` so that `views` and `likes` values can be passed to the function, as well as a `name` for the category. Give them default values of `0` (i.e. `views=0`).
 T>      * You can then use these parameters to set the `views` and `likes` fields within the new `Category` model instance you create within the `add_cat()` function. The model instance is assigned to variable `c` in the population script, as defined earlier in this chapter. As an example, you can access the `likes` field using the notation `c.likes`. Don't forget to `save()` the instance!
-T>      * You then need to update the `cats` dictionary in the `populate()` function of your population script. Look at the dictionary. Each [key/value pairing](https://www.tutorialspoint.com/python/python_dictionary.htm) represents the *name* of the category as the key, and an additional dictionary containing additional information relating to the category as the *value*. You'll want to modify this dictionary to include `views` and `likes` for each category.
+T>      * You then need to update the `cats` dictionary in the `populate()` function of your population script. Look at the dictionary. Each [key/value pairing](https://www.tutorialspoint.com/python/python_dictionary.htm) represents the *name* of the category as the key, and an additional dictionary containing additional information relating to the category as the *value*. You'll want to modify this second, nested dictionary to include `views` and `likes` for each category.
 T>      * The final step involves you modifying how you call the `add_cat()` function. You now have three parameters to pass (`name`, `views` and `likes`); your code currently provides only the `name`. You need to add the additional two parameters to the function call. If you aren't sure how the `for` loop works over dictionaries, check out [this online Python tutorial](https://www.tutorialspoint.com/python/python_dictionary.htm). From here, you can figure out how to access the `views` and `likes` values from your dictionary (hint: `cat_data`).
 T> * After your population script has been updated, you can move on to customising the admin interface. You will need to edit `rango/admin.py` and create a `PageAdmin` class that inherits from `admin.ModelAdmin`. 
 T>      * Within your new `PageAdmin` class, add `list_display = ('title', 'category', 'url')`.
