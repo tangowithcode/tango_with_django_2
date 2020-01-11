@@ -282,7 +282,9 @@ In your `<workspace>/tango_with_django_project/templates/rango/` directory, crea
 
 {lang="html",linenos=on}
 	<!DOCTYPE html>
+
 	<html>
+
 	    <head>
 	        <title>Rango</title>
 	    </head>
@@ -305,6 +307,7 @@ In your `<workspace>/tango_with_django_project/templates/rango/` directory, crea
 	        {% endif %}
 	        </div>
 	    </body>
+	
 	</html>
 
 The HTML code example again demonstrates how we utilise the data passed to the template via its context through the tags `{{ }}`. We access the `category` and `pages` objects and their fields -- such as `category.name` and `page.url`, for example.
@@ -357,43 +360,17 @@ I> Django's `path()` method means you can generally avoid Regex Hell -- but if y
 ### Modifying the Index Template
 Our new view is set up and ready to go -- but we need to do one more thing. Our index page template needs to be updated so that it links to the category pages that are listed. We can update the `index.html` template to now include a link to the category page via the slug.
 
+Locate the template code `{% for category in categories %}`, and adjust the `<li>` element to match the example below.
+
 {lang="html",linenos=on}
-	<!DOCTYPE html>
-	{% load staticfiles %}
-	<html>
-	    <head>
-	        <title>Rango</title>
-	    </head>
-	    
-	    <body>
-			hey there partner! <br />
-			<strong>{{ boldmessage }}</strong>
-	        
-	        <div>
-	            hey there partner!
-	        </div>
-	        
-	        <div>
-	        {% if categories %}
-	        <ul>
-	            {% for category in categories %}
-	            <!-- The following line is changed to add an HTML hyperlink -->
-	            <li>
-	            <a href="/rango/category/{{ category.slug }}/">{{ category.name }}</a>
-	            </li>
-	            {% endfor %}
-	        </ul>
-	        {% else %}
-	            <strong>There are no categories present.</strong>
-	        {% endif %}
-	        </div>
-	        
-	        <div>
-	            <a href="/rango/about/">About Rango</a><br />
-	            <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> 
-	        </div>
-	    </body>
-	</html>
+	<ul>
+	    {% for category in categories %}
+	    <li>
+	        <!-- The following line is changed to add an HTML hyperlink -->
+	        <a href="/rango/category/{{ category.slug }}/">{{ category.name }}</a>
+	    </li>
+	    {% endfor %}
+	</ul>
 
 Again, we used the HTML tag `<ul>` to define an unordered list. Within the list, we create a series of list elements (`<li>`), each of which in turn contains an HTML hyperlink (`<a>`). The hyperlink has an `href` attribute, which we use to specify the target URL defined by `/rango/category/{{ category.slug }}/` which, for example, would turn into `/rango/category/other-frameworks/` for the category `Other Frameworks`.
 
