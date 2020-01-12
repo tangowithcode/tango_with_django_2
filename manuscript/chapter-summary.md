@@ -7,6 +7,9 @@ In future versions of this book, we intend to provide some more details on vario
 
 Please report any typos, bugs, or other issues online via [Twitter](https://twitter.com/tangowithdjango), or submit change requests [via GitHub](https://github.com/leifos/tango_with_django_2). Thank you!
 
+X> ### One Last Exercise
+X> There's one last little thing that we're sure you can now address. On Rango's index page, page links currently go straight to the URL stored in the database. We're not tracking these clicks! *What would you have to do to ensure when a link here is clicked, it's tracked?*
+
 ## Acknowledgements {#sec-final-thoughts-acks}
 This book was written to help teach web application development to computing science students. In writing the book and the tutorial, we have had to rely upon the awesome Django community and the Django Documentation for the answers and solutions. This book is really the combination of that knowledge pieced together in the context of building Rango. 
 
