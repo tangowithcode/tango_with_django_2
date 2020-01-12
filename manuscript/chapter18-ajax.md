@@ -111,11 +111,11 @@ To implement AJAX functionality, open up the blank `rango-ajax.js` file, located
 {lang="javascript",linenos=off}
 	$(document).ready(function() {
 	    $('#like_btn').click(function() {
-	        var category_id_var;
-	        category_id_var = $(this).attr('data-categoryid');
+	        var catecategoryIdVar;
+	        catecategoryIdVar = $(this).attr('data-categoryid');
 	        
 	        $.get('/rango/like_category/',
-	              {'category_id': category_id_var},
+	              {'category_id': catecategoryIdVar},
 	              function(data) {
 	                  $('#like_count').html(data);
 	                  $('#like_btn').hide();
@@ -224,7 +224,11 @@ With our helper function defined, we can then make a new class-based view to mak
 {lang="python",linenos=off}
 	class CategorySuggestionView(View):
 	    def get(self, request):
-	        suggestion = request.GET['suggestion']
+	        if 'suggestion' in request.GET:
+	            suggestion = request.GET['suggestion']
+	        else:
+	            suggestion = ''
+	        
 	        category_list = get_category_list(max_results=8,
 	                                          starts_with=suggestion)
 	        
@@ -237,7 +241,7 @@ With our helper function defined, we can then make a new class-based view to mak
 
 Note that we reuse the existing template tags template, `categories.html` -- so we don't need to define a new template here. We do however need to make sure our template variable `categories` is specified correctly -- hence the name for the key in the context dictionary.
 
-The implemented `get()` view retrieves the user's input from the `suggestion` variable as part of the `GET` request, and then calls `get_category_list()`, passing this string to the `starts_with` parameter. We set `max_results` to `8` as per our specification. If no results are returned, we default to displaying all categories, sorted by the number of likes received in descending order.
+The implemented `get()` view retrieves the user's input from the `suggestion` variable as part of the `GET` request (with a sanity check to see if it is supplied!), and then calls `get_category_list()`, passing this string to the `starts_with` parameter. We set `max_results` to `8` as per our specification. If no results are returned, we default to displaying all categories, sorted by the number of likes received in descending order.
 
 Of course, no view is of any use without a URL mapping for accessibility! We'll add a further mapping to Rango's `urls.py` `urlpatterns` list.
 
@@ -258,7 +262,7 @@ If you tested your server-side functionality and are happy with it, now it's tim
         var query;
         query = $(this).val();
         
-        $.get('/rango/suggest/,
+        $.get('/rango/suggest/',
               {'suggestion': query},
               function(data) {
                   $('#categories-listing').html(data);
@@ -316,7 +320,7 @@ Remember to also update your page listing component by wrapping a `<div>` elemen
 Given the button that we add for each page above, we also need some JQuery code to request the addition of the new page, along with dealing with the incoming, updated list of pages returned from the initial request. Here is a model solution.
 
 {lang="javascript",linenos=off}
-	$('.rango-page-add').click(function () {
+	$('.rango-page-add').click(function() {
 	    var categoryid = $(this).attr('data-categoryid');
 	    var title = $(this).attr('data-title');
 	    var url = $(this).attr('data-url');

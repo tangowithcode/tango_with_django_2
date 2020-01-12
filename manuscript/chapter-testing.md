@@ -83,7 +83,7 @@ If we then run the test, we will see the following output.
 	
 	FAILED (failures=1)
 
-We can see that Django picked up our solitary test, and it `FAILED`. This is because the model does not check whether the value for `views` is less than zero. Since we want to ensure that the values are non-zero for this particular field, we will need to update the model to ensure that this requirement is fulfilled. Update the model now by adding some code to the `save()` method of the `Category` model, located in Rango's `models.py` module. The code should check the value of the `views` attribute, and update it accordingly if the value provided is less than zero. A simple conditional check on `self.views` should suffice.
+We can see that Django picked up our solitary test, and it `FAILED`. This is because the model does not check whether the value for `views` is less than zero. Since we want to ensure that the values are non-zero for this particular field, we will need to update the model to ensure that this requirement is fulfilled. Update the model now by adding some code to the `save()` method of the `Category` model, located in Rango's `models.py` module. The code should check the value of the `views` attribute, and set the value to zero if the provided value is less than zero. A simple conditional check on `self.views` should suffice.
 
 Once you have updated your model, re-run the test. See if your code now passes the test. If not, try again and work out a solution that passes the test. 
 
@@ -106,7 +106,7 @@ Run the tests again. Does your code pass both tests? You should now be starting 
 ### Testing Views
 The two simple tests that we have written so far focus on ensuring the integrity of the data housed within Rango's `Category` model. Django also provides mechanisms to test views. It does this with a mock client (or browser) that internally makes calls to the Django development server via a URL. In these tests, you have access to the server's response (including the rendered HTML markup), as well as the context dictionary that was used.
 
-To demonstrate this testing feature, we can create a test that checks when the index page loads. When the `Category` model is empty, it should present the user with a message that *exactly* says `There are no categories present`.
+To demonstrate this testing feature, we can create a test that checks when the index page loads. When the `Category` model is empty, it should present the user with a message that *exactly* says `'There are no categories present.'`.
 
 {lang="python",linenos=off}
 	class IndexViewTests(TestCase):
@@ -117,7 +117,7 @@ To demonstrate this testing feature, we can create a test that checks when the i
 	        response = self.client.get(reverse('rango:index'))
 	        
 	        self.assertEqual(response.status_code, 200)
-	        self.assertContains(response, "There are no categories present")
+	        self.assertContains(response, 'There are no categories present.')
 	        self.assertQuerysetEqual(response.context['categories'], [])
 
 As we are using the Django `reverse()` function to perform a URL lookup, we'll need to make sure that the correct `import` statement is included at the top of the `tests.py` module, too.
@@ -125,7 +125,7 @@ As we are using the Django `reverse()` function to perform a URL lookup, we'll n
 {lang="python",linenos=off}
 	from django.urls import reverse
 
-Looking at the code above, the Django `TestCase` class has access to a `client` object which can make requests. Here, it uses the helper function `reverse()` to lookup the URL of Rango's `index` page. It then tries to issue an HTTP `GET` request on that page. The response is returned and stored in `response`. The test then checks several things: whether the page loaded successfully (with a `200` status code returned); whether the response's HTML contains the string `"There are no categories present"`; and whether the context dictionary used to render the response contains an empty list for the `categories` supplied.
+Looking at the code above, the Django `TestCase` class has access to a `client` object which can make requests. Here, it uses the helper function `reverse()` to lookup the URL of Rango's `index` page. It then tries to issue an HTTP `GET` request on that page. The response is returned and stored in `response`. The test then checks several things: whether the page loaded successfully (with a `200` status code returned); whether the response's HTML contains the string `'There are no categories present.'`; and whether the context dictionary used to render the response contains an empty list for the `categories` supplied.
 
 Recall that when you run tests, a new database is created, which by default is not populated. This is true for each test method -- and explains why the categories you create in the two `CategoryMethodTests` tests are not visible to the test in `IndexViewTests`.
 
@@ -189,29 +189,29 @@ This will run through all of the tests that you have implemented so far, and col
 	Name                                          Stmts   Miss  Cover
 	-----------------------------------------------------------------
 	manage.py                                         9      2    78%
-	populate_rango.py                                32     32     0%
+	populate_rango.py                                33     33     0%
 	rango/__init__.py                                 0      0   100%
-	rango/admin.py                                    9      0   100%
+	rango/admin.py                                   10      0   100%
 	rango/apps.py                                     3      3     0%
-	rango/bing_search.py                             36     30    17%
+	ango/bing_search.py                             38     32    16%
 	rango/forms.py                                   34      6    82%
 	rango/migrations/0001_initial.py                  6      0   100%
-	rango/migrations/0002_auto_20190325_1352.py       4      0   100%
+	rango/migrations/0002_auto_20200111_1313.py       4      0   100%
 	rango/migrations/0003_category_slug.py            4      0   100%
-	rango/migrations/0004_auto_20190610_1139.py       6      0   100%
+	rango/migrations/0004_auto_20200111_1702.py       6      0   100%
 	rango/migrations/__init__.py                      0      0   100%
 	rango/models.py                                  33      3    91%
 	rango/templatetags/__init__.py                    0      0   100%
 	rango/templatetags/rango_template_tags.py         6      0   100%
-	rango/tests.py                                   35      0   100%
+	rango/tests.py                                   34      0   100%
 	rango/urls.py                                     4      0   100%
-	rango/views.py                                  204    134    34%
+	rango/views.py                                  207    139    33%
 	tango_with_django_project/__init__.py             0      0   100%
-	tango_with_django_project/settings.py            29      0   100%
+	tango_with_django_project/settings.py            28      0   100%
 	tango_with_django_project/urls.py                12      1    92%
 	tango_with_django_project/wsgi.py                 4      4     0%
 	-----------------------------------------------------------------
-	TOTAL                                           470    215    54%
+	TOTAL                                           475    223    53%
 
 We can see from the output of this command that critical parts of the code have not been tested. The `views.py` has a pretty low coverage percentage as an example of 34%. Therefore, this output can provide you with a measure-based approach to determine where to focus your efforts on writing tests.
 

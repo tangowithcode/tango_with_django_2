@@ -142,6 +142,8 @@ We keep the `show_category()` view the same at the top, and add in an additional
 
 Search functionality should then all work as expected. Try it out! Navigate to a category page, and you should see a search box. Enter a search query, submit it, and see what happens.
 
+Once you are satisfied, you can safely delete the existing `search.html` template from your codebase, along with the decommissioned `search()` view.
+
 ### Restricting Access to Search Functionality
 Our final requirement was to restrict the migrated search functionality only to those who are logged into Rango. This step is straightforward -- one can simply wrap the search-handling template code added to `category.html` with a conditional template check to determine if the user is authenticated.
 
@@ -171,7 +173,7 @@ In Rango's `show_category()` view, locate the code block that deals with the sea
 	        
 	        if query:
 	            context_dict['result_list'] = run_query(query)
-	            context_dict['query] = query
+	            context_dict['query'] = query
 	# End new search functionality code.
 
 Once this has been completed, open Rango's `category.html` template and modify the `query` `<input>` field like so.
@@ -225,23 +227,23 @@ Create a new template in `templates/rango/` called `profile_registration.html`. 
 	{% endblock %}
 	
 	{% block body_block %}
-	    <div class="jumbotron p-4">
-	        <div class="container">
-	            <h1 class="jumbotron-heading">Register for Rango - Step 2</h1>
-	        </div>
-	    </div>
-	    
+	<div class="jumbotron p-4">
 	    <div class="container">
-	        <div class="row">
-	            <form method="post"
-	                  action="{% url 'rango:register_profile' %}"
-	                  enctype="multipart/form-data">
-	                {% csrf_token %}
-	                {{ form.as_p }}
-	                <input type="submit" value="Create Profile" />
-	            </form>
-	        </div>
+	        <h1 class="jumbotron-heading">Register Here - Step 2</h1>
 	    </div>
+	</div>
+	
+	<div class="container">
+	    <div class="row">
+	        <form method="post"
+	              action="{% url 'rango:register_profile' %}"
+	              enctype="multipart/form-data">
+	            {% csrf_token %}
+	            {{ form.as_p }}
+	            <input type="submit" value="Create Profile" />
+	        </form>
+	    </div>
+	</div>
 	{% endblock %}
 
 Like the `django-registration-redux` forms that we created previously (with an example [here](#section-redux-templates-login)), this template inherits from Rango's `base.html` template. Recall that this template incorporates the basic layout for our Rango app. We also create an HTML `<form>` within the `body_block` block. This will be populated with fields from the `form` objects that we'll be passing to the template from the corresponding view -- we'll work on this next. You should also be aware of the new URL mapping that we use, `register_profile`. We'll be defining this in the third step.
@@ -267,15 +269,12 @@ By now, this sequence of actions should be pretty straightforward for you to imp
 	            user_profile.user = request.user
 	            user_profile.save()
 	            
-	            return redirect('rango:index')
+	            return redirect(reverse('rango:index'))
 	        else:
 	            print(form.errors)
 	    
 	    context_dict = {'form': form}
 	    return render(request, 'rango/profile_registration.html', context_dict)
-
-I> ### Use of `redirect()`
-I> The eagle-eyed reader will note that when we call `redirect()` in the code snippet above, we don't call `reverse()` within. That's a fair comment to make, but did you know that this code is still perfectly valid? If you [read the Django documentation](https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/#redirect), you'll see that one of the possible three different types of input we can pass to `redirect()` is a URL view name -- or, in other words, the name we give a URL mapping. The `redirect()` function calls `reverse()` for us!
 
 Remember to check that you also have the relevant `import` statements at the top of the `views.py` module. You should have them all by now from previous chapters, but nevertheless it's good to check!
 
@@ -329,7 +328,7 @@ With this complete, we now need to tell our project what to do with this extende
 	    path('rango/', include('rango.urls')),
 	    path('admin/', admin.site.urls),
 	    
-	    # New line below!
+	    # New line below -- don't forget the slash after register!
 	    path('accounts/register/', 
 	         MyRegistrationView.as_view(),
 	         name='registration_register'),
@@ -344,7 +343,7 @@ What is a class-based view, though? What *exactly* have we made implement up in 
 
 For example, rather than checking if a request was an HTTP `GET` or an HTTP `POST` request, class-based viewed allow you to implement a `get()` and `post()` method within the class handling your request for a given view. When your project and handlers become more complex, using a class-based approach is the more preferable solution. You can look at the [Django Documentation for more information about class-based views](https://docs.djangoproject.com/en/2.1/topics/class-based-views/).
 
-To give you more of an idea about how class-based views work, let's try converting the `about()` view from a functional-based to a class-based approach. First, in Rango's `views.py` module, define a class called `AboutView` which inherits from the `View` base class. This base class needs to be imported from `django.views`, as shown in the example code below.
+To give you more of an idea about how class-based views work, let's try converting the `about()` view from a function-based to a class-based approach. First, in Rango's `views.py` module, define a class called `AboutView` which inherits from the `View` base class. This base class needs to be imported from `django.views`, as shown in the example code below.
 
 {lang="python",linenos=off}
 	from django.views import View
@@ -352,13 +351,15 @@ To give you more of an idea about how class-based views work, let's try converti
 	class AboutView(View):
 	    def get(self, request):
 	        context_dict = {}
+	        
+	        visitor_cookie_handler(request)
 	        context_dict['visits'] = request.session['visits']
 	        
 	        return render(request,
 	                      'rango/about.html',
 	                      context_dict)
 
-Note that we have simply taken the code from the existing `about()` functional-based view, and added it to the `get()` method of our new class-based `AboutView` approach.
+Note that we have simply taken the code from the existing `about()` function-based view, and added it to the `get()` method of our new class-based `AboutView` approach.
 
 T> ### Defining Methods in Classes
 T> When defining a method within a class in Python, the method must always take at minimum one parameter, `self`. `self` denotes the instance of the class being used, and you can use it to obtain access to other methods within the instance, or instance variables defined using the `self.object_name`. This is the same technique as accessing instance-specific items in Java using the `this.` approach.
@@ -410,7 +411,7 @@ A more complex view that considers both a HTTP `GET` and HTTP `POST` could be th
 	        
 	        if form.is_valid():
 	            form.save(commit=True)
-	            return index(request)
+	            return redirect(reverse('rango:index'))
 	        else:
 	            print(form.errors)
 	        
@@ -438,6 +439,7 @@ X> Now that you've seen the basics on how to implement class-based views in Djan
 X>
 X> - Have a look at the [Django documentation](https://docs.djangoproject.com/en/2.1/topics/class-based-views/) and look for some more examples on how you can create class-based views.
 X> - Update your Rango app to make sure that *all* views in Rango's `views.py` module make use of class-based views!
+X>     - As a time-saving tip, remember that *both* the `urls.py` modules you've been working on reference your current `index()` view! Remember that when you implement a class-based alternative.
 X>
 X> This won't take as long as you think. The hardest part here is for the more complex views with both HTTP `GET` and HTTP `POST` functionality. Being able to delineate between the flow for each type of request and put the necessary code in separate methods will test your understanding of the code!
 X>
@@ -485,53 +487,53 @@ First, let's work on creating a simple template for displaying a user's profile.
 	{% load staticfiles %}
 	
 	{% block title_block %}
-	    Profile for {{ selecteduser.username }}
+	    Profile for {{ selected_user.username }}
 	{% endblock %}
 	
 	{% block body_block %}
-	    <div class="jumbotron p-4">
-	        <div class="container">
-	            <h1 class="jumbotron-heading">{{ selecteduser.username }}'s Profile</h1>
-	        </div>
-	    </div>
-	    
+	<div class="jumbotron p-4">
 	    <div class="container">
-	        <div class="row">
-	            <img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
-	                 width="300"
-	                 height="300"
-	                 alt="{{ selecteduser.username }}'s profile image" />
-	            <br />
-	            <div>
-	                {% if selecteduser == user %}
-	                <form method="post" action="." enctype="multipart/form-data">
-	                    {% csrf_token %}
-	                    {{ form.as_p }}
-	                    
-	                    <input type="submit" value="Update" />
-	                </form>
-	                {% else %}
-	                <p>
-	                    <strong>Website:</strong>
-	                    <a href="{{ userprofile.website }}">{{ userprofile.website }}</a>
-	                </p>
-	                {% endif %}
-	            </div>
+	        <h1 class="jumbotron-heading">{{ selected_user.username }}'s Profile</h1>
+	    </div>
+	</div>
+	
+	<div class="container">
+	    <div class="row">
+	        <img src="{{ MEDIA_URL }}{{ user_profile.picture }}"
+	             width="300"
+	             height="300"
+	             alt="{{ selected_user.username }}'s profile image" />
+	        <br />
+	        <div>
+	            {% if selected_user == user %}
+	            <form method="post" action="." enctype="multipart/form-data">
+	                {% csrf_token %}
+	                {{ form.as_p }}
+	                
+	                <input type="submit" value="Update" />
+	            </form>
+	            {% else %}
+	            <p>
+	                <strong>Website:</strong>
+	                <a href="{{ user_profile.website }}">{{ user_profile.website }}</a>
+	            </p>
+	            {% endif %}
 	        </div>
 	    </div>
+	</div>
 	{% endblock %}
 
-Note that in the template, we make use of a few variables (namely `selecteduser`, `userprofile` and `form`) that we need to make sure are defined in the template's context. In this template, we assume that:
+Note that in the template, we make use of a few variables (namely `selected_user`, `user_profile` and `form`) that we need to make sure are defined in the template's context. In this template, we assume that:
 
-- `selecteduser` represents a Django `User` instance of the user whose profile we want to display;
-- `userprofile` represents a Rango `UserProfile` instance of the associated `User` that we want to display; and
+- `selected_user` represents a Django `User` instance of the user whose profile we want to display;
+- `user_profile` represents a Rango `UserProfile` instance of the associated `User` that we want to display; and
 - `form` represents a `UserProfileForm` instance that is used to display the necessary fields to allow a user to edit his or her profile (i.e. website and/or profile image), with the website field pre-populated where necessary.
 
 We'll be making sure that this template is given the required variables to its context in the next section.
 
 The template block of interest here is, of course, the `body_block` block. At the top, we display the selected user's profile image, set to dimensions of 300x300 pixels. We also provide `alt` text to display if the image cannot be located.
 
-However, the interesting part of this template is underneath. We use a conditional statement to work out if the user who is currently looking at a given profile is the said user (`selecteduser == user`) -- and if he or she if, we display a form to allow the user to edit their profile. If the user does not match up, then we don't want to provide a form to edit -- so instead, we simply display the profile.
+However, the interesting part of this template is underneath. We use a conditional statement to work out if the user who is currently looking at a given profile is the said user (`selected_user == user`) -- and if he or she if, we display a form to allow the user to edit their profile. If the user does not match up, then we don't want to provide a form to edit -- so instead, we simply display the profile.
 
 You should also note that we once again use `enctype="multipart/form-data"` when defining out `<form>` because users can upload a new profile image -- remember, whenever file uploads are involved, this attribute **must** be specified.
 
@@ -546,21 +548,21 @@ Based on the template created above, we can then implement a simple view to hand
 	        except User.DoesNotExist:
 	            return None
 	        
-	        userprofile = UserProfile.objects.get_or_create(user=user)[0]
-	        form = UserProfileForm({'website': userprofile.website,
-	                                'picture': userprofile.picture})
+	        user_profile = UserProfile.objects.get_or_create(user=user)[0]
+	        form = UserProfileForm({'website': user_profile.website,
+	                                'picture': user_profile.picture})
 	        
-	        return (user, userprofile, form)
+	        return (user, user_profile, form)
 	    
 	    @method_decorator(login_required)
 	    def get(self, request, username):
 	        try:
-	            (user, userprofile, form) = self.get_user_details(username)
+	            (user, user_profile, form) = self.get_user_details(username)
 	        except TypeError:
-	            return redirect('rango:index')
+	            return redirect(reverse('rango:index'))
 	        
-	        context_dict = {'userprofile': userprofile,
-	                        'selecteduser': user,
+	        context_dict = {'user_profile': user_profile,
+	                        'selected_user': user,
 	                        'form': form}
 	        
 	        return render(request, 'rango/profile.html', context_dict)
@@ -568,11 +570,11 @@ Based on the template created above, we can then implement a simple view to hand
 	    @method_decorator(login_required)
 	    def post(self, request, username):
 	        try:
-	            (user, userprofile, form) = self.get_user_details(username)
+	            (user, user_profile, form) = self.get_user_details(username)
 	        except TypeError:
-	            return redirect('rango:index')
+	            return redirect(reverse('rango:index'))
 	        
-	        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+	        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
 	        
 	        if form.is_valid():
 	            form.save(commit=True)
@@ -580,8 +582,8 @@ Based on the template created above, we can then implement a simple view to hand
 	        else:
 	            print(form.errors)
 	        
-	        context_dict = {'userprofile': userprofile,
-	                        'selecteduser': user,
+	        context_dict = {'user_profile': user_profile,
+	                        'selected_user': user,
 	                        'form': form}
 	        
 	        return render(request, 'rango/profile.html', context_dict)
@@ -594,7 +596,7 @@ We'll also need to `import` two classes that we haven't used before. One is the 
 
 Our new class-based view requires that a user be logged in -- hence the use of the `@method_decorator(login_required)` decorator for both the `get()` and `post()` methods.
 
-Within the `ProfileView` class, we also created a `get_user_details()` helper method to ensure that we don't repeat ourselves. This method begins by selecting the `django.contrib.auth.User` instance from the database -- if it exists. If it does not exist, the method simply returns None, which signals to both the `get()` and `post()` methods to do a simple `redirect` to Rango's homepage, rather than greet the user with a bespoke error message. We can't display information for a non-existent user! If the user does exist, the `get_user_details()` method selects the `UserProfile` instance (or creates a blank one, if one does not exist). We then take the selected user's details, and use those details to populate a `UserProfileForm` instance. The `user`, `userprofile` and populated `form` objects are then returned in a tuple and are [unpacked](https://www.geeksforgeeks.org/packing-and-unpacking-arguments-in-python/) by the `get()` and `post()` methods that call the helper method.
+Within the `ProfileView` class, we also created a `get_user_details()` helper method to ensure that we don't repeat ourselves. This method begins by selecting the `django.contrib.auth.User` instance from the database -- if it exists. If it does not exist, the method simply returns None, which signals to both the `get()` and `post()` methods to do a simple `redirect` to Rango's homepage, rather than greet the user with a bespoke error message. We can't display information for a non-existent user! If the user does exist, the `get_user_details()` method selects the `UserProfile` instance (or creates a blank one, if one does not exist). We then take the selected user's details, and use those details to populate a `UserProfileForm` instance. The `user`, `user_profile` and populated `form` objects are then returned in a tuple and are [unpacked](https://www.geeksforgeeks.org/packing-and-unpacking-arguments-in-python/) by the `get()` and `post()` methods that call the helper method.
 
 Within the `post()` method, we handle the case where a user wants to update their profile's information. To do this, we extract information from the form into a `UserProfileForm` instance that can refer to the `UserProfile` instance that it is saving to -- rather than creating a new `UserProfile` instance each time. Remember, we are *updating*, not creating! A valid form is then saved. An invalid form (or an HTTP `GET` request) triggers the rendering of the `profile.html` template, complete with the relevant variables that are passed through to the template via its context.
 
@@ -637,34 +639,34 @@ You know the drill by now. Create a new template! Once again, this belongs to Ra
 	{% endblock %}
 	
 	{% block body_block %}
-	    <div class="jumbotron p-4">
-	        <div class="container">
-	            <h1 class="jumbotron-heading">User Profiles</h1>
-	        </div>
-	    </div>
-	    
+	<div class="jumbotron p-4">
 	    <div class="container">
-	        <div class="row">
-	            {% if userprofile_list %}
-	            <div class="panel-body">
-	                <div class="list-group">
-	                    {% for listuser in userprofile_list %}
-	                    <div class="list-group-item">
-	                        <h4 class="list-group-item-heading">
-	                            <a href="{% url 'rango:profile'
-	                                listuser.user.username %}">
-	                                {{ listuser.user.username }}
-	                            </a>
-	                        </h4>
-	                    </div>
-	                    {% endfor %}
-	                </div>
-	            </div>
-	            {% else %}
-	            <p>There are no users present on Rango.</p>
-	            {% endif %}
-	        </div>
+	        <h1 class="jumbotron-heading">User Profiles</h1>
 	    </div>
+	</div>
+	
+	<div class="container">
+	    <div class="row">
+	        {% if user_profile_list %}
+	        <div class="panel-body">
+	            <div class="list-group">
+	            {% for list_user in user_profile_list %}
+	                <div class="list-group-item">
+	                    <h4 class="list-group-item-heading">
+	                        <a href="{% url 'rango:profile'
+	                            list_user.user.username %}">
+	                            {{ list_user.user.username }}
+	                        </a>
+	                    </h4>
+	                </div>
+	            {% endfor %}
+	            </div>
+	        </div>
+	        {% else %}
+	        <p>There are no users present on Rango.</p>
+	        {% endif %}
+	    </div>
+	</div>
 	{% endblock %}
 
 As mentioned previously, this template is pretty straightforward compared to what we have been doing as of late! A series of `<div>` tags have been created using various Bootstrap classes to style the list. For each user, we display their username and provide a link to their profile page. Notice that since we pass through a list of `UserProfile` objects, we need to pass through the `user` attribute to lead to the `username` of the user!

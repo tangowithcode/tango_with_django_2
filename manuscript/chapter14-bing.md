@@ -8,7 +8,7 @@ To use the Bing Search API, we will need to write a [wrapper](https://en.wikiped
 ## The Bing Search API
 The [Bing Search API](https://docs.microsoft.com/en-gb/rest/api/cognitiveservices/bing-web-api-v7-reference) provides you with the ability to embed search results from the Bing search engine within your own applications. Through a straightforward interface, you can request results from Bing's servers to be returned in either XML or JSON. The data returned can then be interpreted by an XML or JSON parser, with the results then, for example, rendered as part of a template within your wider application.
 
-Although the Bing API can handle requests for different kinds of content, we'll be focusing on web search only for this tutorial, with JSON-formatted responses. To use the Bing Search API, you will need to sign up for an *API key*. The key currently provides subscribers with access to 3000 queries per month, which should be more than enough for our experimental purposes.
+Although the Bing API can handle requests for different kinds of content, we'll be focusing on web search only for this tutorial, with JSON-formatted responses. To use the Bing Search API, you will need to sign up for an *API key*. The key currently provides subscribers with access to 1000 queries per month, which should be more than enough for our experimental purposes.
 
 I> ### Application Programming Interface (API)
 I> An [Application Programming Interface](http://en.wikipedia.org/wiki/Application_programming_interface) specifies how software components should interact with one another. In the context of web applications, an API is considered as a set of HTTP requests along with a definition of the structures of response messages that each request can return. Any meaningful service that can be offered over the Internet can have its API. We aren't limited to web search! For more information on web APIs, [Luis Rei provides an excellent tutorial on APIs](http://blog.luisrei.com/articles/rest.html).
@@ -19,13 +19,13 @@ To obtain a Bing API key, you must first register for a Microsoft Azure account.
 
 When you have logged in, go to the portal. The link is at the top right of the page.
 
-Once the portal has loaded, you should see a list of options down the left-hand side of the viewport. Find the top option called `Create a resource` and click it. The right-hand side of the page will then be populated with more lists. From there, find the `AI + Machine Learning` option and select that. Scroll through the options on the subsequent menu that appears, and select the `Bing Search v7` option.
+Once the portal has loaded, you should see a list of options at the top of the viewport (or down the side, depending on your screen size). Find the top option called `Create a resource` and click it. The right-hand side of the page will then be populated with more lists. From there, find the `AI + Machine Learning` option and select that. Scroll through the options on the subsequent menu that appears, and select the `Bing Search` option.
 
 W> ### Entering Personal Information
 W> At this stage, you may be redirected to a page where you have to supply details such as your address and payment card. Microsoft says that this information is required to ensure that spammers and bots do not infiltrate their services -- and rest assured, if you need to provide payment details, no money will be taken from your bank account unless you specifically authorise it. We will be using the free Bing Search API allowance, so no money will need to be transferred.
 W> If you do need to provide this information, you'll need to head back to the portal and look for the `Bing Search v7` option once more.
 
-You'll then be greeted with a page similar to [the one below](#fig-azure-create). Here, you need to provide a name for your Bing Search service -- something like `rango_bing_search` will do the job nicely. Ensure that you select `Free Trial` for the subscription, and pricing tier `T0` (allowing 3000 free requests per month). Selecting these options will ensure that you will not be charged for access to the API. You'll also need to make a new group -- we made one called `rango`. The resource location doesn't matter as we won't be worrying about things like response times and the like. Once you are happy, click `Create` at the bottom of the page.
+You'll then be greeted with a page similar to [the one below](#fig-azure-create). Here, you need to provide a name for your Bing Search service -- something like `rango_bing_search` will do the job nicely. Ensure that you select `Free Trial` for the subscription, and pricing tier `F0` or `F1` (allowing 1000 free requests per month). Selecting these options will ensure that you will not be charged for access to the API. You'll also need to make a new group -- we made one called `rango`. The resource location doesn't matter as we won't be worrying about things like response times and the like. Once you are happy, click `Create` at the bottom of the page.
 
 {id="fig-azure-create"}
 ![Creating a free Bing Search API resource in the Microsoft Azure web application.](images/ch14-azure-create.png)
@@ -82,8 +82,8 @@ I> For this code to work, you'll need to add the `requests` package to Rango's e
 	    """
 	    bing_key = read_bing_key()
 	    search_url = 'https://api.cognitive.microsoft.com/bing/v7.0/search'
-	    headers = {"Ocp-Apim-Subscription-Key" : bing_key}
-	    params  = {"q": search_terms, "textDecorations":True, "textFormat":"HTML"}
+	    headers = {'Ocp-Apim-Subscription-Key': bing_key}
+	    params  = {'q': search_terms, 'textDecorations': True, 'textFormat':' HTML'}
 	    
 	    # Issue the request, given the details above.
 	    response = requests.get(search_url, headers=headers, params=params)
@@ -92,7 +92,7 @@ I> For this code to work, you'll need to add the `requests` package to Rango's e
 	
 	    # With the response now in play, build up a Python list.
 	    results = []
-	    for result in search_results["webPages"]["value"]:
+	    for result in search_results['webPages']['value']:
 	        results.append({
 	            'title': result['name'],
 	            'link': result['url'],
@@ -136,7 +136,7 @@ I> If you want to know more about the API, and maybe even try out some different
 X> ### Exercises
 X> Extend your `bing_search.py` module so that it can be run independently, i.e. running `python bing_search.py` from your terminal or Command Prompt. Specifically, you should implement functionality that:
 X> 
-X> - prompts the user to enter a query, i.e. use `raw_input()`; and
+X> - prompts the user to enter a query, i.e. use `input()`; and
 X> - issues the query via `run_query()`, and prints the results.
 X>
 X> Update the `run_query()` method so that it handles network errors gracefully.
@@ -174,51 +174,51 @@ Let's first create a template called `rango/search.html`. Add the following HTML
 	{% endblock %}
 	
 	{% block body_block %}
-	    <div class="jumbotron p-4">
-	        <div class="container">
-	            <h1 class="jumbotron-heading">Search with Rango</h1>
+	<div class="jumbotron p-4">
+	    <div class="container">
+	        <h1 class="jumbotron-heading">Search with Rango</h1>
+	    </div>
+	</div>
+	<div>
+	    <form class="form-inline"
+	        id="user-form"
+	          method="post"
+	          action="{% url 'rango:search' %}">
+	        {% csrf_token %}
+	        
+	        <div class="form-group">
+	            <input class="form-control"
+	                   type="text"
+	                   size="50"
+	                   name="query"
+	                   id="query" />
 	        </div>
-	    </div>
-	    <div>
-	        <form class="form-inline"
-	              id="user-form"
-	              method="post"
-	              action="{% url 'rango:search' %}">
-	            {% csrf_token %}
-	            
-	            <div class="form-group">
-	                <input class="form-control"
-	                       type="text"
-	                       size="50"
-	                       name="query"
-	                       id="query" />
-	            </div>
-	            
-	            <button class="btn btn-primary"
-	                    type="submit"
-	                    name="submit">Search</button>
-	        </form>
-	    </div>
-	    <div>
-	        {% if result_list %}
-	            <h2>Results</h2>
-	            
-	            <div class="list-group">
-	                {% for result in result_list %}
-	                    <div class="list-group-item">
-	                        <h3 class="list-group-item-heading">
-	                            <a href="{{ result.link }}">
-	                                {{ result.title|safe|escape }}
-	                            </a>
-	                        </h3>
-	                        <p class="list-group-item-text">
-	                            {{ result.summary|safe|escape }}
-	                        </p>
-	                    </div>
-	                {% endfor %}
-	            </div>
-	        {% endif %}
-	    </div>
+	        
+	        <button class="btn btn-primary"
+	                type="submit"
+	                name="submit">Search</button>
+	    </form>
+	</div>
+	<div>
+	    {% if result_list %}
+	        <h2>Results</h2>
+	        
+	        <div class="list-group">
+	            {% for result in result_list %}
+	                <div class="list-group-item">
+	                    <h3 class="list-group-item-heading">
+	                        <a href="{{ result.link }}">
+	                            {{ result.title|safe|escape }}
+	                        </a>
+	                    </h3>
+	                    <p class="list-group-item-text">
+	                        {{ result.summary|safe|escape }}
+	                    </p>
+	                </div>
+	            {% endfor %}
+	        </div>
+	    {% endif %}
+	</div>
 	{% endblock %}
 
 The template code above performs two key tasks.

@@ -42,7 +42,7 @@ With the above steps completed, you should now be ready to try things out! Open 
 
 {lang="javascript",linenos=off}
 	$(document).ready(function() {
-	    alert("Hello, world!");
+	    alert('Hello, world!');
 	});
 
 This small piece of code utilises JQuery. But how does it work? We've broken it down into a series of different steps to show you what's going on.
@@ -67,7 +67,7 @@ In the previous example, we executed the `alert()` function call when the page h
 
 The goal of this simple exercise will be to add a button to Rango's `about.html` template and show you how events are bound to different elements of a page. When the user clicks the button, a popup alert appears. We will, of course, need to work with the `about.html` template and the new `rango-jquery.js` static JavaScript file.
 
-Within the `about.html` template, let's first add a button that achieves what we want using vanilla JavaScript. This demonstrates a very simple way of *binding code to an event.* Add the code underneath the closing `</div>`, but before the closure of the `body_block` template block.
+Within the `about.html` template, let's first add a button that achieves what we want using vanilla JavaScript. This demonstrates a very simple way of *binding code to an event.* Add the code underneath the closing `</div>`, but before the closure of the `body_block` template block. If you still have your images of Rango and the cat from earlier, place this markup *before* the images so the button is easy to see. You may want to also add a line break (`<br />`) to sepatate the button from the images.
 
 {lang="html",linenos=off}
 	<button class="btn btn-primary"
@@ -92,7 +92,7 @@ This time, we have another button, but there is no code associated with it. Inst
 	$(document).ready(function()) {
 	    
 	    $('#about-btn').click(function()) {
-	        alert("You clicked the button using JQuery!");
+	        alert('You clicked the button using JQuery!');
 	    });
 	
 	});
@@ -115,7 +115,7 @@ In the example above, we *selected* our second button by referencing the unique 
 
 {lang="javascript",linenos=off}
 	$('.ouch').click(function()) {
-	    alert("You clicked me! Ouch!");
+	    alert('You clicked me! Ouch!');
 	});
 
 This code would select all elements with `class="ouch"` -- and when you click any of them, the popup `You clicked me! Ouch!` would be shown.
@@ -131,7 +131,7 @@ You can also select elements by their tag name -- such as `div`, `p` or `strong`
 	        $(this).css('color', 'black');
 	});
 
-Add this JavaScript to your `rango-jquery.js`. In the `about.html` template, you should then add a paragraph underneath your buttons -- something like `<p>This is some text for the JQuery example.</p>` should suffice. Look at the code, and think what will happen... then try it out! Does it do what you expect?
+Add this JavaScript to your `rango-jquery.js`. In the `about.html` template, you should then add a paragraph underneath your buttons -- something like `<p>This is some text for the JQuery example.</p>` should suffice. Look at the code, and think what will happen... then try it out! Does it do what you expect to happen?
 
 Here, we are selecting all the `p` HTML elements. We assign a `hover()` event to the elements. `hover()` requires two functions -- one to be executed when you *hover over* something (the first function), and one to execute when you leave something (the second function). This means that when a user hovers over a `p` element, the text colour within the element will change to red. When the user's cursor leaves the element, it changes to black. Have a look at the [`hover()` event's documentation](https://api.jquery.com/hover/) for more information.
 
@@ -163,11 +163,11 @@ It is also possible to access the *inner HTML* of a given element -- or, in othe
 Once you have added this new element, jump to the `rango-jquery.js` file and add the following code. Remember to add this *within* the `$(document).ready()` call!
 
 {lang="javascript",linenos=off}
-	$("#about-btn").click(function() {
-	    msgStr = $("#msg").html()
-	    msgStr = msgStr + " ooo, fancy!"
+	$('#about-btn').click(function() {
+	    msgStr = $('#msg').html();
+	    msgStr = msgStr + ' ooo, fancy!';
 	    
-	    $("#msg").html(msgStr)
+	    $('#msg').html(msgStr);
 	});
 
 When the element that matches the selection of `#about-btn` (i.e. your second button) is clicked, we first get the HTML markup inside the element selected by `#msg` by using the `html()` function call. As this is then simply a string, we append `' ooo, fancy!'` to the end, and then set the `html()` of the `msg` element to the new value, stored within `msgStr`.
