@@ -11,7 +11,7 @@ To style Rango, we have identified that the [dashboard layout](https://getbootst
 {id="fig-bootstrap-dashboard"}
 ![Version 4 of the Bootstrap dashboard layout, as taken from the Twitter Bootstrap examples website. This is the layout we will be working with during this chapter.](images/ch12-bootstrap-dashboard.png)
 
-To tailor the dashboard HTML source to our Rango app, we need to make several modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd-bootstrap-base), but for completeness is also shown below.
+To tailor the dashboard HTML source to our Rango app, we need to make several modifications. Rather than going through and doing this yourself, the modified HTML source is available from our [GitHub Repository](http://bit.ly/twd2-bootstrap-base-template), but for completeness is also shown below.
 
 Download the HTML source for our modified dashboard layout to a file called `bootstrap-base.html`. Like all other templates specific to Rango, this should be placed within your `<Workspace>/tango_with_django_project/templates/rango/` templates directory.
 
@@ -34,7 +34,7 @@ We appreciate that this all seems rather hacky -- and to some extent it is -- bu
 
 W> ### Copying and Pasting
 W> In the introductory chapter, we said not to copy and paste -- but this is an exception. 
-W> However if you directly cut and paste you will end up bringing additional text you do not want. To get started quickly, go to our GitHub page and get the [base template](http://bit.ly/twd-bootstrap-base) shown below.
+W> However if you directly cut and paste you will end up bringing additional text you do not want. To get started quickly, go to our GitHub page and get the [base template](http://bit.ly/twd2-bootstrap-base-template) shown below.
 W> 
 W> If you don't understand what the specific Bootstrap classes do, check out the [Bootstrap documentation](https://getbootstrap.com/docs/4.3/getting-started/introduction/) to improve your understanding.
 
