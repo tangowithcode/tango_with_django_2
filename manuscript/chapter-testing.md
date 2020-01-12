@@ -236,7 +236,7 @@ T> In order to compare two dates, you will need to make use of the `assertTrue()
 T>
 T> When working on the second test, you'll need to make a call to the `rango:goto` view, passing the `page_id` as a parameter. You can do this with the `client.get()` method by providing a dictionary as the second argument with `page_id` as the key, and the ID of the page you are looking to access as the value. Depending upon how you implement this test, it may also require you to refresh a model instance from the database. This can be achieved using the `refresh_from_db()` method.
 T>
-T> As a final hint, it may also be helpful to write a further helper function to add a page to a given category. If you are stuck, we have implemented a [model solution on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/tree/ba2cbed99316b667206eb3e43730463bf976001d).
+T> As a final hint, it may also be helpful to write a further helper function to add a page to a given category. If you are stuck, we have implemented a [model solution on GitHub](https://github.com/maxwelld90/tango_with_django_2_code/tree/ce0911025891970d6ee3ac5b8745ea970477151c/.
 
 I> ### Other Test Resources
 I> - Run through [Part Five of the official Django Tutorial](https://docs.djangoproject.com/en/2.1/intro/tutorial05/) to learn more about testing.

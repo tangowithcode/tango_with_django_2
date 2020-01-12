@@ -395,4 +395,4 @@ Once you have added in the URL mapping, you should then be able to see everythin
 With this functionality implemented, you're almost there! Look forward to being able to deploy your project online so that people from all around the world can look at your work!
 
 I> ### Completely Stuck?
-I> We've implemented everything in the book on our model solution Git repository. There's a commit for this exercise which [you can view here](https://github.com/maxwelld90/tango_with_django_2_code/tree/3907500757d271ae81be85e3e2f3dcbc28af0de3). However, we again implore you **not** to use this resource unless you're absolutely, positively unsure about what to do.
+I> We've implemented everything in the book on our model solution Git repository. There's a commit for this exercise which [you can view here](https://github.com/maxwelld90/tango_with_django_2_code/tree/073f876e461333b6f03100499758bc59260e574d). However, we again implore you **not** to use this resource unless you're absolutely, positively unsure about what to do.
