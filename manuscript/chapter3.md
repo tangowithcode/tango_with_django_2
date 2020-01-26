@@ -147,7 +147,7 @@ The `startapp` command creates a new directory within your project's root. Unsur
 
 `views.py` and `models.py` are the two files you will use for any given app and form part of the main architectural design pattern employed by Django, i.e. the *Model-View-Template* pattern. You can check out [the official Django documentation](https://docs.djangoproject.com/en/2.1/intro/overview/) to see how models, views and templates relate to each other in more detail.
 
-Before you can get started with creating your models and views, you must first tell your Django project about your new app's existence. To do this, you need to modify the `settings.py` file, contained within your project's configuration directory. Open the file and find the `INSTALLED_APPS` list. Add the `rango` app to the end of the tuple, which should then look like the following example.
+Before you can get started with creating your models and views, you must first tell your Django project about your new app's existence. To do this, you need to modify the `settings.py` file, contained within your project's configuration directory. Open the file and find the `INSTALLED_APPS` list. Add the `rango` app to the end of the list, which should then look like the following example.
 
 {lang="python",linenos=off}
 	INSTALLED_APPS = [

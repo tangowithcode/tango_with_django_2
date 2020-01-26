@@ -365,7 +365,7 @@ The steps involved in getting a static media file onto one of your pages are par
 The steps for serving media files are similar to those for serving static media.
 
 1. Place a file within your project's `media` directory. The `media` directory is specified by your project's `MEDIA_ROOT` variable. 
-2. Link to the media file in a template through the use of the `{{ MEDIA_URL }}` context variable. For example, referencing an uploaded image `cat.jpg` would have an `<img />` tag like `<img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat."/>`.
+2. Link to the media file in a template through the use of the `{{ MEDIA_URL }}` context variable. For example, referencing an uploaded image `cat.jpg` would have an `<img />` tag like `<img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat"/>`.
 
 X> ### Exercises
 X> Give the following exercises a go to reinforce what you've learnt from this chapter.
@@ -376,7 +376,7 @@ X> * Your new `about.html` must include a link back to the index page. If you co
 X> * Within the new `about.html` template, add a picture stored within your project's static files. Plese reuse the `rango.jpg` image you used in the `index()` view. Make sure you keep the same `alt` text as before!
 X> * On the about page, include a line that says `This tutorial has been put together by <your-name>`. If you copied over from `index.html`, replacing `{{ boldmessage }}` would be the perfect place for this.
 X> * In your Django project directory, create a new directory called `media` (if you have not done so already). Download a JPEG image of a cat, and save it to the `media` directory as `cat.jpg`. 
-X> * In your `about.html` template, add in an `<img>` tag to display the picture of the cat to ensure that your media is being served correctly. **Keep the static image of Rango in your index page** so that your about page has working examples of both static and media files. The cat image should have alternative text of `Picture of a Cat`. **This means you should have an image of both Rango (from `static`) and a cat (from `media`) in your rendered about page.** You don't need to touch the `about()` view -- only `about.html` needs to be modified for this final task.
+X> * In your `about.html` template, add in an `<img>` tag to display the picture of the cat to ensure that your media is being served correctly. **Keep the static image of Rango in your index page** so that your about page has working examples of both static and media files. The cat image should have alternative text of `'Picture of a Cat'`. **This means you should have an image of both Rango (from `static`) and a cat (from `media`) in your rendered about page.** You don't need to touch the `about()` view -- only `about.html` needs to be modified for this final task.
 
 T> ### Static and Media Files
 T> Remember, **static files, as the name implies, do not change.** These files form the core components of your website. **Media files are user-defined; and as such, they may change often!**
