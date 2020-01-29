@@ -44,7 +44,7 @@ To create a new Django Project, go to your `workspace` directory, and issue the 
 
 If you don't have a `workspace` directory, we recommend that you create one. This means that you can house your Django projects (and other code projects) within this directory. It keeps things organised, without you placing directories containing code in random places, such as your `Desktop` directory!
 
-We will refer to your `workspace` directory throughout this book as `<workspace>`. You will have to substitute this with the path to your `workspace` directory. For example, we recommend that you create a `workspace` directory in your home folder. The path `/Users/maxwelld90/Workspace/` would then constitute as a valid directory for the user `maxwelld90` on a Mac.
+We will refer to your `workspace` directory throughout this book as `<workspace>`. You will have to substitute this with the path to your `workspace` directory. For example, we recommend that you create a `workspace` directory in your home folder. The path `/Users/maxwelld90/workspace/` would then constitute as a valid directory for the user `maxwelld90` on a Mac.
 
 I> ### Can't find `django-admin.py`?
 I> Try entering `django-admin` instead. Depending on your setup, some systems may not recognise `django-admin.py`. This is especially true on Windows computers -- you may have to use the full path to the `django-admin.py` script, for example:
@@ -55,7 +55,7 @@ I> 	       startproject tango_with_django_project
 I>
 I> as suggested on [StackOverflow](http://stackoverflow.com/questions/8112630/cant-create-django-project-using-command-prompt). Note that the path will likely vary on your own computer.
 
-This command will invoke the `django-admin.py` script, which will set up a new Django project called `tango_with_django_project` for you. Naming conventions dictate that we would typically append `_project` to the end of our Django project directories so we know exactly what they contain -- but naming this is really entirely up to you.
+This command will invoke the `django-admin.py` script, which will set up a new Django project called `tango_with_django_project` for you. Naming conventions dictate that we would typically append `_project` to the end of our Django project directories so we know exactly what they contain. Ultimately, you can call a project whatever you like. For the avoidance of doubt however, stick with `tango_with_django_project` here.
 
 You'll now notice within your workspace is a directory set to the name of your new project, `tango_with_django_project`. Within this newly created directory, you should see two items:
 
