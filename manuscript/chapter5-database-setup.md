@@ -443,6 +443,7 @@ T>      * The final step involves you modifying how you call the `add_cat()` fun
 T> * After your population script has been updated, you can move on to customising the admin interface. You will need to edit `rango/admin.py` and create a `PageAdmin` class that inherits from `admin.ModelAdmin`. 
 T>      * Within your new `PageAdmin` class, add `list_display = ('title', 'category', 'url')`.
 T>      * Finally, register the `PageAdmin` class with Django's admin interface. You should modify the line `admin.site.register(Page)`. Change it to `admin.site.register(Page, PageAdmin)` in Rango's `admin.py` file.
+T>      * Make sure you place the new `PageAdmin` class *above* the line where you register it. As Python is an [interpreted programming language](https://en.wikipedia.org/wiki/Interpreted_language), code is executed as it is seen -- so if you define `PageAdmin` after the registration call, Python will complain that it cannot find the class.
 
 X> ### Test your Implementation
 X> Like in the previous chapter, we've implemented a series of unit tests to allow you to check your implementation up until this point. [Follow the guide we provided earlier](#section-getting-ready-tests), using the test module `tests_chapter5.py`. How does your implementation stack up against our tests?
