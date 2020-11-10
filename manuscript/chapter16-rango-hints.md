@@ -330,7 +330,7 @@ With this complete, we now need to tell our project what to do with this extende
 	    
 	    # New line below -- don't forget the slash after register!
 	    path('accounts/register/', 
-	         MyRegistrationView.as_view(),
+	         views.MyRegistrationView.as_view(),
 	         name='registration_register'),
 	    
 	    path('accounts/', include('registration.backends.simple.urls')),
