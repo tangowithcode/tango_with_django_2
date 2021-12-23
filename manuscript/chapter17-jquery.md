@@ -30,7 +30,7 @@ When it loads, you should be greeted with a load of JavaScript code that is seem
 {lang="html",linenos=off}
 	<script src="{% static "js/jquery-3.3.1.min.js" %}" crossorigin="anonymous"></script>
 
-This now points the browser to look for JQuery in your `static/js` directory, rather than directly from the JQuery servers. Once you have done this, you'll want to then create a new, blank file in the `js` directory called `rango-query.js`. We'll be adding in some JavaScript code that uses JQuery to add functionality to our Rango app. Of course, we'll also need to add a reference to this new file in our `base.html` template, too. Underneath the line you just tweaked, add the following.
+This now points the browser to look for JQuery in your `static/js` directory, rather than directly from the JQuery servers. Once you have done this, you'll want to then create a new, blank file in the `js` directory called `rango-jquery.js`. We'll be adding in some JavaScript code that uses JQuery to add functionality to our Rango app. Of course, we'll also need to add a reference to this new file in our `base.html` template, too. Underneath the line you just tweaked, add the following.
 
 {lang="html",linenos=off}
 	<script src="{% static "js/rango-jquery.js" %}" crossorigin="anonymous"></script>
@@ -91,7 +91,7 @@ This time, we have another button, but there is no code associated with it. Inst
 {lang="javascript",linenos=off}
 	$(document).ready(function()) {
 	    
-	    $('#about-btn').click(function()) {
+	    $('#about-btn').click(function() {
 	        alert('You clicked the button using JQuery!');
 	    });
 	
